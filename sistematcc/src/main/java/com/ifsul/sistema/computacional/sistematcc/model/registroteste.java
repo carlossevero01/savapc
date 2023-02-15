@@ -7,8 +7,8 @@ import jakarta.persistence.Entity;
 
 import jakarta.persistence.Table;
 
-@Entity
-@Table (name = "registroTeste")
+// @Entity
+// @Table (name = "registroTeste")
 public class registroteste implements Serializable{
     
     @Column(nullable = false)

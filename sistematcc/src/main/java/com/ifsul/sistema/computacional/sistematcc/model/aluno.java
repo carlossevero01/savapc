@@ -1,13 +1,21 @@
 package com.ifsul.sistema.computacional.sistematcc.model;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table (name = "aluno")
@@ -22,6 +30,25 @@ public class aluno implements Serializable{
     @Column(nullable = false)
     private String matricula;
 
+    @ManyToMany
+    @JoinTable(
+        name = "alunoturma",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"turmaId","alunoId"}),
+        joinColumns =  @JoinColumn(name = "alunoId"),
+        inverseJoinColumns = @JoinColumn(name = "turmaId")
+    )
+    @JsonBackReference
+    private List<turma> turmas;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "alunohabilidade",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","alunoId"}),
+        joinColumns =  @JoinColumn(name = "alunoId"),
+        inverseJoinColumns = @JoinColumn(name = "habilidadeId")
+    )
+    @JsonManagedReference
+    private List<habilidade> habilidades;
     public int getAlunoId() {
         return alunoId;
     }
@@ -57,6 +84,22 @@ public class aluno implements Serializable{
     @Override
     public String toString() {
         return "aluno : alunoId=" + alunoId + ", nome=" + nome + ", matricula=" + matricula ;
+    }
+
+    public List<turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<turma> turmas) {
+        this.turmas = turmas;
+    }
+
+    public List<habilidade> getHabilidades() {
+        return habilidades;
+    }
+
+    public void setHabilidades(List<habilidade> habilidades) {
+        this.habilidades = habilidades;
     }
 
 

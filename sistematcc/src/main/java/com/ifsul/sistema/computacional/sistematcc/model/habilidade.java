@@ -1,13 +1,21 @@
 package com.ifsul.sistema.computacional.sistematcc.model;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table (name = "habilidade")
@@ -19,6 +27,16 @@ public class habilidade implements Serializable{
     @Column(nullable = false)
     private String nome;
 
+    @ManyToMany
+    @JoinTable(
+        name = "alunohabilidade",
+        uniqueConstraints = @UniqueConstraint(columnNames ={"habilidadeId","alunoId"} ),
+        joinColumns =  @JoinColumn(name = "habilidadeId"),
+        inverseJoinColumns = @JoinColumn(name = "alunoId")
+    )
+    @JsonBackReference
+    private List<aluno> alunos;
+    
     public int getHabilidadeId() {
         return habilidadeId;
     }
@@ -46,6 +64,14 @@ public class habilidade implements Serializable{
     @Override
     public String toString() {
         return "habilidade : habilidadeId=" + habilidadeId + ", nome=" + nome ;
+    }
+
+    public List<aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<aluno> alunos) {
+        this.alunos = alunos;
     }
 
     

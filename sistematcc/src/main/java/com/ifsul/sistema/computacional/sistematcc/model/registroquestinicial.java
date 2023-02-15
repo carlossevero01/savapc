@@ -4,8 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name="registroQuestInicial")
+// @Entity
+// @Table(name="registroQuestInicial")
 public class registroquestinicial {
     @Column(nullable = false)
     private int questionarioId;
