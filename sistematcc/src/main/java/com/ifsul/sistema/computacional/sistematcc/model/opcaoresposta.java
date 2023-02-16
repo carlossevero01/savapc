@@ -1,14 +1,22 @@
 package com.ifsul.sistema.computacional.sistematcc.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+
+import jakarta.persistence.UniqueConstraint;
 @Entity
 @Table (name = "opcaoResposta")
 public class opcaoresposta implements Serializable{
@@ -24,6 +32,16 @@ public class opcaoresposta implements Serializable{
 
     @Column(nullable = false)
     private boolean verdadeira;
+
+    @ManyToMany
+    @JoinTable(
+        name = "opcaorespostapergunta",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaId","opcaoRespostaId"}),
+        joinColumns =  @JoinColumn(name = "opcaoRespostaId"),
+        inverseJoinColumns = @JoinColumn(name = "perguntaId")
+    )
+    @JsonBackReference
+    private List<pergunta> perguntas;
 
     public int getOpcaoRespostaId() {
         return opcaoRespostaId;
@@ -70,6 +88,14 @@ public class opcaoresposta implements Serializable{
     public String toString() {
         return "opcaoresposta : opcaoRespostaId=" + opcaoRespostaId + ", descricao=" + descricao + ", tipo=" + tipo
                 + ", verdadeira=" + verdadeira ;
+    }
+
+    public List<pergunta> getPerguntas() {
+        return perguntas;
+    }
+
+    public void setPerguntas(List<pergunta> perguntas) {
+        this.perguntas = perguntas;
     }
 
     

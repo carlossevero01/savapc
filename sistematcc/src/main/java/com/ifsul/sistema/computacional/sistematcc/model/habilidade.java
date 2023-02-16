@@ -37,6 +37,15 @@ public class habilidade implements Serializable{
     @JsonBackReference
     private List<aluno> alunos;
     
+    @ManyToMany
+    @JoinTable(
+        name = "habilidadepergunta",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","perguntaId"}),
+        joinColumns =  @JoinColumn(name = "habilidadeId"),
+        inverseJoinColumns = @JoinColumn(name = "perguntaId")
+    )
+    @JsonBackReference
+    private List<pergunta> perguntas;
     public int getHabilidadeId() {
         return habilidadeId;
     }
@@ -72,6 +81,14 @@ public class habilidade implements Serializable{
 
     public void setAlunos(List<aluno> alunos) {
         this.alunos = alunos;
+    }
+
+    public List<pergunta> getPerguntas() {
+        return perguntas;
+    }
+
+    public void setPerguntas(List<pergunta> perguntas) {
+        this.perguntas = perguntas;
     }
 
     
