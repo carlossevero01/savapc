@@ -12,10 +12,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
+
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+
 
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
@@ -195,13 +195,12 @@ public class controllers {
             questionarioinicialRepository.save(qin);
             return questionarioinicialRepository.findAll();
         } 
-        @RequestMapping(value = "/", method = RequestMethod.GET)    
-        public ModelAndView index() {
-         ModelAndView mav = new ModelAndView("index");
-         mav.addObject("alunos", alunoRepository.findAll());
-         return mav;
-
-        
-
-}
+        @GetMapping(value = "/index")    
+        public String index() {  
+         return "index";
+        }
+        @GetMapping(value = "/questionario")    
+        public String questionario() {  
+         return "questionario";
+        }
 }
