@@ -34,12 +34,13 @@
 						Listar
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Listar Turmas</a></li>
-							<li><a class="dropdown-item" href="#">Listar Testes</a></li>
-							<li><a class="dropdown-item" href="#">Listar Alunos</a></li>
-							<li><a class="dropdown-item" href="#">Listar Questionarios</a></li>
-							<li><a class="dropdown-item" href="#">Listar Professores</a></li>
-							<li><a class="dropdown-item" href="#">Listar Perguntas</a></li>
+							<li><a class="dropdown-item" href="/index/turmas">Listar Turmas</a></li>
+							<li><a class="dropdown-item" href="/index/testes">Listar Testes</a></li>
+							<li><a class="dropdown-item" href="/index/alunos">Listar Alunos</a></li>
+							<li><a class="dropdown-item" href="/index/habilidades">Listar Habilidades</a></li>
+							<li><a class="dropdown-item" href="/index/questionarios">Listar Questionarios</a></li>
+							<li><a class="dropdown-item" href="/index/professores">Listar Professores</a></li>
+							<li><a class="dropdown-item" href="/index/perguntas">Listar Perguntas</a></li>
 							<li><a class="dropdown-item" href="#">Listar Opcoes-Perguntas</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">Relatórios</a></li>
@@ -69,13 +70,13 @@
                     </tr>
                 </thead>
                     <tbody>
-                    <tr  th:each="prof: ${profs}">
-                        <td th:text="${prof.id}"></td>
-                        <td th:text="${prof.descricao}"></td>         <!-- '' aspas simples fica como texto -->
+                    <tr  th:each="p: ${perguntas}">
+                        <td th:text="${p.perguntaId}"></td>
+                        <td th:text="${p.descricao}"></td>         <!-- '' aspas simples fica como texto -->
                         <td><a class="btn btn-outline-primary" 
-						th:href="@{/index/deleteprof/{id}(id=${prof.id})}" role="button">Deletar</a>
+						th:href="@{/index/deletepergunta/{id}(id=${p.perguntaId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 
-							th:href="@{/index/updateprof/{id}(id=${prof.id})}" role="button">Editar</a>
+							th:href="@{/index/updatepergunta/{id}(id=${p.perguntaId})}" role="button">Editar</a>
                         </td>
                     </tr>
                     </tbody>

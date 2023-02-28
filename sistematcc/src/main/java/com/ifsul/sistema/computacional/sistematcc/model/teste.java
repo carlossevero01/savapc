@@ -28,6 +28,9 @@ public class teste implements Serializable{
     private boolean visibilidade;
 
     @Column(nullable = false)
+    private String nome;
+
+    @Column(nullable = false)
     private LocalDate disponibilidade;
 
     @ManyToMany
@@ -100,6 +103,14 @@ public class teste implements Serializable{
 
     public void setAlunos(List<aluno> alunos) {
         this.alunos = alunos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     

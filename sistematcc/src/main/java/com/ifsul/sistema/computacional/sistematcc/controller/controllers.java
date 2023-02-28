@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
@@ -195,12 +195,62 @@ public class controllers {
             questionarioinicialRepository.save(qin);
             return questionarioinicialRepository.findAll();
         } 
+        /*     PAGINA INICIAL(TODOS)     */
         @GetMapping(value = "/index")    
         public String index() {  
          return "index";
         }
-        @GetMapping(value = "/questionario")    
-        public String questionario() {  
-         return "questionario";
+        /*     PAGINA INICIAL(TODOS)     */
+        /*     DADOS EM LISTA(PROFESSORES/ADMIN)     */
+        @GetMapping(value = "/index/alunos")    
+        public ModelAndView listarAlunos() {  
+         ModelAndView mv = new ModelAndView("aluno");
+         List<aluno> list = alunoRepository.findAll();
+         mv.addObject("alunos", list);   
+         return mv;
         }
+        @GetMapping(value = "/index/habilidades")    
+        public ModelAndView listarHabilidades() {  
+         ModelAndView mv = new ModelAndView("habilidade");
+         List<habilidade> list = habilidadeRepository.findAll();
+         mv.addObject("habilidades", list);   
+         return mv;
+        }
+        
+        @GetMapping(value = "/index/perguntas")    
+        public ModelAndView listarPerguntas() {  
+         ModelAndView mv = new ModelAndView("pergunta");
+         List<pergunta> list = perguntaRepository.findAll();
+         mv.addObject("perguntas", list);   
+         return mv;
+        }
+        @GetMapping(value = "/index/professores")    
+        public ModelAndView listarProfessores() {  
+         ModelAndView mv = new ModelAndView("professor");
+         List<professor> list = professorRepository.findAll();
+         mv.addObject("professores", list);   
+         return mv;
+        }
+        @GetMapping(value = "/index/questionarios")    
+        public ModelAndView listarQuestionarios() {  
+         ModelAndView mv = new ModelAndView("questionarioinicial");
+         List<questionarioinicial> list = questionarioinicialRepository.findAll();
+         mv.addObject("questionarios", list);   
+         return mv;
+        }
+        @GetMapping(value = "/index/testes")    
+        public ModelAndView listarTestes() {  
+         ModelAndView mv = new ModelAndView("teste");
+         List<teste> list = testeRepository.findAll();
+         mv.addObject("testes", list);   
+         return mv;
+        }
+        @GetMapping(value = "/index/turmas")    
+        public ModelAndView listarTurmas() {  
+         ModelAndView mv = new ModelAndView("turma");
+         List<turma> list = turmaRepository.findAll();
+         mv.addObject("turmas", list);   
+         return mv;
+        }
+        /*     LISTAR DADOS(PROFESSORES/ADMIN)     */
 }

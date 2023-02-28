@@ -34,12 +34,13 @@
 						Listar
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Listar Turmas</a></li>
-							<li><a class="dropdown-item" href="#">Listar Testes</a></li>
-							<li><a class="dropdown-item" href="#">Listar Alunos</a></li>
-							<li><a class="dropdown-item" href="#">Listar Questionarios</a></li>
-							<li><a class="dropdown-item" href="#">Listar Professores</a></li>
-							<li><a class="dropdown-item" href="#">Listar Perguntas</a></li>
+							<li><a class="dropdown-item" href="/index/turmas">Listar Turmas</a></li>
+							<li><a class="dropdown-item" href="/index/testes">Listar Testes</a></li>
+							<li><a class="dropdown-item" href="/index/alunos">Listar Alunos</a></li>
+							<li><a class="dropdown-item" href="/index/habilidades">Listar Habilidades</a></li>
+							<li><a class="dropdown-item" href="/index/questionarios">Listar Questionarios</a></li>
+							<li><a class="dropdown-item" href="/index/professores">Listar Professores</a></li>
+							<li><a class="dropdown-item" href="/index/perguntas">Listar Perguntas</a></li>
 							<li><a class="dropdown-item" href="#">Listar Opcoes-Perguntas</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">Relatórios</a></li>
@@ -65,21 +66,21 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Nome </th>
-                        <th scope="col">Duracao</th>
+                        <th scope="col">Visibilidade</th>
                         <th scope="col">Disponibilidade</th>
 						<th scope="col">Opções</th>
                     </tr>
                 </thead>
                     <tbody>
-                    <tr  th:each="prof: ${profs}">
-                        <td th:text="${prof.id}"></td>
-                        <td th:text="${prof.nome}"></td>
-                        <td th:text="${prof.duracao}"></td>
-                        <td th:text="${prof.disponibilidade}"></td>        <!-- '' aspas simples fica como texto -->
+                    <tr  th:each="q: ${questionarios}">
+                        <td th:text="${q.questionarioId}"></td>
+                        <td th:text="${q.nome}"></td>
+                        <td th:text="${q.visibilidade}"></td>
+                        <td th:text="${q.disponibilidade}"></td>        <!-- '' aspas simples fica como texto -->
 						<td><a class="btn btn-outline-primary" 
-						th:href="@{/index/deleteprof/{id}(id=${prof.id})}" role="button">Deletar</a>
+						th:href="@{/index/deletequestionario/{id}(id=${q.questionarioId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 
-							th:href="@{/index/updateprof/{id}(id=${prof.id})}" role="button">Editar</a>
+							th:href="@{/index/updatequestionario/{id}(id=${q.questionarioId})}" role="button">Editar</a>
                         </td>
                     </tr>
                     </tbody>
