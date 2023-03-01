@@ -11,11 +11,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
@@ -37,6 +39,7 @@ import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicial
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionarioRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @Controller
 public class controllers {
@@ -195,13 +198,191 @@ public class controllers {
             questionarioinicialRepository.save(qin);
             return questionarioinicialRepository.findAll();
         } 
+        /*     LOGIN     */
+        @GetMapping("/login")
+        public String login(){
+            return "login";
+        }   
+        @GetMapping("/")
+        public String home(){
+            return "redirect:/index/inicial";
+        } 
+        /*     LOGIN     */
         /*     PAGINA INICIAL(TODOS)     */
-        @GetMapping(value = "/index")    
+        
+        @GetMapping(value = "/index/inicial")    
         public String index() {  
          return "index";
         }
         /*     PAGINA INICIAL(TODOS)     */
-        /*     DADOS EM LISTA(PROFESSORES/ADMIN)     */
+        
+        /*     DELETAR UNIDADE(PROFESSORES/ADMIN)     */
+        @GetMapping(value = "/index/deletealuno/{id}")    
+        public String deleteAluno(@PathVariable("id") int id, RedirectAttributes attributes) {  
+         try {
+            alunoRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso","Aluno deletado");
+            return "redirect:/index/alunos";
+         } catch (Exception e) {
+            attributes.addFlashAttribute("erro","id inexistente ou erro desconhecido");
+            return "redirect:/index/alunos";
+         }   
+        }
+        
+        @GetMapping(value = "/index/deletehabilidade/{id}")    
+        public String deleteHabilidade(@PathVariable("id") int id, RedirectAttributes attributes) {  
+         try {
+            habilidadeRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso","Habilidade deletada");
+            return "redirect:/index/habilidades";
+         } catch (Exception e) {
+            attributes.addFlashAttribute("erro","id inexistente ou erro desconhecido");
+            return "redirect:/index/habilidades";
+         }   
+        }
+        
+        @GetMapping(value = "/index/deletepergunta/{id}")    
+        public String deletePergunta(@PathVariable("id") int id, RedirectAttributes attributes) {  
+         try {
+            perguntaRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso","Pergunta deletada");
+            return "redirect:/index/perguntas";
+         } catch (Exception e) {
+            attributes.addFlashAttribute("erro","ID inexistente ou erro desconhecido");
+            return "redirect:/index/perguntas";
+         }   
+        }
+       
+        @GetMapping(value = "/index/deleteprofessor/{id}")    
+        public String deleteProfessor(@PathVariable("id") int id, RedirectAttributes attributes) {  
+         try {
+            professorRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso","Professor deletado");
+            return "redirect:/index/professores";
+         } catch (Exception e) {
+            attributes.addFlashAttribute("erro","ID inexistente ou erro desconhecido");
+            return "redirect:/index/professores";
+         }   
+        }
+
+        @GetMapping(value = "/index/deleteteste/{id}")    
+        public String deleteTeste(@PathVariable("id") int id, RedirectAttributes attributes) {  
+         try {
+            testeRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso","Teste deletado");
+            return "redirect:/index/testes";
+         } catch (Exception e) {
+            attributes.addFlashAttribute("erro","ID inexistente ou erro desconhecido");
+            return "redirect:/index/testes";
+         }   
+        }
+
+        @GetMapping(value = "/index/deleteturma/{id}")    
+        public String deleteTurma(@PathVariable("id") int id, RedirectAttributes attributes) {  
+         try {
+            turmaRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso","Turma deletada");
+            return "redirect:/index/turmas";
+         } catch (Exception e) {
+            attributes.addFlashAttribute("erro","ID inexistente ou erro desconhecido");
+            return "redirect:/index/turmas";
+         }   
+        }
+        /*     DELETAR UNIDADE(PROFESSORES/ADMIN)     */
+
+        /*     CADASTRAR UNIDADE(PROFESSORES/ADMIN)     */
+        @GetMapping("/index/saveAluno")
+        public String getSaveAluno(){
+            return "saveAluno";
+        }
+        @PostMapping("/index/saveAluno")
+        public String saveAluno(@Valid aluno a, BindingResult result, RedirectAttributes attributes){
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+a.toString());
+                return "redirect:/index/saveAluno";
+            }
+           alunoRepository.save(a);
+           attributes.addFlashAttribute("sucesso","Aluno cadastrado");
+           return "redirect:/index/alunos";       
+        }
+
+        @GetMapping("/index/saveHabilidade")
+        public String getSaveHabilidade(){
+            return "saveHabilidade";
+        }
+        @PostMapping("/index/saveHabilidade")
+        public String saveHabilidade(@Valid habilidade h, BindingResult result, RedirectAttributes attributes){
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+h.toString());
+                return "redirect:/index/saveHabilidade";
+            }
+           habilidadeRepository.save(h);
+           attributes.addFlashAttribute("sucesso","Habilidade cadastrada");
+           return "redirect:/index/habilidades";       
+        }
+
+        @GetMapping("/index/savePergunta")
+        public String getSavePergunta(){
+            return "savePergunta";
+        }
+        @PostMapping("/index/savePergunta")
+        public String savePergunta(@Valid pergunta p, BindingResult result, RedirectAttributes attributes){
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+p.toString());
+                return "redirect:/index/savePergunta";
+            }
+           perguntaRepository.save(p);
+           attributes.addFlashAttribute("sucesso","Pergunta cadastrada");
+           return "redirect:/index/perguntas";       
+        }
+
+        @GetMapping("/index/saveProfessor")
+        public String getSaveProfessor(){
+            return "saveProfessor";
+        }
+        @PostMapping("/index/saveProfessor")
+        public String saveProfessor(@Valid professor p, BindingResult result, RedirectAttributes attributes){
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+p.toString());
+                return "redirect:/index/saveProfessor";
+            }
+           professorRepository.save(p);
+           attributes.addFlashAttribute("sucesso","Professor cadastrado");
+           return "redirect:/index/professores";       
+        }
+
+        @GetMapping("/index/saveTeste")
+        public String getSaveTeste(){
+            return "saveTeste";
+        }
+        @PostMapping("/index/saveTeste")
+        public String saveTeste(@Valid teste t, BindingResult result, RedirectAttributes attributes){
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+t.toString());
+                return "redirect:/index/saveTeste";
+            }
+           testeRepository.save(t);
+           attributes.addFlashAttribute("sucesso","Teste cadastrado");
+           return "redirect:/index/testes";       
+        }
+
+        @GetMapping("/index/saveTurma")
+        public String getSaveTurma(){
+            return "saveTurma";
+        }
+        @PostMapping("/index/saveTurma")
+        public String saveTurma(@Valid turma t, BindingResult result, RedirectAttributes attributes){
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+t.toString());
+                return "redirect:/index/saveTurma";
+            }
+           turmaRepository.save(t);
+           attributes.addFlashAttribute("sucesso","Turma cadastrada");
+           return "redirect:/index/turmas";       
+        }
+        /*     CADASTRAR UNIDADE(PROFESSORES/ADMIN)     */
+
+        /*     LISTAR DADOS(PROFESSORES/ADMIN)     */
         @GetMapping(value = "/index/alunos")    
         public ModelAndView listarAlunos() {  
          ModelAndView mv = new ModelAndView("aluno");
@@ -252,5 +433,5 @@ public class controllers {
          mv.addObject("turmas", list);   
          return mv;
         }
-        /*     LISTAR DADOS(PROFESSORES/ADMIN)     */
+        /*     DADOS EM LISTA(PROFESSORES/ADMIN)     */
 }

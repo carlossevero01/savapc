@@ -17,14 +17,14 @@
         
 		<nav class="bor navbar navbar-expand-lg bg-body-tertiary">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/index">Alunos</a>
+				<a class="navbar-brand" href="/index/inicial">Alunos</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-						<a class=" nav-link active" aria-current="page" href="/index">Inicial</a>
+						<a class=" nav-link active" aria-current="page" href="/index/inicial">Inicial</a>
 						</li>
 						<li class="nav-item">
 						<a class=" nav-link " href="#">Entre/Cadastre-se</a>
@@ -58,8 +58,9 @@
 			</div>
 		</nav>
 		<div class="container-fluid mt-2">
-			 <div class="row">
+			 <div class="row"> <a class="btn btn-outline-primary" href="/index/saveAluno" role="button">Inserir Aluno</a>
             <th:block th:include="mensagemValidacao"></th:block>
+			
             <div class="col-lg-10 mt-5 mb-5" >
                 <table class="table" >
                 <thead>
@@ -77,8 +78,7 @@
                         <td th:text="${a.matricula}"></td>         <!-- '' aspas simples fica como texto -->
                         <td><a class="btn btn-outline-primary" 
 						th:href="@{/index/deletealuno/{id}(id=${a.alunoId})}" role="button">Deletar</a>
-                            <a class="btn btn-outline-primary" 
-							th:href="@{/index/updatealuno/{id}(id=${a.alunoId})}" role="button">Editar</a>
+                           
                         </td>
                     </tr>
                     </tbody>
