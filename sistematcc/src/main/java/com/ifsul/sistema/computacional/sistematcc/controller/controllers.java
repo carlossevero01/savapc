@@ -288,6 +288,17 @@ public class controllers {
             return "redirect:/index/turmas";
          }   
         }
+        @GetMapping(value = "/index/pergunta/deleteopcaoresposta/{id}")    
+        public String deleteOpcaoResposta(@PathVariable("id") int id, RedirectAttributes attributes) {  
+         try {
+            opcaorespostaRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso","Opção-Resposta deletada");
+            return "redirect:/index/pergunta/opcoesresposta/{id}";
+         } catch (Exception e) {
+            attributes.addFlashAttribute("erro","ID inexistente ou erro desconhecido");
+            return "redirect:/index/pergunta/opcoesresposta/{id}";
+         }   
+        }
         /*     DELETAR UNIDADE(PROFESSORES/ADMIN)     */
 
         /*     CADASTRAR UNIDADE(PROFESSORES/ADMIN)     */
@@ -380,6 +391,28 @@ public class controllers {
            attributes.addFlashAttribute("sucesso","Turma cadastrada");
            return "redirect:/index/turmas";       
         }
+
+        @GetMapping("/index/pergunta/saveopcaoresposta/{id}")
+        public ModelAndView getSaveOpcaoResposta(@PathVariable("id") int id){
+            ModelAndView mv = new ModelAndView("saveOpcaoresposta");
+            mv.addObject("perguntaId", id);
+            return mv;
+        }
+        @PostMapping("/index/pergunta/saveopcaoresposta/{id}")
+        public String saveOpcaoResposta(@PathVariable("id") int id,@Valid opcaoresposta or, BindingResult result, RedirectAttributes attributes){
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+or.toString());
+                return "redirect:/index/pergunta/saveopcaoresposta/{id}";
+            }
+           opcaorespostaRepository.save(or);
+           pergunta p = perguntaRepository.findById(id).orElseThrow(null);
+           List<opcaoresposta> listOR = p.getOpcoesResposta();
+           listOR.add(or);
+           p.setOpcoesResposta(listOR);
+           perguntaRepository.save(p);
+           attributes.addFlashAttribute("sucesso","Turma cadastrada");
+           return "redirect:/index/pergunta/opcoesresposta/{id}";       
+        }
         /*     CADASTRAR UNIDADE(PROFESSORES/ADMIN)     */
 
         /*     LISTAR DADOS(PROFESSORES/ADMIN)     */
@@ -433,5 +466,19 @@ public class controllers {
          mv.addObject("turmas", list);   
          return mv;
         }
+
+        @GetMapping(value = "/index/pergunta/opcoesresposta/{id}")
+        public ModelAndView getOpcoesRespostaPergunta(@PathVariable("id") int id){          
+            ModelAndView mv =new ModelAndView("opcaoresposta");
+            pergunta p = perguntaRepository.findById(id).orElseThrow(null);
+            List<opcaoresposta> opR = p.getOpcoesResposta();
+            mv.addObject("opcoesrespostas", opR);
+            mv.addObject("perguntaId", p.getPerguntaId());
+            return mv;
+        }
         /*     DADOS EM LISTA(PROFESSORES/ADMIN)     */
+        
+        
+       
+
 }

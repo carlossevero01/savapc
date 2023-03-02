@@ -17,14 +17,14 @@
         
 		<nav class="bor navbar navbar-expand-lg bg-body-tertiary">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/index">Opcoes Respostas</a>
+				<a class="navbar-brand" href="/index/inicial">Opcoes Respostas</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-						<a class=" nav-link active" aria-current="page" href="/index">Inicial</a>
+						<a class=" nav-link active" aria-current="page" href="/index/inicial">Inicial</a>
 						</li>
 						<li class="nav-item">
 						<a class=" nav-link " href="#">Entre/Cadastre-se</a>
@@ -34,13 +34,12 @@
 						Listar
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Listar Turmas</a></li>
-							<li><a class="dropdown-item" href="#">Listar Testes</a></li>
-							<li><a class="dropdown-item" href="#">Listar Alunos</a></li>
-							<li><a class="dropdown-item" href="#">Listar Questionarios</a></li>
-							<li><a class="dropdown-item" href="#">Listar Professores</a></li>
-							<li><a class="dropdown-item" href="#">Listar Perguntas</a></li>
-							<li><a class="dropdown-item" href="#">Listar Opcoes-Perguntas</a></li>
+							<li><a class="dropdown-item" href="/index/turmas">Listar Turmas</a></li>
+							<li><a class="dropdown-item" href="/index/testes">Listar Testes</a></li>
+							<li><a class="dropdown-item" href="/index/alunos">Listar Alunos</a></li>
+							<li><a class="dropdown-item" href="/index/questionarios">Listar Questionarios</a></li>
+							<li><a class="dropdown-item" href="/index/professores">Listar Professores</a></li>
+							<li><a class="dropdown-item" href="/index/perguntas">Listar Perguntas</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">Relatórios</a></li>
 						</ul>
@@ -59,6 +58,8 @@
 		<div class="container-fluid mt-2">
 			 <div class="row">
             <th:block th:include="mensagemValidacao"></th:block>
+			<a class="btn btn-outline-primary" 
+						th:href="@{/index/pergunta/saveopcaoresposta/{id}(id=${perguntaId})}" role="button">Inserir Opção-Resposta</a>
             <div class="col-lg-10 mt-5 mb-5" >
                 <table class="table" >
                 <thead>
@@ -71,15 +72,15 @@
                     </tr>
                 </thead>
                     <tbody>
-                    <tr  th:each="prof: ${profs}">
-                        <td th:text="${prof.id}"></td>
-                        <td th:text="${prof.tipo}"></td>
-                        <td th:text="${prof.descricao}"></td>
-                        <td th:text="${prof.correta}"></td>        <!-- '' aspas simples fica como texto -->
+                    <tr  th:each="opr: ${opcoesrespostas}">
+                        <td th:text="${opr.opcaoRespostaId}"></td>
+                        <td th:text="${opr.tipo}"></td>
+                        <td th:text="${opr.descricao}"></td>
+                        <td th:text="${opr.verdadeira}"></td>        <!-- '' aspas simples fica como texto -->
                         <td><a class="btn btn-outline-primary" 
-						th:href="@{/index/deleteprof/{id}(id=${prof.id})}" role="button">Deletar</a>
+						th:href="@{/index/pergunta/deleteopcaoresposta/{id}(id=${opr.opcaoRespostaId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 
-							th:href="@{/index/updateprof/{id}(id=${prof.id})}" role="button">Editar</a>
+							th:href="@{/index/updateopcaoresposta/{id}(id=${opr.opcaoRespostaId})}" role="button">Editar</a>
                         </td>
                     </tr>
                     </tbody>
