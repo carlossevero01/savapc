@@ -477,8 +477,26 @@ public class controllers {
             return mv;
         }
         /*     DADOS EM LISTA(PROFESSORES/ADMIN)     */
-        
-        
+        @GetMapping(value = "/index/aplicacaoteste/{id}")
+            public ModelAndView getTesteAplication(@PathVariable("id") int id){
+                ModelAndView mv = new ModelAndView("aplicacaoTeste");
+               
+                    teste t = testeRepository.findById(id).orElseThrow(null);
+                    List<pergunta> perguntas = t.getPerguntas();
+                    mv.addObject("perguntas",perguntas);
+                    mv.addObject("testeNome", t.getNome());
+                    mv.addObject("testeId", t.getTesteId());
+                    mv.addObject("OPRdescricao1", perguntas.get(0).getOpcoesResposta().get(0).getDescricao());
+                    mv.addObject("OPRdescricao2", perguntas.get(0).getOpcoesResposta().get(1).getDescricao());
+                    return mv;
+               
+            }
+        @PostMapping(value = "/index/aplicacaoteste/{id}")
+            public String setTesteAplication(@PathVariable("id") int id){
+                
+
+                return "";
+            }
        
 
 }
