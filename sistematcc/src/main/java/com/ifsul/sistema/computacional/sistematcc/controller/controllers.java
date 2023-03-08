@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,6 +30,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
 import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
+import com.ifsul.sistema.computacional.sistematcc.model.perguntasForm;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.habilidadeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaRepository;
@@ -486,16 +489,14 @@ public class controllers {
                     mv.addObject("perguntas",perguntas);
                     mv.addObject("testeNome", t.getNome());
                     mv.addObject("testeId", t.getTesteId());
-                    mv.addObject("OPRdescricao1", perguntas.get(0).getOpcoesResposta().get(0).getDescricao());
-                    mv.addObject("OPRdescricao2", perguntas.get(0).getOpcoesResposta().get(1).getDescricao());
                     return mv;
                
             }
         @PostMapping(value = "/index/aplicacaoteste/{id}")
-            public String setTesteAplication(@PathVariable("id") int id){
-                
+            public String setTesteAplication(@ModelAttribute perguntasForm lresp){
+                System.out.println(lresp.toString());
 
-                return "";
+                return "redirect:/index/inicial";
             }
        
 

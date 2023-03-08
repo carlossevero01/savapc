@@ -57,27 +57,22 @@
 			</div>
 		</nav>
 		<div class="container-fluid mt-2">
-			<form method="post" th:action="@{/index/aplicacaoteste/{id}(id=${testeId})}"> 
-			 <div class="row" th:each="p: ${perguntas}">
-            
+			<h4 class="bg-danger text-light">Selecione a resposta correta</h4>
+			<form th:action="submit" method="post" th:object=${lresp}> 
+			 <div class="row" th:each="p,j: ${perguntas}">
+				<input type="hidden" th:name="|perguntas[${j.index}].perguntaId|" th:value="${p.perguntaId}" />
               <div class="bor" >
 				<div class="bor"> 
 					<p th:text="${p.descricao}"></p>
 				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="radio" name="verdadeira" id="verdadeira1" checked>
-					<label class="form-check-label" for="verdadeira" th:text="${OPRdescricao1}"></label>
+				<div class="form-check" th:each="op,i : ${p.opcoesResposta}">
+					<input class="form-check-input" type="radio" th:name="|perguntas[${j.index}].opcoesResposta[${i.index}].opcaoRespostaId|" th:value="${op.opcaoRespostaId}" >
+					<label class="form-check-label" th:for="${op.opcaoRespostaId}" th:text="${op.descricao}"></label>
 				  </div>
-				  <div class="form-check">
-					<input class="form-check-input" type="radio" name="verdadeira" id="verdadeira2" >
-					<label class="form-check-label" for="verdadeira" th:text="${OPRdescricao2}"></label>
-				  </div>
+				 
 				
-					
-					
 				
-			  
-			  </div>  
+				</div>  
         	</div>
 			<button type="submit" class="btn btnbor mt-2">Enviar</button>
 		</form>

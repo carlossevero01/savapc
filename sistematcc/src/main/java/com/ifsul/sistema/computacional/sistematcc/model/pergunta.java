@@ -56,6 +56,14 @@ public class pergunta implements Serializable{
     )
     @JsonManagedReference
     private List<opcaoresposta> opcoesResposta;
+   
+    
+    @Override
+    public String toString() {
+        return "pergunta [perguntaId=" + perguntaId + ", descricao=" + descricao + ", habilidades=" + habilidades
+                + ", testes=" + testes + ", opcoesResposta=" + opcoesResposta + "]";
+    }
+
     public int getPerguntaId() {
         return perguntaId;
     }
@@ -79,10 +87,9 @@ public class pergunta implements Serializable{
         this.descricao = descricao;
     }
 
-    @Override
-    public String toString() {
-        return "pergunta : perguntaId=" + perguntaId + ", descricao=" + descricao ;
-    }
+    
+
+    
 
     public List<habilidade> getHabilidades() {
         return habilidades;
@@ -107,6 +114,8 @@ public class pergunta implements Serializable{
     public void setOpcoesResposta(List<opcaoresposta> opcoesResposta) {
         this.opcoesResposta = opcoesResposta;
     }
+
+    
 
     
 

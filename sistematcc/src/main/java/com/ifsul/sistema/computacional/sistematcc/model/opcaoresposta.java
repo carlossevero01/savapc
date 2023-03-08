@@ -32,6 +32,7 @@ public class opcaoresposta implements Serializable{
 
     @Column(nullable = false)
     private boolean verdadeira;
+    
 
     @ManyToMany
     @JoinTable(
@@ -86,8 +87,8 @@ public class opcaoresposta implements Serializable{
 
     @Override
     public String toString() {
-        return "opcaoresposta : opcaoRespostaId=" + opcaoRespostaId + ", descricao=" + descricao + ", tipo=" + tipo
-                + ", verdadeira=" + verdadeira ;
+        return "opcaoresposta [opcaoRespostaId=" + opcaoRespostaId + ", descricao=" + descricao + ", tipo=" + tipo
+                + ", verdadeira=" + verdadeira + ", perguntas=" + perguntas + "]";
     }
 
     public List<pergunta> getPerguntas() {
@@ -97,6 +98,8 @@ public class opcaoresposta implements Serializable{
     public void setPerguntas(List<pergunta> perguntas) {
         this.perguntas = perguntas;
     }
+
+    
 
     
 
