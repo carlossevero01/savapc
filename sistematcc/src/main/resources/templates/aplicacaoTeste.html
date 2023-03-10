@@ -58,8 +58,10 @@
 		</nav>
 		<div class="container-fluid mt-2">
 			<h4 class="bg-danger text-light">Selecione a resposta correta</h4>
-			<form th:action="submit" method="post" th:object=${lresp}> 
-			 <div class="row" th:each="p,j: ${perguntas}">
+			<form  method="post" th:object=${lresp}> 
+				<label class="mt-2 mb-2">Matricula* </label>
+				<input type="text" th:name="matricula">
+			 <div class="row mt-2 mb-2" th:each="p,j: ${perguntas}">
 				<input type="hidden" th:name="|perguntas[${j.index}].perguntaId|" th:value="${p.perguntaId}" />
               <div class="bor" >
 				<div class="bor"> 

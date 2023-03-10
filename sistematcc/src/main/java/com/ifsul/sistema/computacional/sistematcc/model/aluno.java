@@ -16,12 +16,15 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-
+import jakarta.persistence.*;
 @Entity
 @Table (name = "aluno")
 public class aluno implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "alunoId")
     private int alunoId;
 
     @Column(nullable = false)
@@ -50,15 +53,6 @@ public class aluno implements Serializable{
     @JsonManagedReference
     private List<habilidade> habilidades;
 
-    @ManyToMany
-    @JoinTable(
-        name = "registroteste",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"alunoId","testeId"}),
-        joinColumns =  @JoinColumn(name = "alunoId"),
-        inverseJoinColumns = @JoinColumn(name = "testeId")
-    )
-    @JsonBackReference
-    private List<teste> testes;
 
     @ManyToMany
     @JoinTable(
@@ -69,6 +63,9 @@ public class aluno implements Serializable{
     )
     @JsonBackReference
     private List<questionarioinicial> questionarios;
+
+    @OneToMany(mappedBy="aluno")
+     List<registro> registroteste;
 
     public int getAlunoId() {
         return alunoId;
@@ -95,6 +92,7 @@ public class aluno implements Serializable{
     }
 
     public aluno() {
+        super();
     }
 
     public aluno(String nome, String matricula) {
@@ -102,9 +100,13 @@ public class aluno implements Serializable{
         this.matricula = matricula;
     }
 
+    
+
     @Override
     public String toString() {
-        return "aluno : alunoId=" + alunoId + ", nome=" + nome + ", matricula=" + matricula ;
+        return "aluno [alunoId=" + alunoId + ", nome=" + nome + ", matricula=" + matricula + ", turmas=" + turmas
+                + ", habilidades=" + habilidades + ", questionarios=" + questionarios + ", registroteste="
+                + registroteste + "]";
     }
 
     public List<turma> getTurmas() {
@@ -123,13 +125,6 @@ public class aluno implements Serializable{
         this.habilidades = habilidades;
     }
 
-    public List<teste> getTestes() {
-        return testes;
-    }
-
-    public void setTestes(List<teste> testes) {
-        this.testes = testes;
-    }
 
     public List<questionarioinicial> getQuestionarios() {
         return questionarios;
@@ -137,6 +132,14 @@ public class aluno implements Serializable{
 
     public void setQuestionarios(List<questionarioinicial> questionarios) {
         this.questionarios = questionarios;
+    }
+
+    public List<registro> getRegistroteste() {
+        return registroteste;
+    }
+
+    public void setRegistroteste(List<registro> registroteste) {
+        this.registroteste = registroteste;
     }
 
 

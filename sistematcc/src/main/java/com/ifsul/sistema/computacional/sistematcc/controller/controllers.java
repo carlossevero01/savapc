@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,6 +29,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
 import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
+//import com.ifsul.sistema.computacional.sistematcc.model.registroteste;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntasForm;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
@@ -40,7 +41,7 @@ import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionarioRepository;
-
+import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -64,7 +65,8 @@ public class controllers {
     questionarioinicialRepository questionarioinicialRepository;
     @Autowired
     perguntaquestionarioRepository perguntaquestionarioRepository;
-
+    @Autowired
+    registroRepository registroRepository;
         @Transactional      // Colocar caso de Cannot Remove em deleteByturnoNome(String)
         @GetMapping (value="/CAT")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
         @ResponseBody                               //@ResponseBody permite retornar um texto
@@ -141,15 +143,15 @@ public class controllers {
             System.out.println("listar habilidades ");
             return habilidadeRepository.findAll();
         } 
-        @GetMapping (value="/CHP")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
-        @ResponseBody                               //@ResponseBody permite retornar um texto
-        public List<pergunta> setHabiidadePerguntas(){
-            System.out.println("cadastrar perguntas ");
-            pergunta p = new pergunta("descricao da pergunta 1");
-            p.setHabilidades(habilidadeRepository.findAll());
-            perguntaRepository.save(p);
-            return perguntaRepository.findAll();
-        } 
+        // @GetMapping (value="/CHP")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
+        // @ResponseBody                               //@ResponseBody permite retornar um texto
+        // public List<pergunta> setHabiidadePerguntas(){
+        //     System.out.println("cadastrar perguntas ");
+        //     pergunta p = new pergunta("descricao da pergunta 1");
+        //     p.setHabilidades(habilidadeRepository.findAll());
+        //     perguntaRepository.save(p);
+        //     return perguntaRepository.findAll();
+        // } 
         @GetMapping (value="/CadPergTest")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
         @ResponseBody                               //@ResponseBody permite retornar um texto
         public List<teste> setPerguntaTestes(){
@@ -181,16 +183,7 @@ public class controllers {
             
             return questionarioinicialRepository.findAll();
         } 
-        @GetMapping (value="/CadAlunoTeste")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
-        @ResponseBody                               //@ResponseBody permite retornar um texto
-        public List<teste> setAlunoTeste(){
-            System.out.println("cadastrar aluno no teste");
-            
-            teste t = testeRepository.findAll().get(0);
-            t.setAlunos(alunoRepository.findAll());
-            testeRepository.save(t);
-            return testeRepository.findAll();
-        } 
+        
         @GetMapping (value="/CadAlunoQuestionario")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
         @ResponseBody                               //@ResponseBody permite retornar um texto
         public List<questionarioinicial> setAlunoQuestInicial(){
@@ -484,7 +477,8 @@ public class controllers {
             public ModelAndView getTesteAplication(@PathVariable("id") int id){
                 ModelAndView mv = new ModelAndView("aplicacaoTeste");
                
-                    teste t = testeRepository.findById(id).orElseThrow(null);
+                   teste t = testeRepository.findById(id).orElseThrow(null);
+                   
                     List<pergunta> perguntas = t.getPerguntas();
                     mv.addObject("perguntas",perguntas);
                     mv.addObject("testeNome", t.getNome());
@@ -493,11 +487,28 @@ public class controllers {
                
             }
         @PostMapping(value = "/index/aplicacaoteste/{id}")
-            public String setTesteAplication(@ModelAttribute perguntasForm lresp){
+            public String setTesteAplication(@PathVariable("id") int testeId, @ModelAttribute perguntasForm lresp, RedirectAttributes attributes){
+                LocalDate data = LocalDate.now();
+                teste t = testeRepository.findById(testeId).orElseThrow(null);
+                System.out.println(t.toString());
+                System.out.println(data);
                 System.out.println(lresp.toString());
-
+                
+                List<aluno> allAluno = alunoRepository.findAll();
+                for(aluno a: allAluno){
+                    if(a.getMatricula().equals(lresp.getMatricula().trim())){
+                       
+                       
+                        attributes.addFlashAttribute("sucesso","Teste Respondido com sucesso");
                 return "redirect:/index/inicial";
-            }
+                    }
+                }
+                
+               
+                attributes.addFlashAttribute("erro","Teste não foi respondido com sucesso");
+                return "redirect:/index/inicial";
+                
+               }
        
 
 }

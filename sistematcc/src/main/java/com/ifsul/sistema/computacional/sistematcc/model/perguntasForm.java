@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class perguntasForm {
-
+	private String matricula;
 	private List<pergunta> perguntas;
 	
 	public List<pergunta> getPerguntas() {
@@ -15,9 +15,19 @@ public class perguntasForm {
 		this.perguntas = p;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "perguntasForm [perguntas=" + perguntas + "]";
+		return "perguntasForm [matricula=" + matricula + ", perguntas=" + perguntas + "]";
+	}
+
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
 	}
 	
 }

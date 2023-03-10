@@ -63,23 +63,23 @@
                 <table class="table" >
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nome </th>
-                        <th scope="col">Sobrenome</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Matricula</th>
-                        <th scope="col">Telefone</th>
+                        <th scope="col">Id Teste</th>
+						<th scope="col">Nome Teste</th>
+                        <th scope="col">Nome aluno</th>
+                        <th scope="col">Data e Hora</th>
+                        <th scope="col">Pergunta</th>
+						<th scope="col">Resposta escolhida</th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
                     <tbody>
-                    <tr  th:each="prof: ${profs}">
-                        <td th:text="${prof.id}"></td>
-                        <td th:text="${prof.nome}"></td>
-                        <td th:text="${prof.sobrenome}"></td>
-                        <td th:text="${prof.email}"></td>
-                        <td th:text="${prof.matricula}"></td>         <!-- '' aspas simples fica como texto -->
-                        <td th:text="${prof.telefone}"></td>
+                    <tr  th:each="reg, i: ${regs}">
+                        <td th:text="${reg.testeId}"></td>
+                        <td th:text="${reg.nome}"></td>
+                        <td th:text="${reg.nomeAluno}"></td>
+                        <td th:text="${reg.data}"></td>
+                        <td th:text="${reg.pergunta}"></td>         <!-- '' aspas simples fica como texto -->
+                        <td th:text="${reg.opcaoRespostaId}"></td>
                         <td><a class="btn btn-outline-primary" th:href="@{/index/deleteprof/{id}(id=${prof.id})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" th:href="@{/index/updateprof/{id}(id=${prof.id})}" role="button">Editar</a>
                         </td>

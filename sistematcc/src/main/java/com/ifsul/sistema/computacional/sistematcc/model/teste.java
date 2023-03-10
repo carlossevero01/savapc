@@ -4,24 +4,31 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table (name = "teste")
 public class teste implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "testeId")
     private int testeId;
 
     @Column(nullable = false)
@@ -43,15 +50,9 @@ public class teste implements Serializable{
     @JsonManagedReference
     private List<pergunta> perguntas;
 
-    @ManyToMany
-    @JoinTable(
-        name = "registroteste",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"alunoId","testeId"}),
-        joinColumns =  @JoinColumn(name = "testeId"),
-        inverseJoinColumns = @JoinColumn(name = "alunoId")
-    )
-    @JsonManagedReference
-    private List<aluno> alunos;
+    @OneToMany(mappedBy = "teste", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+     List<registro> registroteste;
+
     public int getTesteId() {
         return testeId;
     }
@@ -82,12 +83,10 @@ public class teste implements Serializable{
     }
 
     public teste() {
+        super();
     }
 
-    @Override
-    public String toString() {
-        return "teste : testeId=" + testeId + ", visibilidade=" + visibilidade + ", disponibilidade=" + disponibilidade;
-    }
+    
 
     public List<pergunta> getPerguntas() {
         return perguntas;
@@ -97,12 +96,14 @@ public class teste implements Serializable{
         this.perguntas = perguntas;
     }
 
-    public List<aluno> getAlunos() {
-        return alunos;
-    }
+   
 
-    public void setAlunos(List<aluno> alunos) {
-        this.alunos = alunos;
+    
+
+    @Override
+    public String toString() {
+        return "teste [testeId=" + testeId + ", visibilidade=" + visibilidade + ", nome=" + nome + ", disponibilidade="
+                + disponibilidade + ", perguntas=" + perguntas + ", registroteste=" + registroteste + "]";
     }
 
     public String getNome() {
@@ -111,6 +112,14 @@ public class teste implements Serializable{
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<registro> getRegistroteste() {
+        return registroteste;
+    }
+
+    public void setRegistroteste(List<registro> registroteste) {
+        this.registroteste = registroteste;
     }
 
     
