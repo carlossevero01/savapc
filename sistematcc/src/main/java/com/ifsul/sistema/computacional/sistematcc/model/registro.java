@@ -4,46 +4,39 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
+
+
 @Entity
 @Table(name = "registro")
 public class registro implements Serializable{
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "registroId")
     private int registroId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "testeId", nullable = false)
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "testeId")
     private teste teste;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "alunoId", nullable = false)
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JsonIgnore
-   private aluno aluno;
+    @ManyToOne
+    @JoinColumn(name = "alunoId")
+    private aluno aluno;
 
-   @OneToMany(mappedBy="registro")
+   
+    @OneToMany
+    @JoinColumn(name = "registroId") // Esta coluna está na tabela "aluno".
     private List<pergunta> perguntas;
 
     public int getRegistroId() {
         return registroId;
     }
 
-    public void setRegistrotesteId(int registrotesteId) {
+    public void setRegistroId(int registrotesteId) {
         this.registroId = registrotesteId;
     }
 
@@ -67,19 +60,22 @@ public class registro implements Serializable{
         super();
     }
 
-    
-
-    public registro(com.ifsul.sistema.computacional.sistematcc.model.aluno aluno,
-            com.ifsul.sistema.computacional.sistematcc.model.teste teste, List<pergunta> perguntas) {
+    public registro(aluno aluno, teste teste, List<pergunta> perguntas) {
+        super();
         this.aluno = aluno;
         this.teste = teste;
         this.perguntas = perguntas;
     }
+    
+
+    
+
+    
 
     @Override
     public String toString() {
-        return "registroteste [registrotesteId=" + registroId + ", aluno=" + aluno + ", perguntas=" + perguntas
-                + "]";
+        return "registro [registroId=" + registroId + ", teste=" + teste + ", aluno=" + aluno + ", perguntas="
+                + perguntas + "]";
     }
 
     public teste getTeste() {

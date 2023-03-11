@@ -7,10 +7,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,7 +50,7 @@ public class teste implements Serializable{
     @JsonManagedReference
     private List<pergunta> perguntas;
 
-    @OneToMany(mappedBy = "teste", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "teste")
      List<registro> registroteste;
 
     public int getTesteId() {
@@ -77,16 +77,17 @@ public class teste implements Serializable{
         this.disponibilidade = disponibilidade;
     }
 
-    public teste(boolean visibilidade, LocalDate disponibilidade) {
+    public teste(boolean visibilidade, String nome, LocalDate disponibilidade, List<pergunta> perguntas) {
+        super();
         this.visibilidade = visibilidade;
+        this.nome = nome;
         this.disponibilidade = disponibilidade;
+        this.perguntas = perguntas;
     }
 
     public teste() {
         super();
     }
-
-    
 
     public List<pergunta> getPerguntas() {
         return perguntas;
@@ -96,14 +97,14 @@ public class teste implements Serializable{
         this.perguntas = perguntas;
     }
 
-   
-
+    
+    
     
 
     @Override
     public String toString() {
         return "teste [testeId=" + testeId + ", visibilidade=" + visibilidade + ", nome=" + nome + ", disponibilidade="
-                + disponibilidade + ", perguntas=" + perguntas + ", registroteste=" + registroteste + "]";
+                + disponibilidade + "]";
     }
 
     public String getNome() {
@@ -120,6 +121,10 @@ public class teste implements Serializable{
 
     public void setRegistroteste(List<registro> registroteste) {
         this.registroteste = registroteste;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
     

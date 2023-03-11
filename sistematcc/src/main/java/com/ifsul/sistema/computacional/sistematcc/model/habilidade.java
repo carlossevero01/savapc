@@ -70,10 +70,7 @@ public class habilidade implements Serializable{
         this.nome = nome;
     }
 
-    @Override
-    public String toString() {
-        return "habilidade : habilidadeId=" + habilidadeId + ", nome=" + nome ;
-    }
+
 
     public List<aluno> getAlunos() {
         return alunos;

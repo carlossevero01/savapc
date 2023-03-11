@@ -29,6 +29,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
 import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
+import com.ifsul.sistema.computacional.sistematcc.model.registro;
 //import com.ifsul.sistema.computacional.sistematcc.model.registroteste;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntasForm;
@@ -152,15 +153,15 @@ public class controllers {
         //     perguntaRepository.save(p);
         //     return perguntaRepository.findAll();
         // } 
-        @GetMapping (value="/CadPergTest")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
-        @ResponseBody                               //@ResponseBody permite retornar um texto
-        public List<teste> setPerguntaTestes(){
-            System.out.println("cadastrar perguntas nos testes ");
-            teste t = new teste(false, LocalDate.of(2020, 1, 8));
-            t.setPerguntas(perguntaRepository.findAll());
-            testeRepository.save(t);
-            return testeRepository.findAll();
-        } 
+        // @GetMapping (value="/CadPergTest")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
+        // @ResponseBody                               //@ResponseBody permite retornar um texto
+        // public List<teste> setPerguntaTestes(){
+        //     System.out.println("cadastrar perguntas nos testes ");
+        //     teste t = new teste(false, LocalDate.of(2020, 1, 8));
+        //     t.setPerguntas(perguntaRepository.findAll());
+        //     testeRepository.save(t);
+        //     return testeRepository.findAll();
+        // } 
         @GetMapping (value="/CadOpcaoRespostasPergunta")     //@RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
         @ResponseBody                               //@ResponseBody permite retornar um texto
         public List<pergunta> setOpcaoRespostaPergunta(){
@@ -497,7 +498,9 @@ public class controllers {
                 List<aluno> allAluno = alunoRepository.findAll();
                 for(aluno a: allAluno){
                     if(a.getMatricula().equals(lresp.getMatricula().trim())){
-                       
+                       registro reg = new registro(a, t, lresp.getPerguntas());
+                       System.out.println(reg.toString());
+                        registroRepository.save(reg);
                        
                         attributes.addFlashAttribute("sucesso","Teste Respondido com sucesso");
                 return "redirect:/index/inicial";
@@ -509,6 +512,14 @@ public class controllers {
                 return "redirect:/index/inicial";
                 
                }
-       
+               @GetMapping(value="/index/resultadosTeste")
+               public ModelAndView getResultadosTeste(){
+                ModelAndView mv = new ModelAndView("resultTeste");
+                List<registro> lreg = registroRepository.findAll();
+                System.out.println(lreg.toString());
+                mv.addObject("registros", lreg);
+                
+                return mv;
+               }
 
 }

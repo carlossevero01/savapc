@@ -3,17 +3,16 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,7 +26,7 @@ import jakarta.persistence.UniqueConstraint;
 @Entity
 @Table (name = "pergunta")
 public class pergunta implements Serializable{
-    private static final long serialVersionUID = 1L;
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +48,13 @@ public class pergunta implements Serializable{
     
     
     
+    @Override
+    public String toString() {
+        return "pergunta [perguntaId=" + perguntaId + ", descricao=" + descricao + ", opcoesResposta=" + opcoesResposta
+                + "]";
+    }
+
+
     @ManyToMany
     @JoinTable(
         name = "perguntateste",
@@ -69,20 +75,19 @@ public class pergunta implements Serializable{
     @JsonManagedReference
     private List<opcaoresposta> opcoesResposta;
    
+   
     
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-  @JoinColumn(name = "registroId", nullable = false)
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "registroId")
     private registro registro;
     
 
-    @Override
-    public String toString() {
-        return "pergunta [perguntaId=" + perguntaId + ", descricao=" + descricao + ", habilidades=" + habilidades
-                + ", testes=" + testes + ", opcoesResposta=" + opcoesResposta + ", registroteste=" + registro
-                + "]";
-    }
+   
+
+    
+    
+
+    
 
     public int getPerguntaId() {
         return perguntaId;
@@ -134,10 +139,13 @@ public class pergunta implements Serializable{
     public registro getRegistro() {
         return registro;
     }
+   
 
-    public void setRegistroteste(registro registroteste) {
-        this.registro = registroteste;
+    public void setRegistro(registro registro) {
+        this.registro = registro;
     }
+
+    
 
     
 

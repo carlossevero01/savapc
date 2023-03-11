@@ -102,11 +102,11 @@ public class aluno implements Serializable{
 
     
 
+    
+
     @Override
     public String toString() {
-        return "aluno [alunoId=" + alunoId + ", nome=" + nome + ", matricula=" + matricula + ", turmas=" + turmas
-                + ", habilidades=" + habilidades + ", questionarios=" + questionarios + ", registroteste="
-                + registroteste + "]";
+        return "aluno [alunoId=" + alunoId + ", nome=" + nome + ", matricula=" + matricula + "]";
     }
 
     public List<turma> getTurmas() {
@@ -140,6 +140,10 @@ public class aluno implements Serializable{
 
     public void setRegistroteste(List<registro> registroteste) {
         this.registroteste = registroteste;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
 

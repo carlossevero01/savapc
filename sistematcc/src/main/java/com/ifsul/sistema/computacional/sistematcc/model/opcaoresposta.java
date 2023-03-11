@@ -85,10 +85,12 @@ public class opcaoresposta implements Serializable{
         this.verdadeira = verdadeira;
     }
 
+   
+
     @Override
     public String toString() {
         return "opcaoresposta [opcaoRespostaId=" + opcaoRespostaId + ", descricao=" + descricao + ", tipo=" + tipo
-                + ", verdadeira=" + verdadeira + ", perguntas=" + perguntas + "]";
+                + ", verdadeira=" + verdadeira + "]";
     }
 
     public List<pergunta> getPerguntas() {
