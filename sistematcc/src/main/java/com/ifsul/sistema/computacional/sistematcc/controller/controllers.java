@@ -2,13 +2,17 @@ package com.ifsul.sistema.computacional.sistematcc.controller;
 
 
 
-
-
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,33 +20,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
-import com.ifsul.sistema.computacional.sistematcc.model.pergunta;
-import com.ifsul.sistema.computacional.sistematcc.model.professor;
-import com.ifsul.sistema.computacional.sistematcc.model.turma;
-import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
-import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
-import com.ifsul.sistema.computacional.sistematcc.model.registro;
-//import com.ifsul.sistema.computacional.sistematcc.model.registroteste;
+import com.ifsul.sistema.computacional.sistematcc.model.pergunta;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntasForm;
+import com.ifsul.sistema.computacional.sistematcc.model.professor;
+import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
+import com.ifsul.sistema.computacional.sistematcc.model.registro;
+import com.ifsul.sistema.computacional.sistematcc.model.teste;
+import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.habilidadeRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.professorRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionarioRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
+
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -329,19 +332,35 @@ public class controllers {
            return "redirect:/index/habilidades";       
         }
 
-        @GetMapping("/index/savePergunta")
-        public String getSavePergunta(){
-            return "savePergunta";
+        @GetMapping("/index/teste/savePergunta/{id}")
+        public ModelAndView getSavePergunta(@PathVariable("id") int id){
+            ModelAndView mv = new ModelAndView("savePergunta");
+            mv.addObject("testeId",id);
+            return mv;
         }
-        @PostMapping("/index/savePergunta")
-        public String savePergunta(@Valid pergunta p, BindingResult result, RedirectAttributes attributes){
-            if(result.hasErrors()){
-                attributes.addFlashAttribute("erro","Verifique os campos obrigatórios:"+p.toString());
-                return "redirect:/index/savePergunta";
+        @PostMapping("/index/teste/savePergunta/{id}")
+        public String savePergunta(@PathVariable("id") int testeId, @Valid pergunta pergunta, @RequestParam("file") MultipartFile img, RedirectAttributes attributes, BindingResult result){
+            teste t = testeRepository.findById(testeId).orElseThrow(null);
+            List<pergunta> lperg = t.getPerguntas();
+            
+            if(!img.isEmpty()){
+                try {
+                    byte[] bytes = img.getBytes();
+                    Path caminho = Paths.get("./src/main/resources/static/images/"+img.getOriginalFilename());
+                    Files.write(caminho,bytes);
+                    pergunta.setImg(img.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                pergunta.setImg("não selecionado");
             }
-           perguntaRepository.save(p);
+           perguntaRepository.save(pergunta);
+           lperg.add(pergunta);
+           t.setPerguntas(lperg);
+           testeRepository.save(t);
            attributes.addFlashAttribute("sucesso","Pergunta cadastrada");
-           return "redirect:/index/perguntas";       
+           return "redirect:/index/teste/perguntas/{id}";       
         }
 
         @GetMapping("/index/saveProfessor")
@@ -518,8 +537,55 @@ public class controllers {
                 List<registro> lreg = registroRepository.findAll();
                 System.out.println(lreg.toString());
                 mv.addObject("registros", lreg);
+                return mv;
+               }
+               @GetMapping(value="/index/teste/perguntas/{id}")
+               public ModelAndView getPerguntasPorTeste(@PathVariable("id") int testeId){
+                ModelAndView mv = new ModelAndView("pergunta");
+                teste t = testeRepository.findById(testeId).orElseThrow(null);    
+                mv.addObject("testeId", t.getTesteId());
+                mv.addObject("testeNome", t.getNome());
+                mv.addObject("perguntas", t.getPerguntas());
                 
                 return mv;
                }
+
+////////////////////////////IMAGEM /////////////////////////////////////
+    @GetMapping("index/imagem/{img}")
+    @ResponseBody
+    public byte[] getImg(@PathVariable("img") String img) throws IOException{
+        File imagemArquivo = new File("./src/main/resources/static/images/"+img);
+        if(img != null || img.trim().length()>0){
+           
+            return Files.readAllBytes(imagemArquivo.toPath());
+        }
+        
+        return null;
+    }   
+    @GetMapping("/index/teste/perguntas/{id}/imagem/{img}")
+    @ResponseBody
+    public byte[] getImgPost(@PathVariable("img") String img) throws IOException{
+        File imagemArquivo = new File("./src/main/resources/static/images/"+img);
+        if(img != null || img.trim().length()>0){
+           
+            return Files.readAllBytes(imagemArquivo.toPath());
+        }
+        
+        return null;
+    }
+    @GetMapping("/index/teste/{id}/imagem/{img}")
+    @ResponseBody
+    public byte[] getImgTeste(@PathVariable("img") String img) throws IOException{
+        File imagemArquivo = new File("./src/main/resources/static/images/"+img);
+        if(img != null || img.trim().length()>0){
+           
+            return Files.readAllBytes(imagemArquivo.toPath());
+        }
+        
+        return null;
+    }
+    
+////////////////////////////FIM IMAGEM//////////////////////////////
+
 
 }

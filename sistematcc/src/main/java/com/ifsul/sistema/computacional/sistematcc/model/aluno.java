@@ -32,7 +32,10 @@ public class aluno implements Serializable{
 
     @Column(nullable = false)
     private String matricula;
-
+    @Column(nullable=false, unique=true)
+    private String username;
+    @Column(nullable=false)
+    private String senha;
     @ManyToMany
     @JoinTable(
         name = "alunoturma",
@@ -67,6 +70,19 @@ public class aluno implements Serializable{
     @OneToMany(mappedBy="aluno")
      List<registro> registroteste;
 
+    //  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //  @JoinTable(name = "TB_USERS_ROLES",
+    //          joinColumns = @JoinColumn(name = "user_id"),
+    //          inverseJoinColumns = @JoinColumn(name = "role_id"))
+    //  private Collection<Role> roles;
+
+    // public Collection<Role> getRoles() {
+    //     return roles;
+    // }
+    // public void setRoles(Collection<Role> roles) {
+    //     this.roles = roles;
+    // } 
+    
     public int getAlunoId() {
         return alunoId;
     }
@@ -95,14 +111,29 @@ public class aluno implements Serializable{
         super();
     }
 
-    public aluno(String nome, String matricula) {
+    public aluno(int alunoId, String nome, String matricula, String username, String password) {
+        this.alunoId = alunoId;
         this.nome = nome;
         this.matricula = matricula;
+        this.username = username;
+        this.senha = password;
     }
 
-    
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    
+    public void setSenha(String password) {
+        this.senha = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
 
     @Override
     public String toString() {

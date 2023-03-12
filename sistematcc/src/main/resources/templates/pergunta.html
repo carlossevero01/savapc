@@ -58,22 +58,26 @@
 		</nav>
 		<div class="container-fluid mt-2">
 			 <div class="row">
-				<a class="btn btn-outline-primary" href="/index/savePergunta" role="button">Inserir Pergunta</a>
+				<a class="btn btn-outline-primary" th:href="@{/index/teste/savePergunta/{id}(id=${testeId})}" role="button">Inserir Pergunta</a>
             <th:block th:include="mensagemValidacao"></th:block>
             <div class="col-lg-10 mt-5 mb-5" >
+				<span> TesteID:</span><h4 class="mt-2 mb-2" th:text="${testeId}"> </h4>
+				<span> Nome do teste:</span><h4 class="mt-2 mb-2" th:text="${testeNome}"> </h4>
                 <table class="table" >
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Descricao</th>
+						<th scope="col">Imagem</th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
                     <tbody>
-                    <tr  th:each="p: ${perguntas}">
+                    <tr  th:each="p, i: ${perguntas}">
                         <td th:text="${p.perguntaId}"></td>
                         <td th:text="${p.descricao}"></td>         <!-- '' aspas simples fica como texto -->
-                        <td><a class="btn btn-outline-primary" 
+                        <td><img class="m-2 border" width="200px" th:src="@{/index/teste/perguntas/{id}/imagem/{img}(img=${perguntas[__${i.index}__].img})}" alt="imgPergunta"> </td>
+						<td><a class="btn btn-outline-primary" 
 						th:href="@{/index/deletepergunta/{id}(id=${p.perguntaId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 
 							th:href="@{/index/updatepergunta/{id}(id=${p.perguntaId})}" role="button">Editar</a>

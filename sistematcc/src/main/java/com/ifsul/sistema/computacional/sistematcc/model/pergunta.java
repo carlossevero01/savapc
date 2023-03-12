@@ -3,21 +3,17 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import java.io.Serializable;
 import java.util.List;
 
-
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -34,7 +30,10 @@ public class pergunta implements Serializable{
     private int perguntaId;
 
     @Column(nullable = false)
+    @Lob
     private String descricao;
+
+    private String img;
 
     @ManyToMany
     @JoinTable(
@@ -143,6 +142,14 @@ public class pergunta implements Serializable{
 
     public void setRegistro(registro registro) {
         this.registro = registro;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     
