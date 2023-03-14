@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
+import com.ifsul.sistema.computacional.sistematcc.model.habForm;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
 import com.ifsul.sistema.computacional.sistematcc.model.pergunta;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
@@ -211,8 +212,11 @@ public class controllers {
         /*     PAGINA INICIAL(TODOS)     */
         
         @GetMapping(value = "/index/inicial")    
-        public String index() {  
-         return "index";
+        public ModelAndView index() {  
+         ModelAndView mv = new ModelAndView("index");
+         List<turma> lturma = turmaRepository.findAll();
+         mv.addObject("turmas", lturma);
+         return mv;
         }
         /*     PAGINA INICIAL(TODOS)     */
         
@@ -586,6 +590,31 @@ public class controllers {
     }
     
 ////////////////////////////FIM IMAGEM//////////////////////////////
+    @GetMapping("/index/pergunta/habilidades/{perguntaId}/{testeId}")
+    @ResponseBody
+    public ModelAndView getHabilidadesPergunta(@PathVariable("perguntaId") int perguntaId,
+    @PathVariable("testeId") int testeId){
+        ModelAndView mv = new ModelAndView("habilidade");
+        List<habilidade> lh = habilidadeRepository.findAll();
+        mv.addObject("habilidades", lh);
+        mv.addObject("perguntaId", perguntaId);
+        mv.addObject("testeId", testeId);
+        return mv;
+    }
+    @PostMapping("/index/pergunta/habilidades/{perguntaId}/{testeId}")
+    public String setHabilidadePergunta(@PathVariable("perguntaId") int perguntaId, @PathVariable("testeId") int testeId,  @ModelAttribute habForm lhab, RedirectAttributes attributes){
+   
+        pergunta p = perguntaRepository.findById(perguntaId).orElseThrow(null);
+        List<habilidade> ListHabilidade = new ArrayList<>();
+        for(habilidade h : lhab.getHabilidades()){
+          habilidade habili = habilidadeRepository.findById(h.getHabilidadeId()).orElseThrow(null);    
+        ListHabilidade.add(habili);
+    }
+        p.setHabilidades(ListHabilidade);
+        perguntaRepository.save(p);
 
+
+        return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
+    }
 
 }

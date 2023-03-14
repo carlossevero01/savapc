@@ -83,6 +83,8 @@
 							th:href="@{/index/updatepergunta/{id}(id=${p.perguntaId})}" role="button">Editar</a>
 							<a class="btn btn-outline-primary" 
 							th:href="@{/index/pergunta/opcoesresposta/{id}(id=${p.perguntaId})}" role="button">Opções Resposta</a>
+							<form method="post" th:action="@{/index/pergunta/opcoesresposta/{perguntaid}/{testeid}(perguntaid=${perguntaId})(testeid=${testeId})}"></form><a class="btn btn-outline-primary" 
+							 th:href="@{/index/pergunta/habilidades/{perguntaId}/{testeId}(perguntaId = ${p.perguntaId}, testeId=${testeId}) }">Habilidades</a>
                         </td>
                     </tr>
                     </tbody>
