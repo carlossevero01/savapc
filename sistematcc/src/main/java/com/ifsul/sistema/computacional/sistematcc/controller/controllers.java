@@ -614,7 +614,7 @@ public class controllers {
         perguntaRepository.save(p);
 
 
-        return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
+        return "redirect:/index/teste/perguntas/{testeId}";
     }
 
 }
