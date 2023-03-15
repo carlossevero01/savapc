@@ -61,7 +61,7 @@ public class teste implements Serializable{
         this.testeId = testeId;
     }
 
-    public boolean isVisibilidade() {
+    public boolean getVisibilidade() {
         return visibilidade;
     }
 

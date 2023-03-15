@@ -29,8 +29,9 @@ public class pergunta implements Serializable{
     @Column(name = "perguntaId")
     private int perguntaId;
 
-    @Column(nullable = false)
+    
     @Lob
+    @Column(nullable = false, columnDefinition="CLOB")
     private String descricao;
 
     private String img;

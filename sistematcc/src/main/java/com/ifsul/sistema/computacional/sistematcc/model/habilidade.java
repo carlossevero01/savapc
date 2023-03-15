@@ -72,6 +72,11 @@ public class habilidade implements Serializable{
 
 
 
+    @Override
+    public String toString() {
+        return "habilidade [habilidadeId=" + habilidadeId + "]";
+    }
+
     public List<aluno> getAlunos() {
         return alunos;
     }
