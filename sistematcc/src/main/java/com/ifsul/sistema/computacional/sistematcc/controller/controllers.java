@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
+import com.ifsul.sistema.computacional.sistematcc.model.correcoesAluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
 import com.ifsul.sistema.computacional.sistematcc.model.habForm;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
@@ -800,11 +801,27 @@ public class controllers {
     
     @GetMapping("/index/relatorio")
     @ResponseBody
-    public String getRelatorio(){
-     //   ModelAndView mv = new ModelAndView("relatorio");
+    public ModelAndView getRelatorio(){
         List<registro> regs = registroRepository.findAll();
-      
-      
-        return "REG:"+regs.get(0).getRegistroId() +"\t AID"+regs.get(0).getAluno().getAlunoId()+"\t TID"+regs.get(0).getTeste().getTesteId()+"\t Perguntas e Respostas:"+"Pergunta:"+regs.get(0).getRespostas().get(0).getPergunta().getPerguntaId()+"\t Resposta:"+regs.get(0).getRespostas().get(0).getOpRespostaId();
+        ModelAndView mv = new ModelAndView("relatorioTeste");
+        
+        List<correcoesAluno> correcaoList = new ArrayList<>();
+        
+        for(registro r: regs){
+            for(resposta resp : r.getRespostas()){
+                        
+                 if(resp.getOpRespostaId()==opcaorespostaRepository.findOpcaoRespostaIdByPerguntasAndVerdadeira(resp.getPergunta(),true).get(0).getOpcaoRespostaId()){
+                    correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(), r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(),true);
+                    correcaoList.add(cA);
+                }else{
+                    correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(), r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(),false);
+                    correcaoList.add(cA);
+                }
+            }
+        }
+        mv.addObject("correcaoList", correcaoList);
+        System.out.println(correcaoList.toString());
+        
+      return mv;
     }
 }
