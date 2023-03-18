@@ -15,7 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+
+
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -28,14 +29,13 @@ public class pergunta implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "perguntaId")
     private int perguntaId;
-
-    
     @Lob
     @Column(nullable = false, columnDefinition="CLOB")
     private String descricao;
-
+    @Column(name = "img")
     private String img;
-
+    @Column(name="opRespostaId")
+    private String opRespostaId;
     @ManyToMany
     @JoinTable(
         name = "habilidadepergunta",
@@ -46,15 +46,9 @@ public class pergunta implements Serializable{
     @JsonManagedReference
     private List<habilidade> habilidades;
     
-    
-    
-    @Override
-    public String toString() {
-        return "pergunta [perguntaId=" + perguntaId + ", descricao=" + descricao + ", opcoesResposta=" + opcoesResposta
-                + "]";
-    }
+   
 
-
+    
     @ManyToMany
     @JoinTable(
         name = "perguntateste",
@@ -74,84 +68,63 @@ public class pergunta implements Serializable{
     )
     @JsonManagedReference
     private List<opcaoresposta> opcoesResposta;
-   
-   
-    
-    @ManyToOne
-    @JoinColumn(name = "registroId")
-    private registro registro;
     
 
    
-
-    
-    
-
-    
-
     public int getPerguntaId() {
         return perguntaId;
     }
-
     public void setPerguntaId(int perguntaId) {
         this.perguntaId = perguntaId;
     }
-
     public String getDescricao() {
         return descricao;
     }
-
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public pergunta() {
+    public pergunta() {   
     }
-
     public pergunta(String descricao) {
         this.descricao = descricao;
     }
-
     public List<habilidade> getHabilidades() {
         return habilidades;
     }
-
     public void setHabilidades(List<habilidade> habilidades) {
         this.habilidades = habilidades;
     }
-
     public List<teste> getTestes() {
         return testes;
     }
-
     public void setTestes(List<teste> testes) {
         this.testes = testes;
     }
-
     public List<opcaoresposta> getOpcoesResposta() {
         return opcoesResposta;
     }
-
     public void setOpcoesResposta(List<opcaoresposta> opcoesResposta) {
         this.opcoesResposta = opcoesResposta;
     }
-
-    public registro getRegistro() {
-        return registro;
-    }
-   
-
-    public void setRegistro(registro registro) {
-        this.registro = registro;
-    }
-
     public String getImg() {
         return img;
     }
-
     public void setImg(String img) {
         this.img = img;
     }
+   
+    @Override
+    public String toString() {
+        return " [perguntaId=" + perguntaId + "opRespostaId:"+opRespostaId+ "]";
+    }
+   
+    public String getOpRespostaId() {
+        return opRespostaId;
+    }
+    public void setOpRespostaId(String opRespostaId) {
+        this.opRespostaId = opRespostaId;
+    }
+    
 
     
 

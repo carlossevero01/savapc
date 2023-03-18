@@ -28,9 +28,19 @@ public class registro implements Serializable{
     private aluno aluno;
 
    
-    @OneToMany
-    @JoinColumn(name = "registroId") // Esta coluna está na tabela "aluno".
-    private List<pergunta> perguntas;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "registro_respostas",
+            joinColumns = @JoinColumn(
+                    name = "registroId", referencedColumnName = "registroId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "respostaId", referencedColumnName = "respostaId"
+            )
+    )
+    private List<resposta> respostas;
+
+    
 
     public int getRegistroId() {
         return registroId;
@@ -48,34 +58,29 @@ public class registro implements Serializable{
         this.aluno = aluno;
     }
 
-    public List<pergunta> getPerguntas() {
-        return perguntas;
+    public List<resposta> getRespostas() {
+        return respostas;
     }
 
-    public void setPerguntas(List<pergunta> perguntas) {
-        this.perguntas = perguntas;
+    public void setRespostas(List<resposta> respostas) {
+        this.respostas = respostas;
     }
 
     public registro() {
         super();
     }
 
-    public registro(aluno aluno, teste teste, List<pergunta> perguntas) {
+    public registro(aluno aluno, teste teste, List<resposta> respostas) {
         super();
         this.aluno = aluno;
         this.teste = teste;
-        this.perguntas = perguntas;
+        this.respostas = respostas;
     }
     
-
-    
-
-    
-
     @Override
     public String toString() {
-        return "registro [registroId=" + registroId + ", teste=" + teste + ", aluno=" + aluno + ", perguntas="
-                + perguntas + "]";
+        return " [registroId=" + registroId + ", teste=" + teste.getNome() + ", aluno=" + aluno.getAlunoId() + ", respostas="
+                + respostas + "]";
     }
 
     public teste getTeste() {

@@ -33,6 +33,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.perguntasForm;
 import com.ifsul.sistema.computacional.sistematcc.model.professor;
 import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
 import com.ifsul.sistema.computacional.sistematcc.model.registro;
+import com.ifsul.sistema.computacional.sistematcc.model.resposta;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
@@ -43,6 +44,7 @@ import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionari
 import com.ifsul.sistema.computacional.sistematcc.repository.professorRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.respostasRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 
@@ -71,6 +73,8 @@ public class controllers {
     perguntaquestionarioRepository perguntaquestionarioRepository;
     @Autowired
     registroRepository registroRepository;
+    @Autowired
+    respostasRepository respostasRepository;
 
     @Transactional // Colocar caso de Cannot Remove em deleteByturnoNome(String)
     @GetMapping(value = "/CAT") // @RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
@@ -364,7 +368,7 @@ public class controllers {
             } else {
                 pergunta.setImg(null);
             }
-            pergunta.setRegistro(null);
+            
             perguntaRepository.save(pergunta);
             lperg.add(pergunta);
             t.setPerguntas(lperg);
@@ -536,19 +540,28 @@ public class controllers {
     @PostMapping(value = "/index/aplicacaoteste/{id}")
     public String setTesteAplication(@PathVariable("id") int testeId, @ModelAttribute perguntasForm lresp,
             RedirectAttributes attributes) {
-        LocalDate data = LocalDate.now();
+        
         teste t = testeRepository.findById(testeId).orElseThrow(null);
-        System.out.println(t.toString());
-        System.out.println(data);
-        System.out.println(lresp.toString());
-
+        
+        
+        List<resposta> ListRespostas = new ArrayList<>();
+        registro reg = new registro();
         List<aluno> allAluno = alunoRepository.findAll();
         for (aluno a : allAluno) {
             if (a.getMatricula().equals(lresp.getMatricula().trim())) {
-                registro reg = new registro(a, t, lresp.getPerguntas());
-                System.out.println(reg.toString());
+                for(pergunta Pergunta:lresp.getPerguntas()){
+                    
+                   resposta resposta = new resposta();
+                   pergunta p = perguntaRepository.findById(Pergunta.getPerguntaId()).orElseThrow(null);
+                   resposta.setPergunta(p); 
+                   resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
+                   
+                  ListRespostas.add(resposta);
+                }
+                reg.setAluno(a);
+                reg.setTeste(t);
+                reg.setRespostas(ListRespostas);
                 registroRepository.save(reg);
-
                 attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
                 return "redirect:/index/inicial";
             }
@@ -790,8 +803,8 @@ public class controllers {
     public String getRelatorio(){
      //   ModelAndView mv = new ModelAndView("relatorio");
         List<registro> regs = registroRepository.findAll();
-        List<pergunta> pergs = regs.get(0).getPerguntas();
-        return "Resultados:"+regs.toString()
-        +"\n Perguntas: "+pergs.toString();
+      
+      
+        return "REG:"+regs.get(0).getRegistroId() +"\t AID"+regs.get(0).getAluno().getAlunoId()+"\t TID"+regs.get(0).getTeste().getTesteId()+"\t Perguntas e Respostas:"+"Pergunta:"+regs.get(0).getRespostas().get(0).getPergunta().getPerguntaId()+"\t Resposta:"+regs.get(0).getRespostas().get(0).getOpRespostaId();
     }
 }

@@ -89,8 +89,7 @@ public class opcaoresposta implements Serializable{
 
     @Override
     public String toString() {
-        return "opcaoresposta [opcaoRespostaId=" + opcaoRespostaId + ", descricao=" + descricao + ", tipo=" + tipo
-                + ", verdadeira=" + verdadeira + "]";
+        return "opcaoresposta [opcaoRespostaId=" + opcaoRespostaId + ", descricao=" + descricao + ", verdadeira=" + verdadeira + "]";
     }
 
     public List<pergunta> getPerguntas() {

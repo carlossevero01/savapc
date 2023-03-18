@@ -68,7 +68,7 @@
 					<p th:text="${p.descricao}"></p>
 				</div>
 				<div class="form-check" th:each="op,i : ${p.opcoesResposta}">
-					<input class="form-check-input" type="radio" th:name="|perguntas[${j.index}].opcoesResposta[${i.index}].opcaoRespostaId|" th:value="${op.opcaoRespostaId}" >
+					<input class="form-check-input" type="radio" th:name="|perguntas[${j.index}].opRespostaId|" th:value="${op.opcaoRespostaId}" >
 					<label class="form-check-label" th:for="${op.opcaoRespostaId}" th:text="${op.descricao}"></label>
 				  </div>
 				 
