@@ -86,7 +86,7 @@ public class controllers {
         System.out.println("cadastrar aluno na turma");
         aluno a = alunoRepository.findById(1).orElseThrow(null);
         laluno.add(a);
-        turma t = new turma("turma 2");
+        turma t = new turma("turma 2",false);
         t.setAlunos(laluno);
         turmaRepository.save(t);
         List<aluno> listAlunos = alunoRepository.findAll();
@@ -525,6 +525,20 @@ public class controllers {
     }
 
     /* DADOS EM LISTA(PROFESSORES/ADMIN) */
+    @PostMapping("/index/cadAlunoTurma/{id}")
+    public String cadAlunoTurma(@PathVariable("id") int turmaId, @RequestParam("matricula") String matricula, RedirectAttributes redirectAttributes){
+        if(matricula.equalsIgnoreCase("")){
+            redirectAttributes.addFlashAttribute("erro", "insira a sua matricula");
+            return "redirect:/index/inicial";
+        }else{
+            turma t = turmaRepository.findById(turmaId).orElseThrow(null);
+            t.getAlunos().add(alunoRepository.findByMatricula(matricula).get(0));
+            turmaRepository.save(t);
+            redirectAttributes.addFlashAttribute("sucesso", "Inscrição realizada com sucesso");
+            return "redirect:/index/inicial";     
+        }
+    }
+
     @GetMapping(value = "/index/aplicacaoteste/{id}")
     public ModelAndView getTesteAplication(@PathVariable("id") int id) {
         ModelAndView mv = new ModelAndView("aplicacaoTeste");
@@ -542,15 +556,10 @@ public class controllers {
     @PostMapping(value = "/index/aplicacaoteste/{id}")
     public String setTesteAplication(@PathVariable("id") int testeId, @ModelAttribute perguntasForm lresp,
             RedirectAttributes attributes) {
-        
-        teste t = testeRepository.findById(testeId).orElseThrow(null);
-        
-        
-        List<resposta> ListRespostas = new ArrayList<>();
-        registro reg = new registro();
-        List<aluno> allAluno = alunoRepository.findAll();
-        for (aluno a : allAluno) {
-            if (a.getMatricula().equals(lresp.getMatricula().trim())) {
+     teste t = testeRepository.findById(testeId).orElseThrow(null); 
+         List<resposta> ListRespostas = new ArrayList<>();
+         registro reg = new registro();
+       if (alunoRepository.findByMatricula(lresp.getMatricula().trim())!=null) {
                 for(pergunta Pergunta:lresp.getPerguntas()){
                     
                    resposta resposta = new resposta();
@@ -560,14 +569,14 @@ public class controllers {
                    
                   ListRespostas.add(resposta);
                 }
-                reg.setAluno(a);
+                reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
                 reg.setTeste(t);
                 reg.setRespostas(ListRespostas);
                 registroRepository.save(reg);
                 attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
                 return "redirect:/index/inicial";
             }
-        }
+        
 
         attributes.addFlashAttribute("erro", "Teste não foi respondido com sucesso");
         return "redirect:/index/inicial";

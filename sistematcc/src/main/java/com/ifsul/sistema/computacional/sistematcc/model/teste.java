@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -49,6 +49,16 @@ public class teste implements Serializable{
     )
     @JsonManagedReference
     private List<pergunta> perguntas;
+
+    @ManyToMany
+    @JoinTable(
+        name = "testesturma",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"turmaId","testeId"}),
+        joinColumns =  @JoinColumn(name = "testeId"),
+        inverseJoinColumns = @JoinColumn(name = "turmaId")
+    )
+    @JsonBackReference
+    private List<turma> turmas;
 
     @OneToMany(mappedBy = "teste")
      List<registro> registroteste;
@@ -127,7 +137,13 @@ public class teste implements Serializable{
         return serialVersionUID;
     }
 
-    
+    public List<turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<turma> turmas) {
+        this.turmas = turmas;
+    }
 
     
 }

@@ -26,6 +26,9 @@ public class turma implements Serializable{
     @Column(nullable = false)
     private String nome;
     
+    @Column(nullable = false)
+    private boolean visibilidade;
+
     @ManyToMany
     @JoinTable(
         name = "alunoturma",
@@ -45,6 +48,17 @@ public class turma implements Serializable{
     )
     @JsonManagedReference
     private List<professor> professores;
+
+    @ManyToMany
+    @JoinTable(
+        name = "testesturma",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"turmaId","testeId"}),
+        joinColumns =  @JoinColumn(name = "turmaId"),
+        inverseJoinColumns = @JoinColumn(name = "testeId")
+    )
+    @JsonManagedReference
+    private List<teste> testes;
+
     
     public int getTurmaId() {
         return turmaId;
@@ -65,13 +79,14 @@ public class turma implements Serializable{
     public turma() {
     }
 
-    public turma(String nome) {
+    public turma(String nome, boolean visibilidade) {
         this.nome = nome;
+        this.visibilidade=false;
     }
 
     @Override
     public String toString() {
-        return "turma : turmaId=" + turmaId + ", nome=" + nome ;
+        return "turma : turmaId=" + turmaId + ", nome=" + nome +", visibilidade="+visibilidade;
     }
 
     public List<aluno> getAlunos() {
@@ -88,6 +103,22 @@ public class turma implements Serializable{
 
     public void setProfessores(List<professor> professores) {
         this.professores = professores;
+    }
+
+    public boolean isVisibilidade() {
+        return visibilidade;
+    }
+
+    public void setVisibilidade(boolean visibilidade) {
+        this.visibilidade = visibilidade;
+    }
+
+    public List<teste> getTestes() {
+        return testes;
+    }
+
+    public void setTestes(List<teste> testes) {
+        this.testes = testes;
     }
 
     
