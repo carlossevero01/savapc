@@ -1,6 +1,7 @@
 package com.ifsul.sistema.computacional.sistematcc.model;
 
 public class correcoesAluno {
+    
     private int alunoId;
     private int testeId;
     private String testeNome;
@@ -47,20 +48,22 @@ public class correcoesAluno {
             return false;
         return true;
     }
+    
+    
     @Override
     public String toString() {
-        return "correcoesAluno [alunoId=" + alunoId + "\t| testeId=" + testeId + "\t| testeNome=" + testeNome
-                + "\n| perguntaId=" + perguntaId + "\t| opRespostaId=" + opRespostaId + "\t| acertou=" + acertou + "]";
+        return "[alunoId="+alunoId+"\t testeId="+testeId + "\t testeNome=" + testeNome+ "\t perguntaId=" + perguntaId+" |" + "\n|opRespostaId=" + opRespostaId + "\t acertou=" + acertou+"]";
     }
-    public correcoesAluno(int alunoId, int testeId, String testeNome, int perguntaId, int opRespostaId,
-            boolean acertou) {
+    public correcoesAluno(int alunoId, int testeId, String testeNome, int perguntaId, int opRespostaId, boolean acertou) {
         this.alunoId = alunoId;
         this.testeId = testeId;
         this.testeNome = testeNome;
         this.perguntaId = perguntaId;
         this.opRespostaId = opRespostaId;
         this.acertou = acertou;
+        
     }
+   
     public correcoesAluno() {
         this.alunoId=0;
         this.testeId=0;
@@ -68,6 +71,7 @@ public class correcoesAluno {
         this.perguntaId=0;
         this.opRespostaId=0;
         this.acertou=false;
+        
     }
     public int getAlunoId() {
         return alunoId;
@@ -105,6 +109,7 @@ public class correcoesAluno {
     public void setAcertou(boolean acertou) {
         this.acertou = acertou;
     }
+   
 
     
 }

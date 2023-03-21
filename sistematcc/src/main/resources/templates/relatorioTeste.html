@@ -60,34 +60,41 @@
 			 <div class="row">
 				
             <th:block th:insert="mensagemValidacao"></th:block>
-            <div class="col-lg-10 mt-5 mb-5" th:each="reg, j : ${registros}" >
+            <div class="col-lg-10 mt-5 mb-5" >
 				
-                <div class="row mt-2 mb-2" > <p>Registro ID:</p><p th:text="${reg.registroId}"></p> </div>
+                <div class="row mt-2 mb-2" >
 				<table class="table" >
                 <thead>
                     <tr>
                         <th scope="col">TesteID </th>
-						<th scope="col">Nome do Teste </th>
                         <th scope="col">AlunoID</th>
-						<th scope="col">Nome do aluno </th>
-                        <th scope="col">PerguntaID</th>
-						<th scope="col">RespostaID</th>
-						<th scope="col">Descrição resposta </th>
-						<th scope="col">Resposta Verdadeira? </th>
+						<th scope="col">N.Questões Corretas</th>
+                        <th scope="col">H1</th>
+						<th scope="col">H2</th>
+						<th scope="col">H3</th>
+						<th scope="col">H4</th>
+						<th scope="col">H5</th>
+						<th scope="col">N.totalQuestões</th>
+						<th scope="col">Valor total</th>
+						<th scope="col">Recomendação</th>
                         
                     </tr>
                 </thead>
                     <tbody>
-                    <tr  th:each="p , i : ${reg.perguntas}">
-                        <td th:text="${reg.teste.testeId}"></td>
-                        <td th:text="${reg.teste.nome}"></td>
-						<td th:text="${reg.aluno.alunoId}"></td>
-						<td th:text="${reg.aluno.nome}"></td>
-						<td th:text="${p.perguntaId}"></td>
-                        <td th:text="*{registros[__${j.index}__].perguntas[__${i.index}__].opcoesResposta[0].opcaoRespostaId}"></td> <!-- '' aspas simples fica como texto -->
-                        <td th:text="*{registros[__${j.index}__].perguntas[__${i.index}__].opcoesResposta[0].descricao}"></td>
-						<td th:text="*{registros[__${j.index}__].perguntas[__${i.index}__].opcoesResposta[0].verdadeira}"></td>
-                    </tr>
+                    <tr  th:each="c , i : ${contabilizacoes}">
+                        <td th:text="${c.testeId}"></td>
+                        <td th:text="${c.alunoId}"></td>
+						<td th:text="${c.nQcorretas}"></td>
+						<td th:text="${c.nQChab1}"></td>
+						<td th:text="${c.nQChab2}"></td>
+                        <td th:text="${c.nQChab3}"></td> <!-- '' aspas simples fica como texto -->
+                        <td th:text="${c.nQChab4}"></td>
+						<td th:text="${c.nQChab5}"></td>
+						<td th:text="${c.nQ}"></td>
+						<td th:text="${c.valorTotal}"></td>
+						<td th:text="${c.recomendacao}"></td>
+						
+					</tr>
                     </tbody>
                 </table>         
           </div>
