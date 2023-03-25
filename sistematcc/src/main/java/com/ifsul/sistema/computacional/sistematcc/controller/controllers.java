@@ -86,7 +86,7 @@ public class controllers {
         System.out.println("cadastrar aluno na turma");
         aluno a = alunoRepository.findById(1).orElseThrow(null);
         laluno.add(a);
-        turma t = new turma("turma 2",false);
+        turma t = new turma("turma 2", false);
         t.setAlunos(laluno);
         turmaRepository.save(t);
         List<aluno> listAlunos = alunoRepository.findAll();
@@ -370,7 +370,7 @@ public class controllers {
             } else {
                 pergunta.setImg(null);
             }
-            
+
             perguntaRepository.save(pergunta);
             lperg.add(pergunta);
             t.setPerguntas(lperg);
@@ -526,16 +526,17 @@ public class controllers {
 
     /* DADOS EM LISTA(PROFESSORES/ADMIN) */
     @PostMapping("/index/cadAlunoTurma/{id}")
-    public String cadAlunoTurma(@PathVariable("id") int turmaId, @RequestParam("matricula") String matricula, RedirectAttributes redirectAttributes){
-        if(matricula.equalsIgnoreCase("")){
+    public String cadAlunoTurma(@PathVariable("id") int turmaId, @RequestParam("matricula") String matricula,
+            RedirectAttributes redirectAttributes) {
+        if (matricula.equalsIgnoreCase("")) {
             redirectAttributes.addFlashAttribute("erro", "insira a sua matricula");
             return "redirect:/index/inicial";
-        }else{
+        } else {
             turma t = turmaRepository.findById(turmaId).orElseThrow(null);
             t.getAlunos().add(alunoRepository.findByMatricula(matricula).get(0));
             turmaRepository.save(t);
             redirectAttributes.addFlashAttribute("sucesso", "Inscrição realizada com sucesso");
-            return "redirect:/index/inicial";     
+            return "redirect:/index/inicial";
         }
     }
 
@@ -556,31 +557,32 @@ public class controllers {
     @PostMapping(value = "/index/aplicacaoteste/{id}")
     public String setTesteAplication(@PathVariable("id") int testeId, @ModelAttribute perguntasForm lresp,
             RedirectAttributes attributes) {
-     teste t = testeRepository.findById(testeId).orElseThrow(null); 
-         List<resposta> ListRespostas = new ArrayList<>();
-         registro reg = new registro();
-       if (alunoRepository.findByMatricula(lresp.getMatricula().trim())!=null) {
-                for(pergunta Pergunta:lresp.getPerguntas()){
-                    
-                   resposta resposta = new resposta();
-                   pergunta p = perguntaRepository.findById(Pergunta.getPerguntaId()).orElseThrow(null);
-                   resposta.setPergunta(p); 
-                   resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
-                   
-                  ListRespostas.add(resposta);
-                }
-                reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
-                reg.setTeste(t);
-                reg.setRespostas(ListRespostas);
-                registroRepository.save(reg);
-                attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
-                return "redirect:/index/inicial";
+        try {
+            teste t = testeRepository.findById(testeId).orElseThrow(null);
+        List<resposta> ListRespostas = new ArrayList<>();
+        registro reg = new registro();
+        if (alunoRepository.findByMatricula(lresp.getMatricula().trim()).size()>0) {
+            for (pergunta Pergunta : lresp.getPerguntas()) {
+                resposta resposta = new resposta();
+                pergunta p = perguntaRepository.findById(Pergunta.getPerguntaId()).orElseThrow(null);
+                resposta.setPergunta(p);
+                resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
+                ListRespostas.add(resposta);
             }
-        
-
-        attributes.addFlashAttribute("erro", "Teste não foi respondido com sucesso");
-        return "redirect:/index/inicial";
-
+            reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
+            reg.setTeste(t);
+            reg.setRespostas(ListRespostas);
+            registroRepository.save(reg);
+            attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
+            return "redirect:/index/inicial";
+        }else{ 
+            attributes.addFlashAttribute("erro", "Matricula não encontrada");
+            return "redirect:/index/inicial";
+        }
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "Teste não foi respondido com sucesso"+e);
+            return "redirect:/index/inicial";
+        }
     }
 
     @GetMapping(value = "/index/resultadosTeste")
@@ -682,29 +684,42 @@ public class controllers {
 
         return null;
     }
+    @GetMapping("/index/aplicacaoteste/{id}/imagem/{img}")
+    @ResponseBody
+    public byte[] getImgAplicacaoTeste(@PathVariable("img") String img) throws IOException {
+        File imagemArquivo = new File("./src/main/resources/static/images/" + img);
+        if (img != null || img.trim().length() > 0) {
+
+            return Files.readAllBytes(imagemArquivo.toPath());
+        }
+
+        return null;
+    }
 
     //////////////////////////// FIM IMAGEM//////////////////////////////
-    ////////////////////////////UPDATE////////////////////////////////////
+    //////////////////////////// UPDATE////////////////////////////////////
     @GetMapping("/index/updateteste/{id}")
     @ResponseBody
-    public ModelAndView getTesteUpdate(@PathVariable("id") int testeId){
+    public ModelAndView getTesteUpdate(@PathVariable("id") int testeId) {
         ModelAndView mv = new ModelAndView("updateTeste");
         try {
             teste testeExistente = testeRepository.findById(testeId).orElseThrow(null);
-            mv.addObject("teste", testeExistente); 
+            mv.addObject("teste", testeExistente);
         } catch (Exception e) {
-            System.out.println("ERRO SISTEMA:"+e);
+            System.out.println("ERRO SISTEMA:" + e);
         }
         return mv;
     }
+
     @PostMapping("/index/updateteste/{id}")
-    public String setTesteUpdate(@PathVariable("id") int testeId, @Valid teste novoteste, RedirectAttributes redirectAttributes, BindingResult result){
-        if(result.hasErrors()){
-            redirectAttributes.addFlashAttribute("erro", "Confira os campos obrigatórios"+result);
+    public String setTesteUpdate(@PathVariable("id") int testeId, @Valid teste novoteste,
+            RedirectAttributes redirectAttributes, BindingResult result) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("erro", "Confira os campos obrigatórios" + result);
             return "redirect:/index/updateteste/{id}";
         }
         try {
-            teste testeExistente = testeRepository.findById(testeId).orElseThrow(null); 
+            teste testeExistente = testeRepository.findById(testeId).orElseThrow(null);
             testeExistente.setDisponibilidade(novoteste.getDisponibilidade());
             testeExistente.setNome(novoteste.getNome());
             testeExistente.setVisibilidade(novoteste.getVisibilidade());
@@ -712,140 +727,150 @@ public class controllers {
             redirectAttributes.addFlashAttribute("sucesso", "Teste alterado com sucesso");
             return "redirect:/index/testes";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro", "Não foi possivel executar"+e);
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel executar" + e);
             return "redirect:/index/testes";
-        } 
+        }
     }
+
     @GetMapping("/index/updatepergunta/{id}")
     @ResponseBody
-    public ModelAndView getPerguntaUpdate(@PathVariable("id") int perguntaId){
+    public ModelAndView getPerguntaUpdate(@PathVariable("id") int perguntaId) {
         ModelAndView mv = new ModelAndView("updatePergunta");
         try {
             pergunta perguntaExistente = perguntaRepository.findById(perguntaId).orElseThrow(null);
             mv.addObject("pergunta", perguntaExistente);
         } catch (Exception e) {
-            System.out.println("ERRO SISTEMA:"+e);
+            System.out.println("ERRO SISTEMA:" + e);
         }
         return mv;
     }
+
     @PostMapping("/index/updatepergunta/{id}")
-    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @Valid pergunta novaPergunta, RedirectAttributes redirectAttributes, BindingResult result, @RequestParam("file") MultipartFile img){
+    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @Valid pergunta novaPergunta,
+            RedirectAttributes redirectAttributes, BindingResult result, @RequestParam("file") MultipartFile img) {
         try {
             pergunta perguntaExistente = perguntaRepository.findById(perguntaId).orElseThrow(null);
             perguntaExistente.setDescricao(novaPergunta.getDescricao());
-           
-            if(img.isEmpty()){
+
+            if (img.isEmpty()) {
                 novaPergunta.setImg(null);
-            }else{
+            } else {
                 byte[] bytes = img.getBytes();
-                Path caminho = Paths.get("./src/main/resources/static/images/"+img.getOriginalFilename());
-                Files.write(caminho,bytes);
+                Path caminho = Paths.get("./src/main/resources/static/images/" + img.getOriginalFilename());
+                Files.write(caminho, bytes);
                 perguntaExistente.setImg(img.getOriginalFilename());
             }
             perguntaRepository.save(perguntaExistente);
-            redirectAttributes.addFlashAttribute("sucesso","Pergunta Editada com sucesso");
+            redirectAttributes.addFlashAttribute("sucesso", "Pergunta Editada com sucesso");
             return "redirect:/index/testes";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro","Não foi possivel editar"+e);
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
             return "redirect:/index/testes";
-            
+
         }
     }
 
     @GetMapping("/index/updateopcaoresposta/{id}")
     @ResponseBody
-    public ModelAndView getOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId){
+    public ModelAndView getOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId) {
         ModelAndView mv = new ModelAndView("updateOpcaoresposta");
         try {
-         opcaoresposta op = opcaorespostaRepository.findById(opcaoRespostaId).orElseThrow(null);   
-        mv.addObject("opcaoresposta", op);
+            opcaoresposta op = opcaorespostaRepository.findById(opcaoRespostaId).orElseThrow(null);
+            mv.addObject("opcaoresposta", op);
         } catch (Exception e) {
-            System.out.println("ERRO:"+e);
+            System.out.println("ERRO:" + e);
         }
         return mv;
     }
+
     @PostMapping("/index/updateopcaoresposta/{id}")
-    public String setOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId, @Valid opcaoresposta novaOpcaoresposta, RedirectAttributes redirectAttributes, BindingResult result){
+    public String setOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId,
+            @Valid opcaoresposta novaOpcaoresposta, RedirectAttributes redirectAttributes, BindingResult result) {
         try {
             opcaoresposta opcaorespostaExistente = opcaorespostaRepository.findById(opcaoRespostaId).orElseThrow(null);
             opcaorespostaExistente.setTipo(novaOpcaoresposta.getTipo());
             opcaorespostaExistente.setDescricao(novaOpcaoresposta.getDescricao());
             opcaorespostaExistente.setVerdadeira(novaOpcaoresposta.isVerdadeira());
             opcaorespostaRepository.save(opcaorespostaExistente);
-            redirectAttributes.addFlashAttribute("sucesso","OpcaoResposta Editada com sucesso");
+            redirectAttributes.addFlashAttribute("sucesso", "OpcaoResposta Editada com sucesso");
             return "redirect:/index/testes";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro","Não foi possivel editar"+e);
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
             return "redirect:/index/testes";
-            
+
         }
     }
+
     @GetMapping("/index/updatehabilidade/{id}")
     @ResponseBody
-    public ModelAndView getHabilidadeUpdate(@PathVariable("id") int habilidadeId){
+    public ModelAndView getHabilidadeUpdate(@PathVariable("id") int habilidadeId) {
         ModelAndView mv = new ModelAndView("updateHabilidade");
         try {
             habilidade hab = habilidadeRepository.findById(habilidadeId).orElseThrow(null);
             mv.addObject("habilidade", hab);
         } catch (Exception e) {
-            System.out.println("ERRO"+e);
+            System.out.println("ERRO" + e);
         }
         return mv;
     }
+
     @PostMapping("/index/updatehabilidade/{id}")
-    public String setHabilidadeUpdate(@PathVariable("id") int habilidadeId, @Valid habilidade novahabilidade, RedirectAttributes redirectAttributes, BindingResult result){
+    public String setHabilidadeUpdate(@PathVariable("id") int habilidadeId, @Valid habilidade novahabilidade,
+            RedirectAttributes redirectAttributes, BindingResult result) {
         try {
             habilidade habilidadeExistente = habilidadeRepository.findById(habilidadeId).orElseThrow(null);
             habilidadeExistente.setNome(novahabilidade.getNome());
             habilidadeRepository.save(habilidadeExistente);
-            redirectAttributes.addFlashAttribute("sucesso","Habilidade Editada com sucesso");
+            redirectAttributes.addFlashAttribute("sucesso", "Habilidade Editada com sucesso");
             return "redirect:/index/testes";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro","Não foi possivel editar"+e);
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
             return "redirect:/index/testes";
-            
+
         }
     }
-    /////////////////////////////FIM UPDATE//////////////////////////////
-    
-    
+    ///////////////////////////// FIM UPDATE//////////////////////////////
+
     @GetMapping("/index/relatorio")
     @ResponseBody
-    public ModelAndView getRelatorio(){
+    public ModelAndView getRelatorio() {
         List<registro> regs = registroRepository.findAll();
         ModelAndView mv = new ModelAndView("relatorioTeste");
-        
+
         List<correcoesAluno> correcaoList = new ArrayList<>();
         List<contabilizacao> contabilizacaoList = new ArrayList<>();
-        int nQcorretas=0;
-        int nQChab1=0;
-        int nQChab2=0;
-        int nQChab3=0;
-        int nQChab4=0;
-        int nQChab5=0;
-        int nQ=0;
-        for(registro r: regs){
-             nQcorretas=0;
-             nQChab1=0;
-             nQChab2=0;
-             nQChab3=0;
-             nQChab4=0;
-             nQChab5=0;
-             nQ=r.getTeste().getPerguntas().size();
-            for(resposta resp : r.getRespostas()){
-                        
-                 if(resp.getOpRespostaId()==opcaorespostaRepository.findOpcaoRespostaIdByPerguntasAndVerdadeira(resp.getPergunta(),true).get(0).getOpcaoRespostaId()){
-                    correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(), r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(),true);
-                    
+        int nQcorretas = 0;
+        int nQChab1 = 0;
+        int nQChab2 = 0;
+        int nQChab3 = 0;
+        int nQChab4 = 0;
+        int nQChab5 = 0;
+        int nQ = 0;
+        for (registro r : regs) {
+            nQcorretas = 0;
+            nQChab1 = 0;
+            nQChab2 = 0;
+            nQChab3 = 0;
+            nQChab4 = 0;
+            nQChab5 = 0;
+            nQ = r.getTeste().getPerguntas().size();
+            for (resposta resp : r.getRespostas()) {
+
+                if (resp.getOpRespostaId() == opcaorespostaRepository
+                        .findOpcaoRespostaIdByPerguntasAndVerdadeira(resp.getPergunta(), true).get(0)
+                        .getOpcaoRespostaId()) {
+                    correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(),
+                            r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(), true);
+
                     nQcorretas++;
                     for (habilidade h : resp.getPergunta().getHabilidades()) {
                         switch (h.getNome()) {
                             case "compreensao":
                                 nQChab1++;
-                                    break;
+                                break;
                             case "abstracao":
                                 nQChab2++;
-                                     break;
+                                break;
                             case "resolucao de problemas":
                                 nQChab3++;
                                 break;
@@ -858,21 +883,22 @@ public class controllers {
                             default:
                                 break;
                         }
-                    } 
-                    correcaoList.add(cA);  
-                }else{
-                    correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(), r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(),false);
+                    }
+                    correcaoList.add(cA);
+                } else {
+                    correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(),
+                            r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(), false);
                     correcaoList.add(cA);
                 }
             }
-            var contQH = new contabilizacao( r.getAluno().getAlunoId(),  r.getTeste().getTesteId(),  nQcorretas,  nQChab1,  nQChab2,  nQChab3,  nQChab4, nQChab5, nQ);
+            var contQH = new contabilizacao(r.getAluno().getAlunoId(), r.getTeste().getTesteId(), nQcorretas, nQChab1,
+                    nQChab2, nQChab3, nQChab4, nQChab5, nQ);
             contabilizacaoList.add(contQH);
         }
-        
+
         mv.addObject("correcaoList", correcaoList);
         mv.addObject("contabilizacoes", contabilizacaoList);
-       
-        
-      return mv;
+
+        return mv;
     }
 }

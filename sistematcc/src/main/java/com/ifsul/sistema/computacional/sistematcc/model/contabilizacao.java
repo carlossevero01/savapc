@@ -37,7 +37,7 @@ public class contabilizacao {
         this.nQChab5 = nQChab5;
         this.nQ = nQ;
         this.valorTotal= Double.valueOf(nQcorretas)/Double.valueOf(nQ)*100; 
-        this.valorTotal =  Double.parseDouble(String.format("%.2f", this.valorTotal));    
+        this.valorTotal =  Double.parseDouble(String.format("%.2f",this.valorTotal).replace(",","."));    
           
         if(this.valorTotal>=60) {this.recomendacao="Alfabetizado em Codigo";}else{this.recomendacao="nao desenvolveu habilidades";}
     } 
