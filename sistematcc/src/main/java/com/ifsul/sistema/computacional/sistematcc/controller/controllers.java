@@ -1,7 +1,11 @@
 package com.ifsul.sistema.computacional.sistematcc.controller;
 
+import java.io.BufferedWriter;
 import java.io.File;
+
+import java.io.FileWriter;
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,11 +13,12 @@ import java.util.List;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,6 +42,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
 import com.ifsul.sistema.computacional.sistematcc.model.registro;
 import com.ifsul.sistema.computacional.sistematcc.model.resposta;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
+import com.ifsul.sistema.computacional.sistematcc.model.testeForm;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.habilidadeRepository;
@@ -49,6 +55,8 @@ import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.respostasRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
+import com.ifsul.sistema.computacional.sistematcc.service.registroService;
+
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -77,6 +85,8 @@ public class controllers {
     registroRepository registroRepository;
     @Autowired
     respostasRepository respostasRepository;
+    @Autowired
+    registroService registroService;
 
     @Transactional // Colocar caso de Cannot Remove em deleteByturnoNome(String)
     @GetMapping(value = "/CAT") // @RequestMapping(value = "/listarCandidatos", method = RequestMethod.GET)
@@ -401,19 +411,36 @@ public class controllers {
     }
 
     @GetMapping("/index/saveTeste")
-    public String getSaveTeste() {
-        return "saveTeste";
+    public ModelAndView getSaveTeste() {
+        ModelAndView mv = new ModelAndView("saveTeste");
+        List<pergunta> lperguntas = perguntaRepository.findAll();
+        mv.addObject("perguntas", lperguntas);
+        return mv;
     }
 
     @PostMapping("/index/saveTeste")
-    public String saveTeste(@Valid teste t, BindingResult result, RedirectAttributes attributes) {
+    public String saveTeste(@Valid testeForm t, BindingResult result, RedirectAttributes attributes) {
+        List<pergunta> ListPerguntas = new ArrayList<>();
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
             return "redirect:/index/saveTeste";
-        }
-        testeRepository.save(t);
-        attributes.addFlashAttribute("sucesso", "Teste cadastrado");
+        }else{
+        try {
+            for (pergunta perg : t.getPerguntas()) {
+                if(perguntaRepository.existsById(perg.getPerguntaId())){
+                    pergunta p = perguntaRepository.findById(perg.getPerguntaId()).orElseThrow(null);
+                    ListPerguntas.add(p);
+                }
+            }
+            teste test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas);
+            testeRepository.save(test);
+            attributes.addFlashAttribute("sucesso", "Teste cadastrado");
+            return "redirect:/index/testes";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "Não foi possível cadastrar essas perguntas");
         return "redirect:/index/testes";
+        }
+      }
     }
 
     @GetMapping("/index/saveTurma")
@@ -625,9 +652,6 @@ public class controllers {
 
         try {
             pergunta p = perguntaRepository.findById(perguntaId).orElseThrow(null);
-            System.out.println("PerguntaID: " + p.getPerguntaId());
-            System.out.println(lhab.getHabilidades().toString());
-
             for (habilidade h : lhab.getHabilidades()) {
                 for (habilidade hab : Allhabilidades) {
                     if (h.getHabilidadeId() == hab.getHabilidadeId()) {
@@ -896,9 +920,45 @@ public class controllers {
             contabilizacaoList.add(contQH);
         }
 
-        mv.addObject("correcaoList", correcaoList);
+        
         mv.addObject("contabilizacoes", contabilizacaoList);
+
+       
+        
 
         return mv;
     }
+
+    @GetMapping("/index/exportarRelatorio")
+    public String exportRelatorio(RedirectAttributes redirectAttributes){
+        try {
+            String csvFilePath = "Reviews-export.csv";
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
+            fileWriter.write("alunoId, testeId, nQcorretas, nQ,H1,H2,H3,H4,H5, valorTotal, recomendacao");
+           
+           // linhas.add(new String[]{"alunoId", "testeId", "nQcorretas","nQ","valorTotal","recomendacao" });
+           List<contabilizacao> contabilizacaoList = registroService.contabilizartudo(); 
+           for (contabilizacao cL : contabilizacaoList) {
+                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                            cL.getAlunoId(), cL.getTesteId(), cL.getnQcorretas(), cL.getnQ(),cL.getnQChab1(),cL.getnQChab2(),cL.getnQChab3(),cL.getnQChab4(),cL.getnQChab5(),cL.getValorTotal(),cL.getRecomendacao());
+                     
+                    fileWriter.newLine();
+                    fileWriter.write(line); 
+              //  linhas.add(new String[]{cL.getAlunoId()+"",cL.getTesteId()+"",cL.getnQcorretas()+"",cL.getnQ()+"",cL.getValorTotal()+"",cL.getRecomendacao()+""});
+                System.out.println(cL.getAlunoId()+"|"+cL.getTesteId()+"|"+cL.getnQcorretas()+"|"+cL.getnQ()+"|"+cL.getValorTotal()+"|"+cL.getRecomendacao());
+            }
+            fileWriter.close();
+
+            redirectAttributes.addFlashAttribute("sucesso", "Dados exportados com sucesso");
+            return "redirect:/index/inicial";
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel exportar os dados");
+            return "redirect:/index/inicial";    
+        }
+
+        
+    }
+
+    
 }

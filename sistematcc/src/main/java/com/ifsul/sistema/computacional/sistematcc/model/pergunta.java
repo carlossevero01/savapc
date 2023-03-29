@@ -36,6 +36,10 @@ public class pergunta implements Serializable{
     private String img;
     @Column(name="opRespostaId")
     private String opRespostaId;
+
+    @Column(name="titulo")
+    private String titulo;
+
     @ManyToMany
     @JoinTable(
         name = "habilidadepergunta",
@@ -115,16 +119,21 @@ public class pergunta implements Serializable{
    
     @Override
     public String toString() {
-        return " [perguntaId=" + perguntaId + "opRespostaId:"+opRespostaId+ "]";
+        return "pergunta [perguntaId=" + perguntaId + ", descricao=" + descricao + ", opRespostaId=" + opRespostaId
+                + ", titulo=" + titulo + "]";
     }
-   
     public String getOpRespostaId() {
         return opRespostaId;
     }
     public void setOpRespostaId(String opRespostaId) {
         this.opRespostaId = opRespostaId;
     }
-    
+    public String getTitulo() {
+        return titulo;
+    }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
     
 
