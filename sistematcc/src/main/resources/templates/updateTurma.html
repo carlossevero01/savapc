@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Teste</title>
+    <title>Atualizar Turma</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 	<style>
 		.bor{border-bottom:solid black 1px; border-bottom-color:black; color:white;}
@@ -19,7 +19,7 @@
      
      <nav class="bor navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/index/inicial">Cadastrar Teste</a>
+            <a class="navbar-brand" href="/index/inicial">Atualizar Turma</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -58,35 +58,16 @@
             </div>
         </div>
     </nav>
-              <th:block th:insert="mensagemValidacao"></th:block>
+              <th:block th:include="mensagemValidacao"></th:block>
             <div class="row mt-2">
-                <div class="mx-auto btnbor text-center"><h2>Cadastrar Teste</h2></div>
+                <div class="mx-auto btnbor text-center"><h2>Atualizar Turma</h2></div>
             </div>
             <div class="row mt-2 position-relative" style="width: 500px;">
               <div class="position-absolute top-50 start-50">
-                <form method="post" th:object="${testeForm}">
+                <form method="post" th:action="@{/index/updateturma/{id}(id=${turma.turmaId})}">
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
-                    </div>
-                
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="visibilidade" name="visibilidade" checked>
-                        <label class="form-check-label" for="visibilidade" >Visibilidade</label>
-                     </div>
-                    <div class="form-group mt-2">
-                        <label class="control-label" for="disponibilidade"> Disponibilidade </label> <input
-                         type="date" id="disponibilidade" class="form-control" required
-                         autofocus="autofocus" name="disponibilidade"/>
-                    </div>
-                    <div style="border: solid black 1px; padding: 5px; margin-top: 10px;">  
-                        <h5 style="text-align: center;">Selecione perguntas disponíveis(Opcional)</h5>
-                    <div class="form-group mb-auto mt-auto" th:each="pergunta , j : ${perguntas}" style="border-top: solid black 1px;">
-                            <div class="mt-2 mt-2">
-                                <input class="form-check-input" type="checkbox" th:name="|perguntas[${j.index}].perguntaId|" th:value="${pergunta.perguntaId}">
-                                <label for="titulo" class="form-label" th:text="${pergunta.titulo}"></label>
-                            </div>
-                    </div>
+                        <input type="text" class="form-control" id="nome" name="nome" th:value="${turma.nome}">
                     </div>
                         <button type="submit" class="btn btnbor mt-2">Salvar</button>
                         

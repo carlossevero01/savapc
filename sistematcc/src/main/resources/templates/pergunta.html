@@ -78,7 +78,7 @@
                         <td th:text="${p.descricao}"></td>         <!-- '' aspas simples fica como texto -->
                         <td><img class="m-2 border" width="200px" th:src="@{/index/teste/perguntas/{id}/imagem/{img}(img=${perguntas[__${i.index}__].img})}" alt="imgPergunta"> </td>
 						<td><a class="btn btn-outline-primary" 
-						th:href="@{/index/deletepergunta/{id}(id=${p.perguntaId})}" role="button">Deletar</a>
+						th:href="@{/index/deletepergunta/{testeId}/{perguntaId}(testeId=${testeId}, perguntaId=${p.perguntaId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 
 							th:href="@{/index/updatepergunta/{id}(id=${p.perguntaId})}" role="button">Editar</a>
 							<a class="btn btn-outline-primary" 
