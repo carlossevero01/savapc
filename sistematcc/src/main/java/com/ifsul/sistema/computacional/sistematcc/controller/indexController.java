@@ -195,5 +195,27 @@ public class indexController {
         return mv;
     }
     /* LISTAR DADOS(PROFESSORES/ADMIN) */
- 
+    
+    @GetMapping("/index/updatealuno/{id}")
+    public ModelAndView getUpdateAluno(@PathVariable("id") int alunoId){
+        ModelAndView mv = new ModelAndView("updateAluno");
+        if(alunoRepository.existsById(alunoId)){
+            aluno a = alunoRepository.findById(alunoId).get();
+            mv.addObject("aluno", a);
+        }
+        return mv;
+    }
+    @PostMapping("/index/updatealuno/{id}")
+    public String setUpdateAluno(@PathVariable("id") int alunoId, @Valid aluno novoAluno, RedirectAttributes redirectAttributes){
+        if(alunoRepository.existsById(alunoId)){
+            aluno alunoExistente = alunoRepository.findById(alunoId).get();
+            alunoExistente.setNome(novoAluno.getNome());
+            alunoExistente.setMatricula(novoAluno.getMatricula());
+            alunoRepository.save(alunoExistente);
+            redirectAttributes.addFlashAttribute("sucesso", "Aluno editado com sucesso");
+            return "redirect:/index/alunos";
+        }
+        redirectAttributes.addFlashAttribute("erro", "Não foi possivel salvar");
+        return "redirect:/index/alunos";
+    }
 }

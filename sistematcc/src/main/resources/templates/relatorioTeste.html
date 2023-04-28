@@ -76,8 +76,10 @@
 						<th scope="col">H4</th>
 						<th scope="col">H5</th>
 						<th scope="col">N.totalQuestões</th>
+						<th scope="col">Peso</th>
 						<th scope="col">Valor total</th>
 						<th scope="col">Recomendação</th>
+						<th scope="col">Opções</th>
                         
                     </tr>
                 </thead>
@@ -92,9 +94,11 @@
                         <td th:text="${c.nQChab4}"></td>
 						<td th:text="${c.nQChab5}"></td>
 						<td th:text="${c.nQ}"></td>
+						<td th:text="${c.peso}"></td>
 						<td th:text="${c.valorTotal}"></td>
 						<td th:text="${c.recomendacao}"></td>
-						
+						<td><a class="btn btn-outline-primary" 
+							th:href="@{/index/updateteste/{id}(id=${c.testeId})}" role="button">Editar Teste</a></td>
 					</tr>
                     </tbody>
                 </table>         

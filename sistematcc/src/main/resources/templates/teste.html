@@ -56,7 +56,7 @@
 				</div>
 			</div>
 		</nav>
-		<div class="container-fluid mt-2">
+		<div class="container mt-2">
 			 <div class="row">
 				<a class="btn btn-outline-primary" href="/index/saveTeste" role="button">Inserir Teste</a>
             <th:block th:insert="mensagemValidacao"></th:block>
@@ -68,6 +68,7 @@
                         <th scope="col">Nome </th>
                         <th scope="col">Visibilidade</th>
                         <th scope="col">Disponibilidade</th>
+						<th scope="col">Peso</th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
@@ -76,7 +77,8 @@
                         <td th:text="${t.testeId}"></td>
                         <td th:text="${t.nome}"></td>
                         <td th:text="${t.visibilidade}"></td>
-                        <td th:text="${t.disponibilidade}"></td> <!-- '' aspas simples fica como texto -->
+                        <td th:text="${t.disponibilidade}"></td> 
+						<td th:text="${t.peso}"></td>
                         <td><a class="btn btn-outline-primary" 
 						th:href="@{/index/deleteteste/{id}(id=${t.testeId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 

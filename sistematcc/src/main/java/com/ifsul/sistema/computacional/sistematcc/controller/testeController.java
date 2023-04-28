@@ -64,6 +64,7 @@ public class testeController {
             testeExistente.setDisponibilidade(novoteste.getDisponibilidade());
             testeExistente.setNome(novoteste.getNome());
             testeExistente.setVisibilidade(novoteste.getVisibilidade());
+            testeExistente.setPeso(Double.valueOf(novoteste.getPeso()));
             testeRepository.save(testeExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Teste alterado com sucesso");
             return "redirect:/index/testes";

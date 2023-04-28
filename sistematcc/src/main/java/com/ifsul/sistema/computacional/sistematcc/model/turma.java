@@ -79,9 +79,10 @@ public class turma implements Serializable{
     public turma() {
     }
 
-    public turma(String nome, boolean visibilidade) {
+    public turma(String nome, boolean visibilidade, List<teste> testes) {
         this.nome = nome;
-        this.visibilidade=false;
+        this.visibilidade = visibilidade;
+        this.testes = testes;
     }
 
     @Override

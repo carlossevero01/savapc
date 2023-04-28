@@ -1,5 +1,6 @@
 package com.ifsul.sistema.computacional.sistematcc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
+import com.ifsul.sistema.computacional.sistematcc.model.turmaForm;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 
 
@@ -26,7 +30,8 @@ public class turmaController {
     turmaRepository turmaRepository;
     @Autowired
     alunoRepository alunoRepository;
-    
+    @Autowired
+    testeRepository testeRepository;
     
     /*Delete uma turma por id */
     @GetMapping(value = "/index/deleteturma/{id}")
@@ -42,20 +47,44 @@ public class turmaController {
     }
     /*Salva uma nova turma */
     @GetMapping("/index/saveTurma")
-    public String getSaveTurma() {
-        return "saveTurma";
+    public ModelAndView getSaveTurma() {
+        ModelAndView mv = new ModelAndView("saveTurma");
+        List<teste> testes = testeRepository.findAll();
+        mv.addObject("testes", testes);
+        return mv;
     }
     /*Salva uma nova turma */
     @PostMapping("/index/saveTurma")
-    public String saveTurma(@Valid turma t, BindingResult result, RedirectAttributes attributes) {
+    public String saveTurma(@Valid turmaForm t, BindingResult result, RedirectAttributes attributes) {
+        List<teste> testes = new ArrayList<>();
+        turma turma = new turma();
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
             return "redirect:/index/saveTurma";
         }
-        turmaRepository.save(t);
-        attributes.addFlashAttribute("sucesso", "Turma cadastrada");
+        try {
+            if(t.getTestes()!=null){
+                for (teste test : t.getTestes()) {
+                    if(testeRepository.existsById(test.getTesteId())){
+                        teste te = testeRepository.findById(test.getTesteId()).orElseThrow(null);
+                        testes.add(te);
+                    }
+                }
+                turma = new turma(t.getNome(), t.isVisibilidade(), testes);
+            }else{
+                turma = new turma(t.getNome(), t.isVisibilidade(), null);
+            }
+            
+            turmaRepository.save(turma);
+            attributes.addFlashAttribute("sucesso", "Turma Cadastrada com Sucesso");
+            return "redirect:/index/turmas";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "Não foi possível cadastrar a turma"+e.toString());
         return "redirect:/index/turmas";
-    }
+        }
+      }
+    
+
     /*Lista todas as turmas */
     @GetMapping(value = "/index/turmas")
     public ModelAndView listarTurmas() {
@@ -113,6 +142,23 @@ public class turmaController {
             return "redirect:/index/turmas";
 
         }
+    }
+
+    @GetMapping("/index/turma/{id}")
+    public ModelAndView insideTurma(@PathVariable("id") int turmaId, RedirectAttributes redirectAttributes){
+        ModelAndView mv = new ModelAndView("insideTurma");
+        if(turmaRepository.findById(turmaId)!=null){
+            turma t = turmaRepository.findById(turmaId).get();
+            List<teste> testes = t.getTestes();
+            mv.addObject("testes", testes);
+            mv.addObject("turma", t);
+        }
+        else{
+            redirectAttributes.addFlashAttribute("erro", "Turma não encontrada");
+           
+        }
+        return mv;
+       
     }
     
 }

@@ -40,6 +40,9 @@ public class teste implements Serializable{
     @Column(nullable = false)
     private LocalDate disponibilidade;
 
+    @Column(nullable= false)
+    private Double peso;
+
     @ManyToMany
     @JoinTable(
         name = "perguntateste",
@@ -97,6 +100,7 @@ public class teste implements Serializable{
 
     public teste() {
         super();
+        this.peso= Double.valueOf(10);
     }
 
     public List<pergunta> getPerguntas() {
@@ -106,10 +110,6 @@ public class teste implements Serializable{
     public void setPerguntas(List<pergunta> perguntas) {
         this.perguntas = perguntas;
     }
-
-    
-    
-    
 
     @Override
     public String toString() {
@@ -143,6 +143,14 @@ public class teste implements Serializable{
 
     public void setTurmas(List<turma> turmas) {
         this.turmas = turmas;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
     }
 
     

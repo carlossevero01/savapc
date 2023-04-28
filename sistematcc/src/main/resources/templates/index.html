@@ -57,7 +57,7 @@
 		  </div>
 		</nav>
 
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
 				<div class="p-2 "><h3>Boas Vindas ao sistema SAVA-PC</h3> <hr class="border border-danger border-2 opacity-50"></div>	
 			</div>
@@ -73,8 +73,10 @@
 						<p class="card-text">Descrição turma</p>
 						<form  method="post" th:action="@{/index/cadAlunoTurma/{id}(id=${turm.turmaId})}">
 						<input  type="text" id="matricula" name="matricula" placeholder="Matricula" >
-						<button type="submit" class="btn p-2">Inscrever-se</button> <a href="#" class="btn ">Visitar</a>
+						<button type="submit" class="btn p-2">Inscrever-se</button> 
 						</form>
+						<a class="btn btn-outline-primary" 
+							th:href="@{/index/turma/{id}(id=${turm.turmaId})}" role="button">Acessar Turma</a>
 					</div>
 				</div>
 				<hr class="border border-danger border-2 opacity-50"></div>

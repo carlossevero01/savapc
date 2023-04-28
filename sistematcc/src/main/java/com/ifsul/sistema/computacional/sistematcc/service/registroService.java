@@ -92,7 +92,7 @@ public class registroService {
                 }
             }
             var contQH = new contabilizacao(r.getAluno().getAlunoId(), r.getTeste().getTesteId(), nQcorretas, nQChab1,
-                    nQChab2, nQChab3, nQChab4, nQChab5, nQ);
+                    nQChab2, nQChab3, nQChab4, nQChab5, nQ, r.getTeste().getPeso());
             contabilizacaoList.add(contQH);
         }
         return contabilizacaoList;

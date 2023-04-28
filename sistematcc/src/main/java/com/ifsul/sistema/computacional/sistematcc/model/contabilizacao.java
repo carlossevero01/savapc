@@ -10,6 +10,7 @@ public class contabilizacao {
     private int nQChab4;
     private int nQChab5;
     private int nQ;
+    private double peso;
     private double valorTotal;
     private String recomendacao;
     
@@ -22,10 +23,11 @@ public class contabilizacao {
         this.nQChab4=0;
         this.nQChab5=0;
         this.nQ=0;
+        this.peso=0;
         this.recomendacao="";
     }
     public contabilizacao(int alunoId, int testeId, int nQcorretas, int nQChab1, int nQChab2, int nQChab3, int nQChab4,
-            int nQChab5, int nQ) {
+            int nQChab5, int nQ, double peso) {
         super();
         this.alunoId = alunoId;
         this.testeId = testeId;
@@ -36,10 +38,12 @@ public class contabilizacao {
         this.nQChab4 = nQChab4;
         this.nQChab5 = nQChab5;
         this.nQ = nQ;
-        this.valorTotal= Double.valueOf(nQcorretas)/Double.valueOf(nQ)*100; 
+        this.peso = peso;
+        this.valorTotal= Double.valueOf(nQcorretas)/Double.valueOf(nQ)*this.peso; 
         this.valorTotal =  Double.parseDouble(String.format("%.2f",this.valorTotal).replace(",","."));    
           
         if(this.valorTotal>=60) {this.recomendacao="Alfabetizado em Codigo";}else{this.recomendacao="nao desenvolveu habilidades";}
+        
     } 
     @Override
         public String toString() {
@@ -130,6 +134,15 @@ public class contabilizacao {
 
     public void setnQ(int nQ) {
         this.nQ = nQ;
+    }
+    public double getPeso() {
+        return peso;
+    }
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
     }
 
     

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Turma</title>
+    <title>Atualizar Aluno</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 	<style>
 		.bor{border-bottom:solid black 1px; border-bottom-color:black; color:white;}
@@ -19,7 +19,7 @@
      
      <nav class="bor navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/index/inicial">Cadastrar Turma</a>
+            <a class="navbar-brand" href="/index/inicial">Atualizar Aluno</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -58,25 +58,20 @@
             </div>
         </div>
     </nav>
-              
-               <th:block th:include="mensagemValidacao"></th:block>
+              <th:block th:include="mensagemValidacao"></th:block>
             <div class="row mt-2">
-                <div class="mx-auto btnbor text-center"><h2>Cadastrar Turma</h2></div>
+                <div class="mx-auto btnbor text-center"><h2>Atualizar Aluno</h2></div>
             </div>
             <div class="row mt-2 position-relative" style="width: 500px;">
               <div class="position-absolute top-50 start-50">
-                <form method="post" th:object="${turmaForm}">
-                    <!-- <input type="text" class="form-control" id="professorId" name="professorId" th:value="${professorId}"> -->
+                <form method="post" th:action="@{/index/updatealuno/{id}(id=${aluno.alunoId})}">
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
+                        <input type="text" class="form-control" id="nome" name="nome" th:value="${aluno.nome}">
                     </div>
-                    <h5 style="text-align: center;">Testes disponíveis(Opcional)</h5>
-                    <div class="form-group mb-auto mt-auto" th:each="teste , j : ${testes}" style="border-top: solid black 1px;">
-                            <div class="mt-2 mt-2">
-                                <input class="form-check-input" type="checkbox" th:name="|testes[${j.index}].testeId|" th:value="${teste.testeId}">
-                                <label for="nome" class="form-label" th:text="${teste.nome}"></label>
-                            </div>
+                    <div class="mb-3">
+                        <label for="matricula" class="form-label">Matricula</label>
+                        <input type="text" class="form-control" id="matricula" name="matricula" th:value="${aluno.matricula}">
                     </div>
                         <button type="submit" class="btn btnbor mt-2">Salvar</button>
                         
