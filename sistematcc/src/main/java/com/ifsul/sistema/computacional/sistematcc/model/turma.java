@@ -59,6 +59,15 @@ public class turma implements Serializable{
     @JsonManagedReference
     private List<teste> testes;
 
+    @ManyToMany
+    @JoinTable(
+        name = "questionarioturmas",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"turmaId","questionarioId"}),
+        joinColumns =  @JoinColumn(name = "questionarioId"),
+        inverseJoinColumns = @JoinColumn(name = "turmaId")
+    )
+    @JsonManagedReference
+    private List<questionarioinicial> questionarios;
     
     public int getTurmaId() {
         return turmaId;
@@ -120,6 +129,14 @@ public class turma implements Serializable{
 
     public void setTestes(List<teste> testes) {
         this.testes = testes;
+    }
+
+    public List<questionarioinicial> getQuestionarios() {
+        return questionarios;
+    }
+
+    public void setQuestionarios(List<questionarioinicial> questionarios) {
+        this.questionarios = questionarios;
     }
 
     

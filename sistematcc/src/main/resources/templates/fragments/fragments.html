@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  
+</head>
+<body>
+    <footer th:fragment="footer">
+        <p>&copy; 2023 Carlos</p>
+    </footer>
+    <nav th:fragment="nav">
+        <nav class="navbar fixed-bottom rounded mb-2 start-50 translate-middle bg-danger bg-opacity-45" >
+            <div class="container-fluid p-1 " style="justify-content: normal; height:40px;" >
+              <a class="navbar-brand itensnav linkhover p-1 rounded me-auto" href="/index/inicial" >Inicial</a>
+              <a class="nav-link itensnav linkhover p-1 rounded me-1" href="#" >Entrar/Cadastrar</a>
+              <button class="navbar-toggler d-flex justify-content-between " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
+               <span class="material-symbols-outlined btn"> unfold_more_double </span>
+              </button>
+              </div>
+              <div class="container-fluid p-1 " style="justify-content: normal;">
+              <div class="collapse navbar-collapse p-2 " id="navbarSupportedContent" style="text-align:center" >
+                <ul class="navbar-nav rounded p-1">	
+                  <li class="nav-item dropdown ">
+                    <a class="nav-link itensnav linkhover dropdown-toggle rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Opções
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item linkhover " href="/index/turmas">Listar Turmas</a></li>
+                      <li><a class="dropdown-item linkhover " href="/index/testes">Listar Testes</a></li>
+                      <li><a class="dropdown-item linkhover " href="/index/alunos">Listar Alunos</a></li>
+                      <li><a class="dropdown-item linkhover " href="/index/habilidades">Listar Habilidades</a></li>
+                      <li><a class="dropdown-item linkhover " href="/index/questionarios">Listar Questionarios</a></li>
+                      <li><a class="dropdown-item linkhover " href="/index/professores">Listar Professores</a></li>
+                      <li><a class="dropdown-item linkhover " href="/index/perguntas">Listar Perguntas</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item linkhover " href="/index/aplicacaoteste/1">Teste 1</a></li>
+                      <li><a class="dropdown-item linkhover " href="/index/relatorio">Relatórios</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </nav>
+</body>
+</html>

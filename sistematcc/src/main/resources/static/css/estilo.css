@@ -1,0 +1,14 @@
+
+		 .active{ border-bottom:solid red 1px;}
+		 .bor{border-bottom:solid black 1px; }
+		 .navbar{border: solid black 2px;  max-width: 800px;    max-height: 300px;}
+		 .linkhover:hover{  background-color:white; color:red; }
+		 
+		 .itensnav{ color:white; border-bottom:solid white 2px; }
+		 .dropdown-item{ color:red; border-bottom:solid white 2px; }
+		 .dropdown-item:hover{ color:white; background-color:red; }
+		 .btn:hover{background-color:red; color:white;}
+		 .btn{background-color:white; color:red; border:solid red 1px;}
+		 ul.navbar-nav{ border: solid white 1px;   }
+		 
+		

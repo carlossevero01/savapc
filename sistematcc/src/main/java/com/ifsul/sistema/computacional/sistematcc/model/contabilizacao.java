@@ -42,7 +42,7 @@ public class contabilizacao {
         this.valorTotal= Double.valueOf(nQcorretas)/Double.valueOf(nQ)*this.peso; 
         this.valorTotal =  Double.parseDouble(String.format("%.2f",this.valorTotal).replace(",","."));    
           
-        if(this.valorTotal>=60) {this.recomendacao="Alfabetizado em Codigo";}else{this.recomendacao="nao desenvolveu habilidades";}
+        if(this.valorTotal>=6) {this.recomendacao="Alfabetizado em Codigo";}else{this.recomendacao="nao desenvolveu habilidades";}
         
     } 
     @Override

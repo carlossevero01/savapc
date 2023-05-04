@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -52,6 +53,16 @@ public class questionarioinicial implements Serializable{
     )
     @JsonManagedReference
     private List<aluno> alunos;
+
+    @ManyToMany
+    @JoinTable(
+        name = "questionarioturmas",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"turmaId","questionarioId"}),
+        joinColumns =  @JoinColumn(name = "questionarioId"),
+        inverseJoinColumns = @JoinColumn(name = "turmaId")
+    )
+    @JsonBackReference
+    private List<turma> turmas;
     
     public int getQuestionarioId() {
         return questionarioId;
@@ -114,6 +125,14 @@ public class questionarioinicial implements Serializable{
 
     public void setAlunos(List<aluno> alunos) {
         this.alunos = alunos;
+    }
+
+    public List<turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<turma> turmas) {
+        this.turmas = turmas;
     }
 
    

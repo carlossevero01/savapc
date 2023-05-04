@@ -62,31 +62,7 @@ public class indexController {
     @Autowired
     registroService registroService;
 
-    @GetMapping(value = "/CadPerguntasQuestInicial") // @RequestMapping(value = "/listarCandidatos", method =
-                                                     // RequestMethod.GET)
-    @ResponseBody // @ResponseBody permite retornar um texto
-    public List<questionarioinicial> setPerguntasQuestInicial() {
-        System.out.println("cadastrar perguntas no questionario inicial");
-        perguntaquestionario pq = new perguntaquestionario("pergunta 1 do questionario", "discursiva");
-        questionarioinicial qi = new questionarioinicial(LocalDate.of(2022, 8, 10), false, "questionario inicial 1");
-        perguntaquestionarioRepository.save(pq);
-        qi.setPerguntasQuestionario(perguntaquestionarioRepository.findAll());
-        questionarioinicialRepository.save(qi);
-
-        return questionarioinicialRepository.findAll();
-    }
-
-    @GetMapping(value = "/CadAlunoQuestionario") // @RequestMapping(value = "/listarCandidatos", method =
-                                                 // RequestMethod.GET)
-    @ResponseBody // @ResponseBody permite retornar um texto
-    public List<questionarioinicial> setAlunoQuestInicial() {
-        System.out.println("cadastrar aluno no Questionario inicial");
-
-        questionarioinicial qin = questionarioinicialRepository.findAll().get(0);
-        qin.setAlunos(alunoRepository.findAll());
-        questionarioinicialRepository.save(qin);
-        return questionarioinicialRepository.findAll();
-    }
+    
 
     /* LOGIN */
     @GetMapping("/login")
@@ -187,13 +163,7 @@ public class indexController {
         return mv;
     }
 
-    @GetMapping(value = "/index/questionarios")
-    public ModelAndView listarQuestionarios() {
-        ModelAndView mv = new ModelAndView("questionarioinicial");
-        List<questionarioinicial> list = questionarioinicialRepository.findAll();
-        mv.addObject("questionarios", list);
-        return mv;
-    }
+    
     /* LISTAR DADOS(PROFESSORES/ADMIN) */
     
     @GetMapping("/index/updatealuno/{id}")

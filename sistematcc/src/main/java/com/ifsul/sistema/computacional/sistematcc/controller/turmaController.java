@@ -149,7 +149,14 @@ public class turmaController {
         ModelAndView mv = new ModelAndView("insideTurma");
         if(turmaRepository.findById(turmaId)!=null){
             turma t = turmaRepository.findById(turmaId).get();
-            List<teste> testes = t.getTestes();
+            List<teste> tests = t.getTestes();
+            List<teste> testes = new ArrayList<>();
+            for (teste test : tests) {
+                if(test.getVisibilidade()){
+                    testes.add(test);
+                }
+            }
+            
             mv.addObject("testes", testes);
             mv.addObject("turma", t);
         }
