@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.turmaForm;
+import com.ifsul.sistema.computacional.sistematcc.model.turmaTestesForm;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
@@ -33,6 +34,15 @@ public class turmaController {
     @Autowired
     testeRepository testeRepository;
     
+    /*Listar turmas que tenham a visibilidade true */
+    @GetMapping(value = "/turmas")
+    public ModelAndView index() {
+        ModelAndView mv = new ModelAndView("turmasAluno");
+        List<turma> lturma = turmaRepository.findByVisibilidade(true);
+        mv.addObject("turmas", lturma);
+        return mv;
+    }
+
     /*Delete uma turma por id */
     @GetMapping(value = "/index/deleteturma/{id}")
     public String deleteTurma(@PathVariable("id") int id, RedirectAttributes attributes) {
@@ -156,7 +166,6 @@ public class turmaController {
                     testes.add(test);
                 }
             }
-            
             mv.addObject("testes", testes);
             mv.addObject("turma", t);
         }
@@ -165,7 +174,41 @@ public class turmaController {
            
         }
         return mv;
-       
     }
     
+    @GetMapping("/index/turma/{turmaId}/testes")
+    public ModelAndView getTestesTurma(@PathVariable("turmaId") int turmaId){
+        ModelAndView mv = new ModelAndView("testesTurma");
+        try {
+            List<teste> testes = testeRepository.findAll();
+            List<teste> testesTurma = testeRepository.findByTurmas(turmaRepository.findById(turmaId).get());
+            mv.addObject("testesAll", testes);
+            mv.addObject("testesTurma", testesTurma);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return mv;
+    }
+    @PostMapping("/index/turma/{turmaId}/testes")
+    public String setTestesTurma(@PathVariable("turmaId") int turmaId, turmaTestesForm testesTurma, RedirectAttributes redirectAttributes){
+        try {
+            
+            turma turma = turmaRepository.findById(turmaId).get();
+            turma.getTestes().clear();
+            if(testesTurma.getTestes() != null){
+            for (teste test : testesTurma.getTestes()) {
+                if(test.getTesteId()>0){
+                    turma.getTestes().add(testeRepository.findById(test.getTesteId()).get());    
+                }
+            }
+            }
+            turmaRepository.save(turma);
+           redirectAttributes.addFlashAttribute("sucesso","Testes Alterados da turma!");
+           return "redirect:/index/turma/{turmaId}/testes";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro","Ocorreu um erro e os testes não foram alterados: " + e.toString());
+            return "redirect:/index/turmas";
+        }
+        
+    }
 }

@@ -38,7 +38,7 @@
 							<td th:text="${h.nome}"></td>
 							<td><a class="btn btn-outline-primary" th:href="@{/index/deletehabilidade/{id}(id=${h.habilidadeId})}" role="button">Deletar</a>
 								<a class="btn btn-outline-primary" th:href="@{/index/updatehabilidade/{id}(id=${h.habilidadeId})}" role="button">Editar</a>
-								<input class="form-check-input" type="checkbox" th:name="|habilidades[${i.index}].habilidadeId|" th:value="${h.habilidadeId}">
+								<input class="form-check-input" type="checkbox" th:name="|habilidades[${i.index}].habilidadeId|" th:value="${h.habilidadeId}" >
 								<label class="form-check-label"  >Utilizar</label>
 							</td>
 						</tr>

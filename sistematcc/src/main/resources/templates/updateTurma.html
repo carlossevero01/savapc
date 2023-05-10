@@ -18,11 +18,12 @@
         
      
      <div th:insert="fragments/fragments :: nav"></div>
-     
+        
+     <div class="container mt-1">
               <th:block th:include="mensagemValidacao"></th:block>
-            <div class="row mt-2">
-                <div class="mx-auto btnbor text-center"><h2>Atualizar Turma</h2></div>
-            </div>
+           
+              <div class="mx-auto btnbor text-center mt-3"><h2>Atualizar Turma</h2></div>
+            
             <div class="row mt-2 position-relative" style="width: 500px;">
               <div class="position-absolute top-50 start-50">
                 <form method="post" th:action="@{/index/updateturma/{id}(id=${turma.turmaId})}">
@@ -37,5 +38,6 @@
                 
             </div>
         </div> 
+        
 </body>
 </html>

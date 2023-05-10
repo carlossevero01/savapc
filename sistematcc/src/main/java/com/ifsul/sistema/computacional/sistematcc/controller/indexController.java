@@ -1,25 +1,16 @@
 package com.ifsul.sistema.computacional.sistematcc.controller;
 
-
-
-import java.time.LocalDate;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
-import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
 import com.ifsul.sistema.computacional.sistematcc.model.professor;
-import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
-import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.habilidadeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
@@ -32,7 +23,6 @@ import com.ifsul.sistema.computacional.sistematcc.repository.respostasRepository
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 import com.ifsul.sistema.computacional.sistematcc.service.registroService;
-
 import jakarta.validation.Valid;
 
 @Controller
@@ -76,14 +66,12 @@ public class indexController {
     }
     /* LOGIN */
     /* PAGINA INICIAL(TODOS) */
-
     @GetMapping(value = "/index/inicial")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("index");
-        List<turma> lturma = turmaRepository.findAll();
-        mv.addObject("turmas", lturma);
         return mv;
     }
+    
     /* PAGINA INICIAL(TODOS) */
 
     /* DELETAR UNIDADE(PROFESSORES/ADMIN) */

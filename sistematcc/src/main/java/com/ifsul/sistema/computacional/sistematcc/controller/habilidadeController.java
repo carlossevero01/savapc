@@ -106,8 +106,8 @@ public class habilidadeController {
     public ModelAndView getHabilidadesPergunta(@PathVariable("perguntaId") int perguntaId,
             @PathVariable("testeId") int testeId) {
         ModelAndView mv = new ModelAndView("habilidade");
-        List<habilidade> lh = habilidadeRepository.findAll();
-        mv.addObject("habilidades", lh);
+        List<habilidade> habilidadesAll = habilidadeRepository.findAll();
+        mv.addObject("habilidades", habilidadesAll);
         mv.addObject("perguntaId", perguntaId);
         mv.addObject("testeId", testeId);
         return mv;
@@ -115,27 +115,27 @@ public class habilidadeController {
 
     @PostMapping("/index/pergunta/habilidades/{perguntaId}/{testeId}")
     public String setHabilidadePergunta(@PathVariable("perguntaId") int perguntaId,
-            @PathVariable("testeId") int testeId, @ModelAttribute habForm lhab, RedirectAttributes attributes) {
-        List<habilidade> Allhabilidades = habilidadeRepository.findAll();
-        List<habilidade> ListHabilidade = new ArrayList<>();
-
+            @PathVariable("testeId") int testeId, habForm lhab, RedirectAttributes attributes) {
         try {
-            pergunta p = perguntaRepository.findById(perguntaId).orElseThrow(null);
-            for (habilidade h : lhab.getHabilidades()) {
-                for (habilidade hab : Allhabilidades) {
-                    if (h.getHabilidadeId() == hab.getHabilidadeId()) {
-                        ListHabilidade.add(hab);
+            pergunta p = perguntaRepository.findById(perguntaId).get();
+            List<habilidade> habpergunta = new ArrayList<>();
+            p.getHabilidades().clear();
+            if(lhab.getHabilidades()!=null){
+                for (habilidade h : lhab.getHabilidades()) {
+                    if(h.getHabilidadeId()>0) {
+                        habpergunta.add(habilidadeRepository.findById(h.getHabilidadeId()).get());
+                        System.out.println("TESTEEEEEEEEE: "+ h.getHabilidadeId());
                     }
-
+                
                 }
+                p.setHabilidades(habpergunta);
             }
-            p.setHabilidades(ListHabilidade);
+            
             perguntaRepository.save(p);
-
-            attributes.addFlashAttribute("sucesso", "habilidade cadastrada");
-            return "redirect:/index/teste/perguntas/{testeId}";
+            attributes.addFlashAttribute("sucesso", "habilidades do teste atualizado!");
+            return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
         } catch (Exception e) {
-            attributes.addFlashAttribute("erro", e.toString());
+            attributes.addFlashAttribute("erro", "Nao foi possivel alterar as habilidades"+e.toString());
             return "redirect:/index/teste/perguntas/{testeId}";
         }
     }
