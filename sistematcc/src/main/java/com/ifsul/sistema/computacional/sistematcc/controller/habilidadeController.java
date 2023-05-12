@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,13 +27,6 @@ public class habilidadeController {
     habilidadeRepository habilidadeRepository;
     @Autowired
     perguntaRepository perguntaRepository;
-
-    @GetMapping(value = "/listarHabilidades") // @RequestMapping(value = "/listarCandidatos", method = // RequestMethod.GET)
-    @ResponseBody // @ResponseBody permite retornar um texto
-    public List<habilidade> getHabilidades() {
-        System.out.println("listar habilidades ");
-        return habilidadeRepository.findAll();
-    }
 
     @GetMapping(value = "/index/deletehabilidade/{id}")
     public String deleteHabilidade(@PathVariable("id") int id, RedirectAttributes attributes) {
@@ -59,17 +51,27 @@ public class habilidadeController {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + h.toString());
             return "redirect:/index/saveHabilidade";
         }
-        habilidadeRepository.save(h);
-        attributes.addFlashAttribute("sucesso", "Habilidade cadastrada");
+        try {
+            habilidadeRepository.save(h);
+            attributes.addFlashAttribute("sucesso", "Habilidade cadastrada");
         return "redirect:/index/habilidades";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "Erro desconhecido!"+e.toString());
+            return "redirect:/index/habilidades";// TODO: handle exception
+        }
+        
     }
 
     @GetMapping(value = "/index/habilidades")
     public ModelAndView listarHabilidades() {
         ModelAndView mv = new ModelAndView("habilidade");
-        List<habilidade> list = habilidadeRepository.findAll();
-        mv.addObject("habilidades", list);
-        return mv;
+        try {
+            List<habilidade> list = habilidadeRepository.findAll();
+            mv.addObject("habilidades", list);
+             return mv;
+        } catch (Exception e) {
+            return mv;// TODO: handle exception
+        }
     }
 
     @GetMapping("/index/updatehabilidade/{id}")
@@ -79,10 +81,12 @@ public class habilidadeController {
         try {
             habilidade hab = habilidadeRepository.findById(habilidadeId).orElseThrow(null);
             mv.addObject("habilidade", hab);
+            return mv;
         } catch (Exception e) {
             System.out.println("ERRO" + e);
+            return mv;
         }
-        return mv;
+        
     }
 
     @PostMapping("/index/updatehabilidade/{id}")
@@ -106,11 +110,15 @@ public class habilidadeController {
     public ModelAndView getHabilidadesPergunta(@PathVariable("perguntaId") int perguntaId,
             @PathVariable("testeId") int testeId) {
         ModelAndView mv = new ModelAndView("habilidade");
-        List<habilidade> habilidadesAll = habilidadeRepository.findAll();
-        mv.addObject("habilidades", habilidadesAll);
-        mv.addObject("perguntaId", perguntaId);
-        mv.addObject("testeId", testeId);
-        return mv;
+        try {
+            List<habilidade> habilidadesAll = habilidadeRepository.findAll();
+            mv.addObject("habilidades", habilidadesAll);
+            mv.addObject("perguntaId", perguntaId);
+            mv.addObject("testeId", testeId);
+            return mv;
+        } catch (Exception e) {
+            return mv; // TODO: handle exception
+        }  
     }
 
     @PostMapping("/index/pergunta/habilidades/{perguntaId}/{testeId}")
@@ -125,12 +133,10 @@ public class habilidadeController {
                     if(h.getHabilidadeId()>0) {
                         habpergunta.add(habilidadeRepository.findById(h.getHabilidadeId()).get());
                         System.out.println("TESTEEEEEEEEE: "+ h.getHabilidadeId());
-                    }
-                
+                    } 
                 }
                 p.setHabilidades(habpergunta);
             }
-            
             perguntaRepository.save(p);
             attributes.addFlashAttribute("sucesso", "habilidades do teste atualizado!");
             return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
