@@ -27,6 +27,9 @@ public class regTestes implements Serializable{
     @JoinColumn(name = "alunoId")
     private aluno aluno;
 
+    @ManyToOne
+    @JoinColumn(name = "turmaId")
+    private turma turma;
    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -56,16 +59,17 @@ public class regTestes implements Serializable{
         super();
     }
 
-    public regTestes(aluno aluno, teste teste, List<respostaTeste> respostas) {
+    public regTestes(aluno aluno,turma turma, teste teste, List<respostaTeste> respostas) {
         super();
         this.aluno = aluno;
+        this.turma= turma;
         this.teste = teste;
         this.respostasTeste = respostas;
     }
     
     @Override
     public String toString() {
-        return " [regTestesId=" + regTestesId + ", teste=" + teste.getNome() + ", aluno=" + aluno.getAlunoId() + ", respostaTeste="
+        return " [regTestesId=" + regTestesId + ", teste=" + teste.getNome() + ", aluno=" + aluno.getAlunoId() +", turma=" + turma.getTurmaId()+ ", respostaTeste="
                 + respostasTeste + "]";
     }
 
@@ -91,6 +95,14 @@ public class regTestes implements Serializable{
 
     public void setRespostasTeste(List<respostaTeste> respostasTeste) {
         this.respostasTeste = respostasTeste;
+    }
+
+    public turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(turma turma) {
+        this.turma = turma;
     }
 
 }

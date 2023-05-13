@@ -25,7 +25,7 @@ public class respostaTeste implements Serializable{
     
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name= "perguntaId")
+    @JoinColumn(name= "perguntaTesteId")
     private perguntaTeste perguntaTeste;
     
     public int getOpRespostaId() {

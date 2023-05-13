@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -69,6 +70,9 @@ public class turma implements Serializable{
     @JsonManagedReference
     private List<questionarioinicial> questionarios;
     
+    @OneToMany(mappedBy="turma")
+     List<regTestes> regTeste;
+
     public int getTurmaId() {
         return turmaId;
     }
@@ -137,6 +141,14 @@ public class turma implements Serializable{
 
     public void setQuestionarios(List<questionarioinicial> questionarios) {
         this.questionarios = questionarios;
+    }
+
+    public List<regTestes> getRegTeste() {
+        return regTeste;
+    }
+
+    public void setRegTeste(List<regTestes> regTeste) {
+        this.regTeste = regTeste;
     }
 
     

@@ -110,13 +110,17 @@ public class turmaController {
             RedirectAttributes redirectAttributes) {
         if (matricula.equalsIgnoreCase("")) {
             redirectAttributes.addFlashAttribute("erro", "insira a sua matricula");
-            return "redirect:/index/inicial";
+            return "redirect:/turmas";
         } else {
             turma t = turmaRepository.findById(turmaId).orElseThrow(null);
+            if(alunoRepository.findByMatricula(matricula).isEmpty()){
+                redirectAttributes.addFlashAttribute("erro", "Matricula não encontrada");
+                return "redirect:/turmas";
+            }
             t.getAlunos().add(alunoRepository.findByMatricula(matricula).get(0));
             turmaRepository.save(t);
             redirectAttributes.addFlashAttribute("sucesso", "Inscrição realizada com sucesso");
-            return "redirect:/index/inicial";
+            return "redirect:/turmas";
         }
     }
 

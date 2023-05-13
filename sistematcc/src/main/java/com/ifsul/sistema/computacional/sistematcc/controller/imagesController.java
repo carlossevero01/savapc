@@ -47,7 +47,7 @@ public class imagesController {
 
         return null;
     }
-    @GetMapping("/index/aplicacaoteste/{id}/imagem/{img}")
+    @GetMapping("/index/aplicacaoteste/{turmaId}/{testeId}/imagem/{img}")
     @ResponseBody
     public byte[] getImgAplicacaoTeste(@PathVariable("img") String img) throws IOException {
         File imagemArquivo = new File("./src/main/resources/static/images/" + img);

@@ -20,10 +20,12 @@ import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
 import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.testeForm;
+import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 
 import jakarta.validation.Valid;
 
@@ -37,6 +39,8 @@ public class testeController {
     perguntaTesteRepository perguntaTesteRepository;
     @Autowired
     regTestesRepository regTestesRepository;
+    @Autowired
+    turmaRepository turmaRepository;
 
     /*Atualizar teste por id */
     @GetMapping("/index/updateteste/{id}")
@@ -74,29 +78,32 @@ public class testeController {
         }
     }
     /*Aplicar teste por id */
-    @GetMapping(value = "/index/aplicacaoteste/{id}")
-    public ModelAndView getTesteAplication(@PathVariable("id") int id) {
+    @GetMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
+    public ModelAndView getTesteAplication(@PathVariable("testeId") int tId,@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("aplicacaoTeste");
-
-        teste t = testeRepository.findById(id).orElseThrow(null);
-
+        
+        teste t = testeRepository.findById(tId).get();
+        turma turma = turmaRepository.findById(turmaId).get();
         List<perguntaTeste> perguntas = t.getPerguntasTeste();
         mv.addObject("perguntas", perguntas);
         mv.addObject("testeNome", t.getNome());
         mv.addObject("testeId", t.getTesteId());
+        mv.addObject("turmaId", turma.getTurmaId());
         return mv;
 
     }
     /*Aplicar teste por id */
-    @PostMapping(value = "/index/aplicacaoteste/{id}")
-    public String setTesteAplication(@PathVariable("id") int testeId, @ModelAttribute perguntasForm lresp,
+    @PostMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
+    public String setTesteAplication(@PathVariable("testeId") int testeId,@PathVariable("turmaId") int turmaId, @ModelAttribute perguntasForm lresp,
             RedirectAttributes attributes) {
         try {
+            turma turma = turmaRepository.findById(turmaId).get();
             teste t = testeRepository.findById(testeId).orElseThrow(null);
         List<respostaTeste> ListRespostas = new ArrayList<>();
         regTestes reg = new regTestes();
         if (alunoRepository.findByMatricula(lresp.getMatricula().trim()).size()>0) {
             for (perguntaTeste Pergunta : lresp.getPerguntas()) {
+                
                 respostaTeste resposta = new respostaTeste();
                 perguntaTeste p = perguntaTesteRepository.findById(Pergunta.getPerguntaTesteId()).orElseThrow(null);
                 resposta.setperguntaTeste(p);
@@ -105,6 +112,7 @@ public class testeController {
             }
             reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
             reg.setTeste(t);
+            reg.setTurma(turma);
             reg.setRespostasTeste(ListRespostas);
             regTestesRepository.save(reg);
             attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");

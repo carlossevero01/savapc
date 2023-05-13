@@ -35,17 +35,17 @@
                 </thead>
                     <tbody>
                     <tr  th:each="p, i: ${perguntas}">
-                        <td th:text="${p.perguntaId}"></td>
+                        <td th:text="${p.perguntaTesteId}"></td>
                         <td th:text="${p.descricao}"></td>         <!-- '' aspas simples fica como texto -->
                         <td><img class="m-2 border" width="200px" th:src="@{/index/teste/perguntas/{id}/imagem/{img}(img=${perguntas[__${i.index}__].img})}" alt="imgPergunta"> </td>
 						<td><a class="btn btn-outline-primary" 
-						th:href="@{/index/deletepergunta/{testeId}/{perguntaId}(testeId=${testeId}, perguntaId=${p.perguntaId})}" role="button">Deletar</a>
+						th:href="@{/index/deletepergunta/{testeId}/{perguntaId}(testeId=${testeId}, perguntaId=${p.perguntaTesteId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 
-							th:href="@{/index/updatepergunta/{id}(id=${p.perguntaId})}" role="button">Editar</a>
+							th:href="@{/index/updatepergunta/{id}(id=${p.perguntaTesteId})}" role="button">Editar</a>
 							<a class="btn btn-outline-primary" 
-							th:href="@{/index/pergunta/opcoesresposta/{id}(id=${p.perguntaId})}" role="button">Opções Resposta</a>
-							<form method="post" th:action="@{/index/pergunta/opcoesresposta/{perguntaid}/{testeid}(perguntaid=${perguntaId})(testeid=${testeId})}"></form><a class="btn btn-outline-primary" 
-							 th:href="@{/index/pergunta/habilidades/{perguntaId}/{testeId}(perguntaId = ${p.perguntaId}, testeId=${testeId}) }">Habilidades</a>
+							th:href="@{/index/pergunta/opcoesresposta/{id}(id=${p.perguntaTesteId})}" role="button">Opções Resposta</a>
+							<form method="post" th:action="@{/index/pergunta/opcoesresposta/{perguntaid}/{testeid}(perguntaid=${perguntaTesteId})(testeid=${testeId})}"></form><a class="btn btn-outline-primary" 
+							 th:href="@{/index/pergunta/habilidades/{perguntaId}/{testeId}(perguntaId = ${p.perguntaTesteId}, testeId=${testeId}) }">Habilidades</a>
                         </td>
                     </tr>
                     </tbody>

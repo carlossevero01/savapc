@@ -12,17 +12,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
 import com.ifsul.sistema.computacional.sistematcc.model.professor;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.habilidadeRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionarioRepository;
+
 import com.ifsul.sistema.computacional.sistematcc.repository.professorRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.respostaTesteRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
+
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
-import com.ifsul.sistema.computacional.sistematcc.service.regTestesService;
+
 import jakarta.validation.Valid;
 
 @Controller
@@ -33,24 +27,10 @@ public class indexController {
     turmaRepository turmaRepository;
     @Autowired
     professorRepository professorRepository;
-    @Autowired
-    habilidadeRepository habilidadeRepository;
-    @Autowired
-    perguntaTesteRepository perguntaTesteRepository;
-    @Autowired
-    testeRepository testeRepository;
-    @Autowired
-    opcaorespostaRepository opcaorespostaRepository;
-    @Autowired
-    questionarioinicialRepository questionarioinicialRepository;
-    @Autowired
-    perguntaquestionarioRepository perguntaquestionarioRepository;
-    @Autowired
-    regTestesRepository registroRepository;
-    @Autowired
-    respostaTesteRepository respostaTesteRepository;
-    @Autowired
-    regTestesService regTestesService;
+    
+    
+    
+    
 
     
 

@@ -1,8 +1,10 @@
 package com.ifsul.sistema.computacional.sistematcc.model;
 
 public class contabilizacao {
-    private int alunoId;
+
     private int testeId;
+    private int turmaId;
+    private int alunoId;
     private int nQcorretas;
     private int nQChab1;
     private int nQChab2;
@@ -26,10 +28,11 @@ public class contabilizacao {
         this.peso=0;
         this.recomendacao="";
     }
-    public contabilizacao(int alunoId, int testeId, int nQcorretas, int nQChab1, int nQChab2, int nQChab3, int nQChab4,
+    public contabilizacao(int alunoId, int turmaId, int testeId, int nQcorretas, int nQChab1, int nQChab2, int nQChab3, int nQChab4,
             int nQChab5, int nQ, double peso) {
         super();
         this.alunoId = alunoId;
+        this.turmaId = turmaId;
         this.testeId = testeId;
         this.nQcorretas = nQcorretas;
         this.nQChab1 = nQChab1;
@@ -47,7 +50,7 @@ public class contabilizacao {
     } 
     @Override
         public String toString() {
-            return "\ncontabilizacao: \n alunoId=" + alunoId + "\n testeId=" + testeId + "\n nQcorretas=" + nQcorretas
+            return "\ncontabilizacao: \n alunoId=" + alunoId +"\n turmaId="+turmaId+ "\n testeId=" + testeId + "\n nQcorretas=" + nQcorretas
                     + "\n nQChab1=" + nQChab1 + "\n nQChab2=" + nQChab2 + "\n nQChab3=" + nQChab3 + "\n nQChab4=" + nQChab4
                     + "\n nQChab5=" + nQChab5 +"\n nQ="+nQ+ "\n valorTotal="+(int) valorTotal+"\n recomendacao="+recomendacao+ "]";
         }
@@ -143,6 +146,12 @@ public class contabilizacao {
     }
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+    public int getTurmaId() {
+        return turmaId;
+    }
+    public void setTurmaId(int turmaId) {
+        this.turmaId = turmaId;
     }
 
     
