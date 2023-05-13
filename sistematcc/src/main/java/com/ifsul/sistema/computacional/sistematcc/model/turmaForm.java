@@ -33,6 +33,9 @@ public class turmaForm {
     public void setTestes(List<teste> testes) {
         this.testes = testes;
     }
+    public turmaForm() {
+        super();
+    }
 
     
 }

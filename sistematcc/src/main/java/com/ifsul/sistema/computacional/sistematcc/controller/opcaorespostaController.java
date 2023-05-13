@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
-import com.ifsul.sistema.computacional.sistematcc.model.pergunta;
+import com.ifsul.sistema.computacional.sistematcc.model.perguntaTeste;
 import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
 
 import jakarta.validation.Valid;
 
@@ -24,7 +24,7 @@ public class opcaorespostaController {
     @Autowired
     opcaorespostaRepository opcaorespostaRepository;
     @Autowired
-    perguntaRepository perguntaRepository;
+    perguntaTesteRepository perguntaTesteRepository;
 
     @GetMapping("/index/updateopcaoresposta/{id}")
     @ResponseBody
@@ -60,10 +60,10 @@ public class opcaorespostaController {
     @GetMapping(value = "/index/pergunta/opcoesresposta/{id}")
     public ModelAndView getOpcoesRespostaPergunta(@PathVariable("id") int id) {
         ModelAndView mv = new ModelAndView("opcaoresposta");
-        pergunta p = perguntaRepository.findById(id).orElseThrow(null);
+        perguntaTeste p = perguntaTesteRepository.findById(id).orElseThrow(null);
         List<opcaoresposta> opR = p.getOpcoesResposta();
         mv.addObject("opcoesrespostas", opR);
-        mv.addObject("perguntaId", p.getPerguntaId());
+        mv.addObject("perguntaId", p.getPerguntaTesteId());
         return mv;
     }
 
@@ -82,11 +82,11 @@ public class opcaorespostaController {
             return "redirect:/index/pergunta/saveopcaoresposta/{id}";
         }
         opcaorespostaRepository.save(or);
-        pergunta p = perguntaRepository.findById(id).orElseThrow(null);
+        perguntaTeste p = perguntaTesteRepository.findById(id).orElseThrow(null);
         List<opcaoresposta> listOR = p.getOpcoesResposta();
         listOR.add(or);
         p.setOpcoesResposta(listOR);
-        perguntaRepository.save(p);
+        perguntaTesteRepository.save(p);
         attributes.addFlashAttribute("sucesso", "Turma cadastrada");
         return "redirect:/index/pergunta/opcoesresposta/{id}";
     }

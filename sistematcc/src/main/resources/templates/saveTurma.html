@@ -32,7 +32,11 @@
                         <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
                     </div>
-                    <h5 style="text-align: center;">Testes disponíveis(Opcional)</h5>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="visibilidade" name="visibilidade" unchecked>
+                        <label class="form-check-label" for="visibilidade" >Visibilidade</label>
+                     </div>
+                    <h5 class="mt-4" style="text-align: center;">Testes disponíveis(Opcional)</h5>
                     <div class="form-group mb-auto mt-auto" th:each="teste , j : ${testes}" style="border-top: solid black 1px;">
                             <div class="mt-2 mt-2">
                                 <input class="form-check-input" type="checkbox" th:name="|testes[${j.index}].testeId|" th:value="${teste.testeId}">

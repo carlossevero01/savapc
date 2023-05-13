@@ -18,9 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ifsul.sistema.computacional.sistematcc.model.pergunta;
+import com.ifsul.sistema.computacional.sistematcc.model.perguntaTeste;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 
 import jakarta.validation.Valid;
@@ -28,14 +28,14 @@ import jakarta.validation.Valid;
 @Controller
 public class perguntaController {
     @Autowired
-    perguntaRepository perguntaRepository;
+    perguntaTesteRepository perguntaTesteRepository;
     @Autowired
     testeRepository testeRepository;
     /* Listar perguntas */
     @GetMapping(value = "/index/perguntas")
     public ModelAndView listarPerguntas() {
         ModelAndView mv = new ModelAndView("pergunta");
-        List<pergunta> list = perguntaRepository.findAll();
+        List<perguntaTeste> list = perguntaTesteRepository.findAll();
         mv.addObject("perguntas", list);
         return mv;
     }
@@ -49,10 +49,10 @@ public class perguntaController {
     /*Salvar pergunta por teste id */
     @PostMapping("/index/teste/savePergunta/{id}")
     // @Transactional
-    public String savePergunta(@PathVariable("id") int testeId, @Valid pergunta pergunta,
+    public String savePergunta(@PathVariable("id") int testeId, @Valid perguntaTeste pergunta,
             @RequestParam("file") MultipartFile img, RedirectAttributes attributes, BindingResult result) {
         teste t = testeRepository.findById(testeId).orElseThrow(null);
-        List<pergunta> lperg = t.getPerguntas();
+        List<perguntaTeste> lperg = t.getPerguntasTeste();
         System.out.println(pergunta.getDescricao());
 
         try {
@@ -68,9 +68,9 @@ public class perguntaController {
             } else {
                 pergunta.setImg(null);
             }
-            perguntaRepository.save(pergunta);
+            perguntaTesteRepository.save(pergunta);
             lperg.add(pergunta);
-            t.setPerguntas(lperg);
+            t.setPerguntasTeste(lperg);
             testeRepository.save(t);
             attributes.addFlashAttribute("sucesso", "Pergunta cadastrada");
             return "redirect:/index/teste/perguntas/{id}";
@@ -84,15 +84,15 @@ public class perguntaController {
     public String deletePergunta(@PathVariable("testeId") int testeId, @PathVariable("perguntaId") int perguntaId, RedirectAttributes attributes) {
         try {
             if(testeRepository.existsById(testeId)){ //Deletar da tabela perguntasteste
-                if(perguntaRepository.existsById(perguntaId)){
+                if(perguntaTesteRepository.existsById(perguntaId)){
                     teste t = testeRepository.findById(testeId).get();
-                    List<pergunta> lp = t.getPerguntas();
+                    List<perguntaTeste> lp = t.getPerguntasTeste();
                     for(int i=0;i<lp.size();i++){
-                        if(lp.get(i).getPerguntaId()==perguntaId){
+                        if(lp.get(i).getPerguntaTesteId()==perguntaId){
                             lp.remove(i);
                         }
                     }
-                    t.setPerguntas(lp);
+                    t.setPerguntasTeste(lp);
                     testeRepository.save(t);
                     attributes.addFlashAttribute("sucesso", "Pergunta deletada");
                 return "redirect:/index/teste/perguntas/{testeId}";
@@ -101,7 +101,7 @@ public class perguntaController {
                     return "redirect:/index/teste/perguntas/{testeId}";
                 }
             }else{ //Deletar do repository
-                perguntaRepository.deleteById(perguntaId);
+                perguntaTesteRepository.deleteById(perguntaId);
                 attributes.addFlashAttribute("sucesso", "Pergunta deletada");
                 return "redirect:/index/perguntas";
             }
@@ -118,7 +118,7 @@ public class perguntaController {
         teste t = testeRepository.findById(testeId).orElseThrow(null);
         mv.addObject("testeId", t.getTesteId());
         mv.addObject("testeNome", t.getNome());
-        mv.addObject("perguntas", t.getPerguntas());
+        mv.addObject("perguntas", t.getPerguntasTeste());
         return mv;
     }
     
@@ -127,7 +127,7 @@ public class perguntaController {
     public ModelAndView getPerguntaUpdate(@PathVariable("id") int perguntaId) {
         ModelAndView mv = new ModelAndView("updatePergunta");
         try {
-            pergunta perguntaExistente = perguntaRepository.findById(perguntaId).orElseThrow(null);
+            perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
             mv.addObject("pergunta", perguntaExistente);
         } catch (Exception e) {
             System.out.println("ERRO SISTEMA:" + e);
@@ -136,10 +136,10 @@ public class perguntaController {
     }
 
     @PostMapping("/index/updatepergunta/{id}")
-    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @Valid pergunta novaPergunta,
+    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @Valid perguntaTeste novaPergunta,
             RedirectAttributes redirectAttributes, BindingResult result, @RequestParam("file") MultipartFile img) {
         try {
-            pergunta perguntaExistente = perguntaRepository.findById(perguntaId).orElseThrow(null);
+            perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
             perguntaExistente.setDescricao(novaPergunta.getDescricao());
 
             if (img.isEmpty()) {
@@ -150,7 +150,7 @@ public class perguntaController {
                 Files.write(caminho, bytes);
                 perguntaExistente.setImg(img.getOriginalFilename());
             }
-            perguntaRepository.save(perguntaExistente);
+            perguntaTesteRepository.save(perguntaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Pergunta Editada com sucesso");
             return "redirect:/index/testes";
         } catch (Exception e) {

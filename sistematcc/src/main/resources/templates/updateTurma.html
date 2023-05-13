@@ -31,6 +31,10 @@
                         <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nome" name="nome" th:value="${turma.nome}">
                     </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="visibilidade" name="visibilidade" th:checked="${turma.visibilidade}">
+                      <label class="form-check-label" for="visibilidade" >Visibilidade</label>
+                   </div>
                         <button type="submit" class="btn btnbor mt-2">Salvar</button>
                         
                   </form>

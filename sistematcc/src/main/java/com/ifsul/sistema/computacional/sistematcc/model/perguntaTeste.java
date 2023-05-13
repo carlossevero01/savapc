@@ -21,14 +21,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table (name = "pergunta")
-public class pergunta implements Serializable{
-    
-    
+@Table (name = "perguntaTeste")
+public class perguntaTeste implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "perguntaId")
-    private int perguntaId;
+    @Column(name = "perguntaTesteId")
+    private int perguntaTesteId;
     @Lob
     @Column(nullable = false, columnDefinition="CLOB")
     private String descricao;
@@ -42,9 +41,9 @@ public class pergunta implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "habilidadepergunta",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","perguntaId"}),
-        joinColumns =  @JoinColumn(name = "perguntaId"),
+        name = "habilidade_PerguntaTeste",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","perguntaTesteId"}),
+        joinColumns =  @JoinColumn(name = "perguntaTesteId"),
         inverseJoinColumns = @JoinColumn(name = "habilidadeId")
     )
     @JsonManagedReference
@@ -55,9 +54,9 @@ public class pergunta implements Serializable{
     
     @ManyToMany
     @JoinTable(
-        name = "perguntateste",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaId","testeId"}),
-        joinColumns =  @JoinColumn(name = "perguntaId"),
+        name = "perguntaTeste_Teste",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaTesteId","testeId"}),
+        joinColumns =  @JoinColumn(name = "perguntaTesteId"),
         inverseJoinColumns = @JoinColumn(name = "testeId")
     )
     @JsonBackReference
@@ -65,9 +64,9 @@ public class pergunta implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "opcaorespostapergunta",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaId","opcaoRespostaId"}),
-        joinColumns =  @JoinColumn(name = "perguntaId"),
+        name = "opcaoResposta_PerguntaTeste",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaTesteId","opcaoRespostaId"}),
+        joinColumns =  @JoinColumn(name = "perguntaTesteId"),
         inverseJoinColumns = @JoinColumn(name = "opcaoRespostaId")
     )
     @JsonManagedReference
@@ -75,21 +74,16 @@ public class pergunta implements Serializable{
     
 
    
-    public int getPerguntaId() {
-        return perguntaId;
-    }
-    public void setPerguntaId(int perguntaId) {
-        this.perguntaId = perguntaId;
-    }
+    
     public String getDescricao() {
         return descricao;
     }
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public pergunta() {   
+    public perguntaTeste() {   
     }
-    public pergunta(String descricao) {
+    public perguntaTeste(String descricao) {
         this.descricao = descricao;
     }
     public List<habilidade> getHabilidades() {
@@ -119,7 +113,7 @@ public class pergunta implements Serializable{
    
     @Override
     public String toString() {
-        return "pergunta [perguntaId=" + perguntaId + ", descricao=" + descricao + ", opRespostaId=" + opRespostaId
+        return "[perguntaTesteId=" + perguntaTesteId + ", descricao=" + descricao + ", opRespostaId=" + opRespostaId
                 + ", titulo=" + titulo + "]";
     }
     public String getOpRespostaId() {
@@ -134,12 +128,11 @@ public class pergunta implements Serializable{
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
-    
-
-    
-
-    
-
+    public int getPerguntaTesteId() {
+        return perguntaTesteId;
+    }
+    public void setPerguntaTesteId(int perguntaTesteId) {
+        this.perguntaTesteId = perguntaTesteId;
+    }
     
 }

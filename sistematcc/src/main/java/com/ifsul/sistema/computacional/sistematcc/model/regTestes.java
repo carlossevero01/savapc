@@ -12,12 +12,12 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "registro")
-public class registro implements Serializable{
+@Table(name = "regTestes")
+public class regTestes implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "registroId")
-    private int registroId;
+    @Column(name = "regTestesId")
+    private int regTestesId;
 
     @ManyToOne
     @JoinColumn(name = "testeId")
@@ -30,25 +30,19 @@ public class registro implements Serializable{
    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "registro_respostas",
+            name = "regTestes_RespostaTeste",
             joinColumns = @JoinColumn(
-                    name = "registroId", referencedColumnName = "registroId"
+                    name = "regTestesId", referencedColumnName = "regTestesId"
             ),
             inverseJoinColumns = @JoinColumn(
-                    name = "respostaId", referencedColumnName = "respostaId"
+                    name = "respostaTesteId", referencedColumnName = "respostaTesteId"
             )
     )
-    private List<resposta> respostas;
+    private List<respostaTeste> respostasTeste;
 
     
 
-    public int getRegistroId() {
-        return registroId;
-    }
-
-    public void setRegistroId(int registrotesteId) {
-        this.registroId = registrotesteId;
-    }
+    
 
     public aluno getAluno() {
         return aluno;
@@ -58,29 +52,21 @@ public class registro implements Serializable{
         this.aluno = aluno;
     }
 
-    public List<resposta> getRespostas() {
-        return respostas;
-    }
-
-    public void setRespostas(List<resposta> respostas) {
-        this.respostas = respostas;
-    }
-
-    public registro() {
+    public regTestes() {
         super();
     }
 
-    public registro(aluno aluno, teste teste, List<resposta> respostas) {
+    public regTestes(aluno aluno, teste teste, List<respostaTeste> respostas) {
         super();
         this.aluno = aluno;
         this.teste = teste;
-        this.respostas = respostas;
+        this.respostasTeste = respostas;
     }
     
     @Override
     public String toString() {
-        return " [registroId=" + registroId + ", teste=" + teste.getNome() + ", aluno=" + aluno.getAlunoId() + ", respostas="
-                + respostas + "]";
+        return " [regTestesId=" + regTestesId + ", teste=" + teste.getNome() + ", aluno=" + aluno.getAlunoId() + ", respostaTeste="
+                + respostasTeste + "]";
     }
 
     public teste getTeste() {
@@ -90,7 +76,21 @@ public class registro implements Serializable{
     public void setTeste(teste teste) {
         this.teste = teste;
     }
-    
 
+    public int getRegTestesId() {
+        return regTestesId;
+    }
+
+    public void setRegTestesId(int regTestesId) {
+        this.regTestesId = regTestesId;
+    }
+
+    public List<respostaTeste> getRespostasTeste() {
+        return respostasTeste;
+    }
+
+    public void setRespostasTeste(List<respostaTeste> respostasTeste) {
+        this.respostasTeste = respostasTeste;
+    }
 
 }

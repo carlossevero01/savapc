@@ -14,33 +14,19 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "resposta")
-public class resposta implements Serializable{
+@Table(name = "respostaTeste")
+public class respostaTeste implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="respostaId")
-    private int respostaId;
+    @Column(name="respostaTesteId")
+    private int respostaTesteId;
     @Column(name = "opRespostaId")
     private int opRespostaId;
     
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name= "perguntaId")
-    private pergunta pergunta;
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
+    private perguntaTeste perguntaTeste;
     
     public int getOpRespostaId() {
         return opRespostaId;
@@ -48,31 +34,31 @@ public class resposta implements Serializable{
     public void setOpRespostaId(int opRespostaId) {
         this.opRespostaId = opRespostaId;
     }
-    public resposta() {
+    public respostaTeste() {
         super();
     }
     
-    public resposta(int respostaId, int opRespostaId) {
-        this.respostaId = respostaId;
+    public respostaTeste(int respostaTesteId, int opRespostaId) {
+        this.respostaTesteId = respostaTesteId;
         this.opRespostaId = opRespostaId;
         
     }
-    public int getRespostaId() {
-        return respostaId;
+    public int getRespostaTesteId() {
+        return respostaTesteId;
     }
-    public void setRespostaId(int respostaId) {
-        this.respostaId = respostaId;
+    public void setRespostaTesteId(int respostaId) {
+        this.respostaTesteId = respostaId;
     }
    
     @Override
     public String toString() {
-        return " [respostaId=" + respostaId + ", opRespostaId=" + opRespostaId + "]";
+        return " [respostaTesteId=" + respostaTesteId + ", opRespostaId=" + opRespostaId + "]";
     }
-    public pergunta getPergunta() {
-        return pergunta;
+    public perguntaTeste getPerguntaTeste() {
+        return perguntaTeste;
     }
-    public void setPergunta(pergunta pergunta) {
-        this.pergunta = pergunta;
+    public void setperguntaTeste(perguntaTeste pergunta) {
+        this.perguntaTeste = pergunta;
     }
     
     

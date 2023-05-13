@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ifsul.sistema.computacional.sistematcc.model.pergunta;
+import com.ifsul.sistema.computacional.sistematcc.model.perguntaTeste;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntasForm;
-import com.ifsul.sistema.computacional.sistematcc.model.registro;
-import com.ifsul.sistema.computacional.sistematcc.model.resposta;
+import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
+import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.testeForm;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 
 import jakarta.validation.Valid;
@@ -34,9 +34,9 @@ public class testeController {
     @Autowired
     alunoRepository alunoRepository;
     @Autowired
-    perguntaRepository perguntaRepository;
+    perguntaTesteRepository perguntaTesteRepository;
     @Autowired
-    registroRepository registroRepository;
+    regTestesRepository regTestesRepository;
 
     /*Atualizar teste por id */
     @GetMapping("/index/updateteste/{id}")
@@ -80,7 +80,7 @@ public class testeController {
 
         teste t = testeRepository.findById(id).orElseThrow(null);
 
-        List<pergunta> perguntas = t.getPerguntas();
+        List<perguntaTeste> perguntas = t.getPerguntasTeste();
         mv.addObject("perguntas", perguntas);
         mv.addObject("testeNome", t.getNome());
         mv.addObject("testeId", t.getTesteId());
@@ -93,20 +93,20 @@ public class testeController {
             RedirectAttributes attributes) {
         try {
             teste t = testeRepository.findById(testeId).orElseThrow(null);
-        List<resposta> ListRespostas = new ArrayList<>();
-        registro reg = new registro();
+        List<respostaTeste> ListRespostas = new ArrayList<>();
+        regTestes reg = new regTestes();
         if (alunoRepository.findByMatricula(lresp.getMatricula().trim()).size()>0) {
-            for (pergunta Pergunta : lresp.getPerguntas()) {
-                resposta resposta = new resposta();
-                pergunta p = perguntaRepository.findById(Pergunta.getPerguntaId()).orElseThrow(null);
-                resposta.setPergunta(p);
+            for (perguntaTeste Pergunta : lresp.getPerguntas()) {
+                respostaTeste resposta = new respostaTeste();
+                perguntaTeste p = perguntaTesteRepository.findById(Pergunta.getPerguntaTesteId()).orElseThrow(null);
+                resposta.setperguntaTeste(p);
                 resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
                 ListRespostas.add(resposta);
             }
             reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
             reg.setTeste(t);
-            reg.setRespostas(ListRespostas);
-            registroRepository.save(reg);
+            reg.setRespostasTeste(ListRespostas);
+            regTestesRepository.save(reg);
             attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
             return "redirect:/index/inicial";
         }else{ 
@@ -130,14 +130,14 @@ public class testeController {
     @GetMapping("/index/saveTeste")
     public ModelAndView getSaveTeste() {
         ModelAndView mv = new ModelAndView("saveTeste");
-        List<pergunta> lperguntas = perguntaRepository.findAll();
+        List<perguntaTeste> lperguntas = perguntaTesteRepository.findAll();
         mv.addObject("perguntas", lperguntas);
         return mv;
     }
     /*Salvar um novo teste */
     @PostMapping("/index/saveTeste")
     public String saveTeste(@Valid testeForm t, BindingResult result, RedirectAttributes attributes) {
-        List<pergunta> ListPerguntas = new ArrayList<>();
+        List<perguntaTeste> ListPerguntas = new ArrayList<>();
         teste test = new teste();
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
@@ -145,15 +145,22 @@ public class testeController {
         }else{
         try {
             if(t.getPerguntas()!=null){
-                for (pergunta perg : t.getPerguntas()) {
-                    if(perguntaRepository.existsById(perg.getPerguntaId())){
-                        pergunta p = perguntaRepository.findById(perg.getPerguntaId()).orElseThrow(null);
+                for (perguntaTeste perg : t.getPerguntas()) {
+                    if(perguntaTesteRepository.existsById(perg.getPerguntaTesteId())){
+                        perguntaTeste p = perguntaTesteRepository.findById(perg.getPerguntaTesteId()).orElseThrow(null);
                         ListPerguntas.add(p);
                     }
                 }
-                test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas);
+                if(t.getPeso()==0){
+                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,0);
+                }else{
+                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,t.getPeso());
+                }
+                
             }else{
-               test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null);
+                if(t.getPeso()==0){test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,0);}
+                else{test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,t.getPeso());}
+               
             }
             
             testeRepository.save(test);

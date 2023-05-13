@@ -5,21 +5,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class perguntasForm {
 	private String matricula;
-	private List<pergunta> perguntas;
+	private List<perguntaTeste> perguntaTeste;
 	
-	public List<pergunta> getPerguntas() {
-		return perguntas;
+	public List<perguntaTeste> getPerguntas() {
+		return perguntaTeste;
 	}
 	
-	public void setPerguntas(List<pergunta> p) {
-		this.perguntas = p;
+	public void setPerguntas(List<perguntaTeste> p) {
+		this.perguntaTeste = p;
 	}
 
 	
 
 	@Override
 	public String toString() {
-		return "perguntasForm [matricula=" + matricula + ", perguntas=" + perguntas + "]";
+		return "perguntasForm [matricula=" + matricula + ", perguntaTeste=" + perguntaTeste + "]";
 	}
 
 	public String getMatricula() {

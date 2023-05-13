@@ -116,7 +116,7 @@ public class turma implements Serializable{
     }
 
     public boolean isVisibilidade() {
-        return visibilidade;
+        return this.visibilidade;
     }
 
     public void setVisibilidade(boolean visibilidade) {

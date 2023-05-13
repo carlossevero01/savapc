@@ -45,13 +45,13 @@ public class teste implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "perguntateste",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaId","testeId"}),
+        name = "perguntateste_Teste",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaTesteId","testeId"}),
         joinColumns =  @JoinColumn(name = "testeId"),
-        inverseJoinColumns = @JoinColumn(name = "perguntaId")
+        inverseJoinColumns = @JoinColumn(name = "perguntaTesteId")
     )
     @JsonManagedReference
-    private List<pergunta> perguntas;
+    private List<perguntaTeste> perguntasTeste;
 
     @ManyToMany
     @JoinTable(
@@ -64,7 +64,7 @@ public class teste implements Serializable{
     private List<turma> turmas;
 
     @OneToMany(mappedBy = "teste")
-     List<registro> registroteste;
+     List<regTestes> regTeste;
 
     public int getTesteId() {
         return testeId;
@@ -90,25 +90,22 @@ public class teste implements Serializable{
         this.disponibilidade = disponibilidade;
     }
 
-    public teste(boolean visibilidade, String nome, LocalDate disponibilidade, List<pergunta> perguntas) {
+    public teste(boolean visibilidade, String nome, LocalDate disponibilidade, List<perguntaTeste> perguntas, double peso) {
         super();
         this.visibilidade = visibilidade;
         this.nome = nome;
         this.disponibilidade = disponibilidade;
-        this.perguntas = perguntas;
+        this.perguntasTeste = perguntas;
+        if(peso==0){ this.peso= Double.valueOf(7);
+        }else{ this.peso = peso;}
     }
 
     public teste() {
         super();
-        this.peso= Double.valueOf(10);
     }
 
-    public List<pergunta> getPerguntas() {
-        return perguntas;
-    }
-
-    public void setPerguntas(List<pergunta> perguntas) {
-        this.perguntas = perguntas;
+    public List<perguntaTeste> getPerguntasTeste() {
+        return perguntasTeste;
     }
 
     @Override
@@ -123,14 +120,6 @@ public class teste implements Serializable{
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public List<registro> getRegistroteste() {
-        return registroteste;
-    }
-
-    public void setRegistroteste(List<registro> registroteste) {
-        this.registroteste = registroteste;
     }
 
     public static long getSerialversionuid() {
@@ -151,6 +140,18 @@ public class teste implements Serializable{
 
     public void setPeso(Double peso) {
         this.peso = peso;
+    }
+
+    public List<regTestes> getRegTeste() {
+        return regTeste;
+    }
+
+    public void setRegTeste(List<regTestes> regTeste) {
+        this.regTeste = regTeste;
+    }
+
+    public void setPerguntasTeste(List<perguntaTeste> perguntasTeste) {
+        this.perguntasTeste = perguntasTeste;
     }
 
     

@@ -15,9 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.habForm;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
-import com.ifsul.sistema.computacional.sistematcc.model.pergunta;
+import com.ifsul.sistema.computacional.sistematcc.model.perguntaTeste;
 import com.ifsul.sistema.computacional.sistematcc.repository.habilidadeRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
 
 import jakarta.validation.Valid;
 
@@ -26,7 +26,7 @@ public class habilidadeController {
     @Autowired
     habilidadeRepository habilidadeRepository;
     @Autowired
-    perguntaRepository perguntaRepository;
+    perguntaTesteRepository perguntaTesteRepository;
 
     @GetMapping(value = "/index/deletehabilidade/{id}")
     public String deleteHabilidade(@PathVariable("id") int id, RedirectAttributes attributes) {
@@ -125,7 +125,7 @@ public class habilidadeController {
     public String setHabilidadePergunta(@PathVariable("perguntaId") int perguntaId,
             @PathVariable("testeId") int testeId, habForm lhab, RedirectAttributes attributes) {
         try {
-            pergunta p = perguntaRepository.findById(perguntaId).get();
+            perguntaTeste p = perguntaTesteRepository.findById(perguntaId).get();
             List<habilidade> habpergunta = new ArrayList<>();
             p.getHabilidades().clear();
             if(lhab.getHabilidades()!=null){
@@ -137,7 +137,7 @@ public class habilidadeController {
                 }
                 p.setHabilidades(habpergunta);
             }
-            perguntaRepository.save(p);
+            perguntaTesteRepository.save(p);
             attributes.addFlashAttribute("sucesso", "habilidades do teste atualizado!");
             return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
         } catch (Exception e) {

@@ -14,15 +14,15 @@ import com.ifsul.sistema.computacional.sistematcc.model.professor;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.habilidadeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.professorRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.respostasRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.respostaTesteRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
-import com.ifsul.sistema.computacional.sistematcc.service.registroService;
+import com.ifsul.sistema.computacional.sistematcc.service.regTestesService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -36,7 +36,7 @@ public class indexController {
     @Autowired
     habilidadeRepository habilidadeRepository;
     @Autowired
-    perguntaRepository perguntaRepository;
+    perguntaTesteRepository perguntaTesteRepository;
     @Autowired
     testeRepository testeRepository;
     @Autowired
@@ -46,11 +46,11 @@ public class indexController {
     @Autowired
     perguntaquestionarioRepository perguntaquestionarioRepository;
     @Autowired
-    registroRepository registroRepository;
+    regTestesRepository registroRepository;
     @Autowired
-    respostasRepository respostasRepository;
+    respostaTesteRepository respostaTesteRepository;
     @Autowired
-    registroService registroService;
+    regTestesService regTestesService;
 
     
 

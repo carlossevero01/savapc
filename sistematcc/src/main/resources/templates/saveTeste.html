@@ -18,7 +18,7 @@
         
      
      <div th:insert="fragments/frag :: nav"></div>
-     
+        <div class="container mt-2">
               <th:block th:insert="mensagemValidacao"></th:block>
             <div class="row mt-2">
                 <div class="mx-auto btnbor text-center"><h2>Cadastrar Teste</h2></div>
@@ -39,6 +39,11 @@
                         <label class="control-label" for="disponibilidade"> Disponibilidade </label> <input
                          type="date" id="disponibilidade" class="form-control" required
                          autofocus="autofocus" name="disponibilidade"/>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="control-label" for="peso"> Peso (Opcional) </label> <input
+                         type="number" step="0.01" id="peso" class="form-control" required
+                         autofocus="autofocus" name="peso" placeholder="0*" value="0"/>
                     </div>
                     <div style="border: solid black 1px; padding: 5px; margin-top: 10px;">  
                         <h5 style="text-align: center;">Selecione perguntas disponíveis(Opcional)</h5>

@@ -68,7 +68,7 @@ public class aluno implements Serializable{
     private List<questionarioinicial> questionarios;
 
     @OneToMany(mappedBy="aluno")
-     List<registro> registroteste;
+     List<regTestes> regTeste;
 
     //  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //  @JoinTable(name = "TB_USERS_ROLES",
@@ -165,12 +165,12 @@ public class aluno implements Serializable{
         this.questionarios = questionarios;
     }
 
-    public List<registro> getRegistroteste() {
-        return registroteste;
+    public List<regTestes> getRegTeste() {
+        return regTeste;
     }
 
-    public void setRegistroteste(List<registro> registroteste) {
-        this.registroteste = registroteste;
+    public void setRegistroteste(List<regTestes> registroteste) {
+        this.regTeste = registroteste;
     }
 
     public static long getSerialversionuid() {

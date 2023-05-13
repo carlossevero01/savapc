@@ -39,13 +39,13 @@ public class habilidade implements Serializable{
     
     @ManyToMany
     @JoinTable(
-        name = "habilidadepergunta",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","perguntaId"}),
+        name = "habilidade_PerguntaTeste",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","perguntaTesteId"}),
         joinColumns =  @JoinColumn(name = "habilidadeId"),
-        inverseJoinColumns = @JoinColumn(name = "perguntaId")
+        inverseJoinColumns = @JoinColumn(name = "perguntaTesteId")
     )
     @JsonBackReference
-    private List<pergunta> perguntas;
+    private List<perguntaTeste> perguntasTeste;
     public int getHabilidadeId() {
         return habilidadeId;
     }
@@ -85,13 +85,15 @@ public class habilidade implements Serializable{
         this.alunos = alunos;
     }
 
-    public List<pergunta> getPerguntas() {
-        return perguntas;
+    public List<perguntaTeste> getPerguntasTeste() {
+        return perguntasTeste;
     }
 
-    public void setPerguntas(List<pergunta> perguntas) {
-        this.perguntas = perguntas;
+    public void setPerguntasTeste(List<perguntaTeste> perguntasTeste) {
+        this.perguntasTeste = perguntasTeste;
     }
+
+    
 
     
 

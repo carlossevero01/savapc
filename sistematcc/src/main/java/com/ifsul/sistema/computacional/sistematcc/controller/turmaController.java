@@ -68,6 +68,7 @@ public class turmaController {
     public String saveTurma(@Valid turmaForm t, BindingResult result, RedirectAttributes attributes) {
         List<teste> testes = new ArrayList<>();
         turma turma = new turma();
+        
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
             return "redirect:/index/saveTurma";
@@ -144,6 +145,7 @@ public class turmaController {
         try {
             turma turmaExistente = turmaRepository.findById(turmaId).get();
             turmaExistente.setNome(novaturma.getNome());
+            turmaExistente.setVisibilidade(novaturma.isVisibilidade());
             turmaRepository.save(turmaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Turma editada com sucesso");
             return "redirect:/index/turmas";

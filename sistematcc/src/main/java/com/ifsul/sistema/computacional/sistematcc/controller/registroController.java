@@ -15,34 +15,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ifsul.sistema.computacional.sistematcc.model.contabilizacao;
 import com.ifsul.sistema.computacional.sistematcc.model.correcoesAluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
-import com.ifsul.sistema.computacional.sistematcc.model.registro;
-import com.ifsul.sistema.computacional.sistematcc.model.resposta;
+import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
+import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
 import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.registroRepository;
-import com.ifsul.sistema.computacional.sistematcc.service.registroService;
+import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
+import com.ifsul.sistema.computacional.sistematcc.service.regTestesService;
 
 @Controller
 public class registroController {
     @Autowired
-    registroRepository registroRepository;
+    regTestesRepository regTestesRepository;
     @Autowired
     opcaorespostaRepository opcaorespostaRepository;
     @Autowired
-    registroService registroService;
+    regTestesService regTestesService;
 
     @GetMapping("/index/relatorio")
     @ResponseBody
     public ModelAndView getRelatorio( ) {
-        List<registro> regs = registroRepository.findAll();
+        List<regTestes> regs = regTestesRepository.findAll();
         for(int i=0;i<regs.size();i++){
             if(regs.get(i).getAluno().getAlunoId()==-1
                 || regs.get(i).getTeste().getTesteId()==-1){
                     regs.remove(i);  
             }
-            if(regs.get(i).getRespostas().size()>0){
-                for(int j=0;j<regs.get(i).getRespostas().size();j++){
-                    if(regs.get(i).getRespostas().get(j).getPergunta()==null){
-                        regs.get(i).getRespostas().remove(j);
+            if(regs.get(i).getRespostasTeste().size()>0){
+                for(int j=0;j<regs.get(i).getRespostasTeste().size();j++){
+                    if(regs.get(i).getRespostasTeste().get(j).getPerguntaTeste()==null){
+                        regs.get(i).getRespostasTeste().remove(j);
                     }
                 }
             }
@@ -60,24 +60,24 @@ public class registroController {
         int nQChab4 = 0;
         int nQChab5 = 0;
         int nQ = 0;
-        for (registro r : regs) {
+        for (regTestes r : regs) {
             nQcorretas = 0;
             nQChab1 = 0;
             nQChab2 = 0;
             nQChab3 = 0;
             nQChab4 = 0;
             nQChab5 = 0;
-            nQ = r.getTeste().getPerguntas().size();
-            for (resposta resp : r.getRespostas()) {
+            nQ = r.getTeste().getPerguntasTeste().size();
+            for (respostaTeste resp : r.getRespostasTeste()) {
 
                 if (resp.getOpRespostaId() == opcaorespostaRepository
-                        .findOpcaoRespostaIdByPerguntasAndVerdadeira(resp.getPergunta(), true).get(0)
+                        .findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).get(0)
                         .getOpcaoRespostaId()) {
                     correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(),
-                            r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(), true);
+                            r.getTeste().getNome(), resp.getPerguntaTeste().getPerguntaTesteId(), resp.getOpRespostaId(), true);
 
                     nQcorretas++;
-                    for (habilidade h : resp.getPergunta().getHabilidades()) {
+                    for (habilidade h : resp.getPerguntaTeste().getHabilidades()) {
                         switch (h.getNome()) {
                             case "compreensao":
                                 nQChab1++;
@@ -101,7 +101,7 @@ public class registroController {
                     correcaoList.add(cA);
                 } else {
                     correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(),
-                            r.getTeste().getNome(), resp.getPergunta().getPerguntaId(), resp.getOpRespostaId(), false);
+                            r.getTeste().getNome(), resp.getPerguntaTeste().getPerguntaTesteId(), resp.getOpRespostaId(), false);
                     correcaoList.add(cA);
                 }
             }
@@ -127,7 +127,7 @@ public class registroController {
             fileWriter.write("alunoId, testeId, nQcorretas, nQ,H1,H2,H3,H4,H5, valorTotal, recomendacao");
            
            // linhas.add(new String[]{"alunoId", "testeId", "nQcorretas","nQ","valorTotal","recomendacao" });
-           List<contabilizacao> contabilizacaoList = registroService.contabilizartudo(); 
+           List<contabilizacao> contabilizacaoList = regTestesService.contabilizartudo(); 
            for (contabilizacao cL : contabilizacaoList) {
                 String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                             cL.getAlunoId(), cL.getTesteId(), cL.getnQcorretas(), cL.getnQ(),cL.getnQChab1(),cL.getnQChab2(),cL.getnQChab3(),cL.getnQChab4(),cL.getnQChab5(),cL.getValorTotal(),cL.getRecomendacao());
@@ -151,7 +151,7 @@ public class registroController {
     @GetMapping(value = "/index/resultadosTeste")
     public ModelAndView getResultadosTeste() {
         ModelAndView mv = new ModelAndView("resultTeste");
-        List<registro> lreg = registroRepository.findAll();
+        List<regTestes> lreg = regTestesRepository.findAll();
         System.out.println(lreg.toString());
         mv.addObject("registros", lreg);
         return mv;

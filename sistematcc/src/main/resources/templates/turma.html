@@ -27,6 +27,7 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Nome </th>
+                        <th scope="col">Visibilidade </th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
@@ -34,6 +35,7 @@
                     <tr  th:each="t: ${turmas}">
                         <td th:text="${t.turmaId}"></td>
                         <td th:text="${t.nome}"></td> <!-- '' aspas simples fica como texto -->
+                        <td th:text="${t.visibilidade}"></td>
                         <td><a class="btn btn-outline-primary" 
 						th:href="@{/index/deleteturma/{id}(id=${t.turmaId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 

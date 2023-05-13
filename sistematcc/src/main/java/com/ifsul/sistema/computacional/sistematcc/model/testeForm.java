@@ -7,20 +7,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class testeForm {
 	private String nome; 
-	private LocalDate getDisponibilidade; 
+	private LocalDate disponibilidade; 
 	private boolean visibilidade;
-	private List<pergunta> perguntas;
+	private double peso;
+	private List<perguntaTeste> perguntas;
 
-	public List<pergunta> getPerguntas() {
-		return perguntas;
+	public List<perguntaTeste> getPerguntas() {
+		return this.perguntas;
 	}
 
-	public void setPerguntas(List<pergunta> p) {
+	public void setPerguntas(List<perguntaTeste> p) {
 		this.perguntas = p;
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public void setNome(String nome) {
@@ -28,25 +29,35 @@ public class testeForm {
 	}
 
 	public LocalDate getDisponibilidade() {
-		return getDisponibilidade;
+		return this.disponibilidade;
 	}
 
 	public void setDisponibilidade(LocalDate getDisponibilidade) {
-		this.getDisponibilidade = getDisponibilidade;
+		this.disponibilidade = getDisponibilidade;
 	}
 
 	public boolean isVisibilidade() {
-		return visibilidade;
+		return this.visibilidade;
 	}
 
 	public void setVisibilidade(boolean visibilidade) {
 		this.visibilidade = visibilidade;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "testeForm [nome=" + nome + ", getDisponibilidade=" + getDisponibilidade + ", visibilidade="
-				+ visibilidade + ", perguntas=" + perguntas + "]";
+		return "testeForm [nome=" + nome + ", disponibilidade=" + disponibilidade + ", visibilidade="
+				+ visibilidade + ", peso=" + peso + "]";
+	}
+
+	public double getPeso() {
+		return this.peso;
+	}
+
+	public void setPeso(double peso) {
+		this.peso = peso;
 	}
 
 	
