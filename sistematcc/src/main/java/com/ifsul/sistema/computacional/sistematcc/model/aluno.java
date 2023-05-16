@@ -32,6 +32,13 @@ public class aluno implements Serializable{
 
     @Column(nullable = false)
     private String matricula;
+
+    
+    private int idade;
+
+    
+    private String nacionalidade;
+
     @Column(nullable=false, unique=true)
     private String username;
     @Column(nullable=false)
@@ -56,19 +63,11 @@ public class aluno implements Serializable{
     @JsonManagedReference
     private List<habilidade> habilidades;
 
-
-    @ManyToMany
-    @JoinTable(
-        name = "registroquestinicial",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"alunoId","questionarioId"}),
-        joinColumns =  @JoinColumn(name = "alunoId"),
-        inverseJoinColumns = @JoinColumn(name = "questionarioId")
-    )
-    @JsonBackReference
-    private List<questionarioinicial> questionarios;
-
     @OneToMany(mappedBy="aluno")
      List<regTestes> regTeste;
+
+     @OneToMany(mappedBy="aluno")
+     List<regQuestionarios> regQuestionarios;
 
     //  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //  @JoinTable(name = "TB_USERS_ROLES",
@@ -109,14 +108,22 @@ public class aluno implements Serializable{
 
     public aluno() {
         super();
+        this.matricula="0000";
+        this.nome="";
+        this.idade=0;
+        this.nacionalidade="";
+        this.username="";
+        this.senha="";
     }
 
-    public aluno(int alunoId, String nome, String matricula, String username, String password) {
-        this.alunoId = alunoId;
+    
+    public aluno(String nome, String matricula, int idade, String nacionalidade, String username, String senha) {
         this.nome = nome;
         this.matricula = matricula;
+        this.idade = idade;
+        this.nacionalidade = nacionalidade;
         this.username = username;
-        this.senha = password;
+        this.senha = senha;
     }
 
     public void setUsername(String username) {
@@ -157,13 +164,7 @@ public class aluno implements Serializable{
     }
 
 
-    public List<questionarioinicial> getQuestionarios() {
-        return questionarios;
-    }
-
-    public void setQuestionarios(List<questionarioinicial> questionarios) {
-        this.questionarios = questionarios;
-    }
+    
 
     public List<regTestes> getRegTeste() {
         return regTeste;
@@ -175,6 +176,34 @@ public class aluno implements Serializable{
 
     public static long getSerialversionuid() {
         return serialVersionUID;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public void setRegTeste(List<regTestes> regTeste) {
+        this.regTeste = regTeste;
+    }
+
+    public List<regQuestionarios> getRegQuestionarios() {
+        return regQuestionarios;
+    }
+
+    public void setRegQuestionarios(List<regQuestionarios> regQuestionarios) {
+        this.regQuestionarios = regQuestionarios;
     }
 
 

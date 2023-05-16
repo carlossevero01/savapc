@@ -28,6 +28,8 @@
                         <th scope="col">Id</th>
                         <th scope="col">Nome </th>
                         <th scope="col">Matricula</th>
+                        <th scope="col">Idade</th>
+                        <th scope="col">Nacionalidade</th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
@@ -35,7 +37,9 @@
                     <tr  th:each="a: ${alunos}">
                         <td th:text="${a.alunoId}"></td>
                         <td th:text="${a.nome}"></td>
-                        <td th:text="${a.matricula}"></td>         <!-- '' aspas simples fica como texto -->
+                        <td th:text="${a.matricula}"></td>
+                        <td th:text="${a.idade}"></td> 
+                        <td th:text="${a.nacionalidade}"></td> 
                         <td><a class="btn btn-outline-primary" 
 						th:href="@{/index/deletealuno/{id}(id=${a.alunoId})}" role="button">Deletar</a>
 							<a class="btn btn-outline-primary" 

@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
 import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
 import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
-import com.ifsul.sistema.computacional.sistematcc.repository.perguntaquestionarioRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.perguntaQuestionarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 
 import jakarta.validation.Valid;
@@ -21,9 +24,11 @@ import jakarta.validation.Valid;
 @Controller
 public class perguntaQuestInicialController {
     @Autowired
-    perguntaquestionarioRepository perguntaquestionarioRepository;
+    perguntaQuestionarioRepository perguntaquestionarioRepository;
     @Autowired
     questionarioinicialRepository questionarioRepository;
+    @Autowired
+    opcaorespostaRepository opcaorespostaRepository;
 
     @GetMapping("/index/perguntasquestinicial")
     public ModelAndView getPerguntas(){
@@ -40,15 +45,19 @@ public class perguntaQuestInicialController {
             if(questionarioRepository.existsById(questionarioId)){
                 qi = questionarioRepository.findById(questionarioId).get();
                 mv.addObject("questionarioId", questionarioId);
+                List<perguntaquestionario> perguntas = qi.getPerguntasQuestionario();
+                mv.addObject("perguntas", perguntas);
+                return mv;
+            }else{
+                return mv;
             }
-            List<perguntaquestionario> perguntas = qi.getPerguntasQuestionario();
-            mv.addObject("perguntas", perguntas);
-            return mv;
+           
         } catch (Exception e) {
             return mv;
         }
     }
 
+    
     @GetMapping("/index/saveperguntaquestionario/{id}")
     public ModelAndView getSavePerguntaQuestionario(@PathVariable("id") int questionarioId){
         ModelAndView mv = new ModelAndView("savePerguntaQuestionario");
@@ -130,6 +139,54 @@ public class perguntaQuestInicialController {
             }
                        
       }
+
+      @GetMapping(value = "/index/perguntaquestionario/opcoesresposta/{id}")
+    public ModelAndView getOpcoesRespostaPerguntaQuestionario(@PathVariable("id") int perguntaquestionarioId) {
+        ModelAndView mv = new ModelAndView("opcaorespostaPergQuest");
+        perguntaquestionario p = perguntaquestionarioRepository.findById(perguntaquestionarioId).get();
+        List<opcaoresposta> opR = p.getOpcoesResposta();
+        mv.addObject("opcoesrespostas", opR);
+        mv.addObject("perguntaQuestionarioId", p.getPerguntaQuestionarioId());
+        return mv;
+    }
+
+    @GetMapping("/index/perguntaquestionario/saveopcaoresposta/{id}")
+    public ModelAndView getSaveOpcaoResposta(@PathVariable("id") int id) {
+        ModelAndView mv = new ModelAndView("saveOpcaorespostaPergQuest");
+        mv.addObject("perguntaQuestionarioId", id);
+        return mv;
+    }
+
+    @PostMapping("/index/perguntaquestionario/saveopcaoresposta/{id}")
+    public String saveOpcaoResposta(@PathVariable("id") int id, @Valid opcaoresposta or, BindingResult result,
+            RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + or.toString());
+            return "redirect:/index/perguntaquestionario/saveopcaoresposta/{id}";
+        }
+        opcaorespostaRepository.save(or);
+        perguntaquestionario p = perguntaquestionarioRepository.findById(id).get();
+        List<opcaoresposta> listOR = p.getOpcoesResposta();
+        listOR.add(or);
+        p.setOpcoesResposta(listOR);
+        perguntaquestionarioRepository.save(p);
+        attributes.addFlashAttribute("sucesso", "Opcao Resposta cadastrada");
+        return "redirect:/index/perguntaquestionario/opcoesresposta/{id}";
+    }
+
+    @GetMapping(value = "/index/perguntaquestionario/deleteopcaoresposta/{id}")
+    public String deleteOpcaoResposta(@PathVariable("id") int id, RedirectAttributes attributes) {
+        try {
+            opcaorespostaRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso", "Opção-Resposta deletada");
+            return "redirect:/index/perguntaquestionario/opcoesresposta/{id}";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "ID inexistente ou erro desconhecido");
+            return "redirect:/index/perguntaquestionario/opcoesresposta/{id}";
+        }
+    }
+
+    ///index/perguntaquestionario/opcoesresposta/{id}
 
 
 }

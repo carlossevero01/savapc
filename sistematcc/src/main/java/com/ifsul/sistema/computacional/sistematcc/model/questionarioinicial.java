@@ -37,22 +37,12 @@ public class questionarioinicial implements Serializable{
     @ManyToMany
     @JoinTable(
         name = "questpergunta",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaQuestId","questionarioId"}),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaQuestionarioId","questionarioId"}),
         joinColumns =  @JoinColumn(name = "questionarioId"),
-        inverseJoinColumns = @JoinColumn(name = "perguntaQuestId")
+        inverseJoinColumns = @JoinColumn(name = "perguntaQuestionarioId")
     )
     @JsonManagedReference
     private List<perguntaquestionario> perguntasQuestionario;
-
-    @ManyToMany
-    @JoinTable(
-        name = "registroquestinicial",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"alunoId","questionarioId"}),
-        joinColumns =  @JoinColumn(name = "questionarioId"),
-        inverseJoinColumns = @JoinColumn(name = "alunoId")
-    )
-    @JsonManagedReference
-    private List<aluno> alunos;
 
     @ManyToMany
     @JoinTable(
@@ -63,7 +53,10 @@ public class questionarioinicial implements Serializable{
     )
     @JsonBackReference
     private List<turma> turmas;
+
     
+    
+     
     public int getQuestionarioId() {
         return questionarioId;
     }
@@ -119,13 +112,7 @@ public class questionarioinicial implements Serializable{
         this.perguntasQuestionario = perguntasQuestionario;
     }
 
-    public List<aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(List<aluno> alunos) {
-        this.alunos = alunos;
-    }
+   
 
     public List<turma> getTurmas() {
         return turmas;
@@ -135,6 +122,7 @@ public class questionarioinicial implements Serializable{
         this.turmas = turmas;
     }
 
+    
    
 
     

@@ -44,6 +44,16 @@ public class opcaoresposta implements Serializable{
     @JsonBackReference
     private List<perguntaTeste> perguntasTeste;
 
+    @ManyToMany
+    @JoinTable(
+        name = "opcaoResposta_PerguntaQuestionario",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaQuestionarioId","opcaoRespostaId"}),
+        joinColumns =  @JoinColumn(name = "opcaoRespostaId"),
+        inverseJoinColumns = @JoinColumn(name = "perguntaQuestionarioId")
+    )
+    @JsonBackReference
+    private List<perguntaquestionario> perguntasQuestionario;
+
     public int getOpcaoRespostaId() {
         return opcaoRespostaId;
     }
@@ -92,12 +102,22 @@ public class opcaoresposta implements Serializable{
         return "opcaoresposta [opcaoRespostaId=" + opcaoRespostaId + ", descricao=" + descricao + ", verdadeira=" + verdadeira + "]";
     }
 
-    public List<perguntaTeste> getPerguntas() {
+   
+
+    public List<perguntaTeste> getPerguntasTeste() {
         return perguntasTeste;
     }
 
-    public void setPerguntas(List<perguntaTeste> perguntas) {
-        this.perguntasTeste = perguntas;
+    public void setPerguntasTeste(List<perguntaTeste> perguntasTeste) {
+        this.perguntasTeste = perguntasTeste;
+    }
+
+    public List<perguntaquestionario> getPerguntasQuestionario() {
+        return perguntasQuestionario;
+    }
+
+    public void setPerguntasQuestionario(List<perguntaquestionario> perguntasQuestionario) {
+        this.perguntasQuestionario = perguntasQuestionario;
     }
 
     

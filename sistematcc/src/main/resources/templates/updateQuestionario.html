@@ -10,6 +10,7 @@
 		 .nav-item:hover{background-color:#a9a8eb; color:white;}
 		 .btn:hover{background-color:#a9a8eb; color:white;}
 		 .active{ border-bottom:solid red 1px;}
+
 		</style>
 	</head>
     <body>
@@ -22,61 +23,26 @@
 				 <div class="col-md-6 offset-md-3 " style="width: 30rem;">
             <th:block th:include="mensagemValidacao"></th:block>
             
-					  <form   method="post" enctype="multipart/form-data" th:action="@{/index/usuario/update}">
-						<div class="form-group mt-2" hidden>
-						  <input id="id" class="form-control" name="id" th:value="${id}" 
-						   hidden/>
-						 </div>
+					  <form  method="post" th:action="@{/index/updatequestionario/{id}(id=${questionario.questionarioId})}">
 						
 						<div class="form-group mt-2">
 						 <label class="control-label" for="nome"> Nome </label>
-						 <input id="nome" class="form-control" name="nome" th:value="${nome}" 
+						 <input id="nome" class="form-control" name="nome" th:value="${questionario.nome}" 
 						  required autofocus="autofocus" />
 						</div>
 				   
+						<div class="form-check mt-2 form-switch">
+							<input class="form-check-input" type="checkbox" role="switch" id="visibilidade" name="visibilidade" th:checked="${questionario.visibilidade}">
+							<label class="form-check-label" for="visibilidade" >Visibilidade</label>
+						 </div>
 						<div class="form-group mt-2">
-						 <label class="control-label" for="email"> Email </label> <input
-						  id="email" class="form-control" name="email" th:value="${email}" 
-						  required autofocus="autofocus" />
-						</div>
-				   
-						<div class="form-group mt-2">
-						 <label class="control-label" for="telefone"> Telefone </label> <input
-						  id="telefone" class="form-control" name="telefone" th:value="${telefone}" required 
-						  autofocus="autofocus" />
+							<label class="control-label" for="disponibilidade"> Disponibilidade </label> 
+							<input type="date" id="disponibilidade" class="form-control" required
+							 autofocus="autofocus" name="disponibilidade" th:value="${questionario.disponibilidade}"/>
 						</div>
 
 						<div class="form-group mt-2">
-							<label class="control-label" for="matricula"> Matricula </label> <input
-							 id="matricula" class="form-control" name="matricula" th:value="${identificacao}" required
-							 autofocus="autofocus" />
-						</div>
-
-						<div class="form-group mt-2">
-							<label class="control-label" for="dataNascimento"> Data de nascimento </label> <input
-							 type="date" id="dataNascimento" class="form-control" name="dataNascimento"  required
-							 autofocus="autofocus" />
-						</div>
-
-						<div class="form-group mt-2">
-						  <label for="img" class="control-label">Imagem</label>
-						  <input type="file" class="form-control" id="img" name="file" th:text="${img}">
-						</div>
-
-						<div class="form-group mt-2">
-							<label class="control-label" for="username"> Username </label> <input
-							 id="username" class="form-control" name="username" th:value="${username}" required
-							 autofocus="autofocus" />
-						</div>
-				   
-						<div class="form-group mt-2">
-						 <label class="control-label" for="password"> Password </label> <input
-						  id="password" class="form-control" type="password"
-						  name="password"  required autofocus="autofocus" />
-						</div>
-           
-						<div class="form-group mt-2">
-						<button type="submit" class="btn btn-success">Salvar</button>
+						<button type="submit" class="btn bor mt-2">Salvar</button>
 						</div>
 					</form>
 				</div>

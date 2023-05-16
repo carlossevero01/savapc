@@ -109,15 +109,18 @@ public class habilidadeController {
     @ResponseBody
     public ModelAndView getHabilidadesPergunta(@PathVariable("perguntaId") int perguntaId,
             @PathVariable("testeId") int testeId) {
-        ModelAndView mv = new ModelAndView("habilidade");
+        ModelAndView mv = new ModelAndView("habilidadePerguntaTeste");
         try {
+            perguntaTeste p = perguntaTesteRepository.findById(perguntaId).get();
             List<habilidade> habilidadesAll = habilidadeRepository.findAll();
+            List<habilidade> habilidadePergunta = habilidadeRepository.findByPerguntasTeste(p);
             mv.addObject("habilidades", habilidadesAll);
             mv.addObject("perguntaId", perguntaId);
             mv.addObject("testeId", testeId);
+            mv.addObject("habilidadesPergunta", habilidadePergunta);
             return mv;
         } catch (Exception e) {
-            return mv; // TODO: handle exception
+            return mv; 
         }  
     }
 

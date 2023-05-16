@@ -20,9 +20,7 @@
 		<div class="container mt-2">
 			 <div class="row">
 				<a class="btn btn-outline-primary" href="/index/saveHabilidade" role="button">Inserir Nova Habilidade</a>
-            <th:block th:include="mensagemValidacao"></th:block>
-			<form method="post" th:object="${lhab}">
-				<input type="number" id="testeId" name="testeId" th:value="${testeId}"  hidden> 
+            <th:block th:include="mensagemValidacao"></th:block> 
 				<div class="col-lg-10 mt-5 mb-5" >
 					<table class="table" >
 					<thead>
@@ -38,16 +36,12 @@
 							<td th:text="${h.nome}"></td>
 							<td><a class="btn btn-outline-primary" th:href="@{/index/deletehabilidade/{id}(id=${h.habilidadeId})}" role="button">Deletar</a>
 								<a class="btn btn-outline-primary" th:href="@{/index/updatehabilidade/{id}(id=${h.habilidadeId})}" role="button">Editar</a>
-								<input class="form-check-input" type="checkbox" th:name="|habilidades[${i.index}].habilidadeId|" th:value="${h.habilidadeId}" >
-								<label class="form-check-label"  >Utilizar</label>
+								
 							</td>
 						</tr>
 						</tbody>
 					</table>         
 			  </div>  
-			  <button type="submit" class="btn btnbor mt-2">Aplicar</button>
-			</form>
-            
         	</div>
 			
 		</div>

@@ -49,10 +49,11 @@ public class opcaorespostaController {
             opcaorespostaExistente.setVerdadeira(novaOpcaoresposta.isVerdadeira());
             opcaorespostaRepository.save(opcaorespostaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "OpcaoResposta Editada com sucesso");
-            return "redirect:/index/testes";
+            
+            return "redirect:/turmas";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
-            return "redirect:/index/testes";
+            return "redirect:/index/updateopcaoresposta/{id}";
 
         }
     }

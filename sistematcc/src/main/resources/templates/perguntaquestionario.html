@@ -33,13 +33,15 @@
                 </thead>
                     <tbody>
                     <tr  th:each="p , i: ${perguntas}">
-                        <td th:text="${p.perguntaQuestId}"></td>
+                        <td th:text="${p.perguntaQuestionarioId}"></td>
                         <td th:text="${p.tipo}"></td>
                         <td th:text="${p.descricao}"></td>  <!-- '' aspas simples fica como texto -->
                         <td><a class="btn btn-outline-primary" 
-						th:href="@{/index/{questionarioId}/deleteperguntaquest/{id}(questionarioId=${questionarioId},id=${p.perguntaQuestId})}" role="button">Deletar</a>
+						th:href="@{/index/{questionarioId}/deleteperguntaquest/{id}(questionarioId=${questionarioId},id=${p.perguntaQuestionarioId})}" role="button">Deletar</a>
                             <a class="btn btn-outline-primary" 
-							th:href="@{/index/{questionarioId}/updateperguntaquest/{id}(questionarioId=${questionarioId},id=${p.perguntaQuestId})}" role="button">Editar</a>
+							th:href="@{/index/{questionarioId}/updateperguntaquest/{id}(questionarioId=${questionarioId},id=${p.perguntaQuestionarioId})}" role="button">Editar</a>
+                            <a class="btn btn-outline-primary" 
+							th:href="@{/index/perguntaquestionario/opcoesresposta/{id}(id=${p.perguntaQuestionarioId})}" role="button">Opções Resposta</a>
                         </td>
                     </tr>
                     </tbody>

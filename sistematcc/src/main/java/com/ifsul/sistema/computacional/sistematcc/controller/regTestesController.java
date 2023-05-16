@@ -34,7 +34,7 @@ public class regTestesController {
     @Autowired
     turmaRepository turmaRepository;
 
-    @GetMapping("/index/relatorio")
+    @GetMapping("/index/relatorioTeste")
     @ResponseBody
     public ModelAndView getRelatorio( ) {
          ModelAndView mv = new ModelAndView("relatorioTeste");
@@ -42,7 +42,7 @@ public class regTestesController {
          mv.addObject("contabilizacoes", contabilizacaoList);
          return mv;
     }
-    @GetMapping("/index/relatorio/{turmaId}")
+    @GetMapping("/index/relatorioTeste/{turmaId}")
     @ResponseBody
     public ModelAndView getRelatorioTurma(@PathVariable("turmaId") int turmaId ) {
          ModelAndView mv = new ModelAndView("relatorioTestePorTurma");
@@ -68,7 +68,7 @@ public class regTestesController {
                      
                     fileWriter.newLine();
                     fileWriter.write(line); 
-              //  linhas.add(new String[]{cL.getAlunoId()+"",cL.getTesteId()+"",cL.getnQcorretas()+"",cL.getnQ()+"",cL.getValorTotal()+"",cL.getRecomendacao()+""});
+              
                 System.out.println(cL.getAlunoId()+"|"+cL.getTesteId()+"|"+cL.getnQcorretas()+"|"+cL.getnQ()+"|"+cL.getValorTotal()+"|"+cL.getRecomendacao());
             }
             fileWriter.close();
@@ -89,7 +89,7 @@ public class regTestesController {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
             fileWriter.write("alunoId, testeId, nQcorretas, nQ,H1,H2,H3,H4,H5, valorTotal, recomendacao");
            
-           // linhas.add(new String[]{"alunoId", "testeId", "nQcorretas","nQ","valorTotal","recomendacao" });
+           
            List<contabilizacao> contabilizacaoList = regTestesServiceImplements.contabilizartudo(); 
            for (contabilizacao cL : contabilizacaoList) {
                 String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
@@ -97,7 +97,7 @@ public class regTestesController {
                      
                     fileWriter.newLine();
                     fileWriter.write(line); 
-              //  linhas.add(new String[]{cL.getAlunoId()+"",cL.getTesteId()+"",cL.getnQcorretas()+"",cL.getnQ()+"",cL.getValorTotal()+"",cL.getRecomendacao()+""});
+              
                 System.out.println(cL.getAlunoId()+"|"+cL.getTesteId()+"|"+cL.getnQcorretas()+"|"+cL.getnQ()+"|"+cL.getValorTotal()+"|"+cL.getRecomendacao());
             }
             fileWriter.close();

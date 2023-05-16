@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.turmaForm;
@@ -165,15 +166,28 @@ public class turmaController {
         ModelAndView mv = new ModelAndView("insideTurma");
         if(turmaRepository.findById(turmaId)!=null){
             turma t = turmaRepository.findById(turmaId).get();
-            List<teste> tests = t.getTestes();
-            List<teste> testes = new ArrayList<>();
-            for (teste test : tests) {
-                if(test.getVisibilidade()){
-                    testes.add(test);
+            try {
+                List<teste> tests = t.getTestes();
+                List<teste> testes = new ArrayList<>();
+                for (teste test : tests) {
+                    if(test.getVisibilidade()){
+                        testes.add(test);
+                    }
                 }
+                List<questionarioinicial> questionarios = t.getQuestionarios();
+                List<questionarioinicial> quest = new ArrayList<>();
+                for (questionarioinicial q : questionarios) {
+                    if(q.isVisibilidade()){
+                        quest.add(q);
+                    }
+                }
+                mv.addObject("testes", testes);
+                mv.addObject("turma", t);   
+                mv.addObject("questionarios", quest); 
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("erro", "Erro na busca dos testes ou questionarios da turma");
             }
-            mv.addObject("testes", testes);
-            mv.addObject("turma", t);
+            
         }
         else{
             redirectAttributes.addFlashAttribute("erro", "Turma não encontrada");

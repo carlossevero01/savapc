@@ -17,26 +17,46 @@
         
 		<div th:insert="fragments/frag :: nav"></div>
 		
+		
+
 		<div class="container mt-2">
 			<th:block th:insert="mensagemValidacao"></th:block>
-			<div clas="row"><h3 class="ml-2 mt-2 p-2" th:text="${turma.nome}"></h3></div>
-			<div class="col-2"></div>
-			
-			<div class="col-auto">
-				<div class="row">
+			<div class="row"></h3>
+			<div class="col-1">
+											
+				<a class="btn" onclick="history.go(-1)">Voltar</a>
+				
+			</div>
+			<div class="col"> <h3 class="ml-2 mt-2 p-2" th:text="${turma.nome}"></h3></div>
+			</div>
+			<div class="row p-3">
+			<div class="col">
+				<h4>Testes:</h4>
 					<div class="card text-center" th:each="t , i : ${testes}">
 						<div class="card-header" th:text="${t.disponibilidade}"></div>
 							<div class="card-body">
-							<h5 class="card-title" th:text="${t.nome}"></h5>
-							<p class="card-text" ></p>
+								<h5 class="card-title" th:text="${t.nome}"></h5>
+								<p class="card-text" ></p>
 							</div>
 							<div class="card-footer text-muted"> 
 								<a class="btn btn-outline-primary" th:href="@{/index/aplicacaoteste/{turmaId}/{testeId}(turmaId=${turma.turmaId},testeId=${t.testeId})}" role="button">Acessar Teste</a>
 							</div>
-					</div>
-				</div>
+					</div>	
 			</div>
-			<div class="col-2"></div>
+			<div class="col">
+				<h4>Questionario:</h4>
+					<div class="card text-center" th:each="q , j : ${questionarios}">
+						<div class="card-header" th:text="${q.disponibilidade}"></div>
+							<div class="card-body">
+								<h5 class="card-title" th:text="${q.nome}"></h5>
+								<p class="card-text" ></p>
+							</div>
+							<div class="card-footer text-muted"> 
+								<!-- <a class="btn btn-outline-primary" th:href="@{/index/aplicacaoquest/{turmaId}/{questionarioId}(turmaId=${turma.turmaId},questionarioId=${q.questionarioId})}" role="button">Acessar Questionario</a> -->
+							</div>
+					</div>	
+			</div>
+			</div>
 			
 			
 			

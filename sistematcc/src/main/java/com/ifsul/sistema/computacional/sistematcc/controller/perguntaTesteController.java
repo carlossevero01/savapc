@@ -26,7 +26,7 @@ import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import jakarta.validation.Valid;
 
 @Controller
-public class perguntaController {
+public class perguntaTesteController {
     @Autowired
     perguntaTesteRepository perguntaTesteRepository;
     @Autowired
@@ -34,7 +34,7 @@ public class perguntaController {
     /* Listar perguntas */
     @GetMapping(value = "/index/perguntas")
     public ModelAndView listarPerguntas() {
-        ModelAndView mv = new ModelAndView("pergunta");
+        ModelAndView mv = new ModelAndView("perguntaTeste");
         List<perguntaTeste> list = perguntaTesteRepository.findAll();
         mv.addObject("perguntas", list);
         return mv;
@@ -42,7 +42,7 @@ public class perguntaController {
     /*Salvar Pergunta por teste id */
     @GetMapping("/index/teste/savePergunta/{id}")
     public ModelAndView getSavePergunta(@PathVariable("id") int id) {
-        ModelAndView mv = new ModelAndView("savePergunta");
+        ModelAndView mv = new ModelAndView("savePerguntaTeste");
         mv.addObject("testeId", id);
         return mv;
     }
@@ -114,7 +114,7 @@ public class perguntaController {
     /*Perguntas por teste */
     @GetMapping(value = "/index/teste/perguntas/{id}")
     public ModelAndView getPerguntasPorTeste(@PathVariable("id") int testeId) {
-        ModelAndView mv = new ModelAndView("pergunta");
+        ModelAndView mv = new ModelAndView("perguntaTeste");
         teste t = testeRepository.findById(testeId).orElseThrow(null);
         mv.addObject("testeId", t.getTesteId());
         mv.addObject("testeNome", t.getNome());
@@ -125,7 +125,7 @@ public class perguntaController {
     @GetMapping("/index/updatepergunta/{id}")
     @ResponseBody
     public ModelAndView getPerguntaUpdate(@PathVariable("id") int perguntaId) {
-        ModelAndView mv = new ModelAndView("updatePergunta");
+        ModelAndView mv = new ModelAndView("updatePerguntaTeste");
         try {
             perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
             mv.addObject("pergunta", perguntaExistente);
@@ -141,7 +141,7 @@ public class perguntaController {
         try {
             perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
             perguntaExistente.setDescricao(novaPergunta.getDescricao());
-
+            perguntaExistente.setTitulo(novaPergunta.getTitulo());
             if (img.isEmpty()) {
                 novaPergunta.setImg(null);
             } else {
@@ -152,7 +152,7 @@ public class perguntaController {
             }
             perguntaTesteRepository.save(perguntaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Pergunta Editada com sucesso");
-            return "redirect:/index/testes";
+            return "redirect:/index/teste/perguntas/{id}";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
             return "redirect:/index/testes";

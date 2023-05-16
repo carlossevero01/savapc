@@ -7,9 +7,11 @@ CREATE TABLE turma (
 );
 
 CREATE TABLE aluno (
-    matricula Varchar(30),
     alunoId int PRIMARY KEY auto_increment,
+    matricula Varchar(30),
     nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    idade int,
+    nacionalidade varchar (100) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     username varchar(100),
     senha varchar(100)
 );
@@ -47,9 +49,11 @@ CREATE TABLE questionarioInicial (
     visibilidade boolean
 );
 CREATE TABLE perguntaQuestionario (
-    perguntaQuestId int PRIMARY KEY auto_increment,
+    perguntaQuestionarioId int PRIMARY KEY auto_increment,
+    titulo varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     descricao varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-    tipo varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci
+    tipo varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    opRespostaId varchar(4)
 );
 
 CREATE TABLE habilidade (
@@ -66,6 +70,16 @@ CREATE TABLE regTestes (
     FOREIGN KEY (alunoId) REFERENCES aluno(alunoId),
     FOREIGN KEY (turmaId) REFERENCES turma(turmaId)
 );
+
+CREATE TABLE regQuestionarios (
+    regQuestionarioId int PRIMARY KEY auto_increment,
+    questionarioId int,
+    alunoId int,
+    turmaId int,
+    FOREIGN KEY (questionarioId) REFERENCES questionarioinicial(questionarioId),
+    FOREIGN KEY (alunoId) REFERENCES aluno(alunoId),
+    FOREIGN KEY (turmaId) REFERENCES turma(turmaId)
+);
 CREATE TABLE respostaTeste (
 	respostaTesteId int PRIMARY KEY auto_increment,
 	perguntaTesteId int,
@@ -73,14 +87,11 @@ CREATE TABLE respostaTeste (
 	FOREIGN KEY (perguntaTesteId) REFERENCES perguntaTeste(perguntaTesteId) 
 );
 
-CREATE TABLE registroQuestInicial (
-    regquestionarioId int PRIMARY KEY auto_increment,
-    questionarioId int,
-    alunoId int,
-    perguntaQuestId int,
-    FOREIGN KEY (questionarioId) REFERENCES questionarioInicial(questionarioId),
-    FOREIGN KEY (alunoId) REFERENCES aluno(alunoId),
-    FOREIGN KEY (perguntaQuestId) REFERENCES perguntaQuestionario(perguntaQuestId)
+CREATE TABLE respostaQuestionario (
+	respostaQuestionarioId int PRIMARY KEY auto_increment,
+	perguntaQuestionarioId int,
+	opRespostaId int,
+	FOREIGN KEY (perguntaQuestionarioId) REFERENCES perguntaquestionario(perguntaQuestionarioId) 
 );
 
 CREATE TABLE alunoTurma (
@@ -120,9 +131,9 @@ CREATE TABLE alunoHabilidade (
 
 CREATE TABLE questPergunta (
     questionarioId int,
-    perguntaQuestId int,
+    perguntaQuestionarioId int,
     FOREIGN KEY (questionarioId) REFERENCES questionarioInicial(questionarioId),
-    FOREIGN KEY (perguntaQuestId) REFERENCES perguntaQuestionario(perguntaQuestId)
+    FOREIGN KEY (perguntaQuestionarioId) REFERENCES perguntaQuestionario(perguntaQuestionarioId)
 );
 
 CREATE TABLE opcaoResposta_PerguntaTeste (
@@ -132,12 +143,27 @@ CREATE TABLE opcaoResposta_PerguntaTeste (
 	FOREIGN KEY (opcaoRespostaId) REFERENCES opcaoResposta(opcaoRespostaId)
 );
 
+CREATE TABLE opcaoResposta_PerguntaQuestionario (
+	perguntaQuestionarioId int,
+    opcaoRespostaId int,
+    FOREIGN KEY (perguntaQuestionarioId) REFERENCES perguntaquestionario(perguntaQuestionarioId),
+    FOREIGN KEY (opcaoRespostaId) REFERENCES opcaoresposta(opcaoRespostaId)
+);
+
 CREATE TABLE regTestes_respostaTeste(
 	regTestesId int ,
 	respostaTesteId int,
 	FOREIGN KEY (regTestesId) REFERENCES regTestes(regTestesId),
 	FOREIGN KEY (respostaTesteId) REFERENCES respostaTeste(respostaTesteId)
 );
+
+CREATE TABLE regQuestionarios_RespostaQuestionario(
+	regQuestionarioId int,
+    respostaQuestionarioId int,
+    FOREIGN KEY (regQuestionarioId) REFERENCES regquestionarios(regQuestionarioId),
+	FOREIGN KEY (respostaQuestionarioId) REFERENCES respostaquestionario(respostaQuestionarioId)
+);
+
 CREATE TABLE testesturma (
 	turmaId int,
 	testeId int,
