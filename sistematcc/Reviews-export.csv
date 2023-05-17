@@ -1,3 +1,4 @@
-alunoId, turmaId, testeId, nQcorretas, nQ,H1,H2,H3,H4,H5, valorTotal, recomendacao
-"1",1,0,1,0,0,0,0,0,0.0,nao desenvolveu habilidades
-"1",1,1,1,0,0,1,0,0,7.0,Alfabetizado em Codigo
+teste,turma,aluno,nQuestoes,nQcorretas,H1,H2,H3,H4,H5,peso, valorTotal, recomendacao
+"pre-teste",turmaTeste,alunoTeste,1,1,0,0,1,0,0,8.0,8.0,Alfabetizado em Codigo
+"pre-teste",turmaTeste,alunoTeste,1,0,0,0,0,0,0,8.0,0.0,nao desenvolveu habilidades
+"pre-teste",turmaTeste,alunoTeste,1,1,0,0,1,0,0,8.0,8.0,Alfabetizado em Codigo

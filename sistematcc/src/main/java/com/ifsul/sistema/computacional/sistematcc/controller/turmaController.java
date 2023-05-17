@@ -103,6 +103,8 @@ public class turmaController {
         ModelAndView mv = new ModelAndView("turma");
         List<turma> list = turmaRepository.findAll();
         mv.addObject("turmas", list);
+        List<teste> testes = testeRepository.findAll();
+        mv.addObject("testes", testes);
         return mv;
     }
     /*Inscrive um aluno pela matricula na turma por id */

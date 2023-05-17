@@ -4,7 +4,7 @@ INSERT INTO habilidade (nome) values ('Resolucao de problemas'); /*ID:3*/
 INSERT INTO habilidade (nome) values ('Resolucao algoritmica'); /*ID:4*/
 INSERT INTO habilidade (nome) values ('Avaliacao'); /*ID:5*/
 
-INSERT INTO aluno (alunoId,matricula,nome,idade,nacionalidade,username,senha) values (1,"5555","alunoTeste",22,"Brasileiro","alunoteste","1234");
+INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (1,"5555","email@gmail.com","alunoTeste","alunoteste","1234");
 INSERT INTO turma (turmaId,nome,visibilidade) values (1,"turmaTeste",true);
 INSERT INTO alunoturma (alunoId,turmaId) values (1,1); 
 

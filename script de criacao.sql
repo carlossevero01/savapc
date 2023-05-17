@@ -10,8 +10,7 @@ CREATE TABLE aluno (
     alunoId int PRIMARY KEY auto_increment,
     matricula Varchar(30),
     nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-    idade int,
-    nacionalidade varchar (100) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    email Varchar(50),
     username varchar(100),
     senha varchar(100)
 );

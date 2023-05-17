@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -132,6 +133,8 @@ public class testeController {
         ModelAndView mv = new ModelAndView("teste");
         List<teste> list = testeRepository.findAll();
         mv.addObject("testes", list);
+        List<perguntaTeste> lperguntas = perguntaTesteRepository.findAll();
+        mv.addObject("perguntas", lperguntas);
         return mv;
     }
     /*Salvar um novo teste */
@@ -192,4 +195,18 @@ public class testeController {
             return "redirect:/index/testes";
         }
     }
+
+    @PostMapping("/index/updatetestepeso/{id}")
+    public String setUpdateTestePeso(@PathVariable("id") int testeId, @RequestParam("peso") double peso, RedirectAttributes redirectAttributes){
+        try {
+            teste t = testeRepository.findById(testeId).get();
+            t.setPeso(peso);
+            testeRepository.save(t);
+            redirectAttributes.addFlashAttribute("sucesso", "Peso alterado com sucesso");
+            return "redirect:/index/relatorioTeste/{id}";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel alterar");
+            return "redirect:/index/relatorioTeste/{id}";
+        }
+    } 
 }

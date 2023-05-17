@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ifsul.sistema.computacional.sistematcc.model.contabilizacao;
+import com.ifsul.sistema.computacional.sistematcc.model.contabilizacaoPorHabilidade;
 import com.ifsul.sistema.computacional.sistematcc.model.correcoesAluno;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
+
 import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
 import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
 
@@ -28,7 +29,7 @@ public class regTestesServiceImplements implements regTestesService{
     @Autowired
     testeRepository testeRepository;
 
-    public List<contabilizacao> contabilizartudo() {
+    public List<contabilizacaoPorHabilidade> contabilizartudo() {
         List<regTestes> regs = regTestesRepository.findAll();
         for(int i=0;i<regs.size();i++){
             if(regs.get(i).getAluno().getAlunoId()==-1
@@ -45,7 +46,7 @@ public class regTestesServiceImplements implements regTestesService{
         }
         
         List<correcoesAluno> correcaoList = new ArrayList<>();
-        List<contabilizacao> contabilizacaoList = new ArrayList<>();
+        List<contabilizacaoPorHabilidade> contabilizacaoList = new ArrayList<>();
         int nQcorretas = 0;
         int nQChab1 = 0;
         int nQChab2 = 0;
@@ -61,11 +62,14 @@ public class regTestesServiceImplements implements regTestesService{
             nQChab4 = 0;
             nQChab5 = 0;
             nQ = r.getTeste().getPerguntasTeste().size();
+            int opRespostaCertaId=0;
             for (respostaTeste resp : r.getRespostasTeste()) {
-
-                if (resp.getOpRespostaId() == opcaorespostaRepository
-                        .findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).get(0)
-                        .getOpcaoRespostaId()) {
+                if(opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).size()>0){
+                    opRespostaCertaId = opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).get(0).getOpcaoRespostaId();
+                }else{
+                    opRespostaCertaId=0;
+                }
+                if (resp.getOpRespostaId() == opRespostaCertaId) {
                     correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(),
                             r.getTeste().getNome(), resp.getPerguntaTeste().getPerguntaTesteId(), resp.getOpRespostaId(), true);
 
@@ -98,15 +102,15 @@ public class regTestesServiceImplements implements regTestesService{
                     correcaoList.add(cA);
                 }
             }
-            var contQH = new contabilizacao(r.getAluno().getAlunoId(),0, r.getTeste().getTesteId(), nQcorretas, nQChab1,
-                    nQChab2, nQChab3, nQChab4, nQChab5, nQ, r.getTeste().getPeso());
+            var contQH = new contabilizacaoPorHabilidade(r.getTeste().getTesteId(),r.getTeste().getNome(),r.getTurma().getNome(), r.getAluno().getNome(),r.getAluno().getMatricula(), nQ,nQcorretas, nQChab1,
+                    nQChab2, nQChab3, nQChab4, nQChab5,r.getTeste().getPeso());
             contabilizacaoList.add(contQH);
         }
         return contabilizacaoList;
     }
 
     @Override
-    public List<contabilizacao> contabilizarTestesPorTurma(turma turma) {
+    public List<contabilizacaoPorHabilidade> contabilizarTestesPorTurma(turma turma) {
        
 
         List<regTestes> regs = regTestesRepository.findByTurma(turma);
@@ -125,7 +129,7 @@ public class regTestesServiceImplements implements regTestesService{
         }
         
         List<correcoesAluno> correcaoList = new ArrayList<>();
-        List<contabilizacao> contabilizacaoList = new ArrayList<>();
+        List<contabilizacaoPorHabilidade> contabilizacaoList = new ArrayList<>();
         int nQcorretas = 0;
         int nQChab1 = 0;
         int nQChab2 = 0;
@@ -141,11 +145,15 @@ public class regTestesServiceImplements implements regTestesService{
             nQChab4 = 0;
             nQChab5 = 0;
             nQ = r.getTeste().getPerguntasTeste().size();
+            int opRespostaCertaId=0;
             for (respostaTeste resp : r.getRespostasTeste()) {
-
-                if (resp.getOpRespostaId() == opcaorespostaRepository
-                        .findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).get(0)
-                        .getOpcaoRespostaId()) {
+                if(opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).size()>0){
+                    opRespostaCertaId = opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).get(0).getOpcaoRespostaId();
+                }else{
+                    opRespostaCertaId=0;
+                }
+                
+                if (resp.getOpRespostaId() == opRespostaCertaId) {
                     correcoesAluno cA = new correcoesAluno(r.getAluno().getAlunoId(), r.getTeste().getTesteId(),
                             r.getTeste().getNome(), resp.getPerguntaTeste().getPerguntaTesteId(), resp.getOpRespostaId(), true);
 
@@ -177,9 +185,10 @@ public class regTestesServiceImplements implements regTestesService{
                             r.getTeste().getNome(), resp.getPerguntaTeste().getPerguntaTesteId(), resp.getOpRespostaId(), false);
                     correcaoList.add(cA);
                 }
+                
             }
-            var contQH = new contabilizacao(r.getAluno().getAlunoId(),r.getTurma().getTurmaId(), r.getTeste().getTesteId(), nQcorretas, nQChab1,
-                    nQChab2, nQChab3, nQChab4, nQChab5, nQ, r.getTeste().getPeso());
+            var contQH = new contabilizacaoPorHabilidade(r.getTeste().getTesteId(),r.getTeste().getNome(),r.getTurma().getNome(), r.getAluno().getNome(),r.getAluno().getMatricula(), nQ,nQcorretas, nQChab1,
+                    nQChab2, nQChab3, nQChab4, nQChab5,r.getTeste().getPeso());
             contabilizacaoList.add(contQH);
         }
         return contabilizacaoList;

@@ -1,46 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link th:href="@{/css/styles.css}" rel="stylesheet">
+        <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
     <footer th:fragment="footer">
-        <p>&copy; 2023 Carlos</p>
-    </footer>
-    <nav th:fragment="nav">
-        <nav class="navbar fixed-bottom rounded mb-2 start-50 translate-middle bg-danger bg-opacity-45" >
-            <div class="container-fluid p-1 " style="justify-content: normal; height:40px;" >
-              <a class="navbar-brand itensnav linkhover p-1 rounded me-auto" href="/index/inicial" >Inicial</a>
-              <a class="nav-link itensnav linkhover p-1 rounded me-1" href="#" >Entrar/Cadastrar</a>
-              <button class="navbar-toggler d-flex justify-content-between " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
-               <span class="material-symbols-outlined btn"> + </span>
-              </button>
-              </div>
-              <div class="container-fluid p-1 " style="justify-content: normal;">
-              <div class="collapse navbar-collapse p-2 " id="navbarSupportedContent" style="text-align:center" >
-                <ul class="navbar-nav rounded p-1">	
-                  <li class="nav-item dropdown ">
-                    <a class="nav-link itensnav linkhover dropdown-toggle rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Opções
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item linkhover " href="/index/turmas">Listar Turmas</a></li>
-                      <li><a class="dropdown-item linkhover " href="/index/testes">Listar Testes</a></li>
-                      <li><a class="dropdown-item linkhover " href="/index/alunos">Listar Alunos</a></li>
-                      <li><a class="dropdown-item linkhover " href="/index/habilidades">Listar Habilidades</a></li>
-                      <li><a class="dropdown-item linkhover " href="/index/questionarios">Listar Questionarios</a></li>
-                      <li><a class="dropdown-item linkhover " href="/index/professores">Listar Professores</a></li>
-                      <li><a class="dropdown-item linkhover " href="/index/perguntas">Listar PerguntasTeste</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item linkhover " href="/index/relatorioTeste">Relatório Geral</a></li>
-                      <li><a class="dropdown-item linkhover " href="/index/relatorioQuestionario">Relatório Questionario Geral</a></li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+        <footer class="py-4 bg-light mt-5 ">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; IFSUL TADS 2023</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
             </div>
-          </nav>
+    </footer>
+    </footer>
+    
+    <nav th:fragment="navAll">
+      
+      <nav class=" navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="/index/inicial">SAVA-PC</a>
+        <!-- Sidebar Toggle-->
+        
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                    <li><a class="dropdown-item" href="/registration">Registrar-se</a></li>
+                    <li><a class="dropdown-item" href="/help">Ajuda</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
     </nav>
+    
+        
+     </nav>
 </body>
 </html>

@@ -33,11 +33,8 @@ public class aluno implements Serializable{
     @Column(nullable = false)
     private String matricula;
 
-    
-    private int idade;
-
-    
-    private String nacionalidade;
+    @Column(nullable = false)
+    private String email;
 
     @Column(nullable=false, unique=true)
     private String username;
@@ -110,18 +107,16 @@ public class aluno implements Serializable{
         super();
         this.matricula="0000";
         this.nome="";
-        this.idade=0;
-        this.nacionalidade="";
+        this.email="";
         this.username="";
         this.senha="";
     }
 
     
-    public aluno(String nome, String matricula, int idade, String nacionalidade, String username, String senha) {
+    public aluno(String nome, String matricula,  String email, String username, String senha) {
         this.nome = nome;
         this.matricula = matricula;
-        this.idade = idade;
-        this.nacionalidade = nacionalidade;
+        this.email = email;
         this.username = username;
         this.senha = senha;
     }
@@ -163,9 +158,6 @@ public class aluno implements Serializable{
         this.habilidades = habilidades;
     }
 
-
-    
-
     public List<regTestes> getRegTeste() {
         return regTeste;
     }
@@ -178,21 +170,6 @@ public class aluno implements Serializable{
         return serialVersionUID;
     }
 
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    public String getNacionalidade() {
-        return nacionalidade;
-    }
-
-    public void setNacionalidade(String nacionalidade) {
-        this.nacionalidade = nacionalidade;
-    }
 
     public void setRegTeste(List<regTestes> regTeste) {
         this.regTeste = regTeste;
@@ -206,6 +183,15 @@ public class aluno implements Serializable{
         this.regQuestionarios = regQuestionarios;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
     
 }
+
+
+    

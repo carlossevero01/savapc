@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ifsul.sistema.computacional.sistematcc.model.aluno;
-import com.ifsul.sistema.computacional.sistematcc.model.professor;
+
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 
 import com.ifsul.sistema.computacional.sistematcc.repository.professorRepository;
@@ -32,7 +32,10 @@ public class indexController {
     
     
 
-    
+    @GetMapping("/registration")
+    public String registro() {
+        return "registration";
+    }
 
     /* LOGIN */
     @GetMapping("/login")
@@ -67,17 +70,7 @@ public class indexController {
         }
     }
 
-    @GetMapping(value = "/index/deleteprofessor/{id}")
-    public String deleteProfessor(@PathVariable("id") int id, RedirectAttributes attributes) {
-        try {
-            professorRepository.deleteById(id);
-            attributes.addFlashAttribute("sucesso", "Professor deletado");
-            return "redirect:/index/professores";
-        } catch (Exception e) {
-            attributes.addFlashAttribute("erro", "ID inexistente ou erro desconhecido");
-            return "redirect:/index/professores";
-        }
-    }
+    
      /* DELETAR UNIDADE(PROFESSORES/ADMIN) */
 
     /* CADASTRAR UNIDADE(PROFESSORES/ADMIN) */
@@ -97,21 +90,7 @@ public class indexController {
         return "redirect:/index/alunos";
     }
 
-    @GetMapping("/index/saveProfessor")
-    public String getSaveProfessor() {
-        return "saveProfessor";
-    }
-
-    @PostMapping("/index/saveProfessor")
-    public String saveProfessor(@Valid professor p, BindingResult result, RedirectAttributes attributes) {
-        if (result.hasErrors()) {
-            attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + p.toString());
-            return "redirect:/index/saveProfessor";
-        }
-        professorRepository.save(p);
-        attributes.addFlashAttribute("sucesso", "Professor cadastrado");
-        return "redirect:/index/professores";
-    }
+    
     /* CADASTRAR UNIDADE(PROFESSORES/ADMIN) */
 
     /* LISTAR DADOS(PROFESSORES/ADMIN) */
@@ -123,14 +102,7 @@ public class indexController {
         return mv;
     } 
 
-    @GetMapping(value = "/index/professores")
-    public ModelAndView listarProfessores() {
-        ModelAndView mv = new ModelAndView("professor");
-        List<professor> list = professorRepository.findAll();
-        mv.addObject("professores", list);
-        return mv;
-    }
-
+    
     
     /* LISTAR DADOS(PROFESSORES/ADMIN) */
     
@@ -149,6 +121,7 @@ public class indexController {
             aluno alunoExistente = alunoRepository.findById(alunoId).get();
             alunoExistente.setNome(novoAluno.getNome());
             alunoExistente.setMatricula(novoAluno.getMatricula());
+            alunoExistente.setEmail(novoAluno.getEmail());
             alunoRepository.save(alunoExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Aluno editado com sucesso");
             return "redirect:/index/alunos";
