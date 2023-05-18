@@ -206,8 +206,9 @@ public class turmaController {
             List<teste> testesTurma = testeRepository.findByTurmas(turmaRepository.findById(turmaId).get());
             mv.addObject("testesAll", testes);
             mv.addObject("testesTurma", testesTurma);
+            
         } catch (Exception e) {
-            // TODO: handle exception
+            
         }
         return mv;
     }
