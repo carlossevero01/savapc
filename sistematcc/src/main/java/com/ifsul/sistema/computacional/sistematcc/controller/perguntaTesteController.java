@@ -135,8 +135,8 @@ public class perguntaTesteController {
         return mv;
     }
 
-    @PostMapping("/index/updatepergunta/{id}")
-    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @Valid perguntaTeste novaPergunta,
+    @PostMapping("/index/updatepergunta/{id}/{testeId}")
+    public String setPerguntaUpdate(@PathVariable("id") int perguntaId,@PathVariable("testeId") int testeId, @Valid perguntaTeste novaPergunta,
             RedirectAttributes redirectAttributes, BindingResult result, @RequestParam("file") MultipartFile img) {
         try {
             perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
@@ -152,7 +152,7 @@ public class perguntaTesteController {
             }
             perguntaTesteRepository.save(perguntaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Pergunta Editada com sucesso");
-            return "redirect:/index/teste/perguntas/{id}";
+            return "redirect:/index/teste/perguntas/{testeId}";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
             return "redirect:/index/testes";

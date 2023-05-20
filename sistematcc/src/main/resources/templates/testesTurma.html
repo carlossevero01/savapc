@@ -192,7 +192,7 @@
                                                                 <div class="col-sm-3">
                                                                     <div class="row ms-1 me-1">
                                                                         <a class="btn btn-secondary"
-                                                                            th:href="@{/index/pergunta/opcoesresposta/{id}(id=${p.perguntaTesteId})}"
+                                                                            th:href="@{/index/perguntaTeste/opcoesresposta/{id}(id=${p.perguntaTesteId})}"
                                                                             role="button">Opções Resposta</a>
                                                                     </div>
                                                                 </div>
@@ -202,15 +202,14 @@
                                                                             th:href="@{/index/pergunta/habilidades/{perguntaId}/{testeId}(perguntaId = ${p.perguntaTesteId}, testeId=${t.testeId}) }">Habilidades</a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="row ms-1 me-1">
-                                                                        <a class="btn btn-secondary"
-                                                                            th:href="@{/index/teste/perguntas/{id}(id=${t.testeId}) }">Ver
-                                                                            mais</a>
-                                                                    </div>
-                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <div class="mx-auto mt-2" style="text-align: center;">
+                                                            <a class="btn btn-secondary "
+                                                                            th:href="@{/index/teste/perguntas/{id}(id=${t.testeId}) }">Ver
+                                                                            mais</a>
+                                                        </div>
+                                                        
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"

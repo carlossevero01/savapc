@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,21 +26,10 @@ public class opcaorespostaController {
     @Autowired
     perguntaTesteRepository perguntaTesteRepository;
 
-    @GetMapping("/index/updateopcaoresposta/{id}")
-    @ResponseBody
-    public ModelAndView getOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId) {
-        ModelAndView mv = new ModelAndView("updateOpcaoresposta");
-        try {
-            opcaoresposta op = opcaorespostaRepository.findById(opcaoRespostaId).orElseThrow(null);
-            mv.addObject("opcaoresposta", op);
-        } catch (Exception e) {
-            System.out.println("ERRO:" + e);
-        }
-        return mv;
-    }
-
-    @PostMapping("/index/updateopcaoresposta/{id}")
-    public String setOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId,
+    
+    /*Atualiza uma opção resposta de uma perguntaTeste */
+    @PostMapping("/index/{perguntaId}/updateopcaoresposta/{id}")
+    public String setOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId,@PathVariable("perguntaId") int perguntaTesteId,
             @Valid opcaoresposta novaOpcaoresposta, RedirectAttributes redirectAttributes, BindingResult result) {
         try {
             opcaoresposta opcaorespostaExistente = opcaorespostaRepository.findById(opcaoRespostaId).orElseThrow(null);
@@ -50,15 +39,15 @@ public class opcaorespostaController {
             opcaorespostaRepository.save(opcaorespostaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "OpcaoResposta Editada com sucesso");
             
-            return "redirect:/turmas";
+            return "redirect:/index/perguntaTeste/opcoesresposta/{perguntaId}";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
             return "redirect:/index/updateopcaoresposta/{id}";
 
         }
     }
-
-    @GetMapping(value = "/index/pergunta/opcoesresposta/{id}")
+    /*Lista as opções resposta de uma perguntaTeste */
+    @GetMapping(value = "/index/perguntaTeste/opcoesresposta/{id}")
     public ModelAndView getOpcoesRespostaPergunta(@PathVariable("id") int id) {
         ModelAndView mv = new ModelAndView("opcaoresposta");
         perguntaTeste p = perguntaTesteRepository.findById(id).orElseThrow(null);
@@ -67,20 +56,13 @@ public class opcaorespostaController {
         mv.addObject("perguntaId", p.getPerguntaTesteId());
         return mv;
     }
-
-    @GetMapping("/index/pergunta/saveopcaoresposta/{id}")
-    public ModelAndView getSaveOpcaoResposta(@PathVariable("id") int id) {
-        ModelAndView mv = new ModelAndView("saveOpcaoresposta");
-        mv.addObject("perguntaId", id);
-        return mv;
-    }
-
-    @PostMapping("/index/pergunta/saveopcaoresposta/{id}")
+    /*Salva uma opção resposta em uma perguntaTeste*/
+    @PostMapping("/index/perguntaTeste/saveopcaoresposta/{id}")
     public String saveOpcaoResposta(@PathVariable("id") int id, @Valid opcaoresposta or, BindingResult result,
             RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + or.toString());
-            return "redirect:/index/pergunta/saveopcaoresposta/{id}";
+            return "redirect:/index/perguntaTeste/saveopcaoresposta/{id}";
         }
         opcaorespostaRepository.save(or);
         perguntaTeste p = perguntaTesteRepository.findById(id).orElseThrow(null);
@@ -88,19 +70,19 @@ public class opcaorespostaController {
         listOR.add(or);
         p.setOpcoesResposta(listOR);
         perguntaTesteRepository.save(p);
-        attributes.addFlashAttribute("sucesso", "Turma cadastrada");
-        return "redirect:/index/pergunta/opcoesresposta/{id}";
+        attributes.addFlashAttribute("sucesso", "Opção resposta cadastrada");
+        return "redirect:/index/perguntaTeste/opcoesresposta/{id}";
     }
 
-    @GetMapping(value = "/index/pergunta/deleteopcaoresposta/{id}")
-    public String deleteOpcaoResposta(@PathVariable("id") int id, RedirectAttributes attributes) {
+    @GetMapping(value = "/index/perguntaTeste/{perguntaTesteId}/deleteopcaoresposta/{id}")
+    public String deleteOpcaoResposta(@PathVariable("id") int id,@PathVariable("perguntaTesteId") int perguntaTesteId, RedirectAttributes attributes) {
         try {
             opcaorespostaRepository.deleteById(id);
             attributes.addFlashAttribute("sucesso", "Opção-Resposta deletada");
-            return "redirect:/index/pergunta/opcoesresposta/{id}";
+            return "redirect:/index/perguntaTeste/opcoesresposta/{perguntaTesteId}";
         } catch (Exception e) {
             attributes.addFlashAttribute("erro", "ID inexistente ou erro desconhecido");
-            return "redirect:/index/pergunta/opcoesresposta/{id}";
+            return "redirect:/index/perguntaTeste/opcoesresposta/{perguntaTesteId}";
         }
     }
 }
