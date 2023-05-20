@@ -103,17 +103,7 @@ public class perguntaQuestInicialController {
         }
     }
 
-    @GetMapping("/index/{questionarioId}/updateperguntaquest/{id}")
-    public ModelAndView getUpdatePerguntaQuest(@PathVariable("questionarioId") int questionarioId, @PathVariable("id") int perguntaQuestId){
-        ModelAndView mv = new ModelAndView("updatePerguntaQuest");
-        perguntaquestionario pqExistente = new perguntaquestionario();  
-        if(perguntaquestionarioRepository.existsById(perguntaQuestId)){
-            pqExistente = perguntaquestionarioRepository.findById(perguntaQuestId).get();
-            mv.addObject("pergunta", pqExistente);
-            mv.addObject("questionarioId", questionarioId);
-        }
-        return mv;
-      }
+   
       @PostMapping("/index/{questionarioId}/updateperguntaquest/{id}")
       public String setUpdatePerguntaQuest(@PathVariable("questionarioId") int questionarioId, @PathVariable("id") int perguntaQuestId, 
                     @Valid perguntaquestionario novaPergunta, RedirectAttributes redirectAttributes,BindingResult result){
@@ -126,6 +116,7 @@ public class perguntaQuestInicialController {
                    perguntaquestionario perguntaExistente = perguntaquestionarioRepository.findById(perguntaQuestId).get();
                    perguntaExistente.setDescricao(novaPergunta.getDescricao());
                    perguntaExistente.setTipo(novaPergunta.getTipo());
+                   perguntaExistente.setTitulo(novaPergunta.getTitulo());
                    perguntaquestionarioRepository.save(perguntaExistente); 
                     redirectAttributes.addFlashAttribute("sucesso", "Pergunta Alterada com sucesso!");
                     return "redirect:/index/perguntasquest/{questionarioId}";
@@ -186,7 +177,6 @@ public class perguntaQuestInicialController {
         }
     }
 
-    ///index/perguntaquestionario/opcoesresposta/{id}
-
+    
 
 }

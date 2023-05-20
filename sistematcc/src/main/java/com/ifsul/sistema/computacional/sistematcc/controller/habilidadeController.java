@@ -27,7 +27,19 @@ public class habilidadeController {
     habilidadeRepository habilidadeRepository;
     @Autowired
     perguntaTesteRepository perguntaTesteRepository;
-
+    /*Listar Habilidades */
+    @GetMapping(value = "/index/habilidades")
+    public ModelAndView listarHabilidades() {
+        ModelAndView mv = new ModelAndView("habilidade");
+        try {
+            List<habilidade> list = habilidadeRepository.findAll();
+            mv.addObject("habilidades", list);
+             return mv;
+        } catch (Exception e) {
+            return mv;
+        }
+    }
+    /*Deletar habilidade */
     @GetMapping(value = "/index/deletehabilidade/{id}")
     public String deleteHabilidade(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
@@ -39,12 +51,21 @@ public class habilidadeController {
             return "redirect:/index/habilidades";
         }
     }
-    
-    @GetMapping("/index/saveHabilidade")
-    public String getSaveHabilidade() {
-        return "saveHabilidade";
+    /*Deletar Habilidade dentro de uma pergunta */
+    @GetMapping(value = "/index/teste/{testeId}/pergunta/{perguntaId}/deletehabilidade/{id}")
+    public String deleteHabilidade_Pergunta(@PathVariable("id") int id, RedirectAttributes attributes) {
+        try {
+            habilidadeRepository.deleteById(id);
+            attributes.addFlashAttribute("sucesso", "Habilidade deletada");
+            return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "id inexistente ou erro desconhecido");
+            return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
+        }
     }
-
+    
+    
+    /*Salvar uma nova habilidade */
     @PostMapping("/index/saveHabilidade")
     public String saveHabilidade(@Valid habilidade h, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
@@ -59,36 +80,26 @@ public class habilidadeController {
             attributes.addFlashAttribute("erro", "Erro desconhecido!"+e.toString());
             return "redirect:/index/habilidades";// TODO: handle exception
         }
-        
     }
-
-    @GetMapping(value = "/index/habilidades")
-    public ModelAndView listarHabilidades() {
-        ModelAndView mv = new ModelAndView("habilidade");
+    /*Salvar uma nova habilidade dentro de uma pergunta */
+    @PostMapping("/index/{testeId}/{perguntaId}/saveHabilidade")
+    public String saveHabilidade_Pergunta(@Valid habilidade h, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + h.toString());
+            return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
+        }
         try {
-            List<habilidade> list = habilidadeRepository.findAll();
-            mv.addObject("habilidades", list);
-             return mv;
+            habilidadeRepository.save(h);
+            attributes.addFlashAttribute("sucesso", "Habilidade cadastrada");
+        return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
         } catch (Exception e) {
-            return mv;// TODO: handle exception
+            attributes.addFlashAttribute("erro", "Erro desconhecido!"+e.toString());
+            return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";// TODO: handle exception
         }
     }
 
-    @GetMapping("/index/updatehabilidade/{id}")
-    @ResponseBody
-    public ModelAndView getHabilidadeUpdate(@PathVariable("id") int habilidadeId) {
-        ModelAndView mv = new ModelAndView("updateHabilidade");
-        try {
-            habilidade hab = habilidadeRepository.findById(habilidadeId).orElseThrow(null);
-            mv.addObject("habilidade", hab);
-            return mv;
-        } catch (Exception e) {
-            System.out.println("ERRO" + e);
-            return mv;
-        }
-        
-    }
-
+    
+    /*Atualizar uma habilidade */
     @PostMapping("/index/updatehabilidade/{id}")
     public String setHabilidadeUpdate(@PathVariable("id") int habilidadeId, @Valid habilidade novahabilidade,
             RedirectAttributes redirectAttributes, BindingResult result) {
@@ -104,7 +115,23 @@ public class habilidadeController {
 
         }
     }
+    /*Atualizar uma habilidade de dentro de uma pergunta */
+    @PostMapping("/index/teste/{testeId}/pergunta/{perguntaId}/updatehabilidade/{id}")
+    public String setHabilidadeUpdate_Pergunta(@PathVariable("id") int habilidadeId, @Valid habilidade novahabilidade,
+            RedirectAttributes redirectAttributes, BindingResult result) {
+        try {
+            habilidade habilidadeExistente = habilidadeRepository.findById(habilidadeId).orElseThrow(null);
+            habilidadeExistente.setNome(novahabilidade.getNome());
+            habilidadeRepository.save(habilidadeExistente);
+            redirectAttributes.addFlashAttribute("sucesso", "Habilidade Editada com sucesso");
+            return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
+            return "redirect:/index/pergunta/habilidades/{perguntaId}/{testeId}";
 
+        }
+    }
+    /*Ver habilidades de uma pergunta */
     @GetMapping("/index/pergunta/habilidades/{perguntaId}/{testeId}")
     @ResponseBody
     public ModelAndView getHabilidadesPergunta(@PathVariable("perguntaId") int perguntaId,
@@ -123,7 +150,7 @@ public class habilidadeController {
             return mv; 
         }  
     }
-
+    /*Incluir habilidades em uma pergunta */
     @PostMapping("/index/pergunta/habilidades/{perguntaId}/{testeId}")
     public String setHabilidadePergunta(@PathVariable("perguntaId") int perguntaId,
             @PathVariable("testeId") int testeId, habForm lhab, RedirectAttributes attributes) {

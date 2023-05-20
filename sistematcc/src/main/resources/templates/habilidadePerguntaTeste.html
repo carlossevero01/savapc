@@ -37,7 +37,7 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<form method="post" th:action="@{/index/saveHabilidade}">
+							<form method="post" th:action="@{/index/{testeId}/{perguntaId}/saveHabilidade(testeId=${testeId},perguntaId=${perguntaId})}">
 								<div class="mb-3">
 									<label for="nome" class="form-label">Nome</label>
 									<input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
@@ -72,7 +72,8 @@
 									<td th:text="${h.habilidadeId}"></td>
 									<td th:text="${h.nome}"></td>
 									<td><a class="btn btn-secondary"
-											th:href="@{/index/deletehabilidade/{id}(id=${h.habilidadeId})}"
+											th:href="@{/index/teste/{testeId}/pergunta/{perguntaId}/deletehabilidade/{id}
+											(id=${h.habilidadeId}, testeId=${testeId}, perguntaId=${perguntaId})}"
 											role="button">Deletar</a>
 										
 
@@ -93,7 +94,8 @@
 													</div>
 													<div class="modal-body">
 														<form method="post"
-															th:action="@{/index/updatehabilidade/{id}(id=${h.habilidadeId})}">
+															th:action="@{/index/teste/{testeId}/pergunta/{perguntaId}/updatehabilidade/{id}
+															(id=${h.habilidadeId},testeId=${testeId},perguntaId=${perguntaId})}">
 															<div class="mb-3">
 																<label for="nome" class="form-label">Nome</label>
 																<input type="text" class="form-control" id="nome"
