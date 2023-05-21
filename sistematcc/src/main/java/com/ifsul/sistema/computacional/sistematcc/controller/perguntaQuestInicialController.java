@@ -138,6 +138,7 @@ public class perguntaQuestInicialController {
         List<opcaoresposta> opR = p.getOpcoesResposta();
         mv.addObject("opcoesrespostas", opR);
         mv.addObject("perguntaQuestionarioId", p.getPerguntaQuestionarioId());
+        mv.addObject("perguntaQuestionarioNome", p.getTitulo());
         return mv;
     }
 
@@ -149,7 +150,7 @@ public class perguntaQuestInicialController {
     }
 
     @PostMapping("/index/perguntaquestionario/saveopcaoresposta/{id}")
-    public String saveOpcaoResposta(@PathVariable("id") int id, @Valid opcaoresposta or, BindingResult result,
+    public String saveOpcaoResposta_PerguntaQuestionario(@PathVariable("id") int id, @Valid opcaoresposta or, BindingResult result,
             RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + or.toString());
@@ -166,7 +167,7 @@ public class perguntaQuestInicialController {
     }
 
     @GetMapping(value = "/index/perguntaquestionario/deleteopcaoresposta/{id}")
-    public String deleteOpcaoResposta(@PathVariable("id") int id, RedirectAttributes attributes) {
+    public String deleteOpcaoResposta_PerguntaQuestionario(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
             opcaorespostaRepository.deleteById(id);
             attributes.addFlashAttribute("sucesso", "Opção-Resposta deletada");
@@ -176,7 +177,25 @@ public class perguntaQuestInicialController {
             return "redirect:/index/perguntaquestionario/opcoesresposta/{id}";
         }
     }
+    /*Atualiza uma opção resposta de uma perguntaTeste */
+    @PostMapping("/index/perguntaQuestionario/{perguntaQuestionarioId}/updateopcaoresposta/{id}")
+    public String setUpdateOpcaoResposta_PerguntaQuestionario(@PathVariable("id") int opcaoRespostaId,@PathVariable("perguntaQuestionarioId") int perguntaQuestionarioId,
+            @Valid opcaoresposta novaOpcaoresposta, RedirectAttributes redirectAttributes, BindingResult result) {
+        try {
+            opcaoresposta opcaorespostaExistente = opcaorespostaRepository.findById(opcaoRespostaId).orElseThrow(null);
+            opcaorespostaExistente.setTipo(novaOpcaoresposta.getTipo());
+            opcaorespostaExistente.setDescricao(novaOpcaoresposta.getDescricao());
+            opcaorespostaExistente.setVerdadeira(novaOpcaoresposta.isVerdadeira());
+            opcaorespostaRepository.save(opcaorespostaExistente);
+            redirectAttributes.addFlashAttribute("sucesso", "OpcaoResposta Editada com sucesso");
+            
+            return "redirect:/index/perguntaquestionario/opcoesresposta/{perguntaQuestionarioId}";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
+            return "redirect:/index/perguntaquestionario/opcoesresposta/{perguntaQuestionarioId}";
 
+        }
+    }
     
 
 }
