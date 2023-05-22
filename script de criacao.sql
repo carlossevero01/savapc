@@ -186,3 +186,18 @@ CREATE TABLE projetoFinal (
 	FOREIGN KEY (alunoId) REFERENCES aluno (alunoId),
 	FOREIGN KEY (turmaId) REFERENCES turma (turmaId)
 );
+
+CREATE TABLE notas (
+	notasId int PRIMARY KEY auto_increment,
+	alunoId int,
+	turmaId int,
+	List<teste> testes,   /////verificar
+	projetoFinalId int,
+	notaProjetoFinal DOUBLE,
+	notaTestes DOUBLE,
+	notaFinal DOUBLE,
+	recomendacao VARCHAR(100),
+	FOREIGN KEY (alunoId) REFERENCES aluno(alunoId),
+	FOREIGN KEY (turmaId) REFERENCES turma(turmaId),
+	FOREIGN KEY (projetoFinalId) REFERENCES projetoFinal(projetoFinalId),
+);
