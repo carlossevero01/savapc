@@ -79,6 +79,9 @@ public class aluno implements Serializable{
     //     this.roles = roles;
     // } 
     
+    @OneToOne(mappedBy = "aluno")
+    private projetoFinal projetoFinal;
+
     public int getAlunoId() {
         return alunoId;
     }
@@ -189,6 +192,14 @@ public class aluno implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public projetoFinal getProjetoFinal() {
+        return projetoFinal;
+    }
+
+    public void setProjetoFinal(projetoFinal projetoFinal) {
+        this.projetoFinal = projetoFinal;
     }
     
 }

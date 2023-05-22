@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testes</title>
+    <title>Questionarios da turma</title>
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link th:href="@{/css/styles.css}" rel="stylesheet">
@@ -25,20 +25,21 @@
     <div class="container mt-2">
         <div class="row">
             <!-- Inicio Bloco Modal -->
-            <a class="btn btn-secondary mb-2" href="/index/turmas" style="width: auto;">Voltar</a>  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertTeste">Inserir
-                Teste</button>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                data-bs-target="#insertQuestionario">Inserir Novo Questionario</button>
 
-            <div class="modal" id="insertTeste" tabindex="-1" aria-hidden="true">
+            <div class="modal" id="insertQuestionario" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"> Inserir novo Teste</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle"> Inserir Novo Questionario</h5>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" th:object="${testeForm}" th:action="@{/index/turma/{turmaId}/saveTeste(turmaId=${turmaId})}">
+                            <form method="post" th:action="@{/index/turma/{turmaId}/saveQuestInicial(turmaId=${turmaId})}"
+                                th:object="${questionarioinicial}">
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome</label>
                                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
@@ -53,23 +54,6 @@
                                     <label class="control-label" for="disponibilidade"> Disponibilidade </label> <input
                                         type="date" id="disponibilidade" class="form-control" required
                                         autofocus="autofocus" name="disponibilidade" />
-                                </div>
-                                <div class="form-group mt-2">
-                                    <label class="control-label" for="peso"> Peso (Opcional) </label> <input
-                                        type="number" step="0.01" id="peso" class="form-control" required
-                                        autofocus="autofocus" name="peso" placeholder="0*" value="0" />
-                                </div>
-                                <div style="border: solid black 1px; padding: 5px; margin-top: 10px;">
-                                    <h5 style="text-align: center;">Selecione perguntas disponíveis(Opcional)</h5>
-                                    <div class="form-group mb-auto mt-auto" th:each="pergunta , j : ${perguntas}"
-                                        style="border-top: solid black 1px;">
-                                        <div class="mt-2 mt-2">
-                                            <input class="form-check-input" type="checkbox"
-                                                th:name="|perguntas[${j.index}].perguntaTesteId|"
-                                                th:value="${pergunta.perguntaTesteId}">
-                                            <label for="titulo" class="form-label" th:text="${pergunta.titulo}"></label>
-                                        </div>
-                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-secondary mt-2">Salvar</button>
                             </form>
@@ -86,7 +70,7 @@
         <th:block th:insert="mensagemValidacao"></th:block>
         <div class="row">
             <div class="col">
-                <form method="post" th:object="${turmaTestesForm}">
+                <form method="post" th:object="${turmaQuestsForm}" th:action="@{/index/turma/{turmaId}/questionarios(turmaId=${turmaId})}">
                     <div class="col-lg-10 mt-5 mb-5">
                         <table class="table">
                             <thead>
@@ -100,25 +84,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="t, i: ${testesAll}">
-                                    <td th:text="${t.testeId}"></td>
-                                    <td th:text="${t.nome}"></td>
-                                    <td th:text="${t.visibilidade}"></td>
-                                    <td th:text="${t.disponibilidade}"></td>
-                                    <td th:text="${t.peso}"></td>
+                                <tr th:each="q, i: ${questsAll}">
+                                    <td th:text="${q.questionarioId}"></td>
+                                    <td th:text="${q.nome}"></td>
+                                    <td th:text="${q.visibilidade}"></td>
+                                    <td th:text="${q.disponibilidade}"></td>
+
                                     <td><a class="btn btn-secondary"
-                                            th:href="@{/index/deleteteste/{id}(id=${t.testeId})}"
+                                            th:href="@{/index/deletequestionario/{id}(id=${q.questionarioId})}"
                                             role="button">Deletar</a>
-                                        <!-- Inicio Bloco Modal --> 
+                                        <!-- Inicio Bloco Modal -->
                                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#updateTeste_'+${t.testeId}">Editar</button>
-                                        <div class="modal" th:id="updateTeste_+${t.testeId}" tabindex="-1"
+                                            th:attr="data-bs-target='#updateQuestionario_'+${q.questionarioId}">Editar</button>
+                                        <div class="modal" th:id="updateQuestionario_+${q.questionarioId}" tabindex="-1"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLongTitle">Atualizar
-                                                            Teste</h5>
+                                                            Questionario</h5>
                                                         <button type="button" class="close" data-bs-dismiss="modal"
                                                             aria-label="Close">
                                                             <i class="fa fa-times" aria-hidden="true"></i>
@@ -126,17 +110,17 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <form method="post"
-                                                            th:action="@{/index/updateteste/{id}/{turmaId}(id=${t.testeId},turmaId=${turmaId})}">
-                                                            <div class="mb-3">
-                                                                <label for="nome" class="form-label">Nome</label>
-                                                                <input type="text" class="form-control" id="nome"
-                                                                    name="nome" th:value="${t.nome}">
+                                                            th:action="@{/index/updatequestionario/{id}/{turmaId}(id=${q.questionarioId},turmaId=${turmaId})}">
+                                                            <div class="form-group mt-2">
+                                                                <label class="control-label" for="nome"> Nome </label>
+                                                                <input id="nome" class="form-control" name="nome"
+                                                                    th:value="${q.nome}" required
+                                                                    autofocus="autofocus" />
                                                             </div>
-
-                                                            <div class="form-check form-switch">
+                                                            <div class="form-check mt-2 form-switch">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     role="switch" id="visibilidade" name="visibilidade"
-                                                                    th:checked="${t.visibilidade}">
+                                                                    th:checked="${q.visibilidade}">
                                                                 <label class="form-check-label"
                                                                     for="visibilidade">Visibilidade</label>
                                                             </div>
@@ -146,12 +130,7 @@
                                                                 <input type="date" id="disponibilidade"
                                                                     class="form-control" required autofocus="autofocus"
                                                                     name="disponibilidade"
-                                                                    th:value="${t.disponibilidade}" />
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="peso" class="form-label">Peso</label>
-                                                                <input type="text" class="form-control" id="peso"
-                                                                    name="peso" th:value="${t.peso}">
+                                                                    th:value="${q.disponibilidade}" />
                                                             </div>
                                                             <button type="submit"
                                                                 class="btn btn-secondary mt-2">Salvar</button>
@@ -159,7 +138,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                            data-dismiss="modal">Cancelar</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,8 +148,8 @@
 
                                         <!-- Inicio Bloco Modal -->
                                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#testesTurma_'+${t.testeId}">Perguntas</button>
-                                        <div class="modal" th:id="testesTurma_+${t.testeId}" tabindex="-1"
+                                            th:attr="data-bs-target='#questsTurma_'+${q.questionarioId}">Perguntas</button>
+                                        <div class="modal" th:id="questsTurma_+${q.questionarioId}" tabindex="-1"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                 <div class="modal-content">
@@ -183,33 +162,28 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <div th:each="p,k:${t.perguntasTeste}">
+                                                        <div th:each="p,k:${q.perguntasQuestionario}">
 
-                                                            <div class="d-flex">
+                                                            <div class="d-flex mt-2">
                                                                 <div class="col-sm-5"><span
                                                                         th:text="${k.count}"></span><span>. </span><span
                                                                         th:text="${p.titulo}"></span></div>
                                                                 <div class="col-sm-3">
                                                                     <div class="row ms-1 me-1">
                                                                         <a class="btn btn-secondary"
-                                                                            th:href="@{/index/perguntaTeste/opcoesresposta/{id}(id=${p.perguntaTesteId})}"
+                                                                            th:href="@{/index/perguntaquestionario/opcoesresposta/{id}(id=${p.perguntaQuestionarioId})}"
                                                                             role="button">Opções Resposta</a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="row ms-1 me-1">
-                                                                        <a class="btn btn-secondary"
-                                                                            th:href="@{/index/pergunta/habilidades/{perguntaId}/{testeId}(perguntaId = ${p.perguntaTesteId}, testeId=${t.testeId}) }">Habilidades</a>
-                                                                    </div>
-                                                                </div>
+
                                                             </div>
                                                         </div>
                                                         <div class="mx-auto mt-2" style="text-align: center;">
                                                             <a class="btn btn-secondary "
-                                                                            th:href="@{/index/teste/perguntas/{id}(id=${t.testeId}) }">Ver
-                                                                            mais</a>
+                                                                th:href="@{/index/perguntasquest/{id}(id=${q.questionarioId}) }">Ver
+                                                                mais</a>
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -218,45 +192,47 @@
                                                 </div>
                                             </div>
                                         </div>
-                    
-                                    <!-- Fim Bloco Modal -->
 
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" th:name="|testes[${i.index}].testeId|"
-                                        th:value="${t.testeId}" unchecked>
-                                    <label class="form-check-label">Utilizar</label>
-                                </div>
-                            </td>
-                    </tr>
-                    </tbody>
-                    </table>
+                                        <!-- Fim Bloco Modal -->
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox"
+                                                th:name="|questionarios[__${i.index}__].questionarioId|"
+                                                th:value="${q.questionarioId}" unchecked>
+                                            <label class="form-check-label">Utilizar</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Aplicar</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-secondary">Aplicar</button>
-            </form>
+
+            <div class="col-2 mt-4 p-1">
+                <h4>Questionarios inclusos</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="quest, j: ${questsTurma}">
+                            <td><span th:text="${quest.nome}"></span><span><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="16" height="16" fill="currentColor" class="bi bi-check-lg"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                    </svg></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
         </div>
-
-        <div class="col-2 mt-4 p-1">
-            <h4>Testes inclusos</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Nome </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="test, j: ${testesTurma}">
-                        <td><span th:text="${test.nome}"></span><span><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                    height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                                    <path
-                                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-    </div>
 </body>
 <footer>
 

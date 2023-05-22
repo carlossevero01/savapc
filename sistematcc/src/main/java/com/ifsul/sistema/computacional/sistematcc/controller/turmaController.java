@@ -18,8 +18,10 @@ import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.turmaForm;
+import com.ifsul.sistema.computacional.sistematcc.model.turmaQuestsForm;
 import com.ifsul.sistema.computacional.sistematcc.model.turmaTestesForm;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 
@@ -34,6 +36,8 @@ public class turmaController {
     alunoRepository alunoRepository;
     @Autowired
     testeRepository testeRepository;
+    @Autowired
+    questionarioinicialRepository questionarioinicialRepository;
     
     /*Listar turmas que tenham a visibilidade true */
     @GetMapping(value = "/turmas")
@@ -197,7 +201,7 @@ public class turmaController {
         }
         return mv;
     }
-    
+    /*Mostra os testes da turma */
     @GetMapping("/index/turma/{turmaId}/testes")
     public ModelAndView getTestesTurma(@PathVariable("turmaId") int turmaId){
         ModelAndView mv = new ModelAndView("testesTurma");
@@ -206,19 +210,20 @@ public class turmaController {
             List<teste> testesTurma = testeRepository.findByTurmas(turmaRepository.findById(turmaId).get());
             mv.addObject("testesAll", testes);
             mv.addObject("testesTurma", testesTurma);
-            
+            mv.addObject("turmaId", turmaId);
         } catch (Exception e) {
             
         }
         return mv;
     }
+    /*Inclui os testes selecionados na turma*/
     @PostMapping("/index/turma/{turmaId}/testes")
     public String setTestesTurma(@PathVariable("turmaId") int turmaId, turmaTestesForm testesTurma, RedirectAttributes redirectAttributes){
         try {
             
             turma turma = turmaRepository.findById(turmaId).get();
             turma.getTestes().clear();
-            if(testesTurma.getTestes() != null){
+            if(testesTurma.getTestes() != null && testesTurma.getTestes().size()>0){
             for (teste test : testesTurma.getTestes()) {
                 if(test.getTesteId()>0){
                     turma.getTestes().add(testeRepository.findById(test.getTesteId()).get());    
@@ -231,6 +236,41 @@ public class turmaController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro","Ocorreu um erro e os testes não foram alterados: " + e.toString());
             return "redirect:/index/turmas";
+        }
+    }
+    @GetMapping("/index/turma/{turmaId}/questionarios")
+    public ModelAndView getQuestionariosTurma(@PathVariable("turmaId") int turmaId){
+        ModelAndView mv = new ModelAndView("questionariosTurma");
+        try {
+            List<questionarioinicial> quests = questionarioinicialRepository.findAll();
+            List<questionarioinicial> questsTurma = questionarioinicialRepository.findByTurmas(turmaRepository.findById(turmaId).get());
+            mv.addObject("questsAll", quests);
+            mv.addObject("questsTurma", questsTurma);
+            mv.addObject("turmaId", turmaId);
+        } catch (Exception e) {
+            
+        }
+        return mv;
+    }
+    @PostMapping("/index/turma/{turmaId}/questionarios")
+    public String setQuestionariosTurma(@PathVariable("turmaId") int turmaId, turmaQuestsForm questsTurma, RedirectAttributes redirectAttributes){
+        try {  
+            turma turma = turmaRepository.findById(turmaId).get();
+            turma.getQuestionarios().clear();
+            if(questsTurma.getQuestionarios() != null && questsTurma.getQuestionarios().size()>0){
+            for (questionarioinicial quest : questsTurma.getQuestionarios()) {
+                if(quest.getQuestionarioId()>0){
+                    
+                    turma.getQuestionarios().add(questionarioinicialRepository.findById(quest.getQuestionarioId()).get());    
+                }
+            }
+            }
+            turmaRepository.save(turma);
+           redirectAttributes.addFlashAttribute("sucesso","Questionarios da turma alterados!");
+           return "redirect:/index/turma/{turmaId}/questionarios";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro","Ocorreu um erro e os questionarios não foram alterados: " + e.toString());
+            return "redirect:/index/turma/{turmaId}/questionarios";
         }
         
     }

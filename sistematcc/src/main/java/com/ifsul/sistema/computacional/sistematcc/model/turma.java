@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -64,14 +65,17 @@ public class turma implements Serializable{
     @JoinTable(
         name = "questionarioturmas",
         uniqueConstraints = @UniqueConstraint(columnNames = {"turmaId","questionarioId"}),
-        joinColumns =  @JoinColumn(name = "questionarioId"),
-        inverseJoinColumns = @JoinColumn(name = "turmaId")
+        joinColumns =  @JoinColumn(name = "turmaId"),
+        inverseJoinColumns = @JoinColumn(name = "questionarioId")
     )
     @JsonManagedReference
     private List<questionarioinicial> questionarios;
     
     @OneToMany(mappedBy="turma")
      List<regTestes> regTeste;
+
+    @OneToMany(mappedBy = "turma")
+    private List<projetoFinal> projetoFinal;
 
     public int getTurmaId() {
         return turmaId;
@@ -151,6 +155,15 @@ public class turma implements Serializable{
         this.regTeste = regTeste;
     }
 
+    public List<projetoFinal> getProjetoFinal() {
+        return projetoFinal;
+    }
+
+    public void setProjetoFinal(List<projetoFinal> projetoFinal) {
+        this.projetoFinal = projetoFinal;
+    }
+
+    
     
 
     

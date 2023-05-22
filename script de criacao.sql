@@ -10,14 +10,15 @@ CREATE TABLE aluno (
     alunoId int PRIMARY KEY auto_increment,
     matricula Varchar(30),
     nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-    email Varchar(50),
+    email Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     username varchar(100),
     senha varchar(100)
 );
 
 CREATE TABLE professor (
     professorId int PRIMARY KEY auto_increment,
-    nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci
+    nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+	email VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci          
 );
 
 CREATE TABLE teste (
@@ -174,5 +175,14 @@ CREATE TABLE questionarioturmas (
 	questionarioId int,
 	turmaId int,
 	FOREIGN KEY (questionarioId) REFERENCES questionarioInicial (questionarioId),
+	FOREIGN KEY (turmaId) REFERENCES turma (turmaId)
+);
+
+CREATE TABLE projetoFinal (
+	projetoId int PRIMARY KEY auto_increment,
+	alunoId int,
+	turmaId int,
+	nota DOUBLE,
+	FOREIGN KEY (alunoId) REFERENCES aluno (alunoId),
 	FOREIGN KEY (turmaId) REFERENCES turma (turmaId)
 );

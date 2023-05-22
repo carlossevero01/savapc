@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -43,19 +43,7 @@ public class testeController {
     @Autowired
     turmaRepository turmaRepository;
 
-    /*Atualizar teste por id */
-    @GetMapping("/index/updateteste/{id}")
-    @ResponseBody
-    public ModelAndView getTesteUpdate(@PathVariable("id") int testeId) {
-        ModelAndView mv = new ModelAndView("updateTeste");
-        try {
-            teste testeExistente = testeRepository.findById(testeId).orElseThrow(null);
-            mv.addObject("teste", testeExistente);
-        } catch (Exception e) {
-            System.out.println("ERRO SISTEMA:" + e);
-        }
-        return mv;
-    }
+    
     /*Atualizar teste por id */
     @PostMapping("/index/updateteste/{id}")
     public String setTesteUpdate(@PathVariable("id") int testeId, @Valid teste novoteste,
@@ -76,6 +64,28 @@ public class testeController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel executar" + e);
             return "redirect:/index/testes";
+        }
+    }
+    /*Atualizar teste por id na turma*/
+    @PostMapping("/index/updateteste/{id}/{turmaId}")
+    public String setTesteUpdate_turma(@PathVariable("id") int testeId, @Valid teste novoteste,
+            RedirectAttributes redirectAttributes, BindingResult result) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("erro", "Confira os campos obrigatórios" + result);
+            return "redirect:/index/turma/{turmaId}/testes";
+        }
+        try {
+            teste testeExistente = testeRepository.findById(testeId).orElseThrow(null);
+            testeExistente.setDisponibilidade(novoteste.getDisponibilidade());
+            testeExistente.setNome(novoteste.getNome());
+            testeExistente.setVisibilidade(novoteste.getVisibilidade());
+            testeExistente.setPeso(Double.valueOf(novoteste.getPeso()));
+            testeRepository.save(testeExistente);
+            redirectAttributes.addFlashAttribute("sucesso", "Teste alterado com sucesso");
+            return "redirect:/index/turma/{turmaId}/testes";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel executar" + e);
+            return "redirect:/index/turma/{turmaId}/testes";
         }
     }
     /*Aplicar teste por id */
@@ -137,14 +147,7 @@ public class testeController {
         mv.addObject("perguntas", lperguntas);
         return mv;
     }
-    /*Salvar um novo teste */
-    @GetMapping("/index/saveTeste")
-    public ModelAndView getSaveTeste() {
-        ModelAndView mv = new ModelAndView("saveTeste");
-        List<perguntaTeste> lperguntas = perguntaTesteRepository.findAll();
-        mv.addObject("perguntas", lperguntas);
-        return mv;
-    }
+    
     /*Salvar um novo teste */
     @PostMapping("/index/saveTeste")
     public String saveTeste(@Valid testeForm t, BindingResult result, RedirectAttributes attributes) {
@@ -180,6 +183,44 @@ public class testeController {
         } catch (Exception e) {
             attributes.addFlashAttribute("erro", "Não foi possível cadastrar essas perguntas"+e.toString());
         return "redirect:/index/testes";
+        }
+      }
+    }
+    /*Salvar um novo teste */
+    @PostMapping("/index/turma/{turmaId}/saveTeste")
+    public String saveTeste_turma(@Valid testeForm t, BindingResult result, RedirectAttributes attributes) {
+        List<perguntaTeste> ListPerguntas = new ArrayList<>();
+        teste test = new teste();
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
+            return "redirect:/index/turma/{turmaId}/testes";
+        }else{
+        try {
+            if(t.getPerguntas()!=null){
+                for (perguntaTeste perg : t.getPerguntas()) {
+                    if(perguntaTesteRepository.existsById(perg.getPerguntaTesteId())){
+                        perguntaTeste p = perguntaTesteRepository.findById(perg.getPerguntaTesteId()).orElseThrow(null);
+                        ListPerguntas.add(p);
+                    }
+                }
+                if(t.getPeso()==0){
+                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,0);
+                }else{
+                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,t.getPeso());
+                }
+                
+            }else{
+                if(t.getPeso()==0){test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,0);}
+                else{test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,t.getPeso());}
+               
+            }
+            
+            testeRepository.save(test);
+            attributes.addFlashAttribute("sucesso", "Teste cadastrado");
+            return "redirect:/index/turma/{turmaId}/testes";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "Não foi possível cadastrar essas perguntas"+e.toString());
+        return "redirect:/index/turma/{turmaId}/testes";
         }
       }
     }

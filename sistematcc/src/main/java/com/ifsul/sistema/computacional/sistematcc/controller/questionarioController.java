@@ -42,12 +42,7 @@ public class questionarioController {
         return mv;
     }
 
-    /*Chamar pagina de cadastro de questionario */
-    @GetMapping("/index/saveQuestInicial")
-    public ModelAndView getSaveQuestInicial(){
-        ModelAndView mv = new ModelAndView("saveQuestInicial");
-        return mv;
-    } 
+    
     /*Enviar formulario de cadastro de questionario */
     @PostMapping("/index/saveQuestInicial") 
     public String setSaveQuestInicial(@Valid questionarioinicial qi,RedirectAttributes redirectAttributes, BindingResult result){
@@ -66,17 +61,23 @@ public class questionarioController {
         }
         
     }
-
-    @GetMapping("/index/updatequestionario/{id}")
-    public ModelAndView getUpdateQuestionario(@PathVariable("id") int questionarioId){
-        ModelAndView mv = new ModelAndView("updateQuestionario");
-        try {
-            questionarioinicial qi = questionarioinicialRepository.findById(questionarioId).get();
-            mv.addObject("questionario", qi);
-            return mv;
-        } catch (Exception e) {
-            return mv;
+    /*Enviar formulario de cadastro de questionario em uma turma */
+    @PostMapping("/index/turma/{turmaId}/saveQuestInicial") 
+    public String setSaveQuestInicial_turma(@Valid questionarioinicial qi,RedirectAttributes redirectAttributes, BindingResult result){
+        if(result.hasErrors()){
+            redirectAttributes.addFlashAttribute("erro", "confira os campos obrigatórios"+result.toString());
+            return "redirect:/index/turma/{turmaId}/questionarios";
         }
+        
+        try {
+           questionarioinicialRepository.save(qi); 
+           redirectAttributes.addFlashAttribute("sucesso", "Questionario salvo");
+           return "redirect:/index/turma/{turmaId}/questionarios";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "não foi possivel salvar:"+e.toString());
+            return "redirect:/index/turma/{turmaId}/questionarios";
+        }
+        
     }
 
     @PostMapping("/index/updatequestionario/{id}")
@@ -98,6 +99,26 @@ public class questionarioController {
             redirectAttributes.addFlashAttribute("erro","Questionario não foi atualizado com sucesso!");           
             return "redirect:/index/questionarios";
         }
+    }
+    @PostMapping("/index/updatequestionario/{id}/{turmaId}")
+    public String setUpdateQuestionario_turma(@PathVariable("id") int questionarioId, questionarioinicial novoQ, 
+            RedirectAttributes redirectAttributes, BindingResult result){
+                if(result.hasErrors()){
+                    redirectAttributes.addFlashAttribute("erro", "Confira os campos");
+                    return "redirect:/index/turma/{turmaId}/questionarios";
+                }
+                try {
+                    questionarioinicial qi = questionarioinicialRepository.findById(questionarioId).get();
+                    qi.setDisponibilidade(novoQ.getDisponibilidade());
+                    qi.setNome(novoQ.getNome());
+                    qi.setVisibilidade(novoQ.isVisibilidade());
+                    questionarioinicialRepository.save(qi);
+                    redirectAttributes.addFlashAttribute("sucesso","Questionario atualizado com sucesso!");           
+                    return "redirect:/index/turma/{turmaId}/questionarios";
+                } catch (Exception e) {
+                    redirectAttributes.addFlashAttribute("erro","Questionario não foi atualizado com sucesso!");           
+                    return "redirect:/index/turma/{turmaId}/questionarios";
+                }
     }
 
     @GetMapping("/index/deletequestionario/{id}")

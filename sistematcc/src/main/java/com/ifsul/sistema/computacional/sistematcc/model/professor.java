@@ -26,6 +26,9 @@ public class professor implements Serializable{
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
+    private String email;
+    
     @ManyToMany
     @JoinTable(
         name = "professorturma",
@@ -70,6 +73,14 @@ public class professor implements Serializable{
 
     public void setTurmas(List<turma> turmas) {
         this.turmas = turmas;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 
