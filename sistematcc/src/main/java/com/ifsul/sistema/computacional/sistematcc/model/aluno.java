@@ -3,24 +3,17 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import java.io.Serializable;
 import java.util.List;
 
+
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.*;
+
 @Entity
 @Table (name = "aluno")
 public class aluno implements Serializable{
-    private static final long serialVersionUID = 1L;
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +33,9 @@ public class aluno implements Serializable{
     private String username;
     @Column(nullable=false)
     private String senha;
+
+   
+
     @ManyToMany
     @JoinTable(
         name = "alunoturma",
@@ -61,9 +57,11 @@ public class aluno implements Serializable{
     private List<habilidade> habilidades;
 
     @OneToMany(mappedBy="aluno")
+    @JsonBackReference
      List<regTestes> regTeste;
 
      @OneToMany(mappedBy="aluno")
+     @JsonBackReference
      List<regQuestionarios> regQuestionarios;
 
     //  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -78,9 +76,8 @@ public class aluno implements Serializable{
     // public void setRoles(Collection<Role> roles) {
     //     this.roles = roles;
     // } 
+
     
-    @OneToOne(mappedBy = "aluno")
-    private projetoFinal projetoFinal;
 
     public int getAlunoId() {
         return alunoId;
@@ -169,10 +166,6 @@ public class aluno implements Serializable{
         this.regTeste = registroteste;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
 
     public void setRegTeste(List<regTestes> regTeste) {
         this.regTeste = regTeste;
@@ -194,13 +187,10 @@ public class aluno implements Serializable{
         this.email = email;
     }
 
-    public projetoFinal getProjetoFinal() {
-        return projetoFinal;
-    }
+   
 
-    public void setProjetoFinal(projetoFinal projetoFinal) {
-        this.projetoFinal = projetoFinal;
-    }
+
+    
     
 }
 

@@ -8,4 +8,5 @@ import com.ifsul.sistema.computacional.sistematcc.model.turma;
 
 public interface questionarioinicialService {
     List<questionarioinicial> findByTurmas(turma turma);
+    void atualizarVisibilidade();
 }

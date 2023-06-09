@@ -40,9 +40,6 @@ public class teste implements Serializable{
     @Column(nullable = false)
     private LocalDate disponibilidade;
 
-    @Column(nullable= false)
-    private Double peso;
-
     @ManyToMany
     @JoinTable(
         name = "perguntateste_Teste",
@@ -64,7 +61,10 @@ public class teste implements Serializable{
     private List<turma> turmas;
 
     @OneToMany(mappedBy = "teste")
+    @JsonBackReference
      List<regTestes> regTeste;
+
+     
 
     public int getTesteId() {
         return testeId;
@@ -90,14 +90,13 @@ public class teste implements Serializable{
         this.disponibilidade = disponibilidade;
     }
 
-    public teste(boolean visibilidade, String nome, LocalDate disponibilidade, List<perguntaTeste> perguntas, double peso) {
+    public teste(boolean visibilidade, String nome, LocalDate disponibilidade, List<perguntaTeste> perguntas) {
         super();
         this.visibilidade = visibilidade;
         this.nome = nome;
         this.disponibilidade = disponibilidade;
         this.perguntasTeste = perguntas;
-        if(peso==0){ this.peso= Double.valueOf(7);
-        }else{ this.peso = peso;}
+        
     }
 
     public teste() {
@@ -134,13 +133,7 @@ public class teste implements Serializable{
         this.turmas = turmas;
     }
 
-    public Double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(Double peso) {
-        this.peso = peso;
-    }
+    
 
     public List<regTestes> getRegTeste() {
         return regTeste;
@@ -153,6 +146,8 @@ public class teste implements Serializable{
     public void setPerguntasTeste(List<perguntaTeste> perguntasTeste) {
         this.perguntasTeste = perguntasTeste;
     }
+
+    
 
     
 }

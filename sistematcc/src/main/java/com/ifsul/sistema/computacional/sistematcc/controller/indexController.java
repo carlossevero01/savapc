@@ -61,13 +61,15 @@ public class indexController {
     @GetMapping(value = "/index/deletealuno/{id}")
     public String deleteAluno(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
-            alunoRepository.deleteById(id);
+            aluno a = alunoRepository.findById(id).get();
+            alunoRepository.delete(a);
+            
             attributes.addFlashAttribute("sucesso", "Aluno deletado");
             return "redirect:/index/alunos";
         } catch (Exception e) {
-            attributes.addFlashAttribute("erro", "id inexistente ou erro desconhecido");
+            attributes.addFlashAttribute("erro", e.toString());
             return "redirect:/index/alunos";
-        }
+       }
     }
 
     

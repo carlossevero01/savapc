@@ -48,8 +48,11 @@
                                     <textarea class="form-control" id="descricao" name="descricao" rows="3"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="tipo" class="form-label">Tipo*</label>
-                                    <input type="text" class="form-control" id="tipo" name="tipo" value="VF"></input>
+                                    <label for="profId" class="form-label">Tipo</label>
+                                    <select class="form-select" aria-label="Default select example" id="tipo" name="tipo">
+                                        <option selected value="dissertativa">Dissertativa*</option>
+                                        <option value="multipla escolha">Multipla Escolha</option>
+                                    </select>
                                 </div>
                                  <button type="submit" class="btn btn-secondary mt-2">Salvar</button>
                              </form>
@@ -68,6 +71,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
+                        <th scope="col">Titulo</th>
                         <th scope="col">Tipo </th>
                         <th scope="col">Descricao</th> 
                         <th scope="col">Opções</th>

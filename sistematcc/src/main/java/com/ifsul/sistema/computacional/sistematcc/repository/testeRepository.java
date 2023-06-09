@@ -8,6 +8,9 @@ import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 
 
+
+
 public interface testeRepository extends JpaRepository<teste,Integer>{
     List<teste> findByTurmas(turma turma);
+    
 }

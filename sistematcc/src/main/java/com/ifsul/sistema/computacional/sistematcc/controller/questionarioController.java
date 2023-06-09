@@ -1,12 +1,14 @@
 package com.ifsul.sistema.computacional.sistematcc.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -14,12 +16,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.perguntaquestionario;
+import com.ifsul.sistema.computacional.sistematcc.model.perguntasQuestForm;
 import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
+import com.ifsul.sistema.computacional.sistematcc.model.regQuestionarios;
+import com.ifsul.sistema.computacional.sistematcc.model.respostaQuestionarios;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaQuestionarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.regQuestionariosRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
+import com.ifsul.sistema.computacional.sistematcc.service.questionarioinicialService;
 
 import jakarta.validation.Valid;
 
@@ -30,15 +37,24 @@ public class questionarioController {
     @Autowired
     questionarioinicialRepository questionarioinicialRepository;
     @Autowired
+    questionarioinicialService questionarioinicialService;
+    @Autowired
     alunoRepository alunoRepository;
     @Autowired
     turmaRepository turmaRepository;
+    @Autowired
+    regQuestionariosRepository regQuestionariosRepository;
     /*Listar Questionarios */
     @GetMapping(value = "/index/questionarios")
     public ModelAndView listarQuestionarios() {
         ModelAndView mv = new ModelAndView("questionarioinicial");
-        List<questionarioinicial> list = questionarioinicialRepository.findAll();
-        mv.addObject("questionarios", list);
+        try {
+            questionarioinicialService.atualizarVisibilidade();
+            List<questionarioinicial> list = questionarioinicialRepository.findAll();
+            mv.addObject("questionarios", list);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
         return mv;
     }
 
@@ -137,7 +153,7 @@ public class questionarioController {
 
      /*Aplicar teste por id */
      @GetMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
-     public ModelAndView getTesteAplication(@PathVariable("questionarioId") int qId,@PathVariable("turmaId") int turmaId) {
+     public ModelAndView getQuestionarioAplication(@PathVariable("questionarioId") int qId,@PathVariable("turmaId") int turmaId) {
          ModelAndView mv = new ModelAndView("aplicacaoQuestionario");
          
          questionarioinicial q = questionarioinicialRepository.findById(qId).get();
@@ -151,39 +167,48 @@ public class questionarioController {
  
      }
      /*Aplicar teste por id */
-    //  @PostMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
-    //  public String setTesteAplication(@PathVariable("testeId") int testeId,@PathVariable("turmaId") int turmaId, @ModelAttribute perguntasForm lresp,
-    //          RedirectAttributes attributes) {
-    //      try {
-    //          turma turma = turmaRepository.findById(turmaId).get();
-    //          teste t = testeRepository.findById(testeId).orElseThrow(null);
-    //      List<respostaTeste> ListRespostas = new ArrayList<>();
-    //      regTestes reg = new regTestes();
-    //      if (alunoRepository.findByMatricula(lresp.getMatricula().trim()).size()>0) {
-    //          for (perguntaTeste Pergunta : lresp.getPerguntas()) {
+     @PostMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
+     public String setQuestionarioAplication(@PathVariable("questionarioId") int questionarioId,@PathVariable("turmaId") int turmaId, @ModelAttribute perguntasQuestForm lresp,
+             RedirectAttributes attributes) {
+         try {
+             turma turma = turmaRepository.findById(turmaId).get();
+             questionarioinicial quest = questionarioinicialRepository.findById(questionarioId).orElseThrow(null);
+             List<respostaQuestionarios> ListRespostas = new ArrayList<>();
+             regQuestionarios reg = new regQuestionarios();
+         if (alunoRepository.findByMatricula(lresp.getMatricula().trim()).size()>0) {
+             for (perguntaquestionario Pergunta : lresp.getPerguntas()) {
                  
-    //              respostaTeste resposta = new respostaTeste();
-    //              perguntaTeste p = perguntaTesteRepository.findById(Pergunta.getPerguntaTesteId()).orElseThrow(null);
-    //              resposta.setperguntaTeste(p);
-    //              resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
-    //              ListRespostas.add(resposta);
-    //          }
-    //          reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
-    //          reg.setTeste(t);
-    //          reg.setTurma(turma);
-    //          reg.setRespostasTeste(ListRespostas);
-    //          regTestesRepository.save(reg);
-    //          attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
-    //          return "redirect:/index/inicial";
-    //      }else{ 
-    //          attributes.addFlashAttribute("erro", "Matricula não encontrada");
-    //          return "redirect:/index/inicial";
-    //      }
-    //      } catch (Exception e) {
-    //          attributes.addFlashAttribute("erro", "Teste não foi respondido com sucesso"+e);
-    //          return "redirect:/index/inicial";
-    //      }
-    //  }
+                 respostaQuestionarios resposta = new respostaQuestionarios();
+                 perguntaquestionario p = perguntaQuestionarioRepository.findById(Pergunta.getPerguntaQuestionarioId()).orElseThrow(null);
+                 resposta.setPerguntaQuestionario(p);
+                 if(Pergunta.getTipo().equalsIgnoreCase("multipla escolha")){
+                    resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
+                    resposta.setTipo(Pergunta.getTipo());
+                    ListRespostas.add(resposta);
+                 }
+                 if(Pergunta.getTipo().equalsIgnoreCase("dissertativa")){
+                    resposta.setResposta(Pergunta.getResposta());
+                    resposta.setTipo(Pergunta.getTipo());
+                    ListRespostas.add(resposta);
+                 }
+                 
+             }
+             reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
+             reg.setQuestionario(quest);
+             reg.setTurma(turma);
+             reg.setRespostasQuestionario(ListRespostas);
+             regQuestionariosRepository.save(reg);
+             attributes.addFlashAttribute("sucesso", "Questionario respondido com sucesso!");
+             return "redirect:/index/inicial";
+         }else{ 
+             attributes.addFlashAttribute("erro", "Matricula não encontrada");
+             return "redirect:/index/inicial";
+         }
+         } catch (Exception e) {
+             attributes.addFlashAttribute("erro", "Questionario não foi respondido com sucesso"+e);
+             return "redirect:/index/inicial";
+         }
+     }
 
     
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -22,7 +23,11 @@ public class respostaQuestionarios implements Serializable{
     private int respostaQuestionarioId;
     @Column(name = "opRespostaId")
     private int opRespostaId;
+    @Lob
+    private String resposta;
     
+    @Column(name="tipo")
+    private String tipo;
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name= "perguntaQuestionarioId")
@@ -57,6 +62,18 @@ public class respostaQuestionarios implements Serializable{
     public String toString() {
         return "respostaQuestionarios [respostaQuestionarioId=" + respostaQuestionarioId + ", opRespostaId="
                 + opRespostaId + "]";
+    }
+    public String getResposta() {
+        return resposta;
+    }
+    public void setResposta(String resposta) {
+        this.resposta = resposta;
+    }
+    public String getTipo() {
+        return tipo;
+    }
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
     
    

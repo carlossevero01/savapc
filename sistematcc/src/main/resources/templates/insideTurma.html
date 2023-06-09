@@ -58,7 +58,7 @@
 												<p class="card-text" ></p>
 											</div>
 											<div class="card-footer text-muted"> 
-												<!-- <a class="btn btn-outline-primary" th:href="@{/index/aplicacaoquest/{turmaId}/{questionarioId}(turmaId=${turma.turmaId},questionarioId=${q.questionarioId})}" role="button">Acessar Questionario</a> -->
+												<a class="btn btn-outline-primary" th:href="@{/index/aplicacaoquest/{turmaId}/{questionarioId}(turmaId=${turma.turmaId},questionarioId=${q.questionarioId})}" role="button">Acessar Questionario</a>
 											</div>
 									</div>	
 								</div>
@@ -74,7 +74,7 @@
 		
     </body>
     <footer>
-        <div th:insert="fragments/frag :: footer"></div>
+        <div style="margin-top: 20%;" th:insert="fragments/frag :: footer"></div>
     </footer>
 </html>
 

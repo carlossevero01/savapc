@@ -3,6 +3,7 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import java.io.Serializable;
 import java.util.List;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,6 +54,9 @@ public class opcaoresposta implements Serializable{
     )
     @JsonBackReference
     private List<perguntaquestionario> perguntasQuestionario;
+
+    
+    
 
     public int getOpcaoRespostaId() {
         return opcaoRespostaId;

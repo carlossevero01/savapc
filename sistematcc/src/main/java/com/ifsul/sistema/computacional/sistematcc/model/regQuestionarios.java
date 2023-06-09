@@ -30,6 +30,7 @@ public class regQuestionarios implements Serializable{
     @ManyToOne
     @JoinColumn(name = "turmaId")
     private turma turma;
+
    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -88,6 +89,7 @@ public class regQuestionarios implements Serializable{
         this.respostasQuestionario = respostasQuestionario;
     }
 
+   
    
 
     

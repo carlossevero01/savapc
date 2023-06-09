@@ -4,10 +4,7 @@ package com.ifsul.sistema.computacional.sistematcc.service;
 
 import java.util.List;
 
-
-
-import com.ifsul.sistema.computacional.sistematcc.model.contabilizacaoPorHabilidade;
-
+import com.ifsul.sistema.computacional.sistematcc.model.aluno;
 import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
 
 
@@ -16,8 +13,9 @@ import com.ifsul.sistema.computacional.sistematcc.service.regTestesService;
 
 public interface regTestesService {
     
-    List<contabilizacaoPorHabilidade> contabilizarTestesPorTurma(turma turma);
-    List<contabilizacaoPorHabilidade> contabilizartudo();
+    
+    void fazerCorrecaoTestes();
     List<regTestes> findByTurma(turma turma);
+    List<regTestes> findRegTestesByTurmaAndAluno(turma t,aluno a);
 }
 

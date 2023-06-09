@@ -1,115 +1,133 @@
 package com.ifsul.sistema.computacional.sistematcc.model;
 
+
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="correcoesAluno")
 public class correcoesAluno {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "correcaoId")
+    private int correcaoId;
     
-    private int alunoId;
-    private int testeId;
-    private String testeNome;
-    private int perguntaId;
-    private int opRespostaId;
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="alunoId")
+    private aluno aluno;
+    
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="turmaId")
+    private turma turma;
+    
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="testeId")
+    private teste teste;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "perguntaTesteId", referencedColumnName = "perguntaTesteId")
+    private perguntaTeste perguntaTeste;
+    
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "opcaoRespostaId", referencedColumnName = "opcaoRespostaId")
+    private opcaoresposta opcaoResposta;
+    
+    @Column(nullable = false)
     private boolean acertou;
+
+    public int getCorrecaoId() {
+        return correcaoId;
+    }
+
+    public void setCorrecaoId(int correcaoId) {
+        this.correcaoId = correcaoId;
+    }
+
+    public aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(aluno aluno) {
+        this.aluno = aluno;
+    }
+
+    public turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(turma turma) {
+        this.turma = turma;
+    }
+
+    public teste getTeste() {
+        return teste;
+    }
+
+    public void setTeste(teste teste) {
+        this.teste = teste;
+    }
+
+    public perguntaTeste getPerguntaTeste() {
+        return perguntaTeste;
+    }
+
+    public void setPerguntaTeste(perguntaTeste perguntaTeste) {
+        this.perguntaTeste = perguntaTeste;
+    }
+
     
-    
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + alunoId;
-        result = prime * result + testeId;
-        result = prime * result + ((testeNome == null) ? 0 : testeNome.hashCode());
-        result = prime * result + perguntaId;
-        result = prime * result + opRespostaId;
-        result = prime * result + (acertou ? 1231 : 1237);
-        return result;
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        correcoesAluno other = (correcoesAluno) obj;
-        if (alunoId != other.alunoId)
-            return false;
-        if (testeId != other.testeId)
-            return false;
-        if (testeNome == null) {
-            if (other.testeNome != null)
-                return false;
-        } else if (!testeNome.equals(other.testeNome))
-            return false;
-        if (perguntaId != other.perguntaId)
-            return false;
-        if (opRespostaId != other.opRespostaId)
-            return false;
-        if (acertou != other.acertou)
-            return false;
-        return true;
-    }
-    
-    
-    @Override
-    public String toString() {
-        return "[alunoId="+alunoId+"\t testeId="+testeId + "\t testeNome=" + testeNome+ "\t perguntaId=" + perguntaId+" |" + "\n|opRespostaId=" + opRespostaId + "\t acertou=" + acertou+"]";
-    }
-    public correcoesAluno(int alunoId, int testeId, String testeNome, int perguntaId, int opRespostaId, boolean acertou) {
-        this.alunoId = alunoId;
-        this.testeId = testeId;
-        this.testeNome = testeNome;
-        this.perguntaId = perguntaId;
-        this.opRespostaId = opRespostaId;
-        this.acertou = acertou;
-        
-    }
-   
-    public correcoesAluno() {
-        this.alunoId=0;
-        this.testeId=0;
-        this.testeNome="";
-        this.perguntaId=0;
-        this.opRespostaId=0;
-        this.acertou=false;
-        
-    }
-    public int getAlunoId() {
-        return alunoId;
-    }
-    public void setAlunoId(int alunoId) {
-        this.alunoId = alunoId;
-    }
-    public int getTesteId() {
-        return testeId;
-    }
-    public void setTesteId(int testeId) {
-        this.testeId = testeId;
-    }
-    public String getTesteNome() {
-        return testeNome;
-    }
-    public void setTesteNome(String testeNome) {
-        this.testeNome = testeNome;
-    }
-    public int getPerguntaId() {
-        return perguntaId;
-    }
-    public void setPerguntaId(int perguntaId) {
-        this.perguntaId = perguntaId;
-    }
-    public int getOpRespostaId() {
-        return opRespostaId;
-    }
-    public void setOpRespostaId(int opRespostaId) {
-        this.opRespostaId = opRespostaId;
-    }
+
     public boolean isAcertou() {
         return acertou;
     }
+
     public void setAcertou(boolean acertou) {
         this.acertou = acertou;
     }
-   
+
+    public correcoesAluno() {
+    }
+
+    
+
+    @Override
+    public String toString() {
+        return "correcoesAluno:+ [correcaoId=" + correcaoId + ", aluno=" + aluno + ", turma=" + turma + ", teste=" + teste
+                + ", perguntaTeste=" + perguntaTeste + ", opcaoResposta=" + opcaoResposta + ", acertou=" + acertou
+                + "]";
+    }
+
+    public correcoesAluno(aluno aluno, turma turma, teste teste,
+            perguntaTeste perguntaTeste, opcaoresposta opcaoResposta, boolean acertou) {
+        this.aluno = aluno;
+        this.turma = turma;
+        this.teste = teste;
+        this.perguntaTeste = perguntaTeste;
+        this.opcaoResposta = opcaoResposta;
+        this.acertou = acertou;
+    }
+
+    public opcaoresposta getOpcaoResposta() {
+        return opcaoResposta;
+    }
+
+    public void setOpcaoResposta(opcaoresposta opcaoResposta) {
+        this.opcaoResposta = opcaoResposta;
+    }
+    
+    
+    
 
     
 }

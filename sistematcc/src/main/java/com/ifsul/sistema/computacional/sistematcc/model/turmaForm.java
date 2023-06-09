@@ -4,17 +4,14 @@ import java.util.List;
 
 public class turmaForm {
    
-    private int turmaId;
+   
     private String nome;
     private boolean visibilidade;
     private List<teste> testes;
+    private double pesoTestes;
    // private int professorId;
-    public int getTurmaId() {
-        return turmaId;
-    }
-    public void setTurmaId(int turmaId) {
-        this.turmaId = turmaId;
-    }
+    
+   
     public String getNome() {
         return nome;
     }
@@ -35,6 +32,12 @@ public class turmaForm {
     }
     public turmaForm() {
         super();
+    }
+    public double getPesoTestes() {
+        return pesoTestes;
+    }
+    public void setPesoTestes(double pesoTestes) {
+        this.pesoTestes = pesoTestes;
     }
 
     

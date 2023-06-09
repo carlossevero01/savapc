@@ -3,10 +3,13 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +33,9 @@ public class turma implements Serializable{
     
     @Column(nullable = false)
     private boolean visibilidade;
+
+    @Column(nullable= false)
+    private Double pesoTestes;
 
     @ManyToMany
     @JoinTable(
@@ -72,10 +78,16 @@ public class turma implements Serializable{
     private List<questionarioinicial> questionarios;
     
     @OneToMany(mappedBy="turma")
+    @JsonBackReference
      List<regTestes> regTeste;
 
-    @OneToMany(mappedBy = "turma")
-    private List<projetoFinal> projetoFinal;
+    
+
+    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonBackReference
+    private List<notas> notas;
+
+    
 
     public int getTurmaId() {
         return turmaId;
@@ -96,15 +108,16 @@ public class turma implements Serializable{
     public turma() {
     }
 
-    public turma(String nome, boolean visibilidade, List<teste> testes) {
+    public turma(String nome, boolean visibilidade, List<teste> testes, double pesoTestes) {
         this.nome = nome;
         this.visibilidade = visibilidade;
         this.testes = testes;
+        if(pesoTestes==0){ this.pesoTestes=7.0;}else{ this.pesoTestes=pesoTestes;}
     }
 
     @Override
     public String toString() {
-        return "turma : turmaId=" + turmaId + ", nome=" + nome +", visibilidade="+visibilidade;
+        return "turma : turmaId=" + turmaId + ", nome=" + nome +", visibilidade="+visibilidade+",pesoTestes="+pesoTestes;
     }
 
     public List<aluno> getAlunos() {
@@ -155,13 +168,27 @@ public class turma implements Serializable{
         this.regTeste = regTeste;
     }
 
-    public List<projetoFinal> getProjetoFinal() {
-        return projetoFinal;
+    
+
+    public List<notas> getNotas() {
+        return notas;
     }
 
-    public void setProjetoFinal(List<projetoFinal> projetoFinal) {
-        this.projetoFinal = projetoFinal;
+    public void setNotas(List<notas> notas) {
+        this.notas = notas;
     }
+
+    public Double getPesoTestes() {
+        return pesoTestes;
+    }
+
+    public void setPesoTestes(Double pesoTestes) {
+        this.pesoTestes = pesoTestes;
+    }
+
+    
+
+   
 
     
     

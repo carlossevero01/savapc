@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,10 +116,24 @@ public class perguntaTesteController {
     @GetMapping(value = "/index/teste/perguntas/{id}")
     public ModelAndView getPerguntasPorTeste(@PathVariable("id") int testeId) {
         ModelAndView mv = new ModelAndView("perguntaTeste");
-        teste t = testeRepository.findById(testeId).orElseThrow(null);
-        mv.addObject("testeId", t.getTesteId());
-        mv.addObject("testeNome", t.getNome());
-        mv.addObject("perguntas", t.getPerguntasTeste());
+        List<perguntaTeste> perguntas = new ArrayList<>();
+        String testeNome = "";
+        int IDteste=0;
+        if(testeRepository.findById(testeId)!=null){
+            teste t = testeRepository.findById(testeId).get();
+            testeNome = t.getNome();
+            IDteste = t.getTesteId();
+            perguntas = t.getPerguntasTeste();
+            for (perguntaTeste perguntaTeste : perguntas) {
+                System.out.println("|||||||| \n PerguntaTesteID:"+ perguntaTeste.getPerguntaTesteId());    
+            }
+            
+        }
+        
+
+        mv.addObject("testeId", IDteste);
+        mv.addObject("testeNome", testeNome);
+        mv.addObject("perguntas", perguntas);
         return mv;
     }
     

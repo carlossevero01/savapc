@@ -6,14 +6,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 
 
 import com.ifsul.sistema.computacional.sistematcc.model.regQuestionarios;
+import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaQuestionarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regQuestionariosRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 
 @Controller
 public class regQuestionariosController {
@@ -23,14 +26,18 @@ public class regQuestionariosController {
     perguntaQuestionarioRepository perguntaQuestionarioRepository;
     @Autowired
     regQuestionariosRepository regQuestionariosRepository;
+    @Autowired
+    turmaRepository turmaRepository;
 
-    @GetMapping("/index/relatorioQuestionario")
-    public ModelAndView getRelatorioQuestionario(){
+    @GetMapping("/index/relatorioQuestionario/{turmaId}")
+    public ModelAndView getRelatorioQuestionario(@PathVariable("turmaId") int turmaId){
         ModelAndView mv = new ModelAndView("registroquestionario");
         try {
-            List<regQuestionarios> regquest = regQuestionariosRepository.findAll();
+            turma turma = turmaRepository.findById(turmaId).get();
+            List<regQuestionarios> regquest = regQuestionariosRepository.findByTurma(turma);
             if(regquest.size()>0 && regquest.get(0).getQuestionario()!=null && regquest.get(0).getAluno() !=null ){
                 mv.addObject("registros", regquest);
+                mv.addObject("turma", turma);
             }
             
         } catch (Exception e) {

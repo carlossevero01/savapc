@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,6 +27,7 @@ import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteReposi
 import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
+import com.ifsul.sistema.computacional.sistematcc.service.testeService;
 
 import jakarta.validation.Valid;
 
@@ -34,6 +35,8 @@ import jakarta.validation.Valid;
 public class testeController {
     @Autowired
     testeRepository testeRepository;
+    @Autowired
+    testeService testeService;
     @Autowired
     alunoRepository alunoRepository;
     @Autowired
@@ -57,7 +60,6 @@ public class testeController {
             testeExistente.setDisponibilidade(novoteste.getDisponibilidade());
             testeExistente.setNome(novoteste.getNome());
             testeExistente.setVisibilidade(novoteste.getVisibilidade());
-            testeExistente.setPeso(Double.valueOf(novoteste.getPeso()));
             testeRepository.save(testeExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Teste alterado com sucesso");
             return "redirect:/index/testes";
@@ -79,7 +81,6 @@ public class testeController {
             testeExistente.setDisponibilidade(novoteste.getDisponibilidade());
             testeExistente.setNome(novoteste.getNome());
             testeExistente.setVisibilidade(novoteste.getVisibilidade());
-            testeExistente.setPeso(Double.valueOf(novoteste.getPeso()));
             testeRepository.save(testeExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Teste alterado com sucesso");
             return "redirect:/index/turma/{turmaId}/testes";
@@ -141,6 +142,11 @@ public class testeController {
     @GetMapping(value = "/index/testes")
     public ModelAndView listarTestes() {
         ModelAndView mv = new ModelAndView("teste");
+        try {
+            testeService.atualizarVisibilidades(); /* Teste de disponibilidade */
+        } catch (Exception e) {
+           
+        }
         List<teste> list = testeRepository.findAll();
         mv.addObject("testes", list);
         List<perguntaTeste> lperguntas = perguntaTesteRepository.findAll();
@@ -165,16 +171,10 @@ public class testeController {
                         ListPerguntas.add(p);
                     }
                 }
-                if(t.getPeso()==0){
-                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,0);
-                }else{
-                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,t.getPeso());
-                }
+                 test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas);
                 
             }else{
-                if(t.getPeso()==0){test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,0);}
-                else{test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,t.getPeso());}
-               
+                test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null);
             }
             
             testeRepository.save(test);
@@ -203,18 +203,10 @@ public class testeController {
                         ListPerguntas.add(p);
                     }
                 }
-                if(t.getPeso()==0){
-                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,0);
-                }else{
-                    test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas,t.getPeso());
-                }
-                
+                test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas);
             }else{
-                if(t.getPeso()==0){test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,0);}
-                else{test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null,t.getPeso());}
-               
+                test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null);
             }
-            
             testeRepository.save(test);
             attributes.addFlashAttribute("sucesso", "Teste cadastrado");
             return "redirect:/index/turma/{turmaId}/testes";
@@ -237,17 +229,5 @@ public class testeController {
         }
     }
 
-    @PostMapping("/index/updatetestepeso/{id}")
-    public String setUpdateTestePeso(@PathVariable("id") int testeId, @RequestParam("peso") double peso, RedirectAttributes redirectAttributes){
-        try {
-            teste t = testeRepository.findById(testeId).get();
-            t.setPeso(peso);
-            testeRepository.save(t);
-            redirectAttributes.addFlashAttribute("sucesso", "Peso alterado com sucesso");
-            return "redirect:/index/relatorioTeste/{id}";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro", "Não foi possivel alterar");
-            return "redirect:/index/relatorioTeste/{id}";
-        }
-    } 
+    
 }

@@ -3,6 +3,9 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 public class contabilizacaoPorHabilidade {
 
     private int testeId;
+    private int projetoId;
+    private int turmaId;
+    private int alunoId;
     private String teste;
     private String turma;
     private String aluno;
@@ -14,7 +17,8 @@ public class contabilizacaoPorHabilidade {
     private int nQChab3;
     private int nQChab4;
     private int nQChab5;
-    private double peso;
+    private double pesoTestes;
+    private double notaProjeto;
     private double valorTotal;
     private String recomendacao;
     
@@ -27,7 +31,8 @@ public class contabilizacaoPorHabilidade {
         this.nQChab4=0;
         this.nQChab5=0;
         this.nQ=0;
-        this.peso=0;
+        this.pesoTestes=0;
+        this.notaProjeto=0;
         this.recomendacao="";
     }
     public contabilizacaoPorHabilidade(int testeId,String teste, String turma,String aluno,String matricula,int nQ,  int nQcorretas, int nQChab1, int nQChab2, int nQChab3, int nQChab4,
@@ -45,18 +50,18 @@ public class contabilizacaoPorHabilidade {
         this.nQChab4 = nQChab4;
         this.nQChab5 = nQChab5;
         this.nQ = nQ;
-        this.peso = peso;
-        this.valorTotal= Double.valueOf(nQcorretas)/Double.valueOf(nQ)*this.peso; 
+        this.pesoTestes = peso;
+        this.valorTotal= Double.valueOf(nQcorretas)/Double.valueOf(nQ)*this.pesoTestes; 
         this.valorTotal =  Double.parseDouble(String.format("%.2f",this.valorTotal).replace(",","."));    
           
-        if(this.valorTotal>=6) {this.recomendacao="Alfabetizado em Codigo";}else{this.recomendacao="nao desenvolveu habilidades";}
+        if(this.valorTotal>=6) {this.recomendacao="ACod";}else{this.recomendacao="N/D";}
         
     } 
     @Override
         public String toString() {
             return "\ncontabilizacao: \n testeId= "+testeId+"alunoId=" + aluno +"\n turmaId="+turma+ "\n testeId=" + teste + "\n nQcorretas=" + nQcorretas
                     + "\n nQChab1=" + nQChab1 + "\n nQChab2=" + nQChab2 + "\n nQChab3=" + nQChab3 + "\n nQChab4=" + nQChab4
-                    + "\n nQChab5=" + nQChab5 +"\n nQ="+nQ+ "\n valorTotal="+(int) valorTotal+"\n recomendacao="+recomendacao+ "]";
+                    + "\n nQChab5=" + nQChab5 +"\n nQ="+nQ+ "\n NotaProjeto="+(int) notaProjeto+"\n valorTotal="+(int) valorTotal+"\n recomendacao="+recomendacao+ "]";
         }
 
 
@@ -115,12 +120,8 @@ public class contabilizacaoPorHabilidade {
     public void setnQ(int nQ) {
         this.nQ = nQ;
     }
-    public double getPeso() {
-        return peso;
-    }
-    public void setPeso(double peso) {
-        this.peso = peso;
-    }
+    
+   
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
     }
@@ -153,6 +154,37 @@ public class contabilizacaoPorHabilidade {
     }
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+    public double getNotaProjeto() {
+        return notaProjeto;
+    }
+    public void setNotaProjeto(double notaProjeto) {
+        this.notaProjeto = notaProjeto;
+        this.valorTotal= this.valorTotal + notaProjeto;
+    }
+    public int getProjetoId() {
+        return projetoId;
+    }
+    public void setProjetoId(int projetoId) {
+        this.projetoId = projetoId;
+    }
+    public int getTurmaId() {
+        return turmaId;
+    }
+    public void setTurmaId(int turmaId) {
+        this.turmaId = turmaId;
+    }
+    public double getPesoTestes() {
+        return pesoTestes;
+    }
+    public void setPesoTestes(double pesoTestes) {
+        this.pesoTestes = pesoTestes;
+    }
+    public int getAlunoId() {
+        return alunoId;
+    }
+    public void setAlunoId(int alunoId) {
+        this.alunoId = alunoId;
     }
     
     

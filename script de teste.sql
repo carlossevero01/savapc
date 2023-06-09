@@ -4,9 +4,20 @@ INSERT INTO habilidade (nome) values ('Resolucao de problemas'); /*ID:3*/
 INSERT INTO habilidade (nome) values ('Resolucao algoritmica'); /*ID:4*/
 INSERT INTO habilidade (nome) values ('Avaliacao'); /*ID:5*/
 
-INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (1,"5555","email@gmail.com","alunoTeste","alunoteste","1234");
-INSERT INTO turma (turmaId,nome,visibilidade) values (1,"turmaTeste",true);
-INSERT INTO alunoturma (alunoId,turmaId) values (1,1); 
+INSERT INTO turma (turmaId,nome,visibilidade) values (1,"Turma TADS1/2023",true);
+
+INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (1,"111","email1@gmail.com","alunoTeste1","alunoteste1","1234");
+INSERT INTO alunoturma (alunoId,turmaId) values (1,1);
+INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (2,"222","email2@gmail.com","alunoTeste2","alunoteste2","1234");
+INSERT INTO alunoturma (alunoId,turmaId) values (2,1);  
+INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (3,"333","email3@gmail.com","alunoTeste3","alunoteste3","1234");
+INSERT INTO alunoturma (alunoId,turmaId) values (3,1); 
+INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (4,"444","email4@gmail.com","alunoTeste4","alunoteste4","1234");
+INSERT INTO alunoturma (alunoId,turmaId) values (4,1); 
+INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (5,"444","email5@gmail.com","alunoTeste5","alunoteste5","1234");
+INSERT INTO alunoturma (alunoId,turmaId) values (5,1); 
+INSERT INTO aluno (alunoId,matricula,email,nome,username,senha) values (6,"444","email6@gmail.com","alunoTeste6","alunoteste6","1234");
+INSERT INTO alunoturma (alunoId,turmaId) values (6,1);  
 
 INSERT INTO questionarioinicial (questionarioId,disponibilidade,nome,visibilidade) values (1,"2023-05-13 00:00:00","suas experiencias",true);
 INSERT INTO questionarioturmas (questionarioId,turmaId) values (1,1);

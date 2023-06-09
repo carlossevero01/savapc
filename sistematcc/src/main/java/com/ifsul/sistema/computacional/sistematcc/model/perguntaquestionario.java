@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -35,6 +36,9 @@ public class perguntaquestionario implements Serializable{
 
     @Column(nullable = false, name = "tipo")
     private String tipo;
+
+    @Lob
+    private String resposta;
 
     @ManyToMany
     @JoinTable(
@@ -128,6 +132,14 @@ public class perguntaquestionario implements Serializable{
 
     public void setPerguntaQuestionarioId(int perguntaQuestionarioId) {
         this.perguntaQuestionarioId = perguntaQuestionarioId;
+    }
+
+    public String getResposta() {
+        return resposta;
+    }
+
+    public void setResposta(String resposta) {
+        this.resposta = resposta;
     }
 
     
