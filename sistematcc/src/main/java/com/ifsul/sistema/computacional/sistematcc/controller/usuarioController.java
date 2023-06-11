@@ -25,6 +25,8 @@ import com.ifsul.sistema.computacional.sistematcc.model.usuario;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
+import com.ifsul.sistema.computacional.sistematcc.service.usuarioService;
+
 
 import jakarta.validation.Valid;
 
@@ -33,22 +35,35 @@ public class usuarioController {
     @Autowired
     usuarioRepository usuarioRepository;
     @Autowired
+    usuarioService usuarioService;
+    @Autowired
     turmaRepository turmaRepository;
     @Autowired
     testeRepository testeRepository;
 
      /* DELETAR UNIDADE(PROFESSORES/ADMIN) */
-    @GetMapping(value = "/index/deletealuno/{id}")
+    @GetMapping(value = "/index/deleteusuario/{id}")
     public String deleteUsuario(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
             usuario a = usuarioRepository.findById(id).get();
             usuarioRepository.delete(a);
-            
-            attributes.addFlashAttribute("sucesso", "Usuário deletado");
-            return "redirect:/index/alunos";
+            if(a.getTipo().equalsIgnoreCase("aluno")){
+                attributes.addFlashAttribute("sucesso", "Usuário deletado");
+             return "redirect:/index/alunos";
+            }else{
+                attributes.addFlashAttribute("sucesso", "Usuário deletado");
+                return "redirect:/index/professores";
+            }
         } catch (Exception e) {
-            attributes.addFlashAttribute("erro", e.toString());
-            return "redirect:/index/alunos";
+            usuario a = usuarioRepository.findById(id).get();
+            if(a.getTipo().equalsIgnoreCase("aluno")){
+                attributes.addFlashAttribute("erro", e.toString());
+                 return "redirect:/index/alunos";
+            }else{
+                attributes.addFlashAttribute("erro", e.toString());
+                return "redirect:/index/professores";
+            }
+            
        }
     }
 
@@ -56,26 +71,37 @@ public class usuarioController {
      /* DELETAR UNIDADE(PROFESSORES/ADMIN) */
 
     /* CADASTRAR UNIDADE(PROFESSORES/ADMIN) */
-    @GetMapping("/index/saveAluno")
-    public String getSaveAluno() {
-        return "saveAluno";
-    }
+    
 
-    @PostMapping("/index/saveAluno")
+    @PostMapping("/index/saveUsuario")
     public String saveAluno(@Valid usuario a, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
-            return "redirect:/index/saveAluno";
+            if(a.getTipo().equalsIgnoreCase("aluno")){
+                attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
+                return "redirect:/index/alunos";
+            }else{
+                attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
+                return "redirect:/index/professores";
+            }
+            
         }
-        usuarioRepository.save(a);
-        attributes.addFlashAttribute("sucesso", "Aluno cadastrado");
-        return "redirect:/index/alunos";
+        usuarioService.save(a);
+        if(a.getTipo().equalsIgnoreCase("aluno")){
+            attributes.addFlashAttribute("sucesso", "Aluno cadastrado");
+                return "redirect:/index/alunos";
+        }else{
+            attributes.addFlashAttribute("sucesso", "Professor cadastrado");
+            return "redirect:/index/professores";
+        }
+        
+        
     }
+    
 
     
     /* CADASTRAR UNIDADE(PROFESSORES/ADMIN) */
 
-    /* LISTAR DADOS(PROFESSORES/ADMIN) */
+    /* LISTAR DADOS(PROFESSORES/ALUNOS) */
     @GetMapping(value = "/index/alunos")
     public ModelAndView listarAlunos() {
         ModelAndView mv = new ModelAndView("aluno");
@@ -83,50 +109,57 @@ public class usuarioController {
         mv.addObject("alunos", list);
         return mv;
     } 
-
-    
-    
+    @GetMapping(value = "/index/professores")
+    public ModelAndView listarProfessores() {
+        ModelAndView mv = new ModelAndView("professor");
+        List<usuario> list = usuarioRepository.findByTipoLike("prof");
+        mv.addObject("profs", list);
+        return mv;
+    } 
     /* LISTAR DADOS(PROFESSORES/ADMIN) */
     
-    @GetMapping("/index/updatealuno/{id}")
-    public ModelAndView getUpdateAluno(@PathVariable("id") int alunoId){
-        ModelAndView mv = new ModelAndView("updateAluno");
-        if(usuarioRepository.existsById(alunoId)){
-            usuario a = usuarioRepository.findById(alunoId).get();
-            mv.addObject("aluno", a);
-        }
-        return mv;
-    }
-    @PostMapping("/index/updatealuno/{id}")
-    public String setUpdateAluno(@PathVariable("id") int alunoId, @Valid usuario novoAluno, RedirectAttributes redirectAttributes,@RequestParam("file") MultipartFile img){
-        if(usuarioRepository.existsById(alunoId)){
+    
+    @PostMapping("/index/updateusuario/{id}")
+    public String setUpdateAluno(@PathVariable("id") int usuarioId, @Valid usuario novo, RedirectAttributes redirectAttributes,@RequestParam("file") MultipartFile img){
+        if(usuarioRepository.existsById(usuarioId)){
             if(!img.isEmpty()){
             try {
                 byte[] bytes = img.getBytes();
                 Path caminho = Paths.get("./src/main/resources/static/images/"+img.getOriginalFilename());
                 Files.write(caminho,bytes);
-                novoAluno.setImg(img.getOriginalFilename());
+                novo.setImg(img.getOriginalFilename());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else{
-            novoAluno.setImg("não selecionado");
+            novo.setImg("não selecionado");
         }
-            usuario alunoExistente = usuarioRepository.findById(alunoId).get();
-            alunoExistente.setNome(novoAluno.getNome());
-            alunoExistente.setTipo(novoAluno.getTipo());
-            alunoExistente.setIdentificador(novoAluno.getIdentificador());
-            alunoExistente.setEmail(novoAluno.getEmail());
-            alunoExistente.setDataNascimento(novoAluno.getDataNascimento());
-            alunoExistente.setTelefone(novoAluno.getTelefone());
-            alunoExistente.setUsername(novoAluno.getUsername());
-            alunoExistente.setPassword(new BCryptPasswordEncoder().encode(novoAluno.getPassword()));
-            usuarioRepository.save(alunoExistente);
-            redirectAttributes.addFlashAttribute("sucesso", "Aluno editado com sucesso");
-            return "redirect:/index/alunos";
+            usuario Existente = usuarioRepository.findById(usuarioId).get();
+            Existente.setNome(novo.getNome());
+            Existente.setTipo(novo.getTipo());
+            Existente.setIdentificador(novo.getIdentificador());
+            Existente.setEmail(novo.getEmail());
+            Existente.setDataNascimento(novo.getDataNascimento());
+            Existente.setTelefone(novo.getTelefone());
+            Existente.setUsername(novo.getUsername());
+            Existente.setPassword(new BCryptPasswordEncoder().encode(novo.getPassword()));
+            usuarioService.save(Existente);
+            if(Existente.getTipo().equalsIgnoreCase("aluno")){
+                redirectAttributes.addFlashAttribute("sucesso", "Aluno editado com sucesso");
+                return "redirect:/index/alunos";
+            }else{
+                redirectAttributes.addFlashAttribute("sucesso", "Professor editado com sucesso");
+                return "redirect:/index/professores";
+            }
+            
         }
         redirectAttributes.addFlashAttribute("erro", "Não foi possivel salvar");
-        return "redirect:/index/alunos";
+        if(novo.getTipo().equalsIgnoreCase("aluno")){    
+             return "redirect:/index/alunos";
+        }else{
+            return "redirect:/index/professores";
+        }
+        
     }
 
     @GetMapping("/painelgeral")

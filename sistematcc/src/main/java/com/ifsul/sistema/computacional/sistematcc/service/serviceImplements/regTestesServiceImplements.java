@@ -11,6 +11,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.correcoesUsuario;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
 import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
 import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
+import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.usuario;
 import com.ifsul.sistema.computacional.sistematcc.repository.correcoesUsuarioRepository;
@@ -85,6 +86,11 @@ public class regTestesServiceImplements implements regTestesService{
     @Override
     public List<regTestes> findRegTestesByTurmaAndUsuario(turma t, usuario a) {
         return regTestesRepository.findRegTestesByTurmaAndUsuario(t, a);
+    }
+
+    @Override
+    public List<regTestes> findByTesteAndTurmaAndUsuario(teste t, turma tu, usuario u) {
+        return regTestesRepository.findByTesteAndTurmaAndUsuario(t, tu, u);
     }
     
 }

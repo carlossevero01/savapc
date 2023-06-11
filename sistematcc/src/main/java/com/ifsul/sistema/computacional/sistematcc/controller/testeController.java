@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -22,6 +21,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.testeForm;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
+import com.ifsul.sistema.computacional.sistematcc.model.usuario;
 import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
@@ -89,6 +89,24 @@ public class testeController {
             return "redirect:/index/turma/{turmaId}/testes";
         }
     }
+    @PostMapping(value = "/index/aplicacao/{turmaId}/{testeId}")
+    public String verificarAplicacao(@RequestParam("username") String username ,@PathVariable("testeId") int tId,@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes){
+        try {
+            usuario u = usuarioRepository.findByUsername(username);
+            teste t = testeRepository.findById(tId).get();
+            turma tu = turmaRepository.findById(turmaId).get();
+            if(regTestesRepository.findByTesteAndTurmaAndUsuario(t, tu, u).isEmpty()){
+                return "redirect:/index/aplicacaoteste/{turmaId}/{testeId}";
+            }else{
+                redirectAttributes.addFlashAttribute("erro", "Tentativa já realizada");
+                return "redirect:/index/turma/{turmaId}";
+            }
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Erro desconhecido:"+e.toString());
+            return "redirect:/index/turma/{turmaId}";
+        }
+    } 
     /*Aplicar teste por id */
     @GetMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
     public ModelAndView getTesteAplication(@PathVariable("testeId") int tId,@PathVariable("turmaId") int turmaId) {
@@ -128,14 +146,14 @@ public class testeController {
             reg.setRespostasTeste(ListRespostas);
             regTestesRepository.save(reg);
             attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
-            return "redirect:/index/inicial";
+            return "redirect:/index/turma/{turmaId}";
         }else{ 
             attributes.addFlashAttribute("erro", "Matricula não encontrada");
-            return "redirect:/index/inicial";
+            return "redirect:/index/turma/{turmaId}";
         }
         } catch (Exception e) {
-            attributes.addFlashAttribute("erro", "Teste não foi respondido com sucesso"+e);
-            return "redirect:/index/inicial";
+            attributes.addFlashAttribute("erro", "erro desconhecido"+e);
+            return "redirect:/index/turma/{turmaId}";
         }
     }
     /*Listar testes */

@@ -32,7 +32,7 @@
                                 </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" th:action="@{/index/saveAluno}">
+                            <form method="post" th:action="@{/index/saveUsuario}">
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome*</label>
                                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
@@ -105,7 +105,7 @@
                         <td th:text="${a.telefone}"></td> 
                         <td th:text="${a.dataNascimento}"></td>  
                         <td><a class=" btn btn-secondary" 
-						th:href="@{/index/deletealuno/{id}(id=${a.usuarioId})}" role="button">Deletar</a>
+						th:href="@{/index/deleteusuario/{id}(id=${a.usuarioId})}" role="button">Deletar</a>
 							
 
                              <!-- Inicio Bloco Modal -->
@@ -120,7 +120,7 @@
                                                  </button>
                                          </div>
                                          <div class="modal-body">
-                                             <form method="post" th:action="@{/index/updatealuno/{id}(id=${a.usuarioId})}">
+                                             <form method="post" th:action="@{/index/updateusuario/{id}(id=${a.usuarioId})}">
                                                 <div class="mb-3">
                                                     <label for="nome" class="form-label">Nome</label>
                                                     <input type="text" class="form-control" id="nome" name="nome" th:value="${a.nome}">

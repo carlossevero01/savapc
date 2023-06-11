@@ -16,47 +16,44 @@ public class imagesController {
     @ResponseBody
     public byte[] getImg(@PathVariable("img") String img) throws IOException {
         File imagemArquivo = new File("./src/main/resources/static/images/" + img);
-        if (img != null || img.trim().length() > 0) {
-
-            return Files.readAllBytes(imagemArquivo.toPath());
+        if (img == null || img.length() <= 0) {
+             return null;
+            
         }
-
-        return null;
+        return Files.readAllBytes(imagemArquivo.toPath());
+       
     }
 
     @GetMapping("/index/teste/perguntas/{id}/imagem/{img}")
     @ResponseBody
     public byte[] getImgPost(@PathVariable("img") String img) throws IOException {
         File imagemArquivo = new File("./src/main/resources/static/images/" + img);
-        if (img != null || img.trim().length() > 0) {
-
-            return Files.readAllBytes(imagemArquivo.toPath());
+        if (img == null || img.length() <= 0) {
+             return null;
+            
         }
-
-        return null;
+        return Files.readAllBytes(imagemArquivo.toPath());
     }
 
     @GetMapping("/index/teste/{id}/imagem/{img}")
     @ResponseBody
     public byte[] getImgTeste(@PathVariable("img") String img) throws IOException {
         File imagemArquivo = new File("./src/main/resources/static/images/" + img);
-        if (img != null || img.trim().length() > 0) {
-
-            return Files.readAllBytes(imagemArquivo.toPath());
+        if (img == null || img.length() <= 0) {
+             return null;
+            
         }
-
-        return null;
+        return Files.readAllBytes(imagemArquivo.toPath());
     }
     @GetMapping("/index/aplicacaoteste/{turmaId}/{testeId}/imagem/{img}")
     @ResponseBody
     public byte[] getImgAplicacaoTeste(@PathVariable("img") String img) throws IOException {
         File imagemArquivo = new File("./src/main/resources/static/images/" + img);
-        if (img != null || img.trim().length() > 0) {
-
-            return Files.readAllBytes(imagemArquivo.toPath());
+        if (img == null || img.length() <= 0) {
+             return null;
+            
         }
-
-        return null;
+        return Files.readAllBytes(imagemArquivo.toPath());
     }
 
 }

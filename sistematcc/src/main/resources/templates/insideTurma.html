@@ -46,7 +46,10 @@
 												<p class="card-text" ></p>
 											</div>
 											<div class="card-footer text-muted"> 
-												<a class="btn btn-outline-primary" th:href="@{/index/aplicacaoteste/{turmaId}/{testeId}(turmaId=${turma.turmaId},testeId=${t.testeId})}" role="button">Acessar Teste</a>
+												<form th:action="@{/index/aplicacao/{turmaId}/{testeId}(turmaId=${turma.turmaId},testeId=${t.testeId})}" method="post">
+													<input hidden type="text" name="username" th:value="${#authentication.principal.username}">
+													<button class="btn btn-outline-primary" type="submit">Acessar Teste</button>
+												</form>
 											</div>
 									</div>
 								</div>
