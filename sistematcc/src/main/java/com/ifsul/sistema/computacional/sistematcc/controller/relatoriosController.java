@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-import com.ifsul.sistema.computacional.sistematcc.model.correcoesAluno;
+import com.ifsul.sistema.computacional.sistematcc.model.correcoesUsuario;
 import com.ifsul.sistema.computacional.sistematcc.model.notas;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
-import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.correcoesAlunoRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.correcoesUsuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.notasRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regQuestionariosRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.service.serviceImplements.notasServiceImplements;
 import com.ifsul.sistema.computacional.sistematcc.service.serviceImplements.regTestesServiceImplements;
 
@@ -45,12 +44,12 @@ public class relatoriosController {
     @Autowired
     turmaRepository turmaRepository;
     @Autowired
-    alunoRepository alunoRepository;
+    usuarioRepository usuarioRepository;
     
     @Autowired
     notasRepository notasRepository;
     @Autowired
-    correcoesAlunoRepository correcoesAlunoRepository;
+    correcoesUsuarioRepository correcoesUsuarioRepository;
     
     @Autowired
     notasServiceImplements notasServiceImplements;
@@ -64,9 +63,10 @@ public class relatoriosController {
 
         } catch (Exception e) {
             return mv;
-        }
+       }
         turma t = turmaRepository.findById(turmaId).get();
-        List<correcoesAluno> correcao = correcoesAlunoRepository.findByTurmaOrderByAluno(t);
+        List<correcoesUsuario> correcao = correcoesUsuarioRepository.findByTurmaOrderByUsuario(t);
+        System.out.println("\n \n asd"+correcao.toString()+"\n Size:"+correcao.size());
         mv.addObject("correcao", correcao);
         mv.addObject("turmaNome", t.getNome());
         return mv;
@@ -89,11 +89,8 @@ public class relatoriosController {
          ModelAndView mv = new ModelAndView("relatorioTestePorHabilidade");
          turma turma = turmaRepository.findById(turmaId).get();
          try {
-            
             regTestesServiceImplements.fazerCorrecaoTestes();
              List<notas> contabilizacaoListTurma = notasRepository.findByTurma(turma);
-            
-            
              mv.addObject("contabilizacoes", contabilizacaoListTurma);
              mv.addObject("turma", turma);
              mv.addObject("turmaNome", turma.getNome());
@@ -117,7 +114,7 @@ public class relatoriosController {
             List<notas> contabilizacaoListTurma = notasRepository.findByTurma(turma);
            for (notas cL : contabilizacaoListTurma) {
             String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
-                    cL.getAluno().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas() , cL.getnPerguntas(), cL.getH1(),cL.getH2(),cL.getH3(),cL.getH4(),cL.getH5(),cL.getNotaProjetoFinal(), cL.getPesoTestes(),cL.getNotaTestes(), cL.getNotaFinal(),cL.getRecomendacao());
+                    cL.getUsuario().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas() , cL.getnPerguntas(), cL.getH1(),cL.getH2(),cL.getH3(),cL.getH4(),cL.getH5(),cL.getNotaProjetoFinal(), cL.getPesoTestes(),cL.getNotaTestes(), cL.getNotaFinal(),cL.getRecomendacao());
    
                     fileWriter.newLine();
                     fileWriter.write(line); 

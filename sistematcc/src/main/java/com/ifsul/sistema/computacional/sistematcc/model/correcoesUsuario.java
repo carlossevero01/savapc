@@ -5,7 +5,6 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,16 +14,16 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="correcoesAluno")
-public class correcoesAluno {
+@Table(name="correcoesUsuario")
+public class correcoesUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "correcaoId")
     private int correcaoId;
     
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="alunoId")
-    private aluno aluno;
+    @JoinColumn(name="usuarioId")
+    private usuario usuario;
     
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="turmaId")
@@ -54,13 +53,7 @@ public class correcoesAluno {
         this.correcaoId = correcaoId;
     }
 
-    public aluno getAluno() {
-        return aluno;
-    }
-
-    public void setAluno(aluno aluno) {
-        this.aluno = aluno;
-    }
+   
 
     public turma getTurma() {
         return turma;
@@ -96,21 +89,23 @@ public class correcoesAluno {
         this.acertou = acertou;
     }
 
-    public correcoesAluno() {
-    }
-
+   
     
+
+
+    public correcoesUsuario() {
+    }
 
     @Override
     public String toString() {
-        return "correcoesAluno:+ [correcaoId=" + correcaoId + ", aluno=" + aluno + ", turma=" + turma + ", teste=" + teste
-                + ", perguntaTeste=" + perguntaTeste + ", opcaoResposta=" + opcaoResposta + ", acertou=" + acertou
-                + "]";
+        return "correcoesUsuario [correcaoId=" + correcaoId + ", usuario=" + usuario + ", turma=" + turma + ", teste="
+                + teste + ", perguntaTeste=" + perguntaTeste + ", opcaoResposta=" + opcaoResposta + ", acertou="
+                + acertou + "]";
     }
 
-    public correcoesAluno(aluno aluno, turma turma, teste teste,
+    public correcoesUsuario(usuario usuario, turma turma, teste teste,
             perguntaTeste perguntaTeste, opcaoresposta opcaoResposta, boolean acertou) {
-        this.aluno = aluno;
+        this.usuario = usuario;
         this.turma = turma;
         this.teste = teste;
         this.perguntaTeste = perguntaTeste;
@@ -124,6 +119,14 @@ public class correcoesAluno {
 
     public void setOpcaoResposta(opcaoresposta opcaoResposta) {
         this.opcaoResposta = opcaoResposta;
+    }
+
+    public usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(usuario usuario) {
+        this.usuario = usuario;
     }
     
     

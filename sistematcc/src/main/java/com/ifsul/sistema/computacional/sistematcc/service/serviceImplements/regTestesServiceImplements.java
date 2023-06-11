@@ -3,26 +3,19 @@ package com.ifsul.sistema.computacional.sistematcc.service.serviceImplements;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ifsul.sistema.computacional.sistematcc.model.aluno;
-import com.ifsul.sistema.computacional.sistematcc.model.correcoesAluno;
 
+import com.ifsul.sistema.computacional.sistematcc.model.correcoesUsuario;
 import com.ifsul.sistema.computacional.sistematcc.model.opcaoresposta;
-
 import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
 import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
-
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
-
-import com.ifsul.sistema.computacional.sistematcc.repository.correcoesAlunoRepository;
-
+import com.ifsul.sistema.computacional.sistematcc.model.usuario;
+import com.ifsul.sistema.computacional.sistematcc.repository.correcoesUsuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
-
 import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
-
 import com.ifsul.sistema.computacional.sistematcc.service.regTestesService;
 
 @Service
@@ -34,14 +27,14 @@ public class regTestesServiceImplements implements regTestesService{
     opcaorespostaRepository opcaorespostaRepository;
     
     @Autowired
-    correcoesAlunoRepository correcoesAlunoRepository;
+    correcoesUsuarioRepository correcoesUsuarioRepository;
     
 
     public void fazerCorrecaoTestes() {
         
         List<regTestes> regs = regTestesRepository.findAll();
         for(int i=0;i<regs.size();i++){
-            if(regs.get(i).getAluno().getAlunoId()==-1
+            if(regs.get(i).getUsuario().getUsuarioId()==-1
                 || regs.get(i).getTeste().getTesteId()==-1){
                     regs.remove(i);  
             }
@@ -58,7 +51,7 @@ public class regTestesServiceImplements implements regTestesService{
            
             int opRespostaCertaId=0;
             for (respostaTeste resp : r.getRespostasTeste()) {
-                if(correcoesAlunoRepository.findByAlunoAndTurmaAndTesteAndPerguntaTeste(r.getAluno(), r.getTurma(), r.getTeste(), resp.getPerguntaTeste()).size()<=0){
+                if(correcoesUsuarioRepository.findByUsuarioAndTurmaAndTesteAndPerguntaTeste(r.getUsuario(), r.getTurma(), r.getTeste(), resp.getPerguntaTeste()).size()<=0){
                 System.out.println("\n Aluno:"+"PID:"+resp.getPerguntaTeste().getPerguntaTesteId()+"RID:"+resp.getOpRespostaId());
                 
                 if(opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).size()>0){
@@ -68,15 +61,15 @@ public class regTestesServiceImplements implements regTestesService{
                 }
                 if (resp.getOpRespostaId() == opRespostaCertaId) { //Resposta Certa
                     opcaoresposta opR =  opcaorespostaRepository.findById(resp.getOpRespostaId()).get();            
-                    correcoesAluno cA = new correcoesAluno(r.getAluno(), r.getTurma(),r.getTeste(),
+                    correcoesUsuario cA = new correcoesUsuario(r.getUsuario(), r.getTurma(),r.getTeste(),
                             resp.getPerguntaTeste(), opR , true);
-                    correcoesAlunoRepository.save(cA);
+                    correcoesUsuarioRepository.save(cA);
                     
                     
                 } else {                                                //Resposta Errada
                     opcaoresposta opR =  opcaorespostaRepository.findById(resp.getOpRespostaId()).get();
-                    correcoesAluno cA = new correcoesAluno(r.getAluno(),r.getTurma(), r.getTeste(), resp.getPerguntaTeste(), opR, false);
-                    correcoesAlunoRepository.save(cA);
+                    correcoesUsuario cA = new correcoesUsuario(r.getUsuario(),r.getTurma(), r.getTeste(), resp.getPerguntaTeste(), opR, false);
+                    correcoesUsuarioRepository.save(cA);
                     
                 }
             }
@@ -90,8 +83,8 @@ public class regTestesServiceImplements implements regTestesService{
     }
 
     @Override
-    public List<regTestes> findRegTestesByTurmaAndAluno(turma t, aluno a) {
-        return regTestesRepository.findRegTestesByTurmaAndAluno(t, a);
+    public List<regTestes> findRegTestesByTurmaAndUsuario(turma t, usuario a) {
+        return regTestesRepository.findRegTestesByTurmaAndUsuario(t, a);
     }
     
 }

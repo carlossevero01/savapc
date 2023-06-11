@@ -10,15 +10,15 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ifsul.sistema.computacional.sistematcc.model.aluno;
-import com.ifsul.sistema.computacional.sistematcc.model.correcoesAluno;
+import com.ifsul.sistema.computacional.sistematcc.model.correcoesUsuario;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
 import com.ifsul.sistema.computacional.sistematcc.model.notas;
 
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
-import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
-import com.ifsul.sistema.computacional.sistematcc.repository.correcoesAlunoRepository;
+import com.ifsul.sistema.computacional.sistematcc.model.usuario;
+import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.correcoesUsuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.notasRepository;
 
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
@@ -31,14 +31,14 @@ public class notasServiceImplements implements notasService{
     notasRepository notasRepository;
     
     @Autowired
-    correcoesAlunoRepository correcoesAlunoRepository;
+    correcoesUsuarioRepository correcoesUsuarioRepository;
     @Autowired
     turmaRepository turmaRepository;
     @Autowired
-    alunoRepository alunoRepository;
+    usuarioRepository alunoRepository;
     @Override
-    public List<notas> findByAluno(aluno aluno) {
-        return notasRepository.findByAluno(aluno);
+    public List<notas> findByUsuario(usuario Usuario) {
+        return notasRepository.findByUsuario(Usuario);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class notasServiceImplements implements notasService{
     }
 
     @Override
-    public List<notas> findByAlunoAndTurmaOrderByAluno(aluno aluno, turma turma) {
-       return notasRepository.findByAlunoAndTurmaOrderByAluno(aluno, turma);
+    public List<notas> findByUsuarioAndTurmaOrderByUsuario(usuario Usuario, turma turma) {
+       return notasRepository.findByUsuarioAndTurmaOrderByUsuario(Usuario, turma);
     }
 
     
@@ -59,11 +59,9 @@ public class notasServiceImplements implements notasService{
     public void SalvarNotas(turma turma) {
         
 
-       List<correcoesAluno> regs = correcoesAlunoRepository.findByTurmaOrderByAluno(turma);
+       List<correcoesUsuario> regs = correcoesUsuarioRepository.findByTurmaOrderByUsuario(turma);
        Set<teste> testes = new HashSet<>();
        testes.clear();
-       
-        
        
         String recomendacao = "";
         double nQcorretas = 0;
@@ -80,11 +78,11 @@ public class notasServiceImplements implements notasService{
         int aux=0;
         int nQRespondidas=0;
         
-        for (correcoesAluno r : regs) {
+        for (correcoesUsuario r : regs) {
             
-            
+            System.out.println(r.toString());
             pesoTestes=r.getTurma().getPesoTestes();
-            nQRespondidas= correcoesAlunoRepository.findByAlunoAndTurma(r.getAluno(), r.getTurma()).size();
+            nQRespondidas= correcoesUsuarioRepository.findByUsuarioAndTurma(r.getUsuario(), r.getTurma()).size();
             
             aux++;
             nQ++;
@@ -120,12 +118,14 @@ public class notasServiceImplements implements notasService{
             if(aux==nQRespondidas){
                 notas nota = new notas();
             
-                System.out.println("\n \n Tamanho:"+notasRepository.findByAlunoAndTurmaOrderByAluno(r.getAluno(), r.getTurma()).size());
-                if(notasRepository.findByAlunoAndTurmaOrderByAluno(r.getAluno(), r.getTurma()).size()>0){
-                     nota = notasRepository.findByAlunoAndTurmaOrderByAluno(r.getAluno(), r.getTurma()).get(0);
+                System.out.println("\n \n Tamanho:"+notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).size());
+                if(notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(),r.getTurma()).size()>0){
+                     nota = notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).get(0);
                     notaProjeto=nota.getNotaProjetoFinal();
                     System.out.println("Entrou ID:"+nota.getNotaId());
                 }else{
+                    nota.setUsuario(r.getUsuario());
+                    nota.setTurma(r.getTurma());
                     notaProjeto=0;
                      nota.setNotaProjetoFinal(notaProjeto);
                     System.out.println("\nNão entrou");
@@ -151,6 +151,7 @@ public class notasServiceImplements implements notasService{
                 nota.setH5(nQChab5);
                 nota.setTestes(testes);
                 notasRepository.save(nota);
+                System.out.println("\n \n "+nota.toString());
                 testes.clear();
                 notaTestes=0;
                 aux=0;

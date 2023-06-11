@@ -4,10 +4,6 @@ package com.ifsul.sistema.computacional.sistematcc.model;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
 
@@ -24,8 +20,8 @@ public class regTestes implements Serializable{
     private teste teste;
 
     @ManyToOne
-    @JoinColumn(name = "alunoId")
-    private aluno aluno;
+    @JoinColumn(name = "usuarioId")
+    private usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "turmaId")
@@ -47,32 +43,20 @@ public class regTestes implements Serializable{
 
     
 
-    public aluno getAluno() {
-        return aluno;
-    }
-
-    public void setAluno(aluno aluno) {
-        this.aluno = aluno;
-    }
-
+    
     public regTestes() {
         super();
     }
 
-    public regTestes(aluno aluno,turma turma, teste teste, List<respostaTeste> respostas) {
+    public regTestes(usuario usuario,turma turma, teste teste, List<respostaTeste> respostas) {
         super();
-        this.aluno = aluno;
+        this.usuario = usuario;
         this.turma= turma;
         this.teste = teste;
         this.respostasTeste = respostas;
     }
     
-    @Override
-    public String toString() {
-        return " [regTestesId=" + regTestesId + ", teste=" + teste.getNome() + ", aluno=" + aluno.getAlunoId() +", turma=" + turma.getTurmaId()+ ", respostaTeste="
-                + respostasTeste + "]";
-    }
-
+    
     public teste getTeste() {
         return teste;
     }
@@ -103,6 +87,20 @@ public class regTestes implements Serializable{
 
     public void setTurma(turma turma) {
         this.turma = turma;
+    }
+
+    public usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public String toString() {
+        return "regTestes [regTestesId=" + regTestesId + ", teste=" + teste + ", usuario=" + usuario + ", turma="
+                + turma + "]";
     }
 
 }

@@ -20,9 +20,9 @@
 			
             <div class="row">
                 <!-- Inicio Bloco Modal -->
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertTeste" >Inserir Aluno</button>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertAluno" >Inserir Aluno</button>
 					
-            <div class="modal" id="insertTeste"  tabindex="-1" aria-hidden="true">
+            <div class="modal" id="insertAluno"  tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -34,17 +34,39 @@
                         <div class="modal-body">
                             <form method="post" th:action="@{/index/saveAluno}">
                                 <div class="mb-3">
-                                    <label for="nome" class="form-label">Nome</label>
+                                    <label for="nome" class="form-label">Nome*</label>
                                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
+                                    <label for="email" class="form-label">Email*</label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email*">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="matricula" class="form-label">Matricula</label>
-                                    <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Matricula*">
+                                    <label for="telefone" class="form-label">Telefone*</label>
+                                    <input type="number" class="form-control" id="telefone" name="telefone" placeholder="Telefone*">
                                 </div>
+                                <input hidden type="text" class="form-control" id="tipo" name="tipo" value="aluno">
+                                <div class="mb-3">
+                                    <label for="identificador" class="form-label">Identificador*</label>
+                                    <input type="text" class="form-control" id="Identificador" name="Identificador" placeholder="Identificador*">
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="control-label" for="dataNascimento"> Data de nascimento*</label> <input
+                                     type="date" id="dataNascimento" class="form-control" name="dataNascimento" required
+                                     autofocus="autofocus" />
+                                  </div>
+                                  <div class="form-group mt-2">
+                                    <label for="img" class="control-label">Imagem(opcional)</label>
+                                    <input type="file" class="form-control" id="img" name="file" >
+                                  </div>
+                                  <div class="form-outline mt-2 mb-4">
+                                    <input type="text" id="username" class="form-control" name="username"/>
+                                    <label class="form-label" for="username">Nome de Usuario*</label>
+                                  </div>
+                                  <div class="form-outline mt-2 mb-4">
+                                    <input type="password" id="password" class="form-control" name="password"/> 
+                                    <label class="form-label" for="password">Senha*</label>
+                                  </div>
                                 <button type="submit" class="btn btn-secondary">Salvar</button>	
                             </form>
                         </div>
@@ -67,24 +89,28 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Nome </th>
-                        <th scope="col">Matricula</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Identificador</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">Data de Nascimento</th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
                     <tbody>
                     <tr  th:each="a: ${alunos}">
-                        <td th:text="${a.alunoId}"></td>
+                        <td th:text="${a.usuarioId}"></td>
                         <td th:text="${a.nome}"></td>
-                        <td th:text="${a.matricula}"></td>
                         <td th:text="${a.email}"></td> 
+                        <td th:text="${a.identificador}"></td>
+                        <td th:text="${a.telefone}"></td> 
+                        <td th:text="${a.dataNascimento}"></td>  
                         <td><a class=" btn btn-secondary" 
-						th:href="@{/index/deletealuno/{id}(id=${a.alunoId})}" role="button">Deletar</a>
+						th:href="@{/index/deletealuno/{id}(id=${a.usuarioId})}" role="button">Deletar</a>
 							
 
                              <!-- Inicio Bloco Modal -->
-                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#updateAluno_'+${a.alunoId}" >Editar</button>
-                             <div class="modal" th:id="updateAluno_+${a.alunoId}"  tabindex="-1" aria-hidden="true">
+                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#updateAluno_'+${a.usuarioId}" >Editar</button>
+                             <div class="modal" th:id="updateAluno_+${a.usuarioId}"  tabindex="-1" aria-hidden="true">
                                  <div class="modal-dialog modal-dialog-centered" role="document">
                                      <div class="modal-content">
                                          <div class="modal-header">
@@ -94,18 +120,50 @@
                                                  </button>
                                          </div>
                                          <div class="modal-body">
-                                             <form method="post" th:action="@{/index/updatealuno/{id}(id=${a.alunoId})}">
+                                             <form method="post" th:action="@{/index/updatealuno/{id}(id=${a.usuarioId})}">
                                                 <div class="mb-3">
                                                     <label for="nome" class="form-label">Nome</label>
                                                     <input type="text" class="form-control" id="nome" name="nome" th:value="${a.nome}">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="matricula" class="form-label">Matricula</label>
-                                                    <input type="text" class="form-control" id="matricula" name="matricula" th:value="${a.matricula}">
-                                                </div> 
-                                                <div class="mb-3">
                                                     <label for="email" class="form-label">Email</label>
                                                     <input type="email" class="form-control" id="email" name="email" th:value="${a.email}">
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <label for="tipo" class="control-label">Tipo</label>
+                                                    <select class="form-select" aria-label="Default select example" id="tipo" >
+                                                        <option selected th:value=${a.tipo} th:text="${a.tipo}">Tipo*</option>
+                                                      <option value="aluno">Aluno*</option>
+                                                      <option value="prof">Professor</option>
+                                                    </select>
+                                                  </div>
+                                                <div class="mb-3">
+                                                    <label for="identificador" class="form-label">Identificador</label>
+                                                    <input type="text" class="form-control" id="identificador" name="identificador" th:value="${a.identificador}">
+                                                </div> 
+                                                <div class="mb-3">
+                                                    <label for="telefone" class="form-label">Telefone</label>
+                                                    <input type="number" class="form-control" id="telefone" name="telefone" th:value="${a.telefone}">
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <label class="control-label" for="dataNascimento"> Data de nascimento </label> <input
+                                                     type="date" id="dataNascimento" class="form-control" name="dataNascimento" th:value="${a.dataNascimento}" required
+                                                     autofocus="autofocus" />
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <label for="img" class="control-label">Imagem</label>
+                                                    <input type="file" class="form-control" id="img" name="file" th:text="${a.img}">
+                                                  </div>
+                                                  <div class="form-group mt-2">
+                                                    <label class="control-label" for="username"> Username </label> <input
+                                                     id="username" class="form-control" name="username" th:value="${a.username}" required
+                                                     autofocus="autofocus" />
+                                                </div>
+                                           
+                                                <div class="form-group mt-2">
+                                                 <label class="control-label" for="password"> Password </label> <input
+                                                  id="password" class="form-control" type="password"
+                                                  name="password"  required autofocus="autofocus" />
                                                 </div>
                                                      <button type="submit" class="btn btn-secondary">Salvar</button>	
                                              </form>

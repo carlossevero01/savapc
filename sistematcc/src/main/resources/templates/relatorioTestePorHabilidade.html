@@ -78,12 +78,15 @@
 				  </tr>
 				</thead>
 				<tbody >
+					<tr th:if="${contabilizacoes.empty}">
+						<td>Sem registros disponíveis</td>
+					</tr>
 				  <tr th:each="c , i : ${contabilizacoes}">
 					<td>
 						<div class="d-flex align-items-center">
 							<div class="ms-3">
-							  <p class="fw-bold mb-1" th:text="${c.aluno.nome}">AlunoX</p>
-							  <p class="text-muted mb-0" th:text="${c.aluno.matricula}">MatriculaX</p>
+							  <p class="fw-bold mb-1" th:text="${c.usuario.nome}">AlunoX</p>
+							  <p class="text-muted mb-0" th:text="${c.usuario.identificador}">MatriculaX</p>
 							</div>
 						  </div>
 					</td>

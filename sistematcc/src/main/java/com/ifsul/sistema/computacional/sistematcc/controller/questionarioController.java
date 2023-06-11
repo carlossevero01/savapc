@@ -21,7 +21,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.questionarioinicial;
 import com.ifsul.sistema.computacional.sistematcc.model.regQuestionarios;
 import com.ifsul.sistema.computacional.sistematcc.model.respostaQuestionarios;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
-import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaQuestionarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regQuestionariosRepository;
@@ -39,7 +39,7 @@ public class questionarioController {
     @Autowired
     questionarioinicialService questionarioinicialService;
     @Autowired
-    alunoRepository alunoRepository;
+    usuarioRepository usuarioRepository;
     @Autowired
     turmaRepository turmaRepository;
     @Autowired
@@ -175,7 +175,7 @@ public class questionarioController {
              questionarioinicial quest = questionarioinicialRepository.findById(questionarioId).orElseThrow(null);
              List<respostaQuestionarios> ListRespostas = new ArrayList<>();
              regQuestionarios reg = new regQuestionarios();
-         if (alunoRepository.findByMatricula(lresp.getMatricula().trim()).size()>0) {
+         if (usuarioRepository.findByUsername(lresp.getUsername())!=null) {
              for (perguntaquestionario Pergunta : lresp.getPerguntas()) {
                  
                  respostaQuestionarios resposta = new respostaQuestionarios();
@@ -193,7 +193,7 @@ public class questionarioController {
                  }
                  
              }
-             reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
+             reg.setUsuario(usuarioRepository.findByUsername(lresp.getUsername()));
              reg.setQuestionario(quest);
              reg.setTurma(turma);
              reg.setRespostasQuestionario(ListRespostas);

@@ -23,8 +23,8 @@
 			<h3 class="lead mt-2">Este questionario tem o intuito de proporcionar ao professor o conhecimento das experiencias prévias do aluno, responda as perguntas abaixo.</h3>
 			<!-- <h4 class="fw-bolder mt-2">Selecione a resposta correta</h4> -->
 			<form  method="post" th:object=${lresp}> 
-				<label class="mt-2 mb-2">Matricula* </label>
-				<input type="text" th:name="matricula">
+				
+				<input hidden type="text" th:name="username" th:value="${#authentication.principal.username}">
 				<input type="text" th:name="turmaId" th:value="${turmaId}" hidden>
 				<div class="row mt-2 mb-2 rounded" th:each="p,j: ${perguntas}" style="padding: inherit; border: solid black 3px;">
 					<input type="hidden" th:name="|perguntas[${j.index}].perguntaQuestionarioId|" th:value="${p.perguntaQuestionarioId}" />

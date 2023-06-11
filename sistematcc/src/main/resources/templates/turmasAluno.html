@@ -40,11 +40,27 @@
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4 mx-auto" style="max-width: 100px; margin-top: -20px;"><i class="fa fa-graduation-cap fa-2x " aria-hidden="true" ></i></div>
                                 <h2 class="fs-4 fw-bold" th:text="${turm.nome}">NomeTurma</h2>
                                 <p class="mb-0">Turma para desenvolver o pensamento computacional</p>
-								<form  method="post" th:action="@{/index/cadAlunoTurma/{id}(id=${turm.turmaId})}">
-									<input  type="text" id="matricula" name="matricula" placeholder="Matricula" >
-									<button type="submit" class="btn p-2">Inscrever-se</button> 
-									</form>
-									<a class="btn btn-outline-primary" th:href="@{/index/turma/{id}(id=${turm.turmaId})}" role="button">Acessar Turma</a>
+								<div th:if="${turm.usuarios.empty}">
+                                    <form  method="post" th:action="@{/index/cadAlunoTurma/{id}(id=${turm.turmaId})}">
+                                        <input hidden type="text" id="username" name="username"  th:value="${#authentication.principal.username}">
+                                        <button  type="submit" class="btn btn-outline-primary mt-2 mb-2 p-2">Inscrever-se</button> 
+                                    </form>
+                                </div>
+                                <div th:each="usu ,j : ${turm.usuarios}" >
+                                    <div th:if="${usu.username == #authentication.principal.username}">
+                                        <a  class="btn btn-outline-primary mt-2 mb-2" th:href="@{/index/turma/{id}(id=${turm.turmaId})}" role="button">Acessar Turma</a>
+                                    </div>
+                                    <div th:unless="${usu.username == #authentication.principal.username}">
+                                        <form  method="post" th:action="@{/index/cadAlunoTurma/{id}(id=${turm.turmaId})}">
+                                            <input hidden type="text" id="username" name="username"  th:value="${#authentication.principal.username}">
+                                            <button  type="submit" class="btn btn-outline-primary mt-2 mb-2 p-2">Inscrever-se</button> 
+                                        </form>
+                                    </div>      
+                                </div>
+                                
+                                
+                                
+									
                             </div>
                         </div>
                     </div>

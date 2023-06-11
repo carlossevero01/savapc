@@ -35,7 +35,7 @@ public class regQuestionariosController {
         try {
             turma turma = turmaRepository.findById(turmaId).get();
             List<regQuestionarios> regquest = regQuestionariosRepository.findByTurma(turma);
-            if(regquest.size()>0 && regquest.get(0).getQuestionario()!=null && regquest.get(0).getAluno() !=null ){
+            if(regquest.size()>0 && regquest.get(0).getQuestionario()!=null && regquest.get(0).getUsuario() !=null ){
                 mv.addObject("registros", regquest);
                 mv.addObject("turma", turma);
             }

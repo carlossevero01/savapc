@@ -34,9 +34,10 @@
                     </tr>
                 </thead>
                     <tbody>
+                        
                     <tr  th:each="c: ${correcao}">
                         <td th:text="${c.teste.nome}"></td>
-                        <td th:text="${c.aluno.nome}"></td>
+                        <td th:text="${c.usuario.nome}"></td>
                         <td th:text="${c.perguntaTeste.titulo}"></td>
                         <td th:text="${c.opcaoResposta.descricao}"></td>         <!-- '' aspas simples fica como texto -->
                         <td > <span th:if="${c.acertou}"><i class="fa-solid fa-check" style="color: green;"></i></span>

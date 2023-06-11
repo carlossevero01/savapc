@@ -2,7 +2,7 @@ package com.ifsul.sistema.computacional.sistematcc.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ifsul.sistema.computacional.sistematcc.model.aluno;
+import com.ifsul.sistema.computacional.sistematcc.model.usuario;
 import com.ifsul.sistema.computacional.sistematcc.model.regTestes;
 
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
@@ -13,5 +13,5 @@ public interface regTestesRepository extends JpaRepository<regTestes,Integer>{
      
      List<regTestes> findByTurma(turma turma);
      
-     List<regTestes> findRegTestesByTurmaAndAluno(turma t,aluno a);
+     List<regTestes> findRegTestesByTurmaAndUsuario(turma t,usuario a);
 }

@@ -15,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -28,8 +27,8 @@ public class notas {
     private int notaId;
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "alunoId", referencedColumnName = "alunoId")
-    private aluno aluno;
+    @JoinColumn(name = "usuarioId", referencedColumnName = "usuarioId")
+    private usuario usuario;
 
     @ManyToOne(fetch = FetchType.EAGER,  cascade=CascadeType.ALL)
     @JoinColumn(name="turmaId")
@@ -75,13 +74,7 @@ public class notas {
         this.notaId = notaId;
     }
 
-    public aluno getAluno() {
-        return aluno;
-    }
-
-    public void setAluno(aluno aluno) {
-        this.aluno = aluno;
-    }
+    
 
     public turma getTurma() {
         return turma;
@@ -187,11 +180,10 @@ public class notas {
         this.nPerguntas = nPerguntas;
     }
 
-    public notas(aluno aluno, turma turma,  double npC, double np, double notaProjetoFinal,
+    public notas(usuario usuario, turma turma,  double npC, double np, double notaProjetoFinal,
             double notaTestes, double notaFinal, String recomendacao) {  
-        this.aluno = aluno;
+        this.usuario = usuario;
         this.turma = turma;
-       
         this.nPerguntasCorretas=(int) npC;
         this.nPerguntas=(int) np;
         this.notaProjetoFinal = notaProjetoFinal;
@@ -200,12 +192,7 @@ public class notas {
         this.recomendacao=recomendacao;
     }
 
-    @Override
-    public String toString() {
-        return "notas [notaId=" + notaId + ", aluno=" + aluno + ", turma=" + turma + ", nPerguntasCorretas=" + nPerguntasCorretas + ", nPerguntas=" + nPerguntas + "\n h1=" + h1 + ", h2="
-                + h2 + ", h3=" + h3 + ", h4=" + h4 + ", h5=" + h5 + "\n notaProjetoFinal=" + notaProjetoFinal
-                + ", notaTestes=" + notaTestes + ", notaFinal=" + notaFinal + "\n recomendacao=" + recomendacao + "]";
-    }
+   
 
     public double getPesoTestes() {
         return pesoTestes;
@@ -223,6 +210,22 @@ public class notas {
 
     public void setTestes(Set<teste> testes) {
         this.testes = testes;
+    }
+
+    public usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public String toString() {
+        return "notas [notaId=" + notaId + ", usuario=" + usuario + ", turma=" + turma + ", nPerguntasCorretas="
+                + nPerguntasCorretas + ", nPerguntas=" + nPerguntas + ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3
+                + ", h4=" + h4 + ", h5=" + h5 + ", notaProjetoFinal=" + notaProjetoFinal + ", notaTestes=" + notaTestes
+                + ", pesoTestes=" + pesoTestes + ", notaFinal=" + notaFinal + ", recomendacao=" + recomendacao + "]";
     }
 
    

@@ -7,19 +7,17 @@ CREATE TABLE turma (
     pesoTestes double
 );
 
-CREATE TABLE aluno (
-    alunoId int PRIMARY KEY auto_increment,
-    matricula Varchar(30),
+CREATE TABLE usuario (
+    usuarioId int PRIMARY KEY auto_increment,
+    tipo varchar(50),
+    identificador Varchar(30),
     nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     email Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    telefone bigint(10),
+    dataNascimento Date,
+    img Varchar(200),
     username varchar(100),
-    senha varchar(100)
-);
-
-CREATE TABLE professor (
-    professorId int PRIMARY KEY auto_increment,
-    nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-	email VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci          
+    password varchar(100)
 );
 
 CREATE TABLE teste (                    
@@ -65,20 +63,20 @@ CREATE TABLE habilidade (
 CREATE TABLE regTestes (
     regTestesId int PRIMARY KEY auto_increment,
     testeId int,
-    alunoId int,
+    usuarioId int,
     turmaId int,
     FOREIGN KEY (testeId) REFERENCES teste(testeId),
-    FOREIGN KEY (alunoId) REFERENCES aluno(alunoId),
+    FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId),
     FOREIGN KEY (turmaId) REFERENCES turma(turmaId)
 );
 
 CREATE TABLE regQuestionarios (
     regQuestionarioId int PRIMARY KEY auto_increment,
     questionarioId int,
-    alunoId int,
+    usuarioId int,
     turmaId int,
     FOREIGN KEY (questionarioId) REFERENCES questionarioinicial(questionarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
-    FOREIGN KEY (alunoId) REFERENCES aluno(alunoId) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE 
 );
 CREATE TABLE respostaTeste (
@@ -97,17 +95,10 @@ CREATE TABLE respostaQuestionario (
 	FOREIGN KEY (perguntaQuestionarioId) REFERENCES perguntaquestionario(perguntaQuestionarioId) ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
-CREATE TABLE alunoTurma (
-    alunoId int,
+CREATE TABLE turma_usuario (
+    usuarioId int,
     turmaId int,
-    FOREIGN KEY (alunoId) REFERENCES aluno(alunoId) ON DELETE CASCADE ON UPDATE CASCADE ,
-    FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE 
-);
-
-CREATE TABLE professorTurma (
-    professorId int,
-    turmaId int,
-    FOREIGN KEY (professorId) REFERENCES professor(professorId) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
@@ -125,10 +116,10 @@ CREATE TABLE habilidade_PerguntaTeste (
     FOREIGN KEY (perguntaTesteId) REFERENCES perguntaTeste(perguntaTesteId) ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
-CREATE TABLE alunoHabilidade (
-    alunoId int,
+CREATE TABLE habilidade_usuario (
+    usuarioId int,
     habilidadeId int,
-    FOREIGN KEY (alunoId) REFERENCES aluno(alunoId) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (habilidadeId) REFERENCES habilidade(habilidadeId) ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
@@ -183,7 +174,7 @@ CREATE TABLE questionarioturmas (
 
 CREATE TABLE notas (
 	notaId int PRIMARY KEY auto_increment,
-	alunoId int,
+	usuarioId int,
 	turmaId int,
     nPerguntasCorretas int,
     nPerguntas int,
@@ -197,18 +188,18 @@ CREATE TABLE notas (
 	notaTestes DOUBLE,
 	notaFinal DOUBLE,
 	recomendacao VARCHAR(100),
-	FOREIGN KEY (alunoId) REFERENCES aluno(alunoId) ON DELETE CASCADE ON UPDATE CASCADE ,
+	FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
 	FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE 
 );
-CREATE TABLE correcoesAluno (
+CREATE TABLE correcoesUsuario (
     correcaoId int PRIMARY KEY auto_increment,
-    alunoId int,
+    usuarioId int,
     turmaId int,
     testeId int,
     perguntaTesteId int,
     opcaoRespostaId int,
     acertou boolean,
-    FOREIGN KEY (alunoId) REFERENCES aluno(alunoId) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (testeId) REFERENCES teste(testeId) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (perguntaTesteId) REFERENCES perguntaTeste(perguntaTesteId) ON DELETE CASCADE ON UPDATE CASCADE ,
@@ -219,4 +210,14 @@ CREATE TABLE testes_nota (
     testeId int,
     foreign key (notaId) REFERENCES notas(notaId) on update cascade on delete cascade,
     foreign key (testeId) REFERENCES teste(testeId) on update cascade on delete cascade
+);
+CREATE TABLE TB_ROLE (
+    role_id int PRIMARY KEY auto_increment,
+    name varchar(50)
+);
+CREATE TABLE TB_USERS_ROLES (
+    role_id int,
+    usuarioId int,
+    FOREIGN KEY (role_id) REFERENCES TB_ROLE(role_id) on update cascade on delete set null,
+    FOREIGN KEY (usuarioId) REFERENCES usuario (usuarioId) on update cascade on delete cascade
 );

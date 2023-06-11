@@ -21,7 +21,8 @@ import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.turmaForm;
 import com.ifsul.sistema.computacional.sistematcc.model.turmaQuestsForm;
 import com.ifsul.sistema.computacional.sistematcc.model.turmaTestesForm;
-import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
+
+import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
@@ -35,7 +36,7 @@ public class turmaController {
     @Autowired
     turmaRepository turmaRepository;
     @Autowired
-    alunoRepository alunoRepository;
+    usuarioRepository usuarioRepository;
     @Autowired
     testeRepository testeRepository;
     @Autowired
@@ -50,6 +51,7 @@ public class turmaController {
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("turmasAluno");
         List<turma> lturma = turmaRepository.findByVisibilidade(true);
+       
         mv.addObject("turmas", lturma);
         return mv;
     }
@@ -91,15 +93,19 @@ public class turmaController {
                 turma.setNome(t.getNome());
                 turma.setTestes(testes);
                 turma.setVisibilidade(t.isVisibilidade());
-                turma.setPesoTestes(t.getPesoTestes());
+                
                 }
             }else{
                
                 turma.setNome(t.getNome());
                 turma.setVisibilidade(t.isVisibilidade());
-                turma.setPesoTestes(t.getPesoTestes());
+               
             }
-            
+            if(t.getPesoTestes()==0){
+                 turma.setPesoTestes((double) 7);
+            }else{
+                 turma.setPesoTestes(t.getPesoTestes());
+            }
             turmaRepository.save(turma);
             attributes.addFlashAttribute("sucesso", "Turma Cadastrada com Sucesso"+t.getNome());
             return "redirect:/index/turmas";
@@ -122,18 +128,18 @@ public class turmaController {
     }
     /*Inscrive um aluno pela matricula na turma por id */
     @PostMapping("/index/cadAlunoTurma/{id}")
-    public String cadAlunoTurma(@PathVariable("id") int turmaId, @RequestParam("matricula") String matricula,
+    public String cadAlunoTurma(@PathVariable("id") int turmaId, @RequestParam("username") String username,
             RedirectAttributes redirectAttributes) {
-        if (matricula.equalsIgnoreCase("")) {
-            redirectAttributes.addFlashAttribute("erro", "insira a sua matricula");
+        if (username.equalsIgnoreCase("")) {
+            redirectAttributes.addFlashAttribute("erro", "identificador não encontrado");
             return "redirect:/turmas";
         } else {
             turma t = turmaRepository.findById(turmaId).orElseThrow(null);
-            if(alunoRepository.findByMatricula(matricula).isEmpty()){
-                redirectAttributes.addFlashAttribute("erro", "Matricula não encontrada");
+            if(usuarioRepository.findByUsername(username)==null){
+                redirectAttributes.addFlashAttribute("erro", "usuario não encontrado");
                 return "redirect:/turmas";
             }
-            t.getAlunos().add(alunoRepository.findByMatricula(matricula).get(0));
+            t.getUsuarios().add(usuarioRepository.findByUsername(username));
             turmaRepository.save(t);
             redirectAttributes.addFlashAttribute("sucesso", "Inscrição realizada com sucesso");
             return "redirect:/turmas";

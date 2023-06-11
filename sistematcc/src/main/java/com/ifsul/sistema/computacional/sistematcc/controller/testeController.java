@@ -22,7 +22,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.respostaTeste;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.testeForm;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
-import com.ifsul.sistema.computacional.sistematcc.repository.alunoRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.perguntaTesteRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regTestesRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.testeRepository;
@@ -38,7 +38,7 @@ public class testeController {
     @Autowired
     testeService testeService;
     @Autowired
-    alunoRepository alunoRepository;
+    usuarioRepository usuarioRepository;
     @Autowired
     perguntaTesteRepository perguntaTesteRepository;
     @Autowired
@@ -113,7 +113,7 @@ public class testeController {
             teste t = testeRepository.findById(testeId).orElseThrow(null);
         List<respostaTeste> ListRespostas = new ArrayList<>();
         regTestes reg = new regTestes();
-        if (alunoRepository.findByMatricula(lresp.getMatricula().trim()).size()>0) {
+        if (usuarioRepository.findByUsername(lresp.getUsername())!=null) {
             for (perguntaTeste Pergunta : lresp.getPerguntas()) {
                 
                 respostaTeste resposta = new respostaTeste();
@@ -122,7 +122,7 @@ public class testeController {
                 resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
                 ListRespostas.add(resposta);
             }
-            reg.setAluno(alunoRepository.findByMatricula(lresp.getMatricula()).get(0));
+            reg.setUsuario(usuarioRepository.findByUsername(lresp.getUsername()));
             reg.setTeste(t);
             reg.setTurma(turma);
             reg.setRespostasTeste(ListRespostas);

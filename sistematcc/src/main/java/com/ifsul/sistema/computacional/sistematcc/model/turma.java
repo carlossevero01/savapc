@@ -17,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -39,23 +38,13 @@ public class turma implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "alunoturma",
-        uniqueConstraints = @UniqueConstraint(columnNames ={"turmaId","alunoId"} ),
+        name = "turma_usuario",
+        uniqueConstraints = @UniqueConstraint(columnNames ={"turmaId","usuarioId"} ),
         joinColumns =  @JoinColumn(name = "turmaId"),
-        inverseJoinColumns = @JoinColumn(name = "alunoId")
+        inverseJoinColumns = @JoinColumn(name = "usuarioId")
     )
     @JsonManagedReference
-    private List<aluno> alunos;
-
-    @ManyToMany
-    @JoinTable(
-        name = "professorturma",
-        uniqueConstraints = @UniqueConstraint(columnNames ={"turmaId","professorId"} ),
-        joinColumns =  @JoinColumn(name = "turmaId"),
-        inverseJoinColumns = @JoinColumn(name = "professorId")
-    )
-    @JsonManagedReference
-    private List<professor> professores;
+    private List<usuario> usuarios;
 
     @ManyToMany
     @JoinTable(
@@ -120,21 +109,7 @@ public class turma implements Serializable{
         return "turma : turmaId=" + turmaId + ", nome=" + nome +", visibilidade="+visibilidade+",pesoTestes="+pesoTestes;
     }
 
-    public List<aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(List<aluno> alunos) {
-        this.alunos = alunos;
-    }
-
-    public List<professor> getProfessores() {
-        return professores;
-    }
-
-    public void setProfessores(List<professor> professores) {
-        this.professores = professores;
-    }
+   
 
     public boolean isVisibilidade() {
         return this.visibilidade;
@@ -184,6 +159,14 @@ public class turma implements Serializable{
 
     public void setPesoTestes(Double pesoTestes) {
         this.pesoTestes = pesoTestes;
+    }
+
+    public List<usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     

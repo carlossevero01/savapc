@@ -80,20 +80,12 @@
                                     </div>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Acesso</div>
-                            <a class="nav-link" href="/login">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Login
-                            </a>
-                            <a class="nav-link" href="/registration">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Cadastrar-se
-                            </a>
+                            
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Professor
+                        <span sec:authentication="name">professor</span> <a class="btn ms-5 rounded text-light border-white"  th:href="@{/logout}">Logout</a>
                     </div>
                 </nav>
             </div>
