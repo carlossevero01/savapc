@@ -32,9 +32,6 @@
                       </tr>
                     </thead>
                     <tbody th:each=" reg , i : ${registros}">
-                        <tr th:if="${registros.empty}">
-                            <td colspan="2"> Sem registros disponiveis </td>
-                        </tr>
                       <tr th:each=" resp , j : ${reg.respostasQuestionario}">
                         <th scope="row" >
                           <h6 class="card-subtitle text-body-secondary mt-2 " th:text="${reg.questionario.nome}">Questionario</h6> </th>
