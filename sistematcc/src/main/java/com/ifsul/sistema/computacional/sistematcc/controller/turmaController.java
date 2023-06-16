@@ -48,7 +48,6 @@ public class turmaController {
     questionarioinicialService questionarioinicialService;
     
     /*Listar turmas que tenham a visibilidade true */
-    
     @GetMapping(value = "/turmas")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("turmasAluno");
@@ -59,7 +58,6 @@ public class turmaController {
     }
 
     /*Delete uma turma por id */
-    
     @GetMapping(value = "/index/deleteturma/{id}")
     public String deleteTurma(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
@@ -72,7 +70,6 @@ public class turmaController {
         }
     }
     /*Salva uma nova turma */
-    
     @PostMapping("/index/saveTurma")
     public String saveTurma(@Valid turmaForm t, BindingResult result, RedirectAttributes attributes) {
        
@@ -121,7 +118,6 @@ public class turmaController {
     
 
     /*Lista todas as turmas */
-    
     @GetMapping(value = "/index/turmas")
     public ModelAndView listarTurmas() {
         ModelAndView mv = new ModelAndView("turma");
@@ -131,8 +127,7 @@ public class turmaController {
         mv.addObject("testes", testes);
         return mv;
     }
-    /*Inscrive um aluno pela matricula na turma por id */
-    
+    /*Inscrive um aluno na turma por id */
     @PostMapping("/index/cadAlunoTurma/{id}")
     public String cadAlunoTurma(@PathVariable("id") int turmaId, @RequestParam("username") String username,
             RedirectAttributes redirectAttributes) {
@@ -158,7 +153,7 @@ public class turmaController {
             return "redirect:/turmas";
         }
     }
-    
+    /*Atualizar turma*/
     @PostMapping("/index/updateturma/{id}")
     public String setTurmaUpdate(@PathVariable("id") int turmaId, @Valid turma novaturma,
             RedirectAttributes redirectAttributes, BindingResult result) {
@@ -176,7 +171,7 @@ public class turmaController {
 
         }
     }
-   
+   /*Atualizar peso dos testes*/
     @PostMapping("/index/updatepesotestes/{turmaId}")
     public String setUpdatePesoTestesTurma(@PathVariable("turmaId") int turmaId, @RequestParam("pesoTestes") double peso, RedirectAttributes redirectAttributes){
         try {
@@ -190,7 +185,7 @@ public class turmaController {
             return "redirect:/index/relatorioTeste/{turmaId}";
         }
     } 
-   
+   /*Exibir interior da turma*/
     @GetMapping("/index/turma/{id}")
     public ModelAndView insideTurma(@PathVariable("id") int turmaId, RedirectAttributes redirectAttributes){
         ModelAndView mv = new ModelAndView("insideTurma");
@@ -228,7 +223,6 @@ public class turmaController {
         return mv;
     }
     /*Mostra os testes da turma */
-    
     @GetMapping("/index/turma/{turmaId}/testes")
     public ModelAndView getTestesTurma(@PathVariable("turmaId") int turmaId){
         ModelAndView mv = new ModelAndView("testesTurma");
@@ -245,7 +239,6 @@ public class turmaController {
         return mv;
     }
     /*Inclui os testes selecionados na turma*/
-    
     @PostMapping("/index/turma/{turmaId}/testes")
     public String setTestesTurma(@PathVariable("turmaId") int turmaId, turmaTestesForm testesTurma, RedirectAttributes redirectAttributes){
         try {
@@ -267,7 +260,7 @@ public class turmaController {
             return "redirect:/index/turmas";
         }
     }
-    
+    /*Listar os questionarios da turma*/
     @GetMapping("/index/turma/{turmaId}/questionarios")
     public ModelAndView getQuestionariosTurma(@PathVariable("turmaId") int turmaId){
         ModelAndView mv = new ModelAndView("questionariosTurma");
@@ -283,7 +276,7 @@ public class turmaController {
         }
         return mv;
     }
-   
+   /*Inclui os questionarios selecionados na turma*/
     @PostMapping("/index/turma/{turmaId}/questionarios")
     public String setQuestionariosTurma(@PathVariable("turmaId") int turmaId, turmaQuestsForm questsTurma, RedirectAttributes redirectAttributes){
         try {  

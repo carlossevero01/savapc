@@ -28,7 +28,7 @@ public class regQuestionariosController {
     regQuestionariosRepository regQuestionariosRepository;
     @Autowired
     turmaRepository turmaRepository;
-
+    /*Listar registros de questionarios de uma turma*/
     @GetMapping("/index/relatorioQuestionario/{turmaId}")
     public ModelAndView getRelatorioQuestionario(@PathVariable("turmaId") int turmaId){
         ModelAndView mv = new ModelAndView("registroquestionario");

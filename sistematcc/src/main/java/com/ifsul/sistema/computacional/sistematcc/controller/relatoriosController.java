@@ -53,7 +53,7 @@ public class relatoriosController {
     
     @Autowired
     notasServiceImplements notasServiceImplements;
-    
+    /*Exibir relatorio de Perguntas de uma turma*/
     @GetMapping("/index/relatorioPergunta/{turmaId}")
     @ResponseBody
     public ModelAndView getRelatorio(@PathVariable("turmaId") int turmaId) {
@@ -71,6 +71,7 @@ public class relatoriosController {
         mv.addObject("turmaNome", t.getNome());
         return mv;
     }
+    /*Atualiza relatório de habilidades e exibe novamente*/
     @GetMapping("/atualizarRelatorio/{turmaId}")
     public String setUpdateRelatorio(@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes){
         turma turma = turmaRepository.findById(turmaId).get();
@@ -83,6 +84,7 @@ public class relatoriosController {
        }
         
     }
+    /*Exibe relatorio de habilidades de uma turma*/
     @GetMapping("/index/relatorioTeste/{turmaId}")
     @ResponseBody
     public ModelAndView getRelatorioTurma(@PathVariable("turmaId") int turmaId ) {
@@ -102,7 +104,7 @@ public class relatoriosController {
           return mv;
        }   
     }
-
+    /*Exporta Relatório de Habilidades*/
     @GetMapping("/index/exportarRelatorio/{turmaId}")
     public String exportRelatorioTurma(@PathVariable("turmaId") int turmaId,RedirectAttributes redirectAttributes){
         try {
@@ -131,7 +133,7 @@ public class relatoriosController {
             return "redirect:/index/relatorioTeste/{turmaId}";    
         }
     }
-
+    /*Atualiza nota projeto de um aluno*/
     @PostMapping("/index/updateprojetonota/{turmaId}/{notaId}")
     public String setUpdateNotaProjeto(@PathVariable("turmaId") int turmaId,@PathVariable("notaId") int notaId, @RequestParam("nota") double nota, RedirectAttributes redirectAttributes){
         try {

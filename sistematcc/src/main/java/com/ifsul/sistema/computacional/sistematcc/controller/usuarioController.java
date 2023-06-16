@@ -66,13 +66,7 @@ public class usuarioController {
             
        }
     }
-
-    
-     /* DELETAR UNIDADE(PROFESSORES/ADMIN) */
-
-    /* CADASTRAR UNIDADE(PROFESSORES/ADMIN) */
-    
-
+    /* CADASTRAR (PROFESSORES/ADMIN) */
     @PostMapping("/index/saveUsuario")
     public String saveAluno(@Valid usuario a, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
@@ -96,12 +90,7 @@ public class usuarioController {
         
         
     }
-    
-
-    
-    /* CADASTRAR UNIDADE(PROFESSORES/ADMIN) */
-
-    /* LISTAR DADOS(PROFESSORES/ALUNOS) */
+    /* LISTAR (PROFESSORES/ALUNOS) */
     @GetMapping(value = "/index/alunos")
     public ModelAndView listarAlunos() {
         ModelAndView mv = new ModelAndView("aluno");
@@ -116,9 +105,7 @@ public class usuarioController {
         mv.addObject("profs", list);
         return mv;
     } 
-    /* LISTAR DADOS(PROFESSORES/ADMIN) */
-    
-    
+    /*Atualizar usuario*/
     @PostMapping("/index/updateusuario/{id}")
     public String setUpdateAluno(@PathVariable("id") int usuarioId, @Valid usuario novo, RedirectAttributes redirectAttributes,@RequestParam("file") MultipartFile img){
         if(usuarioRepository.existsById(usuarioId)){
@@ -161,7 +148,7 @@ public class usuarioController {
         }
         
     }
-
+    /*Exibir painel do professor*/
     @GetMapping("/painelgeral")
     public ModelAndView getPainelGeral(){
         ModelAndView mv = new ModelAndView("PainelGeral");

@@ -29,7 +29,7 @@ public class perguntaQuestInicialController {
     questionarioinicialRepository questionarioRepository;
     @Autowired
     opcaorespostaRepository opcaorespostaRepository;
-
+    /*Listar todas as perguntas dos questionarios*/
     @GetMapping("/index/perguntasquestinicial")
     public ModelAndView getPerguntas(){
         ModelAndView mv = new ModelAndView("perguntaquestionario");
@@ -56,8 +56,7 @@ public class perguntaQuestInicialController {
             return mv;
         }
     }
-
-    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////VER Se Excluo
     @GetMapping("/index/saveperguntaquestionario/{id}")
     public ModelAndView getSavePerguntaQuestionario(@PathVariable("id") int questionarioId){
         ModelAndView mv = new ModelAndView("savePerguntaQuestionario");
@@ -66,6 +65,7 @@ public class perguntaQuestInicialController {
         }
         return mv;
     }
+    /*Salvar nova pergunta em questionario*/
     @PostMapping("/index/saveperguntaquestionario/{id}")
     public String setSavePerguntaQuestionario(@PathVariable("id") int questionarioId, @Valid perguntaquestionario pq, RedirectAttributes redirectAttributes, BindingResult result){
         if(result.hasErrors()){
@@ -90,7 +90,7 @@ public class perguntaQuestInicialController {
             return "redirect:/index/saveperguntaquestionario/{id}";
         }
     }
-    
+    /*Deletar pergunta de questionario*/
     @GetMapping("/index/{questionarioId}/deleteperguntaquest/{id}")
     public String deletePerguntaQuest(@PathVariable("questionarioId") int questionarioId,@PathVariable("id") int perguntaQuestId, RedirectAttributes redirectAttributes){
         try {
@@ -103,7 +103,7 @@ public class perguntaQuestInicialController {
         }
     }
 
-   
+    /*Atualizar pergunta de questionario*/
       @PostMapping("/index/{questionarioId}/updateperguntaquest/{id}")
       public String setUpdatePerguntaQuest(@PathVariable("questionarioId") int questionarioId, @PathVariable("id") int perguntaQuestId, 
                     @Valid perguntaquestionario novaPergunta, RedirectAttributes redirectAttributes,BindingResult result){
@@ -130,8 +130,8 @@ public class perguntaQuestInicialController {
             }
                        
       }
-
-      @GetMapping(value = "/index/perguntaquestionario/opcoesresposta/{id}")
+    /*Listar opçãoResposta da pergunta*/
+    @GetMapping(value = "/index/perguntaquestionario/opcoesresposta/{id}")
     public ModelAndView getOpcoesRespostaPerguntaQuestionario(@PathVariable("id") int perguntaquestionarioId) {
         ModelAndView mv = new ModelAndView("opcaorespostaPergQuest");
         perguntaquestionario p = perguntaquestionarioRepository.findById(perguntaquestionarioId).get();
@@ -141,14 +141,14 @@ public class perguntaQuestInicialController {
         mv.addObject("perguntaQuestionarioNome", p.getTitulo());
         return mv;
     }
-
+    /*Salvar opçãoResposta em pergunta*/ ////////////////////////////////////////////////////////////////////////////////////// Ver se move para opçãoRespostaController
     @GetMapping("/index/perguntaquestionario/saveopcaoresposta/{id}")
     public ModelAndView getSaveOpcaoResposta(@PathVariable("id") int id) {
         ModelAndView mv = new ModelAndView("saveOpcaorespostaPergQuest");
         mv.addObject("perguntaQuestionarioId", id);
         return mv;
     }
-
+    /*Salvar opçãoResposta em pergunta*/////////////////////////////////////////////////////////////////////////////////////// Ver se move para opçãoRespostaController
     @PostMapping("/index/perguntaquestionario/saveopcaoresposta/{id}")
     public String saveOpcaoResposta_PerguntaQuestionario(@PathVariable("id") int id, @Valid opcaoresposta or, BindingResult result,
             RedirectAttributes attributes) {
@@ -165,7 +165,7 @@ public class perguntaQuestInicialController {
         attributes.addFlashAttribute("sucesso", "Opcao Resposta cadastrada");
         return "redirect:/index/perguntaquestionario/opcoesresposta/{id}";
     }
-
+    /*Deletar opçãoResposta de pergunta*/////////////////////////////////////////////////////////////////////////////////////// Ver se move para opçãoRespostaController
     @GetMapping(value = "/index/perguntaquestionario/deleteopcaoresposta/{id}")
     public String deleteOpcaoResposta_PerguntaQuestionario(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {

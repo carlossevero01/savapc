@@ -30,6 +30,7 @@ CREATE TABLE perguntaTeste (
     perguntaTesteId int PRIMARY KEY auto_increment,
     titulo varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     descricao longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+	pedido varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     opRespostaId varchar(4),
     img varchar(200)
 );

@@ -37,9 +37,10 @@ public class perguntaTeste implements Serializable{
     private String img;
     @Column(name="opRespostaId")
     private String opRespostaId;
-
     @Column(name="titulo")
     private String titulo;
+    @Column(name="pedido")
+    private String pedido;
 
     @ManyToMany
     @JoinTable(
@@ -136,6 +137,11 @@ public class perguntaTeste implements Serializable{
     public void setPerguntaTesteId(int perguntaTesteId) {
         this.perguntaTesteId = perguntaTesteId;
     }
-    
+    public String getPedido() {
+        return pedido;
+    }
+    public void setPedido(String pedido) {
+        this.pedido = pedido;
+    }
     
 }

@@ -1,0 +1,124 @@
+Métodos:
+Pagina Inicial:
+	-Ir para pagina inicial: GET /index/inicial
+Habilidade:
+	- Listar habilidades: GET /index/habilidades
+	- Deletar Habilidade: GET /index/deletehabilidade/{id}
+	- Deltar Habilidade em perguntas: GET /index/teste/{testeId}/pergunta/{perguntaId}/deletehabilidade/{id}
+	- Salvar Habilidade: POST /index/saveHabilidade
+	- Salvar Habilidade em pergunta: POST /index/{testeId}/{perguntaId}/saveHabilidade
+	- Atualizar Habilidade: POST /index/updatehabilidade/{id}
+	- Atualizar Habilidade em pergunta: POST /index/teste/{testeId}/pergunta/{perguntaId}/updatehabilidade/{id}
+	- Listar Habilidades da pergunta: GET /index/pergunta/habilidades/{perguntaId}/{testeId}
+	- Incluir Habilidade em pergunta: POST /index/pergunta/habilidades/{perguntaId}/{testeId}
+OpçãoResposta:
+	- Lista as opçõesResposta de pergunta: GET /index/perguntaTeste/opcoesresposta/{id}	
+	- Atualiza opçãoResposta em pergunta: POST /index/{perguntaId}/updateopcaoresposta/{id}
+	- Salvar opçãoResposta em pergunta: POST /index/perguntaTeste/saveopcaoresposta/{id}
+	- Deletar opçãoResposta em pergunta de teste: GET /index/perguntaTeste/{perguntaTesteId}/deleteopcaoresposta/{id}
+PerguntaQuestionario:
+	- Listar todas as perguntas dos questionarios: GET /index/perguntasquestinicial
+	- Listar perguntas de questionario: GET /index/perguntasquest/{id}
+revisar	- Salvar pergunta de quesitonario: GET /index/saveperguntaquestionario/{id}
+	- Salvar nova pergunta em questionario: POST /index/saveperguntaquestionario/{id}
+	- Deletar pergunta de questionario: GET /index/{questionarioId}/deleteperguntaquest/{id}
+	- Atualizar pergunta de questionario: POST /index/{questionarioId}/updateperguntaquest/{id}
+	- Listar opçãoResposta da pergunta: GET /index/perguntaquestionario/opcoesresposta/{id}
+revisar	- Salvar opçãoResposta em pergunta: GET /index/perguntaquestionario/saveopcaoresposta/{id}
+revisar	- Salvar opçãoResposta em pergunta: POST /index/perguntaquestionario/saveopcaoresposta/{id}
+revisar	- Deletar opçãoResposta de pergunta: GET /index/perguntaquestionario/deleteopcaoresposta/{id}
+PerguntaTeste:
+	- Listar todas as perguntas dos testes: GET /index/perguntas
+revisar	- Salvar pergunta em teste: GET /index/teste/savePergunta/{id}
+	- Salvar pergunta: POST /index/teste/savePergunta/{id}	
+	- Deletar pergunta em teste: GET /index/deletepergunta/{testeId}/{perguntaId}
+	- Listar as perguntas de um teste: GET /index/teste/perguntas/{id}
+revisar	- Atualizar pergunta: GET /index/updatepergunta/{id}
+	- Atualizar pergunta em teste: POST /index/updatepergunta/{id}/{testeId}
+Questionario:
+	- Listar questionarios: GET /index/questionarios
+	- Salvar novo questionario: POST /index/saveQuestInicial
+	- Salvar novo questionario em turma: POST /index/turma/{turmaId}/saveQuestInicial
+	- Atualizar questionario: POST /index/updatequestionario/{id}
+	- Atualizar questionario em turma: POST /index/updatequestionario/{id}/{turmaId}
+revisar	- Deletar questionario: GET /index/deletequestionario/{id}
+	- Aplicar quesitonario: GET /index/aplicacaoquest/{turmaId}/{questionarioId}
+	- Aplicar questionario: POST /index/aplicacaoquest/{turmaId}/{questionarioId}
+RegistrosQuestionario:
+	-Listar registros questionario de turma: GET /index/relatorioQuestionario/{turmaId}
+Relatorios:
+	- Exibir relatorio com perguntas de turma: GET /index/relatorioPergunta/{turmaId}
+	- Exibir relatorio de habilidades de turma: GET  /index/relatorioTeste/{turmaId}
+	- Atualizar relatório de habilidades e exibe novamente: GET /atualizarRelatorio/{turmaId}
+	- Exportar Relatório de Habilidades de turma: GET /index/exportarRelatorio/{turmaId}
+	- Atualizar nota projeto de um aluno: POST /index/updateprojetonota/{turmaId}/{notaId}
+Teste:
+	- Listar testes: GET /index/testes
+	- Atualizar teste: POST /index/updateteste/{id}
+	- Atualizar teste em turma: POST /index/updateteste/{id}/{turmaId}
+	- Verificar se o aluno já respondeu ao teste: POST /index/aplicacao/{turmaId}/{testeId}
+	- Aplicar teste: GET /index/aplicacaoteste/{turmaId}/{testeId}
+	- Aplicar teste: POST /index/aplicacaoteste/{turmaId}/{testeId}
+	- Salvar novo teste: POST /index/saveTeste
+	- Salvar novo teste em turma: POST /index/turma/{turmaId}/saveTeste
+	- Deletar teste: GET /index/deleteteste/{id}
+Turma:
+	- Listar turmas que tenham a visibilidade true: GET /turmas
+	- Listar todas as turmas: GET /index/turmas
+	- Deletar uma turma: GET /index/deleteturma/{id}
+	- Salvar uma nova turma: POST /index/saveTurma
+	- Inscrever aluno na turma: POST /index/cadAlunoTurma/{id}
+	- Atualizar turma: POST /index/updateturma/{id}
+	- Atualizar peso dos testes da turma: POST /index/updatepesotestes/{turmaId}
+	- Exibir interior da turma: GET /index/turma/{id}
+	- Lista os testes da turma: GET /index/turma/{turmaId}/testes
+	- Inclui os testes selecionados na turma: POST /index/turma/{turmaId}/testes
+	- Lista os questionario da turma: GET /index/turma/{turmaId}/questionarios
+	- Inclui os questionarios selecionados na turma: POST /index/turma/{turmaId}/questionarios
+Usuario(aluno,prof):
+	- Deletar usuario: GET /index/deleteusuario/{id}
+	- Salvar novo usuario: POST /index/saveUsuario
+	- Listar alunos: GET /index/alunos
+	- Listar professores: GET /index/professores
+	- Atualizar usuario: POST /index/updateusuario/{id}
+	- Exibir painel do professor: GET /painelgeral
+
+
+
+
+put:
+      tags:
+        - pet
+      summary: Update an existing pet
+      operationId: updatePet
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

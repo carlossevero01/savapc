@@ -59,7 +59,7 @@ public class questionarioController {
     }
 
     
-    /*Enviar formulario de cadastro de questionario */
+    /*Salvar questionario */
     @PostMapping("/index/saveQuestInicial") 
     public String setSaveQuestInicial(@Valid questionarioinicial qi,RedirectAttributes redirectAttributes, BindingResult result){
         if(result.hasErrors()){
@@ -77,7 +77,7 @@ public class questionarioController {
         }
         
     }
-    /*Enviar formulario de cadastro de questionario em uma turma */
+    /*Salvar questionario em uma turma */
     @PostMapping("/index/turma/{turmaId}/saveQuestInicial") 
     public String setSaveQuestInicial_turma(@Valid questionarioinicial qi,RedirectAttributes redirectAttributes, BindingResult result){
         if(result.hasErrors()){
@@ -95,7 +95,7 @@ public class questionarioController {
         }
         
     }
-
+    /*Atualizar questionario*/
     @PostMapping("/index/updatequestionario/{id}")
     public String setUpdateQuestionario(@PathVariable("id") int questionarioId, questionarioinicial novoQ, 
             RedirectAttributes redirectAttributes, BindingResult result){
@@ -116,6 +116,7 @@ public class questionarioController {
             return "redirect:/index/questionarios";
         }
     }
+    /*Atualizar questionario em uma turma*/
     @PostMapping("/index/updatequestionario/{id}/{turmaId}")
     public String setUpdateQuestionario_turma(@PathVariable("id") int questionarioId, questionarioinicial novoQ, 
             RedirectAttributes redirectAttributes, BindingResult result){
@@ -136,7 +137,7 @@ public class questionarioController {
                     return "redirect:/index/turma/{turmaId}/questionarios";
                 }
     }
-
+    /*Deletar questionario*/
     @GetMapping("/index/deletequestionario/{id}")
     public String deleteQuestionario(@PathVariable("id") int questionarioId, RedirectAttributes redirectAttributes){
         try {
@@ -151,7 +152,7 @@ public class questionarioController {
 
 
 
-     /*Aplicar teste por id */
+     /*Aplicar questionario */
      @GetMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
      public ModelAndView getQuestionarioAplication(@PathVariable("questionarioId") int qId,@PathVariable("turmaId") int turmaId) {
          ModelAndView mv = new ModelAndView("aplicacaoQuestionario");
@@ -166,7 +167,7 @@ public class questionarioController {
          return mv;
  
      }
-     /*Aplicar teste por id */
+     /*Aplicar questionario */
      @PostMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
      public String setQuestionarioAplication(@PathVariable("questionarioId") int questionarioId,@PathVariable("turmaId") int turmaId, @ModelAttribute perguntasQuestForm lresp,
              RedirectAttributes attributes) {

@@ -157,6 +157,7 @@ public class perguntaTesteController {
             perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
             perguntaExistente.setDescricao(novaPergunta.getDescricao());
             perguntaExistente.setTitulo(novaPergunta.getTitulo());
+            perguntaExistente.setPedido(novaPergunta.getPedido());
             if (img.isEmpty()) {
                 novaPergunta.setImg(null);
             } else {

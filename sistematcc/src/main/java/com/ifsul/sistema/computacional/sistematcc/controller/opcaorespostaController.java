@@ -73,7 +73,7 @@ public class opcaorespostaController {
         attributes.addFlashAttribute("sucesso", "Opção resposta cadastrada");
         return "redirect:/index/perguntaTeste/opcoesresposta/{id}";
     }
-
+    /*Deletar opçãoResposta de uma perguntaTeste*/
     @GetMapping(value = "/index/perguntaTeste/{perguntaTesteId}/deleteopcaoresposta/{id}")
     public String deleteOpcaoResposta(@PathVariable("id") int id,@PathVariable("perguntaTesteId") int perguntaTesteId, RedirectAttributes attributes) {
         try {

@@ -34,6 +34,7 @@ public class WebSecurityConfig  {
                                 .requestMatchers("/turmas", "/index/turma/*", "/index/aplicacaoteste/**", "/index/aplicacaoquest/**").hasAnyRole("ALUNO", "PROF")
                                 .requestMatchers("index/**").hasRole("PROF")
                                 .anyRequest().authenticated()
+                              //.and().cors()
 
                 )
                 .formLogin((form) -> form

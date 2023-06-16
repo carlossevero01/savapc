@@ -49,7 +49,7 @@ public class testeController {
     turmaRepository turmaRepository;
 
     
-    /*Atualizar teste por id */
+    /*Atualiza teste */
     @PostMapping("/index/updateteste/{id}")
     public String setTesteUpdate(@PathVariable("id") int testeId, @Valid teste novoteste,
             RedirectAttributes redirectAttributes, BindingResult result) {
@@ -70,7 +70,7 @@ public class testeController {
             return "redirect:/index/testes";
         }
     }
-    /*Atualizar teste por id na turma*/
+    /*Atualiza teste na turma*/
     @PostMapping("/index/updateteste/{id}/{turmaId}")
     public String setTesteUpdate_turma(@PathVariable("id") int testeId, @Valid teste novoteste,
             RedirectAttributes redirectAttributes, BindingResult result) {
@@ -91,6 +91,7 @@ public class testeController {
             return "redirect:/index/turma/{turmaId}/testes";
         }
     }
+    /*Verifica se o aluno já respondeu ao teste*/
     @PostMapping(value = "/index/aplicacao/{turmaId}/{testeId}")
     public String verificarAplicacao(@RequestParam("username") String username ,@PathVariable("testeId") int tId,@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes){
         try {
@@ -109,7 +110,7 @@ public class testeController {
             return "redirect:/index/turma/{turmaId}";
         }
     } 
-    /*Aplicar teste por id */
+    /*Aplicar teste */
     @GetMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
     public ModelAndView getTesteAplication(@PathVariable("testeId") int tId,@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("aplicacaoTeste");
@@ -125,7 +126,6 @@ public class testeController {
 
     }
     /*Aplicar teste por id */
-    
     @PostMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
     public String setTesteAplication(@PathVariable("testeId") int testeId,@PathVariable("turmaId") int turmaId, @ModelAttribute perguntasForm lresp,
             RedirectAttributes attributes) {
@@ -207,7 +207,7 @@ public class testeController {
         }
       }
     }
-    /*Salvar um novo teste */
+    /*Salvar um novo teste na turma*/
     @PostMapping("/index/turma/{turmaId}/saveTeste")
     public String saveTeste_turma(@Valid testeForm t, BindingResult result, RedirectAttributes attributes) {
         List<perguntaTeste> ListPerguntas = new ArrayList<>();
