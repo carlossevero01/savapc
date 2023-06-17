@@ -27,21 +27,27 @@
 				
 				<input hidden type="text" th:name="username" th:value="${#authentication.principal.username}">
 				<input type="text" th:name="turmaId" th:value="${turmaId}" hidden>
-				<div class="row mt-2 mb-2 rounded" th:each="p,j: ${perguntas}" style="padding: inherit; border: solid black 3px;">
+				<div class="row mt-2 mb-2 rounded shadow p-3 mb-5 bg-body-tertiary" th:each="p,j: ${perguntas}" style="padding: inherit; border: solid black 3px;">
 					<input type="hidden" th:name="|perguntas[${j.index}].perguntaTesteId|" th:value="${p.perguntaTesteId}" />
 					<div>
-						<div class=" text-black shadow p-3 mb-5 bg-body-tertiary rounded mt-2" style="padding: inherit;">
-							<p class="fw-bolder p-1" th:text="${p.titulo}"></p> 
-							<p class="lead p-1" th:text="${p.descricao}"></p>
+						<div class=" text-black  rounded mt-2" style="padding: inherit; background-color: #cbd1cc;">
+							<p class="fw-bolder p-1" th:text="${p.titulo}" style=" font-weight: 400;"></p> 
+							<p class="lead p-1" th:text="${p.descricao}" style=" font-weight: 400;"></p>
+							<p class="lead " th:text="${p.pedido}"> </p>
+							<br>
+								
 						</div>
-						<img class="m-2 border" style="max-width: 20%;" th:src="@{/index/aplicacaoteste/{turmaId}/{testeId}/imagem/{img}(img=${perguntas[__${j.index}__].img})}" alt="imgPergunta">
-						<p th:text="${p.pedido}"> </P
-						<div> <p>Escolha uma:</p>
+						<div th:if="${perguntas[__${j.index}__].img != NULL}">
+							<img class="m-2 border" style="max-width: 50%; width: 500px;" th:src="@{/index/aplicacaoteste/{turmaId}/{testeId}/imagem/{img}(img=${perguntas[__${j.index}__].img})}" alt="imgPergunta">
+						</div>
+						
+						<div> <p class="lead">Escolha uma alternativa:</p>
 						<div class="form-check" th:each="op,i : ${p.opcoesResposta}">
 							<input class="form-check-input" type="radio" th:name="|perguntas[${j.index}].opRespostaId|" th:value="${op.opcaoRespostaId}" >
-							<label class="form-check-label" th:for="${op.opcaoRespostaId}" th:text="${op.descricao}"></label>
+							<label class="form-check-label lead" th:for="${op.opcaoRespostaId}" th:text="${op.descricao}"></label>
+							
 						</div>
-						</div>
+						</div><br><br>
 				    </div>  
         		</div>
 			<button type="submit" class="btn btn-secondary">Enviar</button>

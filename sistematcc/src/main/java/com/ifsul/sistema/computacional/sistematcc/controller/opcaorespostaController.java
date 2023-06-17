@@ -26,10 +26,10 @@ public class opcaorespostaController {
     @Autowired
     perguntaTesteRepository perguntaTesteRepository;
 
-    
-    /*Atualiza uma opção resposta de uma perguntaTeste */
+    /* Atualiza uma opção resposta de uma perguntaTeste */
     @PostMapping("/index/{perguntaId}/updateopcaoresposta/{id}")
-    public String setOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId,@PathVariable("perguntaId") int perguntaTesteId,
+    public String setOpcaoRespostaUpdate(@PathVariable("id") int opcaoRespostaId,
+            @PathVariable("perguntaId") int perguntaTesteId,
             @Valid opcaoresposta novaOpcaoresposta, RedirectAttributes redirectAttributes, BindingResult result) {
         try {
             opcaoresposta opcaorespostaExistente = opcaorespostaRepository.findById(opcaoRespostaId).orElseThrow(null);
@@ -38,7 +38,7 @@ public class opcaorespostaController {
             opcaorespostaExistente.setVerdadeira(novaOpcaoresposta.isVerdadeira());
             opcaorespostaRepository.save(opcaorespostaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "OpcaoResposta Editada com sucesso");
-            
+
             return "redirect:/index/perguntaTeste/opcoesresposta/{perguntaId}";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
@@ -46,17 +46,20 @@ public class opcaorespostaController {
 
         }
     }
-    /*Lista as opções resposta de uma perguntaTeste */
-    @GetMapping(value = "/index/perguntaTeste/opcoesresposta/{id}")
-    public ModelAndView getOpcoesRespostaPergunta(@PathVariable("id") int id) {
+
+    /* Lista as opções resposta de uma perguntaTeste */
+    @GetMapping(value = "/index/turma/{turmaId}/perguntaTeste/opcoesresposta/{id}")
+    public ModelAndView getOpcoesRespostaPergunta(@PathVariable("id") int id,@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("opcaoresposta");
         perguntaTeste p = perguntaTesteRepository.findById(id).orElseThrow(null);
         List<opcaoresposta> opR = p.getOpcoesResposta();
         mv.addObject("opcoesrespostas", opR);
         mv.addObject("perguntaId", p.getPerguntaTesteId());
+        mv.addObject("turmaId", turmaId);
         return mv;
     }
-    /*Salva uma opção resposta em uma perguntaTeste*/
+
+    /* Salva uma opção resposta em uma perguntaTeste */
     @PostMapping("/index/perguntaTeste/saveopcaoresposta/{id}")
     public String saveOpcaoResposta(@PathVariable("id") int id, @Valid opcaoresposta or, BindingResult result,
             RedirectAttributes attributes) {
@@ -73,9 +76,11 @@ public class opcaorespostaController {
         attributes.addFlashAttribute("sucesso", "Opção resposta cadastrada");
         return "redirect:/index/perguntaTeste/opcoesresposta/{id}";
     }
-    /*Deletar opçãoResposta de uma perguntaTeste*/
+
+    /* Deletar opçãoResposta de uma perguntaTeste */
     @GetMapping(value = "/index/perguntaTeste/{perguntaTesteId}/deleteopcaoresposta/{id}")
-    public String deleteOpcaoResposta(@PathVariable("id") int id,@PathVariable("perguntaTesteId") int perguntaTesteId, RedirectAttributes attributes) {
+    public String deleteOpcaoResposta(@PathVariable("id") int id, @PathVariable("perguntaTesteId") int perguntaTesteId,
+            RedirectAttributes attributes) {
         try {
             opcaorespostaRepository.deleteById(id);
             attributes.addFlashAttribute("sucesso", "Opção-Resposta deletada");

@@ -1,3 +1,5 @@
+INSERT INTO tb_role (role_id,name) values (1,"ROLE_ALUNO"); /*ROLE_ID:1 = ALUNO*/
+INSERT INTO tb_role (role_id,name) values (2,"ROLE_PROF"); /*ROLE_ID:2 = PROF*/
 INSERT INTO habilidade (nome) values ('Compreensao'); /*ID:1*/
 INSERT INTO habilidade (nome) values ('Abstracao'); /*ID:2*/
 INSERT INTO habilidade (nome) values ('Resolucao de problemas'); /*ID:3*/
@@ -8,13 +10,17 @@ INSERT INTO turma (turmaId,nome,visibilidade,pesoTestes) values (1,"Turma TADS1/
 
 INSERT INTO usuario (usuarioId,tipo,identificador,nome,email,telefone,dataNascimento,img,username,password) 
 values (1,"aluno","111","alunoTeste1","email1@gmail.com",55984,"2000-01-20","nao selecionado","alunoteste1","$2a$12$dv/6XzTyFska76E8DyXGOuVKyvrPNJ34rJsEsfzX5X2ubFNRyNIAe");
+INSERT INTO tb_users_roles (role_id,usuarioId) values (1,1);
 INSERT INTO turma_usuario (usuarioId,turmaId) values (1,1);
 INSERT INTO usuario (usuarioId,tipo,identificador,nome,email,telefone,dataNascimento,img,username,password) 
 values (2,"aluno","222","alunoTeste2","email2@gmail.com",55985,"2000-01-21","nao selecionado","alunoteste2","$2a$12$dv/6XzTyFska76E8DyXGOuVKyvrPNJ34rJsEsfzX5X2ubFNRyNIAe");
+INSERT INTO tb_users_roles (role_id,usuarioId) values (1,2);
 INSERT INTO turma_usuario (usuarioId,turmaId) values (2,1);
 INSERT INTO usuario (usuarioId,tipo,identificador,nome,email,telefone,dataNascimento,img,username,password) 
 values (3,"prof","333","profTeste1","email3@gmail.com",55986,"2000-01-22","nao selecionado","profteste1","$2a$12$dv/6XzTyFska76E8DyXGOuVKyvrPNJ34rJsEsfzX5X2ubFNRyNIAe");
+INSERT INTO tb_users_roles (role_id,usuarioId) values (2,3);
 INSERT INTO turma_usuario (usuarioId,turmaId) values (3,1);
+
 
 
 INSERT INTO teste (testeId,nome,visibilidade,disponibilidade) values (1,"pre-teste",true,"2023-10-10 00:00:00");

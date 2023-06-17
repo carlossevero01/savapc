@@ -16,15 +16,15 @@
     </head>
     <body>
         <div sec:authorize="hasRole('ROLE_PROF')">
-            <div th:insert="fragments/frag :: navProf"></div>
+            <div th:replace="~{fragments/frag :: navProf}"></div>
           </div>
           <div sec:authorize="not isAuthenticated()">
-            <div th:insert="fragments/frag :: navAll"></div>
+            <div th:replace="~{fragments/frag :: navAll}"></div>
           </div>
           <div sec:authorize="hasRole('ROLE_ALUNO')">
-            <div th:insert="fragments/frag :: navAll"></div>
+            <div th:replace="~{fragments/frag :: navAll}"></div>
           </div>
-        <th:block th:include="mensagemValidacao"></th:block>
+        <th:block th:replace="~{mensagemValidacao.html}"></th:block>
         <header class=" bg-dark bg-gradient text-white p-4">
             <div class="container px-4 text-center">
                 <h1 class="fw-bolder">Bem Vindo ao SAVA-PC</h1>
@@ -77,6 +77,6 @@
         <script src="js/datatables-simple-demo.js"></script>
     </body>
     <footer>
-        <div th:insert="fragments/frag :: footer"></div>
+        <div th:replace="~{fragments/frag.html :: footer}"></div>
     </footer>
 </html>

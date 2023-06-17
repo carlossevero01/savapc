@@ -1,6 +1,5 @@
 package com.ifsul.sistema.computacional.sistematcc.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,18 +45,18 @@ public class turmaController {
     questionarioinicialRepository questionarioinicialRepository;
     @Autowired
     questionarioinicialService questionarioinicialService;
-    
-    /*Listar turmas que tenham a visibilidade true */
+
+    /* Listar turmas que tenham a visibilidade true */
     @GetMapping(value = "/turmas")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("turmasAluno");
         List<turma> lturma = turmaRepository.findByVisibilidade(true);
-       
+
         mv.addObject("turmas", lturma);
         return mv;
     }
 
-    /*Delete uma turma por id */
+    /* Delete uma turma por id */
     @GetMapping(value = "/index/deleteturma/{id}")
     public String deleteTurma(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
@@ -69,55 +68,55 @@ public class turmaController {
             return "redirect:/index/turmas";
         }
     }
-    /*Salva uma nova turma */
+
+    /* Salva uma nova turma */
     @PostMapping("/index/saveTurma")
     public String saveTurma(@Valid turmaForm t, BindingResult result, RedirectAttributes attributes) {
-       
+
         List<teste> testes = new ArrayList<>();
         testes.clear();
         turma turma = new turma();
-        
+
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
             return "redirect:/index/saveTurma";
         }
         try {
-            if(t.getTestes()!=null){
-                if(t.getTestes().size()>0){
-                for (teste test : t.getTestes()) {
-                    if(testeRepository.existsById(test.getTesteId())){
-                        teste te = testeRepository.findById(test.getTesteId()).orElseThrow(null);
-                        System.out.println("\n TESTE:"+te.getNome());
-                        testes.add(te);
+            if (t.getTestes() != null) {
+                if (t.getTestes().size() > 0) {
+                    for (teste test : t.getTestes()) {
+                        if (testeRepository.existsById(test.getTesteId())) {
+                            teste te = testeRepository.findById(test.getTesteId()).orElseThrow(null);
+                            System.out.println("\n TESTE:" + te.getNome());
+                            testes.add(te);
+                        }
                     }
+                    turma.setNome(t.getNome());
+                    turma.setTestes(testes);
+                    turma.setVisibilidade(t.isVisibilidade());
+
                 }
-                turma.setNome(t.getNome());
-                turma.setTestes(testes);
-                turma.setVisibilidade(t.isVisibilidade());
-                
-                }
-            }else{
-               
+            } else {
+
                 turma.setNome(t.getNome());
                 turma.setVisibilidade(t.isVisibilidade());
-               
+
             }
-            if(t.getPesoTestes()==0){
-                 turma.setPesoTestes((double) 7);
-            }else{
-                 turma.setPesoTestes(t.getPesoTestes());
+            if (t.getPesoTestes() == 0) {
+                turma.setPesoTestes((double) 7);
+            } else {
+                turma.setPesoTestes(t.getPesoTestes());
             }
             turmaRepository.save(turma);
-            attributes.addFlashAttribute("sucesso", "Turma Cadastrada com Sucesso"+t.getNome());
+            attributes.addFlashAttribute("sucesso", "Turma Cadastrada com Sucesso" + t.getNome());
             return "redirect:/index/turmas";
         } catch (Exception e) {
-            attributes.addFlashAttribute("erro", "Não foi possível cadastrar a turma"+e.toString());
-        return "redirect:/index/turmas";
+            attributes.addFlashAttribute("erro", "Não foi possível cadastrar a turma" + e.toString());
+            return "redirect:/index/turmas";
         }
-      }
-    
+    }
 
-    /*Lista todas as turmas */
+    /* Lista todas as turmas */
     @GetMapping(value = "/index/turmas")
     public ModelAndView listarTurmas() {
         ModelAndView mv = new ModelAndView("turma");
@@ -127,7 +126,8 @@ public class turmaController {
         mv.addObject("testes", testes);
         return mv;
     }
-    /*Inscrive um aluno na turma por id */
+
+    /* Inscrive um aluno na turma por id */
     @PostMapping("/index/cadAlunoTurma/{id}")
     public String cadAlunoTurma(@PathVariable("id") int turmaId, @RequestParam("username") String username,
             RedirectAttributes redirectAttributes) {
@@ -137,13 +137,13 @@ public class turmaController {
         } else {
             turma t = turmaRepository.findById(turmaId).orElseThrow(null);
             List<usuario> listUsuarios = t.getUsuarios();
-           
-            if(usuarioRepository.findByUsername(username)==null){
+
+            if (usuarioRepository.findByUsername(username) == null) {
                 redirectAttributes.addFlashAttribute("erro", "usuario não encontrado");
                 return "redirect:/turmas";
             }
-             usuario usu = usuarioRepository.findByUsername(username);
-            if(listUsuarios.contains(usu)){
+            usuario usu = usuarioRepository.findByUsername(username);
+            if (listUsuarios.contains(usu)) {
                 redirectAttributes.addFlashAttribute("erro", "usuario já inscrito");
                 return "redirect:/turmas";
             }
@@ -153,7 +153,8 @@ public class turmaController {
             return "redirect:/turmas";
         }
     }
-    /*Atualizar turma*/
+
+    /* Atualizar turma */
     @PostMapping("/index/updateturma/{id}")
     public String setTurmaUpdate(@PathVariable("id") int turmaId, @Valid turma novaturma,
             RedirectAttributes redirectAttributes, BindingResult result) {
@@ -171,9 +172,11 @@ public class turmaController {
 
         }
     }
-   /*Atualizar peso dos testes*/
+
+    /* Atualizar peso dos testes */
     @PostMapping("/index/updatepesotestes/{turmaId}")
-    public String setUpdatePesoTestesTurma(@PathVariable("turmaId") int turmaId, @RequestParam("pesoTestes") double peso, RedirectAttributes redirectAttributes){
+    public String setUpdatePesoTestesTurma(@PathVariable("turmaId") int turmaId,
+            @RequestParam("pesoTestes") double peso, RedirectAttributes redirectAttributes) {
         try {
             turma t = turmaRepository.findById(turmaId).get();
             t.setPesoTestes(peso);
@@ -184,12 +187,13 @@ public class turmaController {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel alterar");
             return "redirect:/index/relatorioTeste/{turmaId}";
         }
-    } 
-   /*Exibir interior da turma*/
+    }
+
+    /* Exibir interior da turma */
     @GetMapping("/index/turma/{id}")
-    public ModelAndView insideTurma(@PathVariable("id") int turmaId, RedirectAttributes redirectAttributes){
+    public ModelAndView insideTurma(@PathVariable("id") int turmaId, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView("insideTurma");
-        if(turmaRepository.findById(turmaId)!=null){
+        if (turmaRepository.findById(turmaId) != null) {
             turma t = turmaRepository.findById(turmaId).get();
             try {
                 testeService.atualizarVisibilidades(); /* Teste de disponibilidade */
@@ -197,34 +201,34 @@ public class turmaController {
                 List<teste> tests = t.getTestes();
                 List<teste> testes = new ArrayList<>();
                 for (teste test : tests) {
-                    if(test.getVisibilidade()){
+                    if (test.getVisibilidade()) {
                         testes.add(test);
                     }
                 }
                 List<questionarioinicial> questionarios = t.getQuestionarios();
                 List<questionarioinicial> quest = new ArrayList<>();
                 for (questionarioinicial q : questionarios) {
-                    if(q.isVisibilidade()){
+                    if (q.isVisibilidade()) {
                         quest.add(q);
                     }
                 }
                 mv.addObject("testes", testes);
-                mv.addObject("turma", t);   
-                mv.addObject("questionarios", quest); 
+                mv.addObject("turma", t);
+                mv.addObject("questionarios", quest);
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("erro", "Erro na busca dos testes ou questionarios da turma");
             }
-            
-        }
-        else{
+
+        } else {
             redirectAttributes.addFlashAttribute("erro", "Turma não encontrada");
-           
+
         }
         return mv;
     }
-    /*Mostra os testes da turma */
+
+    /* Mostra os testes da turma */
     @GetMapping("/index/turma/{turmaId}/testes")
-    public ModelAndView getTestesTurma(@PathVariable("turmaId") int turmaId){
+    public ModelAndView getTestesTurma(@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("testesTurma");
         try {
             testeService.atualizarVisibilidades(); /* Teste de disponibilidade */
@@ -234,69 +238,78 @@ public class turmaController {
             mv.addObject("testesTurma", testesTurma);
             mv.addObject("turmaId", turmaId);
         } catch (Exception e) {
-            
+
         }
         return mv;
     }
-    /*Inclui os testes selecionados na turma*/
+
+    /* Inclui os testes selecionados na turma */
     @PostMapping("/index/turma/{turmaId}/testes")
-    public String setTestesTurma(@PathVariable("turmaId") int turmaId, turmaTestesForm testesTurma, RedirectAttributes redirectAttributes){
+    public String setTestesTurma(@PathVariable("turmaId") int turmaId, turmaTestesForm testesTurma,
+            RedirectAttributes redirectAttributes) {
         try {
-            
+
             turma turma = turmaRepository.findById(turmaId).get();
             turma.getTestes().clear();
-            if(testesTurma.getTestes() != null && testesTurma.getTestes().size()>0){
-            for (teste test : testesTurma.getTestes()) {
-                if(test.getTesteId()>0){
-                    turma.getTestes().add(testeRepository.findById(test.getTesteId()).get());    
+            if (testesTurma.getTestes() != null && testesTurma.getTestes().size() > 0) {
+                for (teste test : testesTurma.getTestes()) {
+                    if (test.getTesteId() > 0) {
+                        turma.getTestes().add(testeRepository.findById(test.getTesteId()).get());
+                    }
                 }
             }
-            }
             turmaRepository.save(turma);
-           redirectAttributes.addFlashAttribute("sucesso","Testes Alterados da turma!");
-           return "redirect:/index/turma/{turmaId}/testes";
+            redirectAttributes.addFlashAttribute("sucesso", "Testes Alterados da turma!");
+            return "redirect:/index/turma/{turmaId}/testes";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro","Ocorreu um erro e os testes não foram alterados: " + e.toString());
+            redirectAttributes.addFlashAttribute("erro",
+                    "Ocorreu um erro e os testes não foram alterados: " + e.toString());
             return "redirect:/index/turmas";
         }
     }
-    /*Listar os questionarios da turma*/
+
+    /* Listar os questionarios da turma */
     @GetMapping("/index/turma/{turmaId}/questionarios")
-    public ModelAndView getQuestionariosTurma(@PathVariable("turmaId") int turmaId){
+    public ModelAndView getQuestionariosTurma(@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("questionariosTurma");
         try {
             questionarioinicialService.atualizarVisibilidade();
             List<questionarioinicial> quests = questionarioinicialRepository.findAll();
-            List<questionarioinicial> questsTurma = questionarioinicialRepository.findByTurmas(turmaRepository.findById(turmaId).get());
+            List<questionarioinicial> questsTurma = questionarioinicialRepository
+                    .findByTurmas(turmaRepository.findById(turmaId).get());
             mv.addObject("questsAll", quests);
             mv.addObject("questsTurma", questsTurma);
             mv.addObject("turmaId", turmaId);
         } catch (Exception e) {
-            
+
         }
         return mv;
     }
-   /*Inclui os questionarios selecionados na turma*/
+
+    /* Inclui os questionarios selecionados na turma */
     @PostMapping("/index/turma/{turmaId}/questionarios")
-    public String setQuestionariosTurma(@PathVariable("turmaId") int turmaId, turmaQuestsForm questsTurma, RedirectAttributes redirectAttributes){
-        try {  
+    public String setQuestionariosTurma(@PathVariable("turmaId") int turmaId, turmaQuestsForm questsTurma,
+            RedirectAttributes redirectAttributes) {
+        try {
             turma turma = turmaRepository.findById(turmaId).get();
             turma.getQuestionarios().clear();
-            if(questsTurma.getQuestionarios() != null && questsTurma.getQuestionarios().size()>0){
-            for (questionarioinicial quest : questsTurma.getQuestionarios()) {
-                if(quest.getQuestionarioId()>0){
-                    
-                    turma.getQuestionarios().add(questionarioinicialRepository.findById(quest.getQuestionarioId()).get());    
+            if (questsTurma.getQuestionarios() != null && questsTurma.getQuestionarios().size() > 0) {
+                for (questionarioinicial quest : questsTurma.getQuestionarios()) {
+                    if (quest.getQuestionarioId() > 0) {
+
+                        turma.getQuestionarios()
+                                .add(questionarioinicialRepository.findById(quest.getQuestionarioId()).get());
+                    }
                 }
             }
-            }
             turmaRepository.save(turma);
-           redirectAttributes.addFlashAttribute("sucesso","Questionarios da turma alterados!");
-           return "redirect:/index/turma/{turmaId}/questionarios";
+            redirectAttributes.addFlashAttribute("sucesso", "Questionarios da turma alterados!");
+            return "redirect:/index/turma/{turmaId}/questionarios";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro","Ocorreu um erro e os questionarios não foram alterados: " + e.toString());
+            redirectAttributes.addFlashAttribute("erro",
+                    "Ocorreu um erro e os questionarios não foram alterados: " + e.toString());
             return "redirect:/index/turma/{turmaId}/questionarios";
         }
-        
+
     }
 }

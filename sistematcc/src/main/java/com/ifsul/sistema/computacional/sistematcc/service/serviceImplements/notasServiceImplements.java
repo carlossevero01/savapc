@@ -1,8 +1,5 @@
 package com.ifsul.sistema.computacional.sistematcc.service.serviceImplements;
 
-
-
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,18 +21,18 @@ import com.ifsul.sistema.computacional.sistematcc.repository.notasRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 import com.ifsul.sistema.computacional.sistematcc.service.notasService;
 
-
 @Service
-public class notasServiceImplements implements notasService{
+public class notasServiceImplements implements notasService {
     @Autowired
     notasRepository notasRepository;
-    
+
     @Autowired
     correcoesUsuarioRepository correcoesUsuarioRepository;
     @Autowired
     turmaRepository turmaRepository;
     @Autowired
     usuarioRepository alunoRepository;
+
     @Override
     public List<notas> findByUsuario(usuario Usuario) {
         return notasRepository.findByUsuario(Usuario);
@@ -48,21 +45,15 @@ public class notasServiceImplements implements notasService{
 
     @Override
     public List<notas> findByUsuarioAndTurmaOrderByUsuario(usuario Usuario, turma turma) {
-       return notasRepository.findByUsuarioAndTurmaOrderByUsuario(Usuario, turma);
+        return notasRepository.findByUsuarioAndTurmaOrderByUsuario(Usuario, turma);
     }
-
-    
-
-    
 
     @Override
     public void SalvarNotas(turma turma) {
-        
+        List<correcoesUsuario> regs = correcoesUsuarioRepository.findByTurmaOrderByUsuario(turma);
+        Set<teste> testes = new HashSet<>();
+        testes.clear();
 
-       List<correcoesUsuario> regs = correcoesUsuarioRepository.findByTurmaOrderByUsuario(turma);
-       Set<teste> testes = new HashSet<>();
-       testes.clear();
-       
         String recomendacao = "";
         double nQcorretas = 0;
         int nQChab1 = 0;
@@ -71,19 +62,18 @@ public class notasServiceImplements implements notasService{
         int nQChab4 = 0;
         int nQChab5 = 0;
         double nQ = 0;
-        double notaProjeto=0;
-        double notaTestes=0;
-        double pesoTestes=0;
-        double notafinal=0;
-        int aux=0;
-        int nQRespondidas=0;
-        
+        double notaProjeto = 0;
+        double notaTestes = 0;
+        double pesoTestes = 0;
+        double notafinal = 0;
+        int aux = 0;
+        int nQRespondidas = 0;
+
         for (correcoesUsuario r : regs) {
-            
-            System.out.println(r.toString());
-            pesoTestes=r.getTurma().getPesoTestes();
-            nQRespondidas= correcoesUsuarioRepository.findByUsuarioAndTurma(r.getUsuario(), r.getTurma()).size();
-            
+
+            pesoTestes = r.getTurma().getPesoTestes();
+            nQRespondidas = correcoesUsuarioRepository.findByUsuarioAndTurma(r.getUsuario(), r.getTurma()).size();
+
             aux++;
             nQ++;
             if (r.isAcertou()) {
@@ -109,39 +99,39 @@ public class notasServiceImplements implements notasService{
                             break;
                     }
                 }
-            } 
-            if(!testes.contains(r.getTeste())){
-                 testes.add(r.getTeste());
-                 
             }
-            
-            if(aux==nQRespondidas){
+            if (!testes.contains(r.getTeste())) {
+                testes.add(r.getTeste());
+            }
+
+            if (aux == nQRespondidas) {
                 notas nota = new notas();
-            
-                System.out.println("\n \n Tamanho:"+notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).size());
-                if(notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(),r.getTurma()).size()>0){
-                     nota = notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).get(0);
-                    notaProjeto=nota.getNotaProjetoFinal();
-                    System.out.println("Entrou ID:"+nota.getNotaId());
-                }else{
+
+                if (notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).size() > 0) {
+                    nota = notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).get(0);
+                    notaProjeto = nota.getNotaProjetoFinal();
+                } else {
                     nota.setUsuario(r.getUsuario());
                     nota.setTurma(r.getTurma());
-                    notaProjeto=0;
-                     nota.setNotaProjetoFinal(notaProjeto);
-                    System.out.println("\nNão entrou");
+                    notaProjeto = 0;
+                    nota.setNotaProjetoFinal(notaProjeto);
                 }
-                
-                notaTestes=(nQcorretas/nQ);
-                notafinal = (notaTestes*pesoTestes)+notaProjeto;
-                   
-                if(notafinal>=6){recomendacao="Acod";}else{recomendacao="N/D";}
-                
-                
-                nota.setnPerguntasCorretas(( int) nQcorretas); 
+                notaTestes = nQcorretas / nQ;
+                notaTestes = Double.valueOf(String.format("%,.2f", notaTestes));
+                notafinal = (notaTestes * pesoTestes) + notaProjeto;
+                notafinal = Double.valueOf(String.format("%,.2f", notafinal));
+
+                if (notafinal >= 6) {
+                    recomendacao = "Acod";
+                } else {
+                    recomendacao = "N/D";
+                }
+
+                nota.setnPerguntasCorretas((int) nQcorretas);
                 nota.setnPerguntas((int) nQ);
                 nota.setNotaProjetoFinal(notaProjeto);
                 nota.setNotaTestes(notaTestes);
-                nota.setNotaFinal(notafinal); 
+                nota.setNotaFinal(notafinal);
                 nota.setRecomendacao(recomendacao);
                 nota.setPesoTestes(pesoTestes);
                 nota.setH1(nQChab1);
@@ -151,30 +141,21 @@ public class notasServiceImplements implements notasService{
                 nota.setH5(nQChab5);
                 nota.setTestes(testes);
                 notasRepository.save(nota);
-                System.out.println("\n \n "+nota.toString());
                 testes.clear();
-                notaTestes=0;
-                aux=0;
-                nQ=0;
+                notaTestes = 0;
+                aux = 0;
+                nQ = 0;
                 nQcorretas = 0;
                 nQChab1 = 0;
                 nQChab2 = 0;
                 nQChab3 = 0;
                 nQChab4 = 0;
                 nQChab5 = 0;
-                nQRespondidas=0;
-               
+                nQRespondidas = 0;
+
             }
-                    
+
         }
     }
 
-    
 }
-
-            
-            
-        
-    
-    
-

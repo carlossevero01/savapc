@@ -15,7 +15,7 @@
 <body>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         
-     <div th:insert="fragments/frag :: navAll"></div>
+     <div th:insert="~{fragments/frag :: navAll}"></div>
      
      <!-- Section: Design Block -->
   <section class="vh-130" style="background-color: #6c757d; " >
@@ -94,6 +94,6 @@
   
 </body>
 <footer>
-  <div th:insert="fragments/frag :: footer"></div>
+  <div th:insert="~{fragments/frag :: footer}"></div>
 </footer>
 </html>

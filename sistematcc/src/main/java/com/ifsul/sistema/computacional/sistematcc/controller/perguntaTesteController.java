@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,6 +32,7 @@ public class perguntaTesteController {
     perguntaTesteRepository perguntaTesteRepository;
     @Autowired
     testeRepository testeRepository;
+
     /* Listar perguntas */
     @GetMapping(value = "/index/perguntas")
     public ModelAndView listarPerguntas() {
@@ -40,22 +41,22 @@ public class perguntaTesteController {
         mv.addObject("perguntas", list);
         return mv;
     }
-    /*Salvar Pergunta por teste id */
+
+    /* Salvar Pergunta por teste id */
     @GetMapping("/index/teste/savePergunta/{id}")
     public ModelAndView getSavePergunta(@PathVariable("id") int id) {
         ModelAndView mv = new ModelAndView("savePerguntaTeste");
         mv.addObject("testeId", id);
         return mv;
     }
-    /*Salvar pergunta por teste id */
+
+    /* Salvar pergunta por teste id */
     @PostMapping("/index/teste/savePergunta/{id}")
     // @Transactional
     public String savePergunta(@PathVariable("id") int testeId, @Valid perguntaTeste pergunta,
             @RequestParam("file") MultipartFile img, RedirectAttributes attributes, BindingResult result) {
         teste t = testeRepository.findById(testeId).orElseThrow(null);
         List<perguntaTeste> lperg = t.getPerguntasTeste();
-        System.out.println(pergunta.getDescricao());
-
         try {
             if (!img.isEmpty()) {
                 try {
@@ -80,28 +81,30 @@ public class perguntaTesteController {
             return "redirect:/index/teste/perguntas/{id}";
         }
     }
-    /*Deletar pergunta por id */
+
+    /* Deletar pergunta por id */
     @GetMapping(value = "/index/deletepergunta/{testeId}/{perguntaId}")
-    public String deletePergunta(@PathVariable("testeId") int testeId, @PathVariable("perguntaId") int perguntaId, RedirectAttributes attributes) {
+    public String deletePergunta(@PathVariable("testeId") int testeId, @PathVariable("perguntaId") int perguntaId,
+            RedirectAttributes attributes) {
         try {
-            if(testeRepository.existsById(testeId)){ //Deletar da tabela perguntasteste
-                if(perguntaTesteRepository.existsById(perguntaId)){
+            if (testeRepository.existsById(testeId)) { // Deletar da tabela perguntasteste
+                if (perguntaTesteRepository.existsById(perguntaId)) {
                     teste t = testeRepository.findById(testeId).get();
                     List<perguntaTeste> lp = t.getPerguntasTeste();
-                    for(int i=0;i<lp.size();i++){
-                        if(lp.get(i).getPerguntaTesteId()==perguntaId){
+                    for (int i = 0; i < lp.size(); i++) {
+                        if (lp.get(i).getPerguntaTesteId() == perguntaId) {
                             lp.remove(i);
                         }
                     }
                     t.setPerguntasTeste(lp);
                     testeRepository.save(t);
                     attributes.addFlashAttribute("sucesso", "Pergunta deletada");
-                return "redirect:/index/teste/perguntas/{testeId}";
-                }else{
-                    attributes.addFlashAttribute("erro","Pergunta não encontrada");
+                    return "redirect:/index/teste/perguntas/{testeId}";
+                } else {
+                    attributes.addFlashAttribute("erro", "Pergunta não encontrada");
                     return "redirect:/index/teste/perguntas/{testeId}";
                 }
-            }else{ //Deletar do repository
+            } else { // Deletar do repository
                 perguntaTesteRepository.deleteById(perguntaId);
                 attributes.addFlashAttribute("sucesso", "Pergunta deletada");
                 return "redirect:/index/perguntas";
@@ -112,46 +115,31 @@ public class perguntaTesteController {
         }
     }
 
-    /*Perguntas por teste */
-    @GetMapping(value = "/index/teste/perguntas/{id}")
-    public ModelAndView getPerguntasPorTeste(@PathVariable("id") int testeId) {
+    /* Perguntas por teste */
+    @GetMapping(value = "/index/turma/{turmaId}/teste/perguntas/{id}")
+    public ModelAndView getPerguntasPorTeste(@PathVariable("id") int testeId, @PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("perguntaTeste");
         List<perguntaTeste> perguntas = new ArrayList<>();
         String testeNome = "";
-        int IDteste=0;
-        if(testeRepository.findById(testeId)!=null){
+        int IDteste = 0;
+        if (testeRepository.findById(testeId) != null) {
             teste t = testeRepository.findById(testeId).get();
             testeNome = t.getNome();
             IDteste = t.getTesteId();
             perguntas = t.getPerguntasTeste();
-            for (perguntaTeste perguntaTeste : perguntas) {
-                System.out.println("|||||||| \n PerguntaTesteID:"+ perguntaTeste.getPerguntaTesteId());    
-            }
-            
         }
-        
-
+        mv.addObject("turmaId", turmaId);
         mv.addObject("testeId", IDteste);
         mv.addObject("testeNome", testeNome);
         mv.addObject("perguntas", perguntas);
         return mv;
     }
+
     
-    @GetMapping("/index/updatepergunta/{id}")
-    @ResponseBody
-    public ModelAndView getPerguntaUpdate(@PathVariable("id") int perguntaId) {
-        ModelAndView mv = new ModelAndView("updatePerguntaTeste");
-        try {
-            perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
-            mv.addObject("pergunta", perguntaExistente);
-        } catch (Exception e) {
-            System.out.println("ERRO SISTEMA:" + e);
-        }
-        return mv;
-    }
 
     @PostMapping("/index/updatepergunta/{id}/{testeId}")
-    public String setPerguntaUpdate(@PathVariable("id") int perguntaId,@PathVariable("testeId") int testeId, @Valid perguntaTeste novaPergunta,
+    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @PathVariable("testeId") int testeId,
+            @Valid perguntaTeste novaPergunta,
             RedirectAttributes redirectAttributes, BindingResult result, @RequestParam("file") MultipartFile img) {
         try {
             perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);

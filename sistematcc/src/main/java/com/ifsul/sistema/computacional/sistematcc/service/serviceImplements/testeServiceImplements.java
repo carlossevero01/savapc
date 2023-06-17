@@ -30,7 +30,6 @@ public class testeServiceImplements implements testeService{
         for (teste test : allTests) {
             LocalDate secondDate = test.getDisponibilidade();
            boolean a =  secondDate.isAfter(firstDate);
-           System.out.println(a);
            if(a==false){
             test.setVisibilidade(false);
             testeRepository.save(test);

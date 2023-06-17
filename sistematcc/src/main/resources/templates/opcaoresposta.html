@@ -19,7 +19,7 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
 
-    <div th:insert="fragments/frag :: navProf"></div>
+    <div th:insert="~{fragments/frag :: navProf}"></div>
 
     <section class="vh-130" style="background-color: #6c757d;">
 
@@ -28,7 +28,8 @@
                 <div class="col col-xl-10">
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
-
+                            <a class="btn btn-secondary w-auto mt-2 ms-2"
+                            th:href="@{/index/turma/{turmaId}/teste/perguntas/{id}(turmaId=${turmaId},id=${perguntaId})}">Voltar</a>
 
                             <!-- Inicio Bloco Modal -->
                             <button type="button" class="btn btn-secondary mt-2 me-2 ms-2" data-bs-toggle="modal"
@@ -78,7 +79,7 @@
 
                             <div class="col d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
-                                    <th:block th:include="mensagemValidacao"></th:block>
+                                    <th:block th:insert="~{mensagemValidacao}"></th:block>
                                     <div>
                                         <h4 class="mt-2 mb-2" th:text="${testeNome}"> </h4>
                                     </div>
@@ -172,7 +173,7 @@
 
 </body>
 <footer>
-
+    <footer th:insert="~{fragments/frag :: footer}"></footer>
 </footer>
 
 </html>

@@ -53,7 +53,6 @@ public class regTestesServiceImplements implements regTestesService{
             int opRespostaCertaId=0;
             for (respostaTeste resp : r.getRespostasTeste()) {
                 if(correcoesUsuarioRepository.findByUsuarioAndTurmaAndTesteAndPerguntaTeste(r.getUsuario(), r.getTurma(), r.getTeste(), resp.getPerguntaTeste()).size()<=0){
-                System.out.println("\n Aluno:"+"PID:"+resp.getPerguntaTeste().getPerguntaTesteId()+"RID:"+resp.getOpRespostaId());
                 
                 if(opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).size()>0){
                     opRespostaCertaId = opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).get(0).getOpcaoRespostaId();

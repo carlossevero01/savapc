@@ -1,6 +1,5 @@
 package com.ifsul.sistema.computacional.sistematcc.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,8 @@ public class questionarioController {
     turmaRepository turmaRepository;
     @Autowired
     regQuestionariosRepository regQuestionariosRepository;
-    /*Listar Questionarios */
+
+    /* Listar Questionarios */
     @GetMapping(value = "/index/questionarios")
     public ModelAndView listarQuestionarios() {
         ModelAndView mv = new ModelAndView("questionarioinicial");
@@ -58,48 +58,51 @@ public class questionarioController {
         return mv;
     }
 
-    
-    /*Salvar questionario */
-    @PostMapping("/index/saveQuestInicial") 
-    public String setSaveQuestInicial(@Valid questionarioinicial qi,RedirectAttributes redirectAttributes, BindingResult result){
-        if(result.hasErrors()){
-            redirectAttributes.addFlashAttribute("erro", "confira os campos obrigatórios"+result.toString());
+    /* Salvar questionario */
+    @PostMapping("/index/saveQuestInicial")
+    public String setSaveQuestInicial(@Valid questionarioinicial qi, RedirectAttributes redirectAttributes,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("erro", "confira os campos obrigatórios" + result.toString());
             return "redirect:/index/saveQuestInicial";
         }
-        
+
         try {
-           questionarioinicialRepository.save(qi); 
-           redirectAttributes.addFlashAttribute("sucesso", "Questionario salvo");
-           return "redirect:/index/questionarios";
+            questionarioinicialRepository.save(qi);
+            redirectAttributes.addFlashAttribute("sucesso", "Questionario salvo");
+            return "redirect:/index/questionarios";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro", "não foi possivel salvar:"+e.toString());
+            redirectAttributes.addFlashAttribute("erro", "não foi possivel salvar:" + e.toString());
             return "redirect:/index/saveQuestInicial";
         }
-        
+
     }
-    /*Salvar questionario em uma turma */
-    @PostMapping("/index/turma/{turmaId}/saveQuestInicial") 
-    public String setSaveQuestInicial_turma(@Valid questionarioinicial qi,RedirectAttributes redirectAttributes, BindingResult result){
-        if(result.hasErrors()){
-            redirectAttributes.addFlashAttribute("erro", "confira os campos obrigatórios"+result.toString());
+
+    /* Salvar questionario em uma turma */
+    @PostMapping("/index/turma/{turmaId}/saveQuestInicial")
+    public String setSaveQuestInicial_turma(@Valid questionarioinicial qi, RedirectAttributes redirectAttributes,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("erro", "confira os campos obrigatórios" + result.toString());
             return "redirect:/index/turma/{turmaId}/questionarios";
         }
-        
+
         try {
-           questionarioinicialRepository.save(qi); 
-           redirectAttributes.addFlashAttribute("sucesso", "Questionario salvo");
-           return "redirect:/index/turma/{turmaId}/questionarios";
+            questionarioinicialRepository.save(qi);
+            redirectAttributes.addFlashAttribute("sucesso", "Questionario salvo");
+            return "redirect:/index/turma/{turmaId}/questionarios";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro", "não foi possivel salvar:"+e.toString());
+            redirectAttributes.addFlashAttribute("erro", "não foi possivel salvar:" + e.toString());
             return "redirect:/index/turma/{turmaId}/questionarios";
         }
-        
+
     }
-    /*Atualizar questionario*/
+
+    /* Atualizar questionario */
     @PostMapping("/index/updatequestionario/{id}")
-    public String setUpdateQuestionario(@PathVariable("id") int questionarioId, questionarioinicial novoQ, 
-            RedirectAttributes redirectAttributes, BindingResult result){
-        if(result.hasErrors()){
+    public String setUpdateQuestionario(@PathVariable("id") int questionarioId, questionarioinicial novoQ,
+            RedirectAttributes redirectAttributes, BindingResult result) {
+        if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("erro", "Confira os campos");
             return "redirect:/index/updatequestionario/{id}";
         }
@@ -109,37 +112,39 @@ public class questionarioController {
             qi.setNome(novoQ.getNome());
             qi.setVisibilidade(novoQ.isVisibilidade());
             questionarioinicialRepository.save(qi);
-            redirectAttributes.addFlashAttribute("sucesso","Questionario atualizado com sucesso!");           
+            redirectAttributes.addFlashAttribute("sucesso", "Questionario atualizado com sucesso!");
             return "redirect:/index/questionarios";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro","Questionario não foi atualizado com sucesso!");           
+            redirectAttributes.addFlashAttribute("erro", "Questionario não foi atualizado com sucesso!");
             return "redirect:/index/questionarios";
         }
     }
-    /*Atualizar questionario em uma turma*/
+
+    /* Atualizar questionario em uma turma */
     @PostMapping("/index/updatequestionario/{id}/{turmaId}")
-    public String setUpdateQuestionario_turma(@PathVariable("id") int questionarioId, questionarioinicial novoQ, 
-            RedirectAttributes redirectAttributes, BindingResult result){
-                if(result.hasErrors()){
-                    redirectAttributes.addFlashAttribute("erro", "Confira os campos");
-                    return "redirect:/index/turma/{turmaId}/questionarios";
-                }
-                try {
-                    questionarioinicial qi = questionarioinicialRepository.findById(questionarioId).get();
-                    qi.setDisponibilidade(novoQ.getDisponibilidade());
-                    qi.setNome(novoQ.getNome());
-                    qi.setVisibilidade(novoQ.isVisibilidade());
-                    questionarioinicialRepository.save(qi);
-                    redirectAttributes.addFlashAttribute("sucesso","Questionario atualizado com sucesso!");           
-                    return "redirect:/index/turma/{turmaId}/questionarios";
-                } catch (Exception e) {
-                    redirectAttributes.addFlashAttribute("erro","Questionario não foi atualizado com sucesso!");           
-                    return "redirect:/index/turma/{turmaId}/questionarios";
-                }
+    public String setUpdateQuestionario_turma(@PathVariable("id") int questionarioId, questionarioinicial novoQ,
+            RedirectAttributes redirectAttributes, BindingResult result) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("erro", "Confira os campos");
+            return "redirect:/index/turma/{turmaId}/questionarios";
+        }
+        try {
+            questionarioinicial qi = questionarioinicialRepository.findById(questionarioId).get();
+            qi.setDisponibilidade(novoQ.getDisponibilidade());
+            qi.setNome(novoQ.getNome());
+            qi.setVisibilidade(novoQ.isVisibilidade());
+            questionarioinicialRepository.save(qi);
+            redirectAttributes.addFlashAttribute("sucesso", "Questionario atualizado com sucesso!");
+            return "redirect:/index/turma/{turmaId}/questionarios";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Questionario não foi atualizado com sucesso!");
+            return "redirect:/index/turma/{turmaId}/questionarios";
+        }
     }
-    /*Deletar questionario*/
+
+    /* Deletar questionario */
     @GetMapping("/index/deletequestionario/{id}")
-    public String deleteQuestionario(@PathVariable("id") int questionarioId, RedirectAttributes redirectAttributes){
+    public String deleteQuestionario(@PathVariable("id") int questionarioId, RedirectAttributes redirectAttributes) {
         try {
             questionarioinicialRepository.deleteById(questionarioId);
             redirectAttributes.addFlashAttribute("sucesso", "Questionario deletado com sucesso!");
@@ -150,66 +155,67 @@ public class questionarioController {
         }
     }
 
+    /* Aplicar questionario */
+    @GetMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
+    public ModelAndView getQuestionarioAplication(@PathVariable("questionarioId") int qId,
+            @PathVariable("turmaId") int turmaId) {
+        ModelAndView mv = new ModelAndView("aplicacaoQuestionario");
 
+        questionarioinicial q = questionarioinicialRepository.findById(qId).get();
+        turma turma = turmaRepository.findById(turmaId).get();
+        List<perguntaquestionario> perguntas = q.getPerguntasQuestionario();
+        mv.addObject("perguntas", perguntas);
+        mv.addObject("nomeQuest", q.getNome());
+        mv.addObject("questionarioId", q.getQuestionarioId());
+        mv.addObject("turmaId", turma.getTurmaId());
+        return mv;
 
-     /*Aplicar questionario */
-     @GetMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
-     public ModelAndView getQuestionarioAplication(@PathVariable("questionarioId") int qId,@PathVariable("turmaId") int turmaId) {
-         ModelAndView mv = new ModelAndView("aplicacaoQuestionario");
-         
-         questionarioinicial q = questionarioinicialRepository.findById(qId).get();
-         turma turma = turmaRepository.findById(turmaId).get();
-         List<perguntaquestionario> perguntas = q.getPerguntasQuestionario();
-         mv.addObject("perguntas", perguntas);
-         mv.addObject("nomeQuest", q.getNome());
-         mv.addObject("questionarioId", q.getQuestionarioId());
-         mv.addObject("turmaId", turma.getTurmaId());
-         return mv;
- 
-     }
-     /*Aplicar questionario */
-     @PostMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
-     public String setQuestionarioAplication(@PathVariable("questionarioId") int questionarioId,@PathVariable("turmaId") int turmaId, @ModelAttribute perguntasQuestForm lresp,
-             RedirectAttributes attributes) {
-         try {
-             turma turma = turmaRepository.findById(turmaId).get();
-             questionarioinicial quest = questionarioinicialRepository.findById(questionarioId).orElseThrow(null);
-             List<respostaQuestionarios> ListRespostas = new ArrayList<>();
-             regQuestionarios reg = new regQuestionarios();
-         if (usuarioRepository.findByUsername(lresp.getUsername())!=null) {
-             for (perguntaquestionario Pergunta : lresp.getPerguntas()) {
-                 
-                 respostaQuestionarios resposta = new respostaQuestionarios();
-                 perguntaquestionario p = perguntaQuestionarioRepository.findById(Pergunta.getPerguntaQuestionarioId()).orElseThrow(null);
-                 resposta.setPerguntaQuestionario(p);
-                 if(Pergunta.getTipo().equalsIgnoreCase("multipla escolha")){
-                    resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
-                    resposta.setTipo(Pergunta.getTipo());
-                    ListRespostas.add(resposta);
-                 }
-                 if(Pergunta.getTipo().equalsIgnoreCase("dissertativa")){
-                    resposta.setResposta(Pergunta.getResposta());
-                    resposta.setTipo(Pergunta.getTipo());
-                    ListRespostas.add(resposta);
-                 }
-                 
-             }
-             reg.setUsuario(usuarioRepository.findByUsername(lresp.getUsername()));
-             reg.setQuestionario(quest);
-             reg.setTurma(turma);
-             reg.setRespostasQuestionario(ListRespostas);
-             regQuestionariosRepository.save(reg);
-             attributes.addFlashAttribute("sucesso", "Questionario respondido com sucesso!");
-             return "redirect:/index/inicial";
-         }else{ 
-             attributes.addFlashAttribute("erro", "Matricula não encontrada");
-             return "redirect:/index/inicial";
-         }
-         } catch (Exception e) {
-             attributes.addFlashAttribute("erro", "Questionario não foi respondido com sucesso"+e);
-             return "redirect:/index/inicial";
-         }
-     }
+    }
 
-    
+    /* Aplicar questionario */
+    @PostMapping(value = "/index/aplicacaoquest/{turmaId}/{questionarioId}")
+    public String setQuestionarioAplication(@PathVariable("questionarioId") int questionarioId,
+            @PathVariable("turmaId") int turmaId, @ModelAttribute perguntasQuestForm lresp,
+            RedirectAttributes attributes) {
+        try {
+            turma turma = turmaRepository.findById(turmaId).get();
+            questionarioinicial quest = questionarioinicialRepository.findById(questionarioId).orElseThrow(null);
+            List<respostaQuestionarios> ListRespostas = new ArrayList<>();
+            regQuestionarios reg = new regQuestionarios();
+            if (usuarioRepository.findByUsername(lresp.getUsername()) != null) {
+                for (perguntaquestionario Pergunta : lresp.getPerguntas()) {
+
+                    respostaQuestionarios resposta = new respostaQuestionarios();
+                    perguntaquestionario p = perguntaQuestionarioRepository
+                            .findById(Pergunta.getPerguntaQuestionarioId()).orElseThrow(null);
+                    resposta.setPerguntaQuestionario(p);
+                    if (Pergunta.getTipo().equalsIgnoreCase("multipla escolha")) {
+                        resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
+                        resposta.setTipo(Pergunta.getTipo());
+                        ListRespostas.add(resposta);
+                    }
+                    if (Pergunta.getTipo().equalsIgnoreCase("dissertativa")) {
+                        resposta.setResposta(Pergunta.getResposta());
+                        resposta.setTipo(Pergunta.getTipo());
+                        ListRespostas.add(resposta);
+                    }
+
+                }
+                reg.setUsuario(usuarioRepository.findByUsername(lresp.getUsername()));
+                reg.setQuestionario(quest);
+                reg.setTurma(turma);
+                reg.setRespostasQuestionario(ListRespostas);
+                regQuestionariosRepository.save(reg);
+                attributes.addFlashAttribute("sucesso", "Questionario respondido com sucesso!");
+                return "redirect:/index/inicial";
+            } else {
+                attributes.addFlashAttribute("erro", "Matricula não encontrada");
+                return "redirect:/index/inicial";
+            }
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "Questionario não foi respondido com sucesso" + e);
+            return "redirect:/index/inicial";
+        }
+    }
+
 }

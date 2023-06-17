@@ -27,10 +27,9 @@ import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.service.usuarioService;
 
-
 import jakarta.validation.Valid;
 
-@Controller 
+@Controller
 public class usuarioController {
     @Autowired
     usuarioRepository usuarioRepository;
@@ -41,55 +40,56 @@ public class usuarioController {
     @Autowired
     testeRepository testeRepository;
 
-     /* DELETAR UNIDADE(PROFESSORES/ADMIN) */
+    /* DELETAR UNIDADE(PROFESSORES/ADMIN) */
     @GetMapping(value = "/index/deleteusuario/{id}")
     public String deleteUsuario(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
             usuario a = usuarioRepository.findById(id).get();
             usuarioRepository.delete(a);
-            if(a.getTipo().equalsIgnoreCase("aluno")){
+            if (a.getTipo().equalsIgnoreCase("aluno")) {
                 attributes.addFlashAttribute("sucesso", "Usuário deletado");
-             return "redirect:/index/alunos";
-            }else{
+                return "redirect:/index/alunos";
+            } else {
                 attributes.addFlashAttribute("sucesso", "Usuário deletado");
                 return "redirect:/index/professores";
             }
         } catch (Exception e) {
             usuario a = usuarioRepository.findById(id).get();
-            if(a.getTipo().equalsIgnoreCase("aluno")){
+            if (a.getTipo().equalsIgnoreCase("aluno")) {
                 attributes.addFlashAttribute("erro", e.toString());
-                 return "redirect:/index/alunos";
-            }else{
+                return "redirect:/index/alunos";
+            } else {
                 attributes.addFlashAttribute("erro", e.toString());
                 return "redirect:/index/professores";
             }
-            
-       }
+
+        }
     }
+
     /* CADASTRAR (PROFESSORES/ADMIN) */
     @PostMapping("/index/saveUsuario")
     public String saveAluno(@Valid usuario a, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            if(a.getTipo().equalsIgnoreCase("aluno")){
+            if (a.getTipo().equalsIgnoreCase("aluno")) {
                 attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
                 return "redirect:/index/alunos";
-            }else{
+            } else {
                 attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
                 return "redirect:/index/professores";
             }
-            
+
         }
         usuarioService.save(a);
-        if(a.getTipo().equalsIgnoreCase("aluno")){
+        if (a.getTipo().equalsIgnoreCase("aluno")) {
             attributes.addFlashAttribute("sucesso", "Aluno cadastrado");
-                return "redirect:/index/alunos";
-        }else{
+            return "redirect:/index/alunos";
+        } else {
             attributes.addFlashAttribute("sucesso", "Professor cadastrado");
             return "redirect:/index/professores";
         }
-        
-        
+
     }
+
     /* LISTAR (PROFESSORES/ALUNOS) */
     @GetMapping(value = "/index/alunos")
     public ModelAndView listarAlunos() {
@@ -97,30 +97,33 @@ public class usuarioController {
         List<usuario> list = usuarioRepository.findByTipoLike("aluno");
         mv.addObject("alunos", list);
         return mv;
-    } 
+    }
+
     @GetMapping(value = "/index/professores")
     public ModelAndView listarProfessores() {
         ModelAndView mv = new ModelAndView("professor");
         List<usuario> list = usuarioRepository.findByTipoLike("prof");
         mv.addObject("profs", list);
         return mv;
-    } 
-    /*Atualizar usuario*/
+    }
+
+    /* Atualizar usuario */
     @PostMapping("/index/updateusuario/{id}")
-    public String setUpdateAluno(@PathVariable("id") int usuarioId, @Valid usuario novo, RedirectAttributes redirectAttributes,@RequestParam("file") MultipartFile img){
-        if(usuarioRepository.existsById(usuarioId)){
-            if(!img.isEmpty()){
-            try {
-                byte[] bytes = img.getBytes();
-                Path caminho = Paths.get("./src/main/resources/static/images/"+img.getOriginalFilename());
-                Files.write(caminho,bytes);
-                novo.setImg(img.getOriginalFilename());
-            } catch (IOException e) {
-                e.printStackTrace();
+    public String setUpdateAluno(@PathVariable("id") int usuarioId, @Valid usuario novo,
+            RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile img) {
+        if (usuarioRepository.existsById(usuarioId)) {
+            if (!img.isEmpty()) {
+                try {
+                    byte[] bytes = img.getBytes();
+                    Path caminho = Paths.get("./src/main/resources/static/images/" + img.getOriginalFilename());
+                    Files.write(caminho, bytes);
+                    novo.setImg(img.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                novo.setImg("não selecionado");
             }
-        }else{
-            novo.setImg("não selecionado");
-        }
             usuario Existente = usuarioRepository.findById(usuarioId).get();
             Existente.setNome(novo.getNome());
             Existente.setTipo(novo.getTipo());
@@ -131,33 +134,34 @@ public class usuarioController {
             Existente.setUsername(novo.getUsername());
             Existente.setPassword(new BCryptPasswordEncoder().encode(novo.getPassword()));
             usuarioService.save(Existente);
-            if(Existente.getTipo().equalsIgnoreCase("aluno")){
+            if (Existente.getTipo().equalsIgnoreCase("aluno")) {
                 redirectAttributes.addFlashAttribute("sucesso", "Aluno editado com sucesso");
                 return "redirect:/index/alunos";
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute("sucesso", "Professor editado com sucesso");
                 return "redirect:/index/professores";
             }
-            
+
         }
         redirectAttributes.addFlashAttribute("erro", "Não foi possivel salvar");
-        if(novo.getTipo().equalsIgnoreCase("aluno")){    
-             return "redirect:/index/alunos";
-        }else{
+        if (novo.getTipo().equalsIgnoreCase("aluno")) {
+            return "redirect:/index/alunos";
+        } else {
             return "redirect:/index/professores";
         }
-        
+
     }
-    /*Exibir painel do professor*/
+
+    /* Exibir painel do professor */
     @GetMapping("/painelgeral")
-    public ModelAndView getPainelGeral(){
+    public ModelAndView getPainelGeral() {
         ModelAndView mv = new ModelAndView("PainelGeral");
         try {
-            if(turmaRepository.count()>0){
+            if (turmaRepository.count() > 0) {
                 List<turma> turmas = turmaRepository.findAll();
                 mv.addObject("turmas", turmas);
             }
-            if(testeRepository.count()>0){
+            if (testeRepository.count() > 0) {
                 List<teste> testes = testeRepository.findAll();
                 mv.addObject("testes", testes);
             }

@@ -1,5 +1,6 @@
 package com.ifsul.sistema.computacional.sistematcc.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +49,7 @@ public class testeController {
     @Autowired
     turmaRepository turmaRepository;
 
-    
-    /*Atualiza teste */
+    /* Atualiza teste */
     @PostMapping("/index/updateteste/{id}")
     public String setTesteUpdate(@PathVariable("id") int testeId, @Valid teste novoteste,
             RedirectAttributes redirectAttributes, BindingResult result) {
@@ -70,7 +70,8 @@ public class testeController {
             return "redirect:/index/testes";
         }
     }
-    /*Atualiza teste na turma*/
+
+    /* Atualiza teste na turma */
     @PostMapping("/index/updateteste/{id}/{turmaId}")
     public String setTesteUpdate_turma(@PathVariable("id") int testeId, @Valid teste novoteste,
             RedirectAttributes redirectAttributes, BindingResult result) {
@@ -91,30 +92,33 @@ public class testeController {
             return "redirect:/index/turma/{turmaId}/testes";
         }
     }
-    /*Verifica se o aluno já respondeu ao teste*/
+
+    /* Verifica se o aluno já respondeu ao teste */
     @PostMapping(value = "/index/aplicacao/{turmaId}/{testeId}")
-    public String verificarAplicacao(@RequestParam("username") String username ,@PathVariable("testeId") int tId,@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes){
+    public String verificarAplicacao(@RequestParam("username") String username, @PathVariable("testeId") int tId,
+            @PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes) {
         try {
             usuario u = usuarioRepository.findByUsername(username);
             teste t = testeRepository.findById(tId).get();
             turma tu = turmaRepository.findById(turmaId).get();
-            if(regTestesRepository.findByTesteAndTurmaAndUsuario(t, tu, u).isEmpty()){
+            if (regTestesRepository.findByTesteAndTurmaAndUsuario(t, tu, u).isEmpty()) {
                 return "redirect:/index/aplicacaoteste/{turmaId}/{testeId}";
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute("erro", "Tentativa já realizada");
                 return "redirect:/index/turma/{turmaId}";
             }
-            
+
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro", "Erro desconhecido:"+e.toString());
+            redirectAttributes.addFlashAttribute("erro", "Erro desconhecido:" + e.toString());
             return "redirect:/index/turma/{turmaId}";
         }
-    } 
-    /*Aplicar teste */
+    }
+
+    /* Aplicar teste */
     @GetMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
-    public ModelAndView getTesteAplication(@PathVariable("testeId") int tId,@PathVariable("turmaId") int turmaId) {
+    public ModelAndView getTesteAplication(@PathVariable("testeId") int tId, @PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("aplicacaoTeste");
-        
+
         teste t = testeRepository.findById(tId).get();
         turma turma = turmaRepository.findById(turmaId).get();
         List<perguntaTeste> perguntas = t.getPerguntasTeste();
@@ -125,48 +129,68 @@ public class testeController {
         return mv;
 
     }
-    /*Aplicar teste por id */
+
+    /* Aplicar teste por id */
     @PostMapping(value = "/index/aplicacaoteste/{turmaId}/{testeId}")
-    public String setTesteAplication(@PathVariable("testeId") int testeId,@PathVariable("turmaId") int turmaId, @ModelAttribute perguntasForm lresp,
+    public String setTesteAplication(@PathVariable("testeId") int testeId, @PathVariable("turmaId") int turmaId,
+            @ModelAttribute perguntasForm lresp,
             RedirectAttributes attributes) {
-       // try {
-            turma turma = turmaRepository.findById(turmaId).get();
-            teste t = testeRepository.findById(testeId).orElseThrow(null);
+        // try {
+        turma turma = turmaRepository.findById(turmaId).get();
+        teste t = testeRepository.findById(testeId).orElseThrow(null);
+        LocalDate agora = LocalDate.now();
+        if (agora.isAfter(t.getDisponibilidade())) {
+            attributes.addFlashAttribute("erro", "O teste não está mais disponível para responder");
+            return "redirect:/index/turma/{turmaId}";
+        }
+        usuario u = usuarioRepository.findByUsername(lresp.getUsername());
         List<respostaTeste> ListRespostas = new ArrayList<>();
         regTestes reg = new regTestes();
-        if (usuarioRepository.findByUsername(lresp.getUsername())!=null) {
+        if (u != null) {
             for (perguntaTeste Pergunta : lresp.getPerguntas()) {
-                
+
                 respostaTeste resposta = new respostaTeste();
                 perguntaTeste p = perguntaTesteRepository.findById(Pergunta.getPerguntaTesteId()).orElseThrow(null);
                 resposta.setperguntaTeste(p);
-                resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
+                if (Pergunta.getOpRespostaId() != null) {
+                    resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
+                } else {
+                    resposta.setOpRespostaId(0);
+                }
+
                 ListRespostas.add(resposta);
             }
-            reg.setUsuario(usuarioRepository.findByUsername(lresp.getUsername()));
+            reg.setUsuario(u);
             reg.setTeste(t);
             reg.setTurma(turma);
             reg.setRespostasTeste(ListRespostas);
-            regTestesRepository.save(reg);
+            if (regTestesRepository.findByTesteAndTurmaAndUsuario(t, turma, u).size() <= 0) {
+                regTestesRepository.save(reg);
+            } else {
+                attributes.addFlashAttribute("erro", "O usuario ja realizou uma tentativa");
+                return "redirect:/index/turma/{turmaId}";
+            }
+
             attributes.addFlashAttribute("sucesso", "Teste Respondido com sucesso");
             return "redirect:/index/turma/{turmaId}";
-        }else{ 
+        } else {
             attributes.addFlashAttribute("erro", "Matricula não encontrada");
             return "redirect:/index/turma/{turmaId}";
         }
-      //  } catch (Exception e) {
-       //     attributes.addFlashAttribute("erro", "erro desconhecido"+e);
-       //     return "redirect:/index/turma/{turmaId}";
-       // }
+        // } catch (Exception e) {
+        // attributes.addFlashAttribute("erro", "erro desconhecido"+e);
+        // return "redirect:/index/turma/{turmaId}";
+        // }
     }
-    /*Listar testes */
+
+    /* Listar testes */
     @GetMapping(value = "/index/testes")
     public ModelAndView listarTestes() {
         ModelAndView mv = new ModelAndView("teste");
         try {
             testeService.atualizarVisibilidades(); /* Teste de disponibilidade */
         } catch (Exception e) {
-           
+
         }
         List<teste> list = testeRepository.findAll();
         mv.addObject("testes", list);
@@ -174,8 +198,8 @@ public class testeController {
         mv.addObject("perguntas", lperguntas);
         return mv;
     }
-    
-    /*Salvar um novo teste */
+
+    /* Salvar um novo teste */
     @PostMapping("/index/saveTeste")
     public String saveTeste(@Valid testeForm t, BindingResult result, RedirectAttributes attributes) {
         List<perguntaTeste> ListPerguntas = new ArrayList<>();
@@ -183,31 +207,33 @@ public class testeController {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
             return "redirect:/index/saveTeste";
-        }else{
-        try {
-            if(t.getPerguntas()!=null){
-                for (perguntaTeste perg : t.getPerguntas()) {
-                    if(perguntaTesteRepository.existsById(perg.getPerguntaTesteId())){
-                        perguntaTeste p = perguntaTesteRepository.findById(perg.getPerguntaTesteId()).orElseThrow(null);
-                        ListPerguntas.add(p);
+        } else {
+            try {
+                if (t.getPerguntas() != null) {
+                    for (perguntaTeste perg : t.getPerguntas()) {
+                        if (perguntaTesteRepository.existsById(perg.getPerguntaTesteId())) {
+                            perguntaTeste p = perguntaTesteRepository.findById(perg.getPerguntaTesteId())
+                                    .orElseThrow(null);
+                            ListPerguntas.add(p);
+                        }
                     }
+                    test = new teste(t.isVisibilidade(), t.getNome(), t.getDisponibilidade(), ListPerguntas);
+
+                } else {
+                    test = new teste(t.isVisibilidade(), t.getNome(), t.getDisponibilidade(), null);
                 }
-                 test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas);
-                
-            }else{
-                test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null);
+
+                testeRepository.save(test);
+                attributes.addFlashAttribute("sucesso", "Teste cadastrado");
+                return "redirect:/index/testes";
+            } catch (Exception e) {
+                attributes.addFlashAttribute("erro", "Não foi possível cadastrar essas perguntas" + e.toString());
+                return "redirect:/index/testes";
             }
-            
-            testeRepository.save(test);
-            attributes.addFlashAttribute("sucesso", "Teste cadastrado");
-            return "redirect:/index/testes";
-        } catch (Exception e) {
-            attributes.addFlashAttribute("erro", "Não foi possível cadastrar essas perguntas"+e.toString());
-        return "redirect:/index/testes";
         }
-      }
     }
-    /*Salvar um novo teste na turma*/
+
+    /* Salvar um novo teste na turma */
     @PostMapping("/index/turma/{turmaId}/saveTeste")
     public String saveTeste_turma(@Valid testeForm t, BindingResult result, RedirectAttributes attributes) {
         List<perguntaTeste> ListPerguntas = new ArrayList<>();
@@ -215,28 +241,30 @@ public class testeController {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + t.toString());
             return "redirect:/index/turma/{turmaId}/testes";
-        }else{
-        try {
-            if(t.getPerguntas()!=null){
-                for (perguntaTeste perg : t.getPerguntas()) {
-                    if(perguntaTesteRepository.existsById(perg.getPerguntaTesteId())){
-                        perguntaTeste p = perguntaTesteRepository.findById(perg.getPerguntaTesteId()).orElseThrow(null);
-                        ListPerguntas.add(p);
+        } else {
+            try {
+                if (t.getPerguntas() != null) {
+                    for (perguntaTeste perg : t.getPerguntas()) {
+                        if (perguntaTesteRepository.existsById(perg.getPerguntaTesteId())) {
+                            perguntaTeste p = perguntaTesteRepository.findById(perg.getPerguntaTesteId())
+                                    .orElseThrow(null);
+                            ListPerguntas.add(p);
+                        }
                     }
+                    test = new teste(t.isVisibilidade(), t.getNome(), t.getDisponibilidade(), ListPerguntas);
+                } else {
+                    test = new teste(t.isVisibilidade(), t.getNome(), t.getDisponibilidade(), null);
                 }
-                test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),ListPerguntas);
-            }else{
-                test = new teste(t.isVisibilidade(), t.getNome(),t.getDisponibilidade(),null);
+                testeRepository.save(test);
+                attributes.addFlashAttribute("sucesso", "Teste cadastrado");
+                return "redirect:/index/turma/{turmaId}/testes";
+            } catch (Exception e) {
+                attributes.addFlashAttribute("erro", "Não foi possível cadastrar essas perguntas" + e.toString());
+                return "redirect:/index/turma/{turmaId}/testes";
             }
-            testeRepository.save(test);
-            attributes.addFlashAttribute("sucesso", "Teste cadastrado");
-            return "redirect:/index/turma/{turmaId}/testes";
-        } catch (Exception e) {
-            attributes.addFlashAttribute("erro", "Não foi possível cadastrar essas perguntas"+e.toString());
-        return "redirect:/index/turma/{turmaId}/testes";
         }
-      }
     }
+
     /* Deletar teste por id */
     @GetMapping(value = "/index/deleteteste/{id}")
     public String deleteTeste(@PathVariable("id") int id, RedirectAttributes attributes) {
@@ -245,10 +273,9 @@ public class testeController {
             attributes.addFlashAttribute("sucesso", "Teste deletado");
             return "redirect:/index/testes";
         } catch (Exception e) {
-            attributes.addFlashAttribute("erro", "ID inexistente ou erro desconhecido"+ e.toString());
+            attributes.addFlashAttribute("erro", "ID inexistente ou erro desconhecido" + e.toString());
             return "redirect:/index/testes";
         }
     }
 
-    
 }
