@@ -116,16 +116,16 @@ public class notasServiceImplements implements notasService {
                     notaProjeto = 0;
                     nota.setNotaProjetoFinal(notaProjeto);
                 }
-                notaTestes = nQcorretas / nQ;
-                notaTestes = Double.valueOf(String.format("%,.2f", notaTestes));
-                notafinal = (notaTestes * pesoTestes) + notaProjeto;
-                notafinal = Double.valueOf(String.format("%,.2f", notafinal));
+                notaTestes = (nQcorretas / nQ) *10;
+                notaTestes = Double.valueOf(String.format("%,.2f", notaTestes).replace(",", "."));
+                notafinal = (notaTestes + notaProjeto)/2;
+                notafinal = Double.valueOf(String.format("%,.2f", notafinal).replace(",", "."));
 
                 if (notafinal >= 6) {
                     recomendacao = "Acod";
-                } else {
-                    recomendacao = "N/D";
-                }
+                }else if(notafinal > 5 && notafinal < 6) {
+                    recomendacao = "Pcd";
+                }else {recomendacao= "N/D";}
 
                 nota.setnPerguntasCorretas((int) nQcorretas);
                 nota.setnPerguntas((int) nQ);
@@ -152,7 +152,8 @@ public class notasServiceImplements implements notasService {
                 nQChab4 = 0;
                 nQChab5 = 0;
                 nQRespondidas = 0;
-
+                notafinal=0;
+                recomendacao="";
             }
 
         }

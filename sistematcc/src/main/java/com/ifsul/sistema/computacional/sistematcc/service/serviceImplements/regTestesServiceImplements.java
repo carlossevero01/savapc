@@ -1,6 +1,7 @@
 package com.ifsul.sistema.computacional.sistematcc.service.serviceImplements;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,29 +50,35 @@ public class regTestesServiceImplements implements regTestesService{
         }
         
         for (regTestes r : regs) { 
-           
-            int opRespostaCertaId=0;
+            
+            
             for (respostaTeste resp : r.getRespostasTeste()) {
+                boolean acertou = false;
                 if(correcoesUsuarioRepository.findByUsuarioAndTurmaAndTesteAndPerguntaTeste(r.getUsuario(), r.getTurma(), r.getTeste(), resp.getPerguntaTeste()).size()<=0){
+                List<opcaoresposta> OPrespostas = new ArrayList<>();
+                OPrespostas.clear();
+                    if(opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).size()>0){
+                        OPrespostas = opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true);
+                    }
                 
-                if(opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).size()>0){
-                    opRespostaCertaId = opcaorespostaRepository.findOpcaoRespostaIdByPerguntasTesteAndVerdadeira(resp.getPerguntaTeste(), true).get(0).getOpcaoRespostaId();
-                }else{
-                    opRespostaCertaId=0;
-                }
-                if (resp.getOpRespostaId() == opRespostaCertaId) { //Resposta Certa
+                
+                for (opcaoresposta op : OPrespostas) {
+                if (resp.getOpRespostaId() == op.getOpcaoRespostaId()) { //Resposta Certa
+                    acertou=true;
                     opcaoresposta opR =  opcaorespostaRepository.findById(resp.getOpRespostaId()).get();            
                     correcoesUsuario cA = new correcoesUsuario(r.getUsuario(), r.getTurma(),r.getTeste(),
                             resp.getPerguntaTeste(), opR , true);
                     correcoesUsuarioRepository.save(cA);
                     
                     
-                } else {                                                //Resposta Errada
+                }     
+                }
+                if(acertou==false) {                                                //Resposta Errada
                     opcaoresposta opR =  opcaorespostaRepository.findById(resp.getOpRespostaId()).get();
                     correcoesUsuario cA = new correcoesUsuario(r.getUsuario(),r.getTurma(), r.getTeste(), resp.getPerguntaTeste(), opR, false);
                     correcoesUsuarioRepository.save(cA);
-                    
                 }
+                
             }
          }
         }
