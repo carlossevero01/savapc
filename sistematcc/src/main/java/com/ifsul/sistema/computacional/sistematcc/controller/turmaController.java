@@ -102,11 +102,6 @@ public class turmaController {
                 turma.setVisibilidade(t.isVisibilidade());
 
             }
-            if (t.getPesoTestes() == 0) {
-                turma.setPesoTestes((double) 7);
-            } else {
-                turma.setPesoTestes(t.getPesoTestes());
-            }
             turmaRepository.save(turma);
             attributes.addFlashAttribute("sucesso", "Turma Cadastrada com Sucesso" + t.getNome());
             return "redirect:/index/turmas";
@@ -162,7 +157,6 @@ public class turmaController {
             turma turmaExistente = turmaRepository.findById(turmaId).get();
             turmaExistente.setNome(novaturma.getNome());
             turmaExistente.setVisibilidade(novaturma.isVisibilidade());
-            turmaExistente.setPesoTestes(novaturma.getPesoTestes());
             turmaRepository.save(turmaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Turma editada com sucesso");
             return "redirect:/index/turmas";
@@ -170,22 +164,6 @@ public class turmaController {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
             return "redirect:/index/turmas";
 
-        }
-    }
-
-    /* Atualizar peso dos testes */
-    @PostMapping("/index/updatepesotestes/{turmaId}")
-    public String setUpdatePesoTestesTurma(@PathVariable("turmaId") int turmaId,
-            @RequestParam("pesoTestes") double peso, RedirectAttributes redirectAttributes) {
-        try {
-            turma t = turmaRepository.findById(turmaId).get();
-            t.setPesoTestes(peso);
-            turmaRepository.save(t);
-            redirectAttributes.addFlashAttribute("sucesso", "Peso Testes alterado com sucesso");
-            return "redirect:/index/relatorioTeste/{turmaId}";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro", "Não foi possivel alterar");
-            return "redirect:/index/relatorioTeste/{turmaId}";
         }
     }
 

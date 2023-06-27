@@ -33,9 +33,6 @@ public class turma implements Serializable{
     @Column(nullable = false)
     private boolean visibilidade;
 
-    @Column(nullable= false)
-    private Double pesoTestes;
-
     @ManyToMany
     @JoinTable(
         name = "turma_usuario",
@@ -101,12 +98,11 @@ public class turma implements Serializable{
         this.nome = nome;
         this.visibilidade = visibilidade;
         this.testes = testes;
-        if(pesoTestes==0){ this.pesoTestes=7.0;}else{ this.pesoTestes=pesoTestes;}
     }
 
     @Override
     public String toString() {
-        return "turma : turmaId=" + turmaId + ", nome=" + nome +", visibilidade="+visibilidade+",pesoTestes="+pesoTestes;
+        return "turma : turmaId=" + turmaId + ", nome=" + nome +", visibilidade="+visibilidade;
     }
 
    
@@ -153,14 +149,7 @@ public class turma implements Serializable{
         this.notas = notas;
     }
 
-    public Double getPesoTestes() {
-        return pesoTestes;
-    }
-
-    public void setPesoTestes(Double pesoTestes) {
-        this.pesoTestes = pesoTestes;
-    }
-
+    
     public List<usuario> getUsuarios() {
         return usuarios;
     }

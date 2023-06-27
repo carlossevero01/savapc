@@ -100,7 +100,6 @@ public class relatoriosController {
             mv.addObject("turma", turma);
             mv.addObject("turmaNome", turma.getNome());
             mv.addObject("turmaId", turma.getTurmaId());
-            mv.addObject("pesoTestes", turma.getPesoTestes());
             return mv;
         } catch (Exception e) {
             System.out.println("\n \n " + e + "\n \n ");
@@ -115,15 +114,15 @@ public class relatoriosController {
             String csvFilePath = "Reviews-export.csv";
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
             fileWriter.write(
-                    "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,PesoTestes,NotaTestes,NotaFinal,Recomendação");
+                    "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,NotaTestes,NotaFinal,Recomendação");
 
             turma turma = turmaRepository.findById(turmaId).get();
             List<notas> contabilizacaoListTurma = notasRepository.findByTurma(turma);
             for (notas cL : contabilizacaoListTurma) {
-                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         cL.getUsuario().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas(),
                         cL.getnPerguntas(), cL.getH1(), cL.getH2(), cL.getH3(), cL.getH4(), cL.getH5(),
-                        cL.getNotaProjetoFinal(), cL.getPesoTestes(), cL.getNotaTestes(), cL.getNotaFinal(),
+                        cL.getNotaProjetoFinal(),cL.getNotaTestes(), cL.getNotaFinal(),
                         cL.getRecomendacao());
 
                 fileWriter.newLine();

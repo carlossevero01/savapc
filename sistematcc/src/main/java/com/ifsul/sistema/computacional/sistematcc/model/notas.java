@@ -61,7 +61,7 @@ public class notas {
     private double notaProjetoFinal;
 
     private double notaTestes;
-    private double pesoTestes;
+    
     private double notaFinal;
 
     private String recomendacao;
@@ -194,14 +194,7 @@ public class notas {
 
    
 
-    public double getPesoTestes() {
-        return pesoTestes;
-    }
-
-    public void setPesoTestes(double pesoTestes) {
-        this.pesoTestes = pesoTestes;
-    }
-
+    
    
 
     public Set<teste> getTestes() {
@@ -225,7 +218,7 @@ public class notas {
         return "notas [notaId=" + notaId + ", usuario=" + usuario + ", turma=" + turma + ", nPerguntasCorretas="
                 + nPerguntasCorretas + ", nPerguntas=" + nPerguntas + ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3
                 + ", h4=" + h4 + ", h5=" + h5 + ", notaProjetoFinal=" + notaProjetoFinal + ", notaTestes=" + notaTestes
-                + ", pesoTestes=" + pesoTestes + ", notaFinal=" + notaFinal + ", recomendacao=" + recomendacao + "]";
+                + ", notaFinal=" + notaFinal + ", recomendacao=" + recomendacao + "]";
     }
 
    

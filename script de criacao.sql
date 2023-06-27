@@ -3,8 +3,7 @@ CREATE DATABASE sistematcc;
 CREATE TABLE turma (
     turmaId int PRIMARY KEY auto_increment,
     nome Varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-    visibilidade TINYINT,
-    pesoTestes double
+    visibilidade TINYINT
 );
 
 CREATE TABLE usuario (
@@ -185,7 +184,6 @@ CREATE TABLE notas (
     h4 int,
     h5 int,
 	notaProjetoFinal DOUBLE,
-    pesoTestes DOUBLE,
 	notaTestes DOUBLE,
 	notaFinal DOUBLE,
 	recomendacao VARCHAR(100),

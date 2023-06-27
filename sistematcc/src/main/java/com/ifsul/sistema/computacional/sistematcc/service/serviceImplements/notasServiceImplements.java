@@ -64,14 +64,14 @@ public class notasServiceImplements implements notasService {
         double nQ = 0;
         double notaProjeto = 0;
         double notaTestes = 0;
-        double pesoTestes = 0;
+        
         double notafinal = 0;
         int aux = 0;
         int nQRespondidas = 0;
 
         for (correcoesUsuario r : regs) {
 
-            pesoTestes = r.getTurma().getPesoTestes();
+            
             nQRespondidas = correcoesUsuarioRepository.findByUsuarioAndTurma(r.getUsuario(), r.getTurma()).size();
 
             aux++;
@@ -133,7 +133,7 @@ public class notasServiceImplements implements notasService {
                 nota.setNotaTestes(notaTestes);
                 nota.setNotaFinal(notafinal);
                 nota.setRecomendacao(recomendacao);
-                nota.setPesoTestes(pesoTestes);
+                
                 nota.setH1(nQChab1);
                 nota.setH2(nQChab2);
                 nota.setH3(nQChab3);
