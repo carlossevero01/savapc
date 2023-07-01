@@ -54,6 +54,10 @@
                                         <option value="multipla escolha">Multipla Escolha</option>
                                     </select>
                                 </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="obrigatorio" name="obrigatorio">
+                                    <label class="form-check-label" for="obrigatorio">É obrigatório?</label>
+                                </div>
                                  <button type="submit" class="btn btn-secondary mt-2">Salvar</button>
                              </form>
                          </div>
@@ -74,6 +78,7 @@
                         <th scope="col">Titulo</th>
                         <th scope="col">Tipo </th>
                         <th scope="col">Descricao</th> 
+                        <th scope="col">Obrigatório</th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
@@ -83,6 +88,7 @@
                         <td th:text="${p.titulo}"></td>
                         <td th:text="${p.tipo}"></td>
                         <td th:text="${p.descricao}"></td>  <!-- '' aspas simples fica como texto -->
+                        <td th:text="${p.obrigatorio}"></td>
                         <td><a class="btn btn-secondary" 
 						th:href="@{/index/{questionarioId}/deleteperguntaquest/{id}(questionarioId=${questionarioId},id=${p.perguntaQuestionarioId})}" role="button">Deletar</a>
                             
@@ -119,6 +125,10 @@
                                                 <label for="tipo" class="control-label">Tipo*</label>
                                                 <input type="text" class="form-control" id="tipo" name="tipo" th:value="${p.tipo}">
                                             </div>
+                                            <div class="form-check form-switch mt-2">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="obrigatorio" name="obrigatorio" th:checked="${p.obrigatorio}">
+                                                <label class="form-check-label" for="obrigatorio">É obrigatório?</label>
+                                              </div>
                                             <button type="submit"
                                                 class="btn btn-secondary mt-2">Salvar</button>
                                         </form>

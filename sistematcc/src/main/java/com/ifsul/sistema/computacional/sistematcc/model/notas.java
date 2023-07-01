@@ -45,54 +45,25 @@ public class notas {
             )
     )
     private Set<teste> testes = new HashSet<>();
-
-    
-    
-    
     private int nPerguntasCorretas;
-
     private int nPerguntas;
     private int h1;
     private int h2;
     private int h3;
     private int h4;
     private int h5; 
-     
     private double notaProjetoFinal;
-
     private double notaTestes;
-    
     private double notaFinal;
-
     private String recomendacao;
+    private String sabeProgramar;
 
-    public int getNotaId() {
-        return notaId;
-    }
-
-    public void setNotaId(int notaId) {
-        this.notaId = notaId;
-    }
-
-    
-
-    public turma getTurma() {
-        return turma;
-    }
-
-    public void setTurma(turma turma) {
-        this.turma = turma;
-    }
-
-    
-
-    public double getNotaProjetoFinal() {
-        return notaProjetoFinal;
-    }
-
-    public void setNotaProjetoFinal(double notaProjetoFinal) {
-        this.notaProjetoFinal = notaProjetoFinal;
-    }
+    public int getNotaId() { return notaId; }
+    public void setNotaId(int notaId) { this.notaId = notaId;}
+    public turma getTurma() { return turma; }
+    public void setTurma(turma turma) { this.turma = turma; }
+    public double getNotaProjetoFinal() { return notaProjetoFinal; }
+    public void setNotaProjetoFinal(double notaProjetoFinal) { this.notaProjetoFinal = notaProjetoFinal; }
 
     public double getNotaTestes() {
         return notaTestes;
@@ -218,7 +189,13 @@ public class notas {
         return "notas [notaId=" + notaId + ", usuario=" + usuario + ", turma=" + turma + ", nPerguntasCorretas="
                 + nPerguntasCorretas + ", nPerguntas=" + nPerguntas + ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3
                 + ", h4=" + h4 + ", h5=" + h5 + ", notaProjetoFinal=" + notaProjetoFinal + ", notaTestes=" + notaTestes
-                + ", notaFinal=" + notaFinal + ", recomendacao=" + recomendacao + "]";
+                + ", notaFinal=" + notaFinal + ", recomendacao=" + recomendacao + ",SabeProgramar="+sabeProgramar+"]";
+    }
+    public String getSabeProgramar() {
+        return sabeProgramar;
+    }
+    public void setSabeProgramar(String sabeProgramar) {
+        this.sabeProgramar = sabeProgramar;
     }
 
    

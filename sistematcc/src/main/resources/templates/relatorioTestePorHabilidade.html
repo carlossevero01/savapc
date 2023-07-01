@@ -42,6 +42,7 @@
 					<th scope="col">NotaTestes</th>
 					<th scope="col">NotaFinal</th>
 					<th scope="col">Recomendação</th>
+					<th scope="col">SabeProgramar</th>
 					<th scope="col">Opções</th>
 				  </tr>
 				</thead>
@@ -97,6 +98,9 @@
 						<p th:unless="${c.recomendacao =='N/D'}" class="fw-normal mb-1 " style="color: green;" th:text="${c.recomendacao}">recomendacao</p>
 					</td>
 					<td>
+						<p class="fw-normal mb-1" th:text="${c.sabeProgramar}">SabeProgramar</p>
+					</td>
+					<td>
 						
 						<!-- Inicio Bloco Modal -->
 						<button type="button" class="btn btn-secondary mt-1 mb-1" data-bs-toggle="modal" th:attr="data-bs-target='#updateNotaProjeto_'+${c.notaId}" >Editar Nota Projeto</button>
@@ -105,12 +109,14 @@
 								<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Nota do projeto</h5>
+									<h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Nota do projeto de</h5> <h5 class="modal-title" th:text="${c.usuario.nome}"></h5>
 									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 										<i class="fa fa-times" aria-hidden="true"></i>
 									</button>
 									</div>
 									<div class="modal-body">
+										<div class="d-flex me-1"><p>Recomendação: </p><p th:text="${c.recomendacao}">recomendação</p></div>
+										
 										<form method="post" th:action="@{/index/updateprojetonota/{turmaId}/{notaId}(turmaId=${turmaId} ,notaId=${c.notaId})}">
 											
 											<div class="mb-3">

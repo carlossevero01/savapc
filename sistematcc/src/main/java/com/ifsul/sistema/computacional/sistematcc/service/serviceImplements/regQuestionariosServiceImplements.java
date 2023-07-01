@@ -12,6 +12,7 @@ import com.ifsul.sistema.computacional.sistematcc.model.regQuestionarios;
 
 
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
+import com.ifsul.sistema.computacional.sistematcc.model.usuario;
 import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.questionarioinicialRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.regQuestionariosRepository;
@@ -28,11 +29,14 @@ public class regQuestionariosServiceImplements implements regQuestionariosServic
     @Autowired
     questionarioinicialRepository questionarioinicialRepository;
 
-   
-
     @Override
     public List<regQuestionarios> findByTurma(turma turma) {
         return regQuestionariosRepository.findByTurma(turma);
+    }
+
+    @Override
+    public List<regQuestionarios> findByUsuarioAndTurma(usuario u, turma turma) {
+        return regQuestionariosRepository.findByUsuarioAndTurma(u, turma);
     }
     
 }

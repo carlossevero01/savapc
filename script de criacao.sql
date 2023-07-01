@@ -52,7 +52,8 @@ CREATE TABLE perguntaQuestionario (
     descricao varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     tipo varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
     opRespostaId varchar(4),
-    resposta varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci
+    resposta varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    obrigatorio boolean
 );
 
 CREATE TABLE habilidade (
@@ -65,9 +66,9 @@ CREATE TABLE regTestes (
     testeId int,
     usuarioId int,
     turmaId int,
-    FOREIGN KEY (testeId) REFERENCES teste(testeId),
-    FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId),
-    FOREIGN KEY (turmaId) REFERENCES turma(turmaId)
+    FOREIGN KEY (testeId) REFERENCES teste(testeId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE regQuestionarios (
@@ -127,21 +128,21 @@ CREATE TABLE questPergunta (
     questionarioId int,
     perguntaQuestionarioId int,
     FOREIGN KEY (questionarioId) REFERENCES questionarioInicial(questionarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
-    FOREIGN KEY (perguntaQuestionarioId) REFERENCES perguntaQuestionario(perguntaQuestionarioId)  
+    FOREIGN KEY (perguntaQuestionarioId) REFERENCES perguntaQuestionario(perguntaQuestionarioId)  ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
 CREATE TABLE opcaoResposta_PerguntaTeste (
     perguntaTesteId int,
     opcaoRespostaId int,
     FOREIGN KEY (perguntaTesteId) REFERENCES perguntaTeste(perguntaTesteId) ON DELETE CASCADE ON UPDATE CASCADE ,
-    FOREIGN KEY (opcaoRespostaId) REFERENCES opcaoResposta(opcaoRespostaId)  
+    FOREIGN KEY (opcaoRespostaId) REFERENCES opcaoResposta(opcaoRespostaId)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE opcaoResposta_PerguntaQuestionario (
 	perguntaQuestionarioId int,
     opcaoRespostaId int,
     FOREIGN KEY (perguntaQuestionarioId) REFERENCES perguntaquestionario(perguntaQuestionarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
-    FOREIGN KEY (opcaoRespostaId) REFERENCES opcaoresposta(opcaoRespostaId)
+    FOREIGN KEY (opcaoRespostaId) REFERENCES opcaoresposta(opcaoRespostaId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE regTestes_respostaTeste(
@@ -187,6 +188,7 @@ CREATE TABLE notas (
 	notaTestes DOUBLE,
 	notaFinal DOUBLE,
 	recomendacao VARCHAR(100),
+    sabeProgramar Varchar(100),
 	FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
 	FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE 
 );

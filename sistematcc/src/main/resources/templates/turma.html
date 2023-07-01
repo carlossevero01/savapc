@@ -73,10 +73,10 @@
                         <td th:text="${t.turmaId}"></td>
                         <td th:text="${t.nome}"></td> <!-- '' aspas simples fica como texto -->
                         <td th:text="${t.visibilidade}"></td>
-                        <td><a class="btn btn-secondary" 
+                        <td><a class="btn btn-secondary mt-1" 
 						th:href="@{/index/deleteturma/{id}(id=${t.turmaId})}" role="button">Deletar</a>
                         <!-- Inicio Bloco Modal -->
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#updateTurma_'+${t.turmaId}" >Editar</button>
+                            <button type="button" class="btn btn-secondary mt-1" data-bs-toggle="modal" th:attr="data-bs-target='#updateTurma_'+${t.turmaId}" >Editar</button>
                             <div class="modal" th:id="updateTurma_+${t.turmaId}"  tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -107,13 +107,13 @@
                                 </div>
                             </div>
                             <!-- Fim Bloco Modal -->
-                            <a class="btn btn-secondary" 
+                            <a class="btn btn-secondary mt-1" 
 							th:href="@{/index/turma/{turmaId}/testes(turmaId=${t.turmaId})}" role="button">Testes</a>
-                            <a class="btn btn-secondary" 
+                            <a class="btn btn-secondary mt-1" 
 							th:href="@{/index/turma/{turmaId}/questionarios(turmaId=${t.turmaId})}" role="button">Questionarios</a>
 
                             <!-- Inicio Bloco Modal -->
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target=#updateTurma >Relatórios</button>
+                            <button type="button" class="btn btn-secondary mt-1" data-bs-toggle="modal" data-bs-target=#updateTurma >Relatórios</button>
                             <div class="modal" id="updateTurma"  tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">

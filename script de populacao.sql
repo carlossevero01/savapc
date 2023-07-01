@@ -372,7 +372,7 @@ INSERT INTO perguntaTeste (perguntaTesteId,titulo,descricao,pedido,img) values (
 Explicação: IMC é a sigla para Índice de Massa Corporal que serve para avaliar o peso do indivíduo em relação à sua altura e assim indicar se está dentro do peso ideal, acima ou abaixo do peso desejado. Estar dentro do peso certo é importante porque estar acima ou abaixo do peso influencia na saúde, aumentando o risco de doenças como desnutrição quando se está abaixo do peso, e AVC e infarto, quando se está acima do peso. O cálculo do IMC deve ser feito usando a seguinte fórmula matemática: IMC = Peso (Kg) / Altura(m)²",
 "Baseado na explicação anterior, responda as questões 01, 02,03 e 04. Marque somente uma alternativa. A interface (tela) está totalmente acordo com a descrição do problema? ","test4quest1.png");
 INSERT INTO perguntaTeste_teste (testeId, perguntaTesteId) values (4,14);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (63,"VF","A) Não entendi a questão",false);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (63,"VF","A) Não entendi a questão",true);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (64,"VF","B) Sim",false);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (65,"VF","C) Não",false);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (66,"VF","D) Em partes",true);
@@ -386,10 +386,10 @@ INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (2,14
 INSERT INTO perguntaTeste (perguntaTesteId,titulo,descricao,pedido) values (15,"posteste-Tabela"," ",
 "A tabela 01 apresenta dados que são importantes para a programação do APP?");
 INSERT INTO perguntaTeste_teste (testeId, perguntaTesteId) values (4,15);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (67,"VF","A) Não entendi a questão",false);       
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (67,"VF","A) Não entendi a questão",true);       
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (68,"VF","B) Sim",true);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (69,"VF","C) Não",false);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (70,"VF","D) Em partes",false);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (70,"VF","D) Em partes",true);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (15,67);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (15,68);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (15,69);
@@ -401,10 +401,10 @@ INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (3,15
 INSERT INTO perguntaTeste (perguntaTesteId,titulo,descricao,pedido) values (16,"posteste-Botoes"," ",
 "Na interface proposta, é possível remover os botões de Sexo (Mulher e Homem) sem alterar a funcionalidade do aplicativo? ");
 INSERT INTO perguntaTeste_teste (testeId, perguntaTesteId) values (4,16);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (71,"VF","A) Não entendi a questão",false);       
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (71,"VF","A) Não entendi a questão",true);       
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (72,"VF","B) Sim",true);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (73,"VF","C) Não",false);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (74,"VF","D) Em partes",false);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (74,"VF","D) Em partes",true);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (16,71);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (16,72);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (16,73);
@@ -415,12 +415,12 @@ INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (3,16
 INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (4,16);
 INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (5,16);
 
-INSERT INTO perguntaTeste (perguntaTesteId,titulo,descricao,pedido) values (17,"posteste-Formula"," ",
+INSERT INTO perguntaTeste (perguntaTesteId,titulo,descricao,pedido,img) values (17,"posteste-Formula"," ",
 "A figura abaixo mostra a fórmula do IMC implementada e parte da implementação da Tabela para mostra o resultado ao usuário. Esta porção do código está totalmente correta? ","test4quest4.png");
 INSERT INTO perguntaTeste_teste (testeId, perguntaTesteId) values (4,17);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (75,"VF","A) Não entendi a questão",false);       
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (76,"VF","B) Sim",false);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (77,"VF","C) Não",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (75,"VF","A) Não entendi a questão",true);       
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (76,"VF","B) Sim",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (77,"VF","C) Não",false);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (78,"VF","D) Em partes",false);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (17,75);
 INSERT INTO opcaoresposta_perguntateste (perguntaTesteId,opcaoRespostaId) values (17,76);
@@ -430,10 +430,10 @@ INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (1,17
 INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (2,17);
 INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (4,17);
 
-INSERT INTO perguntaTeste (perguntaTesteId,titulo,descricao,pedido) values (18,"posteste-Valor"," ",
+INSERT INTO perguntaTeste (perguntaTesteId,titulo,descricao,pedido,img) values (18,"posteste-Valor"," ",
 "Qual o valor que será mostrado na interface no 'CampoDeTextoMostrarResultado' (variável valor), segundo a figura abaixo?","test4quest5.png");
 INSERT INTO perguntaTeste_teste (testeId, perguntaTesteId) values (4,18);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (79,"VF","A) Não entendi a questão",false);       
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (79,"VF","A) Não entendi a questão",true);       
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (80,"VF","B) 70",true);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (81,"VF","C) 80",false);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (82,"VF","D) 90",false);
@@ -445,10 +445,10 @@ INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (1,18
 INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (4,18);
 INSERT INTO habilidade_perguntateste (habilidadeId,perguntaTesteId) values (5,18);
 
-INSERT INTO questionarioinicial (quesitonarioId,disponibilidade,nome,visibilidade) values (1,"2023-10-30 00:00:00","Conhecendo você",true);
+INSERT INTO questionarioinicial (questionarioId,disponibilidade,nome,visibilidade) values (1,"2023-10-30 00:00:00","Conhecendo você",true);
 INSERT INTO questionarioturmas (questionarioId,turmaId) values (1,1);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (1,"Nacionalidade","Sua nacionalidade é? *","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (1,"Nacionalidade","Sua nacionalidade é? *","multipla escolha",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,1);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (83,"VF","Brasileiro(a)",true);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (84,"VF","Uruguaio(a)",true);
@@ -457,10 +457,10 @@ INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoResp
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (1,84);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (1,85);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (2,"Idade","Qual sua idade? (0 - 100) *","dissertativa");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (2,"Idade","Qual sua idade? (0 - 100) *","dissertativa",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,2);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (3,"Sexo","Qual seu sexo? *","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (3,"Sexo","Qual seu sexo? *","multipla escolha",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,3);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (86,"VF","Não selecionado",true);
 INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (87,"VF","Feminino",true);
@@ -471,192 +471,192 @@ INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoResp
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (3,88);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (3,89);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (4,"Etnia","Como você se considera?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (4,"Etnia","Como você se considera?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,4);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (86,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (87,"VF","Branco(a)",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (88,"VF","Negro(a)",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (89,"VF","Pardo(a)/mulato(a)",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (90,"VF","Amarelo(a) (de origem oriental)",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (91,"VF","Indígena ou de origem indígena",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,86);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,87);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,88);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,89);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (90,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (91,"VF","Branco(a)",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (92,"VF","Negro(a)",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (93,"VF","Pardo(a)/mulato(a)",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (94,"VF","Amarelo(a) (de origem oriental)",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (95,"VF","Indígena ou de origem indígena",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,90);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,91);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,92);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,93);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,94);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (4,95);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (5,"Trabalha","Você trabalha? *","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (5,"Trabalha","Você trabalha? *","multipla escolha",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,5);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (92,"VF","Sim",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (93,"VF","Não",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (5,92);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (5,93);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (96,"VF","Sim",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (97,"VF","Não",true);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (5,96);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (5,97);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (6,"Salario","Se você respondeu que trabalha, seu salário contribui para a renda familiar?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (6,"Salario","Se você respondeu que trabalha, seu salário contribui para a renda familiar?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,6);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (94,"VF","Sim",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (95,"VF","Não",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (6,94);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (6,95);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (98,"VF","Sim",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (99,"VF","Não",true);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (6,98);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (6,99);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (7,"Carga Horária","Se você trabalha ou já trabalhou, qual é (ou foi) a carga horária aproximada de sua atividade remunerada? (Não contar estágio e bolsas de pesquisa.)","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (7,"Carga Horária","Se você trabalha ou já trabalhou, qual é (ou foi) a carga horária aproximada de sua atividade remunerada? (Não contar estágio e bolsas de pesquisa.)","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,7);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (96,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (97,"VF","Não trabalho / nunca exerci atividade remunerada",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (98,"VF","Trabalho / trabalhei eventualmente",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (99,"VF","Trabalho / trabalhei até 20 horas semanais",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (100,"VF","Trabalho / trabalhei mais de 20 horas semanais e menos de 40 horas semanais",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (101,"VF","Trabalho / trabalhei em tempo integral – 40 horas semanais ou mais",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,96);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,97);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,98);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,99);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (100,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (101,"VF","Não trabalho / nunca exerci atividade remunerada",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (102,"VF","Trabalho / trabalhei eventualmente",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (103,"VF","Trabalho / trabalhei até 20 horas semanais",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (104,"VF","Trabalho / trabalhei mais de 20 horas semanais e menos de 40 horas semanais",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (105,"VF","Trabalho / trabalhei em tempo integral – 40 horas semanais ou mais",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,100);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,101);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,102);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,103);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,104);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (7,105);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (8,"Método de ingresso","Seu ingresso no curso de graduação se deu por meio de políticas de ação afirmativa da instituição?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (8,"Método de ingresso","Seu ingresso no curso de graduação se deu por meio de políticas de ação afirmativa da instituição?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,8);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (102,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (103,"VF","Sim, por meio de sistema de reserva de vagas com identificação étnico-racial (negros, pardos e indígenas)",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (104,"VF","Sim, por meio de sistema de reserva de vagas com recorte social (egresso de escola pública, renda, etc.) ",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (105,"VF","Sim, por sistema distinto dos anteriores",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (106,"VF","Não",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,102);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,103);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,104);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,105);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (106,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (107,"VF","Sim, por meio de sistema de reserva de vagas com identificação étnico-racial (negros, pardos e indígenas)",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (108,"VF","Sim, por meio de sistema de reserva de vagas com recorte social (egresso de escola pública, renda, etc.) ",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (109,"VF","Sim, por sistema distinto dos anteriores",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (110,"VF","Não",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,106);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,107);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,108);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,109);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (8,110);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (9,"Familiar","Com quem você mora atualmente?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (9,"Familiar","Com quem você mora atualmente?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,9);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (107,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (108,"VF","Com os pais e(ou) com outros parentes",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (109,"VF","Com o(a) esposo(a) e(ou) com o(s) filho(s)",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (110,"VF","Com amigos (compartilhando despesas ou de favor). Com colegas, em alojamento universitário",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (111,"VF","Sozinho(a)",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,107);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,108);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,109);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,110);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (111,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (112,"VF","Com os pais e(ou) com outros parentes",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (113,"VF","Com o(a) esposo(a) e(ou) com o(s) filho(s)",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (114,"VF","Com amigos (compartilhando despesas ou de favor). Com colegas, em alojamento universitário",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (115,"VF","Sozinho(a)",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,111);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,112);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,113);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,114);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (9,115);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (10,"Quantidade na casa","Quantos membros de sua família moram com você?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (10,"Quantidade na casa","Quantos membros de sua família moram com você?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,10);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (112,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (113,"VF","Nenhum",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (114,"VF","Um ou dois",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (115,"VF","Três ou quatro",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (116,"VF","Cinco ou seis",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (117,"VF","Mais de seis",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,112);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,113);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,114);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,115);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (116,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (117,"VF","Nenhum",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (118,"VF","Um ou dois",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (119,"VF","Três ou quatro",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (120,"VF","Cinco ou seis",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (121,"VF","Mais de seis",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,116);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,117);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,118);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,119);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,120);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (10,121);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (11,"Curso","Que tipo de curso de ensino médio você concluiu?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (11,"Curso","Que tipo de curso de ensino médio você concluiu?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,11);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (118,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (119,"VF","Comum ou de educação geral, no ensino regular",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (120,"VF","Profissionalizante técnico (IFSul, UTU, outros), no ensino regular",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (121,"VF","Liceo",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (122,"VF","Supletivo",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (123,"VF","Outro",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,118);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,119);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,120);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,121);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (122,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (123,"VF","Comum ou de educação geral, no ensino regular",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (124,"VF","Profissionalizante técnico (IFSul, UTU, outros), no ensino regular",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (125,"VF","Liceo",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (126,"VF","Supletivo",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (127,"VF","Outro",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,122);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,123);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,124);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,125);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,126);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (11,127);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (12,"Programa","Você sabe programar?*","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (12,"Programa","Você sabe programar?*","multipla escolha",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,12);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (124,"VF","Sim",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (125,"VF","Não",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (12,124);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (12,125);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (128,"VF","Sim",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (129,"VF","Não",true);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (12,128);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (12,129);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (13,"Experiência na programação","Se respondeu SIM na pergunta anterior, me conte sua experiência!","dissertativa");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (13,"Experiência na programação","Se respondeu SIM na pergunta anterior, me conte sua experiência!","dissertativa",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,13);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (14,"Algoritmo","O que é ALGORITMO?*","dissertativa");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (14,"Algoritmo","O que é ALGORITMO?*","dissertativa",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,14);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (15,"Variaveis","O que são variáveis, comandos de condição e repetição? (se não souber deixe em branco)","dissertativa");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (15,"Variaveis","O que são variáveis, comandos de condição e repetição? (se não souber deixe em branco)","dissertativa",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,15);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (16,"Interesse pessoal","Ao fazer um curso de programação, quais são seus interesses pessoais ou profissionais?*","dissertativa");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (16,"Interesse pessoal","Ao fazer um curso de programação, quais são seus interesses pessoais ou profissionais?*","dissertativa",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,16);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (17,"Expectativa","Qual sua expectativa com relação a este curso?*","dissertativa");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (17,"Expectativa","Qual sua expectativa com relação a este curso?*","dissertativa",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,17);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (18,"Alfabetização digital","Marque na escala, como você considera seu conhecimento com relação a alfabetização digital (AD é 'a aquisição de habilidades básicas para o uso de computadores e da Internet' (Portal da Educação) )","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (18,"Alfabetização digital","Marque na escala, como você considera seu conhecimento com relação a alfabetização digital (AD é 'a aquisição de habilidades básicas para o uso de computadores e da Internet' (Portal da Educação) )","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,18);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (126,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (127,"VF","0",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (128,"VF","1",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (129,"VF","2",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (130,"VF","3",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (131,"VF","4",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,126);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,127);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,128);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,129);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (130,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (131,"VF","0",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (132,"VF","1",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (133,"VF","2",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (134,"VF","3",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (135,"VF","4",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,130);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,131);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,132);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,133);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,134);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (18,135);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (19,"Horas de estudo","Quantas horas por semana, aproximadamente, você dedica / dedicou aos estudos, excetuando as horas de aula?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (19,"Horas de estudo","Quantas horas por semana, aproximadamente, você dedica / dedicou aos estudos, excetuando as horas de aula?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,19);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (132,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (133,"VF","Nenhuma, apenas assisto às aulas",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (134,"VF","Uma a duas",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (135,"VF","Três a cinco",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (136,"VF","Seis a oito",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (137,"VF","Mais de oito",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,132);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,133);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,134);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,135);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (136,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (137,"VF","Nenhuma, apenas assisto às aulas",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (138,"VF","Uma a duas",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (139,"VF","Três a cinco",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (140,"VF","Seis a oito",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (141,"VF","Mais de oito",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,136);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,137);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,138);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,139);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,140);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (19,141);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (20,"Lugar de estudo","Onde você mais utiliza o computador (ou tablet ) para estudar?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (20,"Lugar de estudo","Onde você mais utiliza o computador (ou tablet ) para estudar?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,20);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (138,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (139,"VF","Casa",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (140,"VF","Trabalho",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (141,"VF","Escola",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (142,"VF","Não utilizo",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,138);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,139);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,140);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,141);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (142,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (143,"VF","Casa",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (144,"VF","Trabalho",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (145,"VF","Escola",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (146,"VF","Não utilizo",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,142);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,143);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,144);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,145);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (20,146);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (21,"Dados móveis","Você possui dados móveis?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (21,"Dados móveis","Você possui dados móveis?*","multipla escolha",true);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,21);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (143,"VF","Sim",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (144,"VF","Não",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (21,143);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (21,144);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (147,"VF","Sim",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (148,"VF","Não",true);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (21,147);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (21,148);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (22,"Utilização de internet","Quando utiliza a internet, o que mais usa?","multipla escolha");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (22,"Utilização de internet","Quando utiliza a internet, o que mais usa?","multipla escolha",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,22);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (145,"VF","Não selecionado",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (146,"VF","Redes Sociais",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (147,"VF","Jogos",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (148,"VF","Estudos",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (149,"VF","Pesquisas em Geral",true);
-INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (150,"VF","Não utilizo",true);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,145);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,146);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,147);
-INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,148);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (149,"VF","Não selecionado",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (150,"VF","Redes Sociais",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (151,"VF","Jogos",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (152,"VF","Estudos",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (153,"VF","Pesquisas em Geral",true);
+INSERT INTO opcaoresposta (opcaoRespostaId,tipo,descricao,verdadeira) values (154,"VF","Não utilizo",true);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,149);
 INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,150);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,151);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,152);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,153);
+INSERT INTO opcaoresposta_perguntaquestionario (perguntaQuestionarioId,opcaoRespostaId) values (22,154);
 
-INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo) values (23,"Expectativa com a pesquisa","Qual sua expectativa com relação a este curso ( participação nesta pesquisa )?","dissertativa");
+INSERT INTO perguntaquestionario (perguntaQuestionarioId,titulo,descricao,tipo,obrigatorio) values (23,"Expectativa com a pesquisa","Qual sua expectativa com relação a este curso ( participação nesta pesquisa )?","dissertativa",false);
 INSERT INTO questpergunta (questionarioId,perguntaQuestionarioId) values (1,23);

@@ -39,7 +39,8 @@ public class perguntaquestionario implements Serializable{
 
     @Lob
     private String resposta;
-
+    
+    private boolean obrigatorio;
     @ManyToMany
     @JoinTable(
         name = "questpergunta",
@@ -91,7 +92,7 @@ public class perguntaquestionario implements Serializable{
     @Override
     public String toString() {
         return "perguntaquestionario [perguntaQuestionarioId=" + perguntaQuestionarioId + ", titulo=" + titulo
-                + ", opRespostaId=" + opRespostaId + ", descricao=" + descricao + ", tipo=" + tipo + "]";
+                + ", opRespostaId=" + opRespostaId + ", descricao=" + descricao + ", tipo=" + tipo +", obrigatorio=" +obrigatorio+"]";
     }
 
     public List<questionarioinicial> getQuestionarios() {
@@ -140,6 +141,14 @@ public class perguntaquestionario implements Serializable{
 
     public void setResposta(String resposta) {
         this.resposta = resposta;
+    }
+
+    public boolean isObrigatorio() {
+        return obrigatorio;
+    }
+
+    public void setObrigatorio(boolean obrigatorio) {
+        this.obrigatorio = obrigatorio;
     }
 
     

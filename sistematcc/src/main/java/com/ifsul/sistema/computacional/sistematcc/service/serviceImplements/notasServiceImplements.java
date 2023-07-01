@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 import com.ifsul.sistema.computacional.sistematcc.model.correcoesUsuario;
 import com.ifsul.sistema.computacional.sistematcc.model.habilidade;
 import com.ifsul.sistema.computacional.sistematcc.model.notas;
-
+import com.ifsul.sistema.computacional.sistematcc.model.regQuestionarios;
+import com.ifsul.sistema.computacional.sistematcc.model.respostaQuestionarios;
 import com.ifsul.sistema.computacional.sistematcc.model.teste;
 import com.ifsul.sistema.computacional.sistematcc.model.turma;
 import com.ifsul.sistema.computacional.sistematcc.model.usuario;
 import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.correcoesUsuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.notasRepository;
-
+import com.ifsul.sistema.computacional.sistematcc.repository.opcaorespostaRepository;
+import com.ifsul.sistema.computacional.sistematcc.repository.regQuestionariosRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 import com.ifsul.sistema.computacional.sistematcc.service.notasService;
 
@@ -32,7 +34,10 @@ public class notasServiceImplements implements notasService {
     turmaRepository turmaRepository;
     @Autowired
     usuarioRepository alunoRepository;
-
+    @Autowired
+    regQuestionariosRepository regQuestionariosRepository;
+    @Autowired
+    opcaorespostaRepository opcaorespostaRepository;
     @Override
     public List<notas> findByUsuario(usuario Usuario) {
         return notasRepository.findByUsuario(Usuario);
@@ -64,11 +69,11 @@ public class notasServiceImplements implements notasService {
         double nQ = 0;
         double notaProjeto = 0;
         double notaTestes = 0;
-        
+        String sabeProgramar="não"; 
         double notafinal = 0;
         int aux = 0;
         int nQRespondidas = 0;
-
+        
         for (correcoesUsuario r : regs) {
 
             
@@ -106,10 +111,11 @@ public class notasServiceImplements implements notasService {
 
             if (aux == nQRespondidas) {
                 notas nota = new notas();
-
+                
                 if (notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).size() > 0) {
                     nota = notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).get(0);
                     notaProjeto = nota.getNotaProjetoFinal();
+                    sabeProgramar = nota.getSabeProgramar();
                 } else {
                     nota.setUsuario(r.getUsuario());
                     nota.setTurma(r.getTurma());
@@ -121,7 +127,19 @@ public class notasServiceImplements implements notasService {
                 notafinal = (notaTestes + notaProjeto)/2;
                 notafinal = Double.valueOf(String.format("%,.2f", notafinal).replace(",", "."));
 
-                if (notafinal >= 6) {
+                for(regQuestionarios regquestionario : regQuestionariosRepository.findByUsuarioAndTurma(r.getUsuario(), r.getTurma())){
+                    for(respostaQuestionarios respostaQuest : regquestionario.getRespostasQuestionario()){
+                         if(respostaQuest.getPerguntaQuestionario().getTitulo().equalsIgnoreCase("Programa")){  
+                            
+                            if(opcaorespostaRepository.findById(respostaQuest.getOpRespostaId())!=null){ 
+                                sabeProgramar = opcaorespostaRepository.findById(respostaQuest.getOpRespostaId()).get().getDescricao();
+                            }else{ sabeProgramar = "Não";}    
+                        }
+                    }           
+                }
+                if (notafinal >= 6 && sabeProgramar.equalsIgnoreCase("Sim")) {
+                    recomendacao = "Lcod";
+                }else if(notafinal >= 6 && sabeProgramar.equalsIgnoreCase("Não")){
                     recomendacao = "Acod";
                 }else if(notafinal > 5 && notafinal < 6) {
                     recomendacao = "Pcd";
@@ -133,7 +151,7 @@ public class notasServiceImplements implements notasService {
                 nota.setNotaTestes(notaTestes);
                 nota.setNotaFinal(notafinal);
                 nota.setRecomendacao(recomendacao);
-                
+                nota.setSabeProgramar(sabeProgramar);
                 nota.setH1(nQChab1);
                 nota.setH2(nQChab2);
                 nota.setH3(nQChab3);

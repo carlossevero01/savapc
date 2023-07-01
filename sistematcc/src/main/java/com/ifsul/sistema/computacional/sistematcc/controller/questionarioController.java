@@ -180,26 +180,46 @@ public class questionarioController {
         try {
             turma turma = turmaRepository.findById(turmaId).get();
             questionarioinicial quest = questionarioinicialRepository.findById(questionarioId).orElseThrow(null);
+            for (perguntaquestionario perg : lresp.getPerguntas()) {
+                // if(perg.isObrigatorio()){
+                //     if((perg.getTipo().equalsIgnoreCase("multipla escolha") && perg.getOpRespostaId()==null) || (perg.getTipo().equalsIgnoreCase("dissertativa") && perg.getResposta().isEmpty())){
+                //         attributes.addFlashAttribute("erro", "Confira e responda os campos obrigatórios!");
+                //         return "redirect:/index/aplicacaoquest/{turmaId}/{questionarioId}";
+                //     }
+                    
+                // }
+            }
             List<respostaQuestionarios> ListRespostas = new ArrayList<>();
             regQuestionarios reg = new regQuestionarios();
             if (usuarioRepository.findByUsername(lresp.getUsername()) != null) {
                 for (perguntaquestionario Pergunta : lresp.getPerguntas()) {
-
                     respostaQuestionarios resposta = new respostaQuestionarios();
-                    perguntaquestionario p = perguntaQuestionarioRepository
+                        perguntaquestionario p = perguntaQuestionarioRepository
                             .findById(Pergunta.getPerguntaQuestionarioId()).orElseThrow(null);
-                    resposta.setPerguntaQuestionario(p);
-                    if (Pergunta.getTipo().equalsIgnoreCase("multipla escolha")) {
-                        resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));
-                        resposta.setTipo(Pergunta.getTipo());
-                        ListRespostas.add(resposta);
-                    }
-                    if (Pergunta.getTipo().equalsIgnoreCase("dissertativa")) {
-                        resposta.setResposta(Pergunta.getResposta());
-                        resposta.setTipo(Pergunta.getTipo());
-                        ListRespostas.add(resposta);
-                    }
-
+                         resposta.setPerguntaQuestionario(p);
+                         resposta.setTipo(Pergunta.getTipo());
+                         if (Pergunta.getTipo().equalsIgnoreCase("multipla escolha")) {
+                            if(Pergunta.getOpRespostaId()!=null){
+                                resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));   
+                                ListRespostas.add(resposta);
+                            } 
+                            else{
+                                resposta.setOpRespostaId(0);   
+                                ListRespostas.add(resposta);
+                            }
+                        }
+                        if (Pergunta.getTipo().equalsIgnoreCase("dissertativa")) {
+                            if(!Pergunta.getResposta().isEmpty()){
+                                resposta.setResposta(Pergunta.getResposta());
+                            ListRespostas.add(resposta);
+                            }else{
+                                resposta.setResposta(" Em branco");
+                            ListRespostas.add(resposta);
+                            }
+                            
+                        }
+                    
+                    
                 }
                 reg.setUsuario(usuarioRepository.findByUsername(lresp.getUsername()));
                 reg.setQuestionario(quest);
@@ -207,7 +227,7 @@ public class questionarioController {
                 reg.setRespostasQuestionario(ListRespostas);
                 regQuestionariosRepository.save(reg);
                 attributes.addFlashAttribute("sucesso", "Questionario respondido com sucesso!");
-                return "redirect:/index/inicial";
+                return "redirect:/index/turma/{turmaId}";
             } else {
                 attributes.addFlashAttribute("erro", "Matricula não encontrada");
                 return "redirect:/index/inicial";
