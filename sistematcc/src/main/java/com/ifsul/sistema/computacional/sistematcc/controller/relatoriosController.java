@@ -2,6 +2,8 @@ package com.ifsul.sistema.computacional.sistematcc.controller;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,8 @@ import com.ifsul.sistema.computacional.sistematcc.repository.turmaRepository;
 import com.ifsul.sistema.computacional.sistematcc.repository.usuarioRepository;
 import com.ifsul.sistema.computacional.sistematcc.service.serviceImplements.notasServiceImplements;
 import com.ifsul.sistema.computacional.sistematcc.service.serviceImplements.regTestesServiceImplements;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class relatoriosController {
@@ -108,6 +111,34 @@ public class relatoriosController {
         }
     }
 
+    @GetMapping("/index/exportarRelatorio/{turmaId}/download")
+    public void download(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
+        turma turma = turmaRepository.findById(turmaId).get();
+        String filename = "relatorio_PensamentoComputacional.csv";
+
+        // Configura o tipo de conteúdo do arquivo de resposta
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+
+        // Cria um arquivo CSV
+        try (PrintWriter writer = response.getWriter()) {
+
+            writer.write(
+                    "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,NotaTestes,NotaFinal,SabeProgramar,Recomendação");
+            List<notas> contabilizacaoListTurma = notasRepository.findByTurmaAndDesclassificado(turma, false);
+            for (notas cL : contabilizacaoListTurma) {
+                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                        cL.getUsuario().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas(),
+                        cL.getnPerguntas(), cL.getH1(), cL.getH2(), cL.getH3(), cL.getH4(), cL.getH5(),
+                        cL.getNotaProjetoFinal(), cL.getNotaTestes(), cL.getNotaFinal(), cL.getSabeProgramar(),
+                        cL.getRecomendacao());
+                writer.append('\n');
+                writer.write(line);
+            }
+            response.getWriter().flush();
+        }
+    }
+
     /* Exporta Relatório de Habilidades */
     @GetMapping("/index/exportarRelatorio/{turmaId}")
     public String exportRelatorioTurma(@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes) {
@@ -118,12 +149,12 @@ public class relatoriosController {
                     "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,NotaTestes,NotaFinal,SabeProgramar,Recomendação");
 
             turma turma = turmaRepository.findById(turmaId).get();
-            List<notas> contabilizacaoListTurma = notasRepository.findByTurmaAndDesclassificado(turma,false);
+            List<notas> contabilizacaoListTurma = notasRepository.findByTurmaAndDesclassificado(turma, false);
             for (notas cL : contabilizacaoListTurma) {
                 String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         cL.getUsuario().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas(),
                         cL.getnPerguntas(), cL.getH1(), cL.getH2(), cL.getH3(), cL.getH4(), cL.getH5(),
-                        cL.getNotaProjetoFinal(),cL.getNotaTestes(), cL.getNotaFinal(), cL.getSabeProgramar(),
+                        cL.getNotaProjetoFinal(), cL.getNotaTestes(), cL.getNotaFinal(), cL.getSabeProgramar(),
                         cL.getRecomendacao());
 
                 fileWriter.newLine();
@@ -143,8 +174,10 @@ public class relatoriosController {
 
     /* Atualiza nota de um aluno */
     @PostMapping("/index/updatenota/{turmaId}/{notaId}")
-    public String setUpdateNotaProjeto(@PathVariable("turmaId") int turmaId, @PathVariable("notaId") int notaId,
-            @RequestParam(value = "elimin", required = false) String desclassificado,@RequestParam("nota") double nota,@RequestParam("recomendacao") String recomendacao, RedirectAttributes redirectAttributes) {        try {
+    public String setUpdateNota(@PathVariable("turmaId") int turmaId, @PathVariable("notaId") int notaId,
+            @RequestParam(value = "elimin", required = false) String desclassificado, @RequestParam("nota") double nota,
+            @RequestParam("recomendacao") String recomendacao, RedirectAttributes redirectAttributes) {
+        try {
 
             turma turma = turmaRepository.findById(turmaId).get();
 
