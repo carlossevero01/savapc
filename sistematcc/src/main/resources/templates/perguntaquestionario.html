@@ -117,13 +117,17 @@
                                                 <label for="titulo" class="control-label">Titulo*</label>
                                                 <input type="text" class="form-control" id="titulo" name="titulo" th:value="${p.titulo}">
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="form-group mt-2">
                                                 <label for="descricao" class="form-label">Descrição*</label>
                                                 <textarea class="form-control" id="descricao" name="descricao" th:text="${p.descricao}" rows="3"></textarea>
                                             </div>
                                             <div class="form-group mt-2">
-                                                <label for="tipo" class="control-label">Tipo*</label>
-                                                <input type="text" class="form-control" id="tipo" name="tipo" th:value="${p.tipo}">
+                                                <label for="profId" class="form-label">Tipo</label>
+                                                <select class="form-select" aria-label="Default select example" id="tipo" name="tipo">
+                                                    <option selected th:value="${p.tipo}" th:text="${p.tipo}">Dissertativa*</option>
+                                                    <option value="multipla escolha">Multipla Escolha</option>
+                                                    <option value="dissertativa">Dissertativa</option>
+                                                </select>
                                             </div>
                                             <div class="form-check form-switch mt-2">
                                                 <input class="form-check-input" type="checkbox" role="switch" id="obrigatorio" name="obrigatorio" th:checked="${p.obrigatorio}">

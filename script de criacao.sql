@@ -189,6 +189,7 @@ CREATE TABLE notas (
 	notaFinal DOUBLE,
 	recomendacao VARCHAR(100),
     sabeProgramar Varchar(100),
+    desclassificado boolean,
 	FOREIGN KEY (usuarioId) REFERENCES usuario(usuarioId) ON DELETE CASCADE ON UPDATE CASCADE ,
 	FOREIGN KEY (turmaId) REFERENCES turma(turmaId) ON DELETE CASCADE ON UPDATE CASCADE 
 );

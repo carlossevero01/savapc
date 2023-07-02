@@ -57,7 +57,7 @@ public class notas {
     private double notaFinal;
     private String recomendacao;
     private String sabeProgramar;
-
+    private boolean desclassificado;
     public int getNotaId() { return notaId; }
     public void setNotaId(int notaId) { this.notaId = notaId;}
     public turma getTurma() { return turma; }
@@ -163,11 +163,6 @@ public class notas {
         this.recomendacao=recomendacao;
     }
 
-   
-
-    
-   
-
     public Set<teste> getTestes() {
         return testes;
     }
@@ -189,13 +184,19 @@ public class notas {
         return "notas [notaId=" + notaId + ", usuario=" + usuario + ", turma=" + turma + ", nPerguntasCorretas="
                 + nPerguntasCorretas + ", nPerguntas=" + nPerguntas + ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3
                 + ", h4=" + h4 + ", h5=" + h5 + ", notaProjetoFinal=" + notaProjetoFinal + ", notaTestes=" + notaTestes
-                + ", notaFinal=" + notaFinal + ", recomendacao=" + recomendacao + ",SabeProgramar="+sabeProgramar+"]";
+                + ", notaFinal=" + notaFinal + ", recomendacao=" + recomendacao + ",SabeProgramar="+sabeProgramar+", desclassificado="+desclassificado+"]";
     }
     public String getSabeProgramar() {
         return sabeProgramar;
     }
     public void setSabeProgramar(String sabeProgramar) {
         this.sabeProgramar = sabeProgramar;
+    }
+    public boolean isDesclassificado() {
+        return desclassificado;
+    }
+    public void setDesclassificado(boolean desclassificado) {
+        this.desclassificado = desclassificado;
     }
 
    

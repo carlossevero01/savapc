@@ -181,13 +181,13 @@ public class questionarioController {
             turma turma = turmaRepository.findById(turmaId).get();
             questionarioinicial quest = questionarioinicialRepository.findById(questionarioId).orElseThrow(null);
             for (perguntaquestionario perg : lresp.getPerguntas()) {
-                // if(perg.isObrigatorio()){
-                //     if((perg.getTipo().equalsIgnoreCase("multipla escolha") && perg.getOpRespostaId()==null) || (perg.getTipo().equalsIgnoreCase("dissertativa") && perg.getResposta().isEmpty())){
-                //         attributes.addFlashAttribute("erro", "Confira e responda os campos obrigatórios!");
-                //         return "redirect:/index/aplicacaoquest/{turmaId}/{questionarioId}";
-                //     }
+                 if(perg.isObrigatorio()){
+                    if((perg.getTipo().equalsIgnoreCase("multipla escolha") && perg.getOpRespostaId()==null) || (perg.getTipo().equalsIgnoreCase("dissertativa") && perg.getResposta().isEmpty())){
+                        attributes.addFlashAttribute("erro", "Confira e responda os campos obrigatórios!");
+                        return "redirect:/index/aplicacaoquest/{turmaId}/{questionarioId}";
+                    }
                     
-                // }
+                }
             }
             List<respostaQuestionarios> ListRespostas = new ArrayList<>();
             regQuestionarios reg = new regQuestionarios();

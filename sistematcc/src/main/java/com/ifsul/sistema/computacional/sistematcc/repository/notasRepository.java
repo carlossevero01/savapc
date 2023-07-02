@@ -16,7 +16,7 @@ public interface notasRepository extends JpaRepository<notas,Integer> {
     List<notas> findByUsuario(usuario aluno);
     List<notas> findByTurma(turma turma);
     List<notas> findByUsuarioAndTurmaOrderByUsuario(usuario usuario, turma turma);
-    
+    List<notas> findByTurmaAndDesclassificado(turma t, boolean desclassificado);
     
     
 }

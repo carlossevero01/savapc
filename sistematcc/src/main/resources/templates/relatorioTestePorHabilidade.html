@@ -28,7 +28,7 @@
 				</div>
 				
 				<thead class="bg-light">
-				  <tr>
+				  <tr class="text-center">
 					<th scope="col">Aluno</th>
 					<th scope="col">Turma</th>
 					<th scope="col">N.Questões Corretas</th>
@@ -43,6 +43,7 @@
 					<th scope="col">NotaFinal</th>
 					<th scope="col">Recomendação</th>
 					<th scope="col">SabeProgramar</th>
+					<th scope="col"></th>
 					<th scope="col">Opções</th>
 				  </tr>
 				</thead>
@@ -50,8 +51,8 @@
 					<tr th:if="${contabilizacoes.empty}">
 						<td>Sem registros disponíveis</td>
 					</tr>
-				  <tr th:each="c , i : ${contabilizacoes}">
-					<td>
+				  <tr th:each="c , i : ${contabilizacoes}"  class="text-center">
+					<td >
 						<div class="d-flex align-items-center">
 							<div class="ms-3">
 							  <p class="fw-bold mb-1" th:text="${c.usuario.nome}">AlunoX</p>
@@ -59,57 +60,60 @@
 							</div>
 						  </div>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${turmaNome}">NomeTurma</p>
 					  </td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.nPerguntasCorretas}">nQuestoesCertas</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.nPerguntas}">nQuestoes</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.h1}">H1</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.h2}">H2</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.h3}">H3</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.h4}">H4</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.h5}">H5</p>
 					</td>
 					
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.notaProjetoFinal}">notaProjeto</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.notaTestes}">NotaTestes</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.notaFinal}">NotaFinal</p>
 					</td>
-					<td>
+					<td >
 						<p th:if="${c.recomendacao == 'N/D'}" class="fw-normal mb-1" style="color: red;" th:text="${c.recomendacao}">recomendacao</p>
 						<p th:unless="${c.recomendacao =='N/D'}" class="fw-normal mb-1 " style="color: green;" th:text="${c.recomendacao}">recomendacao</p>
 					</td>
-					<td>
+					<td >
 						<p class="fw-normal mb-1" th:text="${c.sabeProgramar}">SabeProgramar</p>
 					</td>
+					<td >
+						<p th:if="${c.desclassificado}" style="color: red;">Eliminado</p>
+						<i th:if="${c.desclassificado}" class="fa-regular fa-face-frown me-1 fa-2xl" style="color: red;"></i>
+					</td>
 					<td>
-						
 						<!-- Inicio Bloco Modal -->
-						<button type="button" class="btn btn-secondary mt-1 mb-1" data-bs-toggle="modal" th:attr="data-bs-target='#updateNotaProjeto_'+${c.notaId}" >Editar Nota Projeto</button>
+						<button type="button" class="btn btn-secondary mt-1 mb-1" data-bs-toggle="modal" th:attr="data-bs-target='#updateNota_'+${c.notaId}" >Editar Nota</button>
 					
-							<div class="modal" th:id="updateNotaProjeto_+${c.notaId}"  tabindex="-1" aria-hidden="true">
+							<div class="modal" th:id="updateNota_+${c.notaId}"  tabindex="-1" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Nota do projeto de</h5> <h5 class="modal-title" th:text="${c.usuario.nome}"></h5>
+									<h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Nota de </h5> <h5 class="modal-title" th:text="${c.usuario.nome}"></h5>
 									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 										<i class="fa fa-times" aria-hidden="true"></i>
 									</button>
@@ -117,11 +121,25 @@
 									<div class="modal-body">
 										<div class="d-flex me-1"><p>Recomendação: </p><p th:text="${c.recomendacao}">recomendação</p></div>
 										
-										<form method="post" th:action="@{/index/updateprojetonota/{turmaId}/{notaId}(turmaId=${turmaId} ,notaId=${c.notaId})}">
+										<form method="post" th:action="@{/index/updatenota/{turmaId}/{notaId}(turmaId=${turmaId} ,notaId=${c.notaId})}">
 											
+											<div class="form-group mt-2">
+                                                <label for="recomendacao" class="form-label">Recomendação</label>
+                                                <select class="form-select" aria-label="recomendaçao" id="recomendacao" name="recomendacao">
+                                                    <option selected th:value="${c.recomendacao}" th:text="${c.recomendacao}">Recomendacao*</option>
+                                                    <option value="N/D">N/D</option>
+                                                    <option value="Acod">Acod</option>
+													<option value="Lcod">Lcod</option>
+													<option value="Pcd">Pcd</option>
+                                                </select>
+                                            </div>
 											<div class="mb-3">
-												<label for="nota" class="form-label">nota</label>
+												<label for="nota" class="form-label">nota projeto</label>
 												<input type="number" step="0.01" class="form-control" id="nota" name="nota" th:value="${c.notaProjetoFinal}">
+											</div>
+											<div class="form-check mb-3 ms-2 w-50">
+												<input class="form-check-input " type="checkbox" id="elimin" name="elimin" th:checked="${c.desclassificado}" th:value="${c.desclassificado}">
+												<label class="form-check-label" for="elimin"> Desclassificado </label>
 											</div>
 												<button type="submit" class="btn btn-secondary">Salvar</button>	
 										  </form>

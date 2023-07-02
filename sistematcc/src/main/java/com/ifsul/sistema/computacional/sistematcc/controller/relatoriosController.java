@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -114,15 +115,15 @@ public class relatoriosController {
             String csvFilePath = "Reviews-export.csv";
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
             fileWriter.write(
-                    "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,NotaTestes,NotaFinal,Recomendação");
+                    "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,NotaTestes,NotaFinal,SabeProgramar,Recomendação");
 
             turma turma = turmaRepository.findById(turmaId).get();
-            List<notas> contabilizacaoListTurma = notasRepository.findByTurma(turma);
+            List<notas> contabilizacaoListTurma = notasRepository.findByTurmaAndDesclassificado(turma,false);
             for (notas cL : contabilizacaoListTurma) {
-                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         cL.getUsuario().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas(),
                         cL.getnPerguntas(), cL.getH1(), cL.getH2(), cL.getH3(), cL.getH4(), cL.getH5(),
-                        cL.getNotaProjetoFinal(),cL.getNotaTestes(), cL.getNotaFinal(),
+                        cL.getNotaProjetoFinal(),cL.getNotaTestes(), cL.getNotaFinal(), cL.getSabeProgramar(),
                         cL.getRecomendacao());
 
                 fileWriter.newLine();
@@ -140,17 +141,22 @@ public class relatoriosController {
         }
     }
 
-    /* Atualiza nota projeto de um aluno */
-    @PostMapping("/index/updateprojetonota/{turmaId}/{notaId}")
+    /* Atualiza nota de um aluno */
+    @PostMapping("/index/updatenota/{turmaId}/{notaId}")
     public String setUpdateNotaProjeto(@PathVariable("turmaId") int turmaId, @PathVariable("notaId") int notaId,
-            @RequestParam("nota") double nota, RedirectAttributes redirectAttributes) {
-        try {
+            @RequestParam(value = "elimin", required = false) String desclassificado,@RequestParam("nota") double nota,@RequestParam("recomendacao") String recomendacao, RedirectAttributes redirectAttributes) {        try {
 
             turma turma = turmaRepository.findById(turmaId).get();
 
             if (notasRepository.findById(notaId) != null) {
                 notas novaNota = notasRepository.findById(notaId).get();
                 novaNota.setNotaProjetoFinal(nota);
+                novaNota.setRecomendacao(recomendacao);
+                if (desclassificado != null) {
+                    novaNota.setDesclassificado(true);
+                } else {
+                    novaNota.setDesclassificado(false);
+                }
                 notasRepository.save(novaNota);
                 notasServiceImplements.SalvarNotas(turma);
                 redirectAttributes.addFlashAttribute("sucesso", "Nota editada com sucesso!");

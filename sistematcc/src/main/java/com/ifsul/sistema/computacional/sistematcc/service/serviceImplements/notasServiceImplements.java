@@ -59,7 +59,7 @@ public class notasServiceImplements implements notasService {
         Set<teste> testes = new HashSet<>();
         testes.clear();
 
-        String recomendacao = "";
+        String recomendacao = " ";
         double nQcorretas = 0;
         int nQChab1 = 0;
         int nQChab2 = 0;
@@ -73,7 +73,8 @@ public class notasServiceImplements implements notasService {
         double notafinal = 0;
         int aux = 0;
         int nQRespondidas = 0;
-        
+        boolean notaExiste=false;
+       
         for (correcoesUsuario r : regs) {
 
             
@@ -116,11 +117,15 @@ public class notasServiceImplements implements notasService {
                     nota = notasRepository.findByUsuarioAndTurmaOrderByUsuario(r.getUsuario(), r.getTurma()).get(0);
                     notaProjeto = nota.getNotaProjetoFinal();
                     sabeProgramar = nota.getSabeProgramar();
+                    notaExiste=true;
+                    
                 } else {
                     nota.setUsuario(r.getUsuario());
                     nota.setTurma(r.getTurma());
                     notaProjeto = 0;
                     nota.setNotaProjetoFinal(notaProjeto);
+                    notaExiste=false;
+                    nota.setDesclassificado(false);
                 }
                 notaTestes = (nQcorretas / nQ) *10;
                 notaTestes = Double.valueOf(String.format("%,.2f", notaTestes).replace(",", "."));
@@ -144,13 +149,27 @@ public class notasServiceImplements implements notasService {
                 }else if(notafinal > 5 && notafinal < 6) {
                     recomendacao = "Pcd";
                 }else {recomendacao= "N/D";}
-
+                if(notaExiste){
+                    if(nota.getRecomendacao().equalsIgnoreCase("N/D")){
+                        nota.setRecomendacao(recomendacao);
+                    }else if(nota.getRecomendacao().equalsIgnoreCase("Pcd")){
+                        if(!recomendacao.equalsIgnoreCase("N/D")){
+                            nota.setRecomendacao(recomendacao);
+                        }
+                    }else if(nota.getRecomendacao().equalsIgnoreCase("Acod")){
+                        if(recomendacao.equalsIgnoreCase("Lcod")){
+                           nota.setRecomendacao(recomendacao); 
+                        }
+                    }   
+                }else{
+                    nota.setRecomendacao(recomendacao);
+                }
                 nota.setnPerguntasCorretas((int) nQcorretas);
                 nota.setnPerguntas((int) nQ);
                 nota.setNotaProjetoFinal(notaProjeto);
                 nota.setNotaTestes(notaTestes);
                 nota.setNotaFinal(notafinal);
-                nota.setRecomendacao(recomendacao);
+                
                 nota.setSabeProgramar(sabeProgramar);
                 nota.setH1(nQChab1);
                 nota.setH2(nQChab2);
@@ -175,6 +194,11 @@ public class notasServiceImplements implements notasService {
             }
 
         }
+    }
+
+    @Override
+    public List<notas> findByTurmaAndDesclassificado(turma t, boolean desclassificado) {
+        return notasRepository.findByTurmaAndDesclassificado(t,desclassificado);
     }
 
 }

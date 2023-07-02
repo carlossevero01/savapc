@@ -16,6 +16,6 @@ public interface notasService {
     List<notas> findByUsuario(usuario usuario);
     List<notas> findByTurma(turma turma);
     List<notas> findByUsuarioAndTurmaOrderByUsuario(usuario aluno,turma turma);
-    
+    List<notas> findByTurmaAndDesclassificado(turma t, boolean desclassificado);
     
 }
