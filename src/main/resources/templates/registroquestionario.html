@@ -18,38 +18,42 @@
 		<div th:insert="fragments/frag :: navProf"></div>
 		
 		<div class="container mt-2">
+      <div class="mx-auto text-end">
+				<a type="button" class="btn btn-secondary mt-2" th:href="@{/index/exportarRelatorioQuestionario/{turmaId}/download(turmaId=${turmaId})}">
+					Exportar relatório
+				</a>
+			 </div>
 			 <div class="row">
-            <th:block th:include="mensagemValidacao"></th:block>
+            <div th:insert="mensagemValidacao"></div>
                <h5 class="card-subtitle text-body-secondary mt-2 " th:text="${turma.nome}">TurmaNome</h5>
                             
                 <table class="table">
                     <thead >
-                      <tr >
-                        <th scope="col">Quesitonario</th>
+                      <tr class="mx-auto text-center">
                         <th scope="col">Aluno</th>
-                        <th scope="col">Titulo</th>
+                        <th scope="col">Pergunta</th>
                         <th scope="col">Resposta</th>
                       </tr>
                     </thead>
                     <tbody th:each=" reg , i : ${registros}">
-                      <tr th:each=" resp , j : ${reg.respostasQuestionario}">
-                        <th scope="row" >
-                          <h6 class="card-subtitle text-body-secondary mt-2 " th:text="${reg.questionario.nome}">Questionario</h6> </th>
-                        <th scope="row" > 
-                          <h6 class="card-subtitle text-body-secondary mt-2 " th:text="${reg.usuario.nome}">Aluno</h6></th>
-                        <th scope="row" > 
-                          <h6 class="card-subtitle text-body-secondary mt-2 " th:text="${resp.perguntaQuestionario.titulo}">Titulo</h6>
-                        </th>
-                        <div th:if="${resp.tipo=='multipla escolha'}">
-                          <td class="card-text" >
-                            <h6 class="card-subtitle text-body-secondary mt-2 " th:text="${resp.opRespostaId}">Resposta</h6>
-                          </td> 
-                        </div>
-                        <div th:if="${resp.tipo=='dissertativa'}">
-                          <td class="card-text" >
-                            <h6 class="card-subtitle text-body-secondary mt-2 " th:text="${resp.resposta}">Resposta</h6>
-                          </td>
-                        </div>        
+                      <tr class="mx-auto text-center" th:each=" resp , j : ${reg.respostasQuestionario}">
+                        <td>
+                          <div class=" align-items-center">
+                                <p class="fw-bold mb-1" th:text="${reg.usuario.nome}">Nome</p>
+                                <p class="text-muted mb-0" th:text="${reg.usuario.identificador}">Identificador</p> 
+                          </div>
+                        </td>
+                        <td>
+                          <div class=" align-items-center"> 
+                                <p class="fw-bold mb-1" th:text="${reg.questionario.nome}">Teste</p>
+                                <p class="text-muted mb-0" th:text="${resp.perguntaQuestionario.titulo}">Titulo</p> 
+                          </div>
+                        </td>
+                        <td >
+                          <div class="align-items-center">
+                              <p class=" mb-1" th:text="${resp.resposta}">Resposta</p>                          
+                          </div>
+                        </td>
                       </tr>  
                     </tbody>
                   </table>

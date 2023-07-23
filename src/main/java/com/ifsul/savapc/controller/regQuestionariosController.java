@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ifsul.savapc.model.regQuestionarios;
+
 import com.ifsul.savapc.model.turma;
 import com.ifsul.savapc.repository.perguntaQuestionarioRepository;
 import com.ifsul.savapc.repository.questionarioinicialRepository;
 import com.ifsul.savapc.repository.regQuestionariosRepository;
+import com.ifsul.savapc.repository.respostaQuestionarioRepository;
 import com.ifsul.savapc.repository.turmaRepository;
 
 @Controller
@@ -25,6 +27,8 @@ public class regQuestionariosController {
     regQuestionariosRepository regQuestionariosRepository;
     @Autowired
     turmaRepository turmaRepository;
+    @Autowired
+    respostaQuestionarioRepository respostaQuestionarioRepository;
 
     /* Listar registros de questionarios de uma turma */
     @GetMapping("/index/relatorioQuestionario/{turmaId}")
@@ -45,5 +49,7 @@ public class regQuestionariosController {
         }
         return mv;
     }
+
+    
 
 }

@@ -1,6 +1,6 @@
 package com.ifsul.savapc.controller;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ifsul.savapc.model.perguntaquestionario;
 import com.ifsul.savapc.model.perguntasQuestForm;
 import com.ifsul.savapc.model.questionarioinicial;
-import com.ifsul.savapc.model.regQuestionarios;
-import com.ifsul.savapc.model.respostaQuestionarios;
+
 import com.ifsul.savapc.model.turma;
 import com.ifsul.savapc.repository.perguntaQuestionarioRepository;
 import com.ifsul.savapc.repository.questionarioinicialRepository;
@@ -25,6 +24,7 @@ import com.ifsul.savapc.repository.regQuestionariosRepository;
 import com.ifsul.savapc.repository.turmaRepository;
 import com.ifsul.savapc.repository.usuarioRepository;
 import com.ifsul.savapc.service.questionarioinicialService;
+import com.ifsul.savapc.service.serviceImplements.questionarioinicialServiceImplements;
 
 import jakarta.validation.Valid;
 
@@ -42,6 +42,8 @@ public class questionarioController {
     turmaRepository turmaRepository;
     @Autowired
     regQuestionariosRepository regQuestionariosRepository;
+    @Autowired
+    questionarioinicialServiceImplements questImplements;
 
     /* Listar Questionarios */
     @GetMapping(value = "/index/questionarios")
@@ -188,48 +190,15 @@ public class questionarioController {
                     
                 }
             }
-            List<respostaQuestionarios> ListRespostas = new ArrayList<>();
-            regQuestionarios reg = new regQuestionarios();
-            if (usuarioRepository.findByUsername(lresp.getUsername()) != null) {
-                for (perguntaquestionario Pergunta : lresp.getPerguntas()) {
-                    respostaQuestionarios resposta = new respostaQuestionarios();
-                        perguntaquestionario p = perguntaQuestionarioRepository
-                            .findById(Pergunta.getPerguntaQuestionarioId()).orElseThrow(null);
-                         resposta.setPerguntaQuestionario(p);
-                         resposta.setTipo(Pergunta.getTipo());
-                         if (Pergunta.getTipo().equalsIgnoreCase("multipla escolha")) {
-                            if(Pergunta.getOpRespostaId()!=null){
-                                resposta.setOpRespostaId(Integer.valueOf(Pergunta.getOpRespostaId()));   
-                                ListRespostas.add(resposta);
-                            } 
-                            else{
-                                resposta.setOpRespostaId(0);   
-                                ListRespostas.add(resposta);
-                            }
-                        }
-                        if (Pergunta.getTipo().equalsIgnoreCase("dissertativa")) {
-                            if(!Pergunta.getResposta().isEmpty()){
-                                resposta.setResposta(Pergunta.getResposta());
-                            ListRespostas.add(resposta);
-                            }else{
-                                resposta.setResposta(" Em branco");
-                            ListRespostas.add(resposta);
-                            }
-                            
-                        }
-                    
-                    
-                }
-                reg.setUsuario(usuarioRepository.findByUsername(lresp.getUsername()));
-                reg.setQuestionario(quest);
-                reg.setTurma(turma);
-                reg.setRespostasQuestionario(ListRespostas);
-                regQuestionariosRepository.save(reg);
+        
+            
+           
+            if(questImplements.salvarRespostasQuest(turma, quest, lresp)){
                 attributes.addFlashAttribute("sucesso", "Questionario respondido com sucesso!");
                 return "redirect:/index/turma/{turmaId}";
             } else {
-                attributes.addFlashAttribute("erro", "Matricula não encontrada");
-                return "redirect:/index/inicial";
+                attributes.addFlashAttribute("erro", "A resposta não pôde ser salva!");
+                return "redirect:/index/turma/{turmaId}";
             }
         } catch (Exception e) {
             attributes.addFlashAttribute("erro", "Questionario não foi respondido com sucesso" + e);

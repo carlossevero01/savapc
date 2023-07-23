@@ -17,33 +17,50 @@
         
 		<div th:insert="fragments/frag :: navProf"></div>
 		
-		<div class="container-fluid mt-2">
+		<div class="container mt-2">
+            <div class="mx-auto text-end">
+				<a type="button" class="btn btn-secondary mt-2" th:href="@{/index/exportarRelatorioTestePerguntas/{turmaId}/download(turmaId=${turmaId})}">
+					Exportar relatório
+				</a>
+			 </div>
 			 <div class="row">
-            <th:block th:include="mensagemValidacao"></th:block>
+            <th:block th:insert="mensagemValidacao"></th:block>
             <div class="col-lg-10 mt-5 mb-5" >
                 <table class="table" >
-                    <span th:text="${turmaNome}"></span>
-                <thead>
+                    <h5 class="card-subtitle text-body-secondary mt-2 " th:text="${turmaNome}">TurmaNome</h5>
+                <thead >
                     <tr>
-						<th scope="col">Teste</th>
                         <th scope="col">Aluno</th>
                         <th scope="col">Pergunta</th>
-						<th scope="col">Resposta escolhida</th>
-                        <th scope="col">Acertou?</th>
-                        
+                        <th scope="col">Resposta</th>
                     </tr>
                 </thead>
-                    <tbody>
-                        
-                    <tr  th:each="c: ${correcao}">
-                        <td th:text="${c.teste.nome}"></td>
-                        <td th:text="${c.usuario.nome}"></td>
-                        <td th:text="${c.perguntaTeste.titulo}"></td>
-                        <td th:text="${c.opcaoResposta.descricao}"></td>         <!-- '' aspas simples fica como texto -->
-                        <td > <span th:if="${c.acertou}"><i class="fa-solid fa-check" style="color: green;"></i></span>
-                            <span th:unless="${c.acertou}"> <i class="fa-solid fa-x" style="color:red;"></i> </span> 
-                      </td>
-                    </tr>
+                    <tbody > 
+                        <tr th:each="c,j: ${correcao}">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="ms-3">
+                                      <p class="fw-bold mb-1" th:text="${c.usuario.nome}">Nome</p>
+                                      <p class="text-muted mb-0" th:text="${c.usuario.identificador}">Identificador</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="ms-3">
+                                      <p class="fw-bold mb-1" th:text="${c.teste.nome}">Teste</p>
+                                      <p class="text-muted mb-0" th:text="${c.perguntaTeste.titulo}">Título</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td >
+                                <p th:if="${c.acertou}" class="fw-normal mb-1" style="color: green;" th:text="${c.opcaoResposta.descricao}">Resposta</p>
+                                <p th:unless="${c.acertou}" class="fw-normal mb-1" style="color:red;" th:text="${c.opcaoResposta.descricao}">Resposta</p>
+                            </td>
+                            
+
+                            </div>
+                        </tr>
                     </tbody>
                 </table>         
           </div>  

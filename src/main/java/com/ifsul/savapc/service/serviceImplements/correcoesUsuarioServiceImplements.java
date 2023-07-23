@@ -25,6 +25,10 @@ public class correcoesUsuarioServiceImplements implements correcoesUsuarioServic
         return correcoesUsuarioRepository.findByUsuarioAndTurmaAndTesteAndPerguntaTeste(a, t, test, perguntaTeste);
     }
     @Override
+    public List<correcoesUsuario> findByTurmaOrderByTeste(turma t) {
+        return correcoesUsuarioRepository.findByTurmaOrderByTeste(t);
+    }
+    @Override
     public List<correcoesUsuario> findByTurmaOrderByUsuario(turma t) {
         return correcoesUsuarioRepository.findByTurmaOrderByUsuario(t);
     }

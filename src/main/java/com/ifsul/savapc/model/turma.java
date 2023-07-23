@@ -44,7 +44,7 @@ public class turma implements Serializable{
     @JsonManagedReference
     private List<usuario> usuarios;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "testesturma",
         uniqueConstraints = @UniqueConstraint(columnNames = {"turmaId","testeId"}),

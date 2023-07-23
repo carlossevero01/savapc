@@ -1,9 +1,9 @@
 package com.ifsul.savapc.controller;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+
 import java.io.IOException;
-import java.io.PrintWriter;
+
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ifsul.savapc.model.correcoesUsuario;
 import com.ifsul.savapc.model.notas;
+
 import com.ifsul.savapc.model.turma;
 import com.ifsul.savapc.repository.correcoesUsuarioRepository;
 import com.ifsul.savapc.repository.notasRepository;
@@ -29,6 +30,7 @@ import com.ifsul.savapc.repository.turmaRepository;
 import com.ifsul.savapc.repository.usuarioRepository;
 import com.ifsul.savapc.service.serviceImplements.notasServiceImplements;
 import com.ifsul.savapc.service.serviceImplements.regTestesServiceImplements;
+import com.ifsul.savapc.service.serviceImplements.relatoriosServiceImplements;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -57,6 +59,8 @@ public class relatoriosController {
 
     @Autowired
     notasServiceImplements notasServiceImplements;
+    @Autowired
+    relatoriosServiceImplements relatoriosServiceImplements;
 
     /* Exibir relatorio de Perguntas de uma turma */
     @GetMapping("/index/relatorioPergunta/{turmaId}")
@@ -71,7 +75,6 @@ public class relatoriosController {
         }
         turma t = turmaRepository.findById(turmaId).get();
         List<correcoesUsuario> correcao = correcoesUsuarioRepository.findByTurmaOrderByUsuario(t);
-        System.out.println("\n \n asd" + correcao.toString() + "\n Size:" + correcao.size());
         mv.addObject("correcao", correcao);
         mv.addObject("turmaNome", t.getNome());
         return mv;
@@ -110,66 +113,24 @@ public class relatoriosController {
             return mv;
         }
     }
-
-    @GetMapping("/index/exportarRelatorio/{turmaId}/download")
-    public void download(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
+    /* Exporta Relatório de Habilidades */
+    @GetMapping("/index/exportarRelatorioTeste/{turmaId}/download")
+    public void exportRelatorioTeste(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
         turma turma = turmaRepository.findById(turmaId).get();
-        String filename = "relatorio_PensamentoComputacional.csv";
-
-        // Configura o tipo de conteúdo do arquivo de resposta
-        response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-
-        // Cria um arquivo CSV
-        try (PrintWriter writer = response.getWriter()) {
-
-            writer.write(
-                    "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,NotaTestes,NotaFinal,SabeProgramar,Recomendação");
-            List<notas> contabilizacaoListTurma = notasRepository.findByTurmaAndDesclassificado(turma, false);
-            for (notas cL : contabilizacaoListTurma) {
-                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
-                        cL.getUsuario().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas(),
-                        cL.getnPerguntas(), cL.getH1(), cL.getH2(), cL.getH3(), cL.getH4(), cL.getH5(),
-                        cL.getNotaProjetoFinal(), cL.getNotaTestes(), cL.getNotaFinal(), cL.getSabeProgramar(),
-                        cL.getRecomendacao());
-                writer.append('\n');
-                writer.write(line);
-            }
-            response.getWriter().flush();
-        }
+        relatoriosServiceImplements.exportarRelatorioTestes(turma, response);
     }
 
-    /* Exporta Relatório de Habilidades */
-    @GetMapping("/index/exportarRelatorio/{turmaId}")
-    public String exportRelatorioTurma(@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes) {
-        try {
-            String csvFilePath = "Reviews-export.csv";
-            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
-            fileWriter.write(
-                    "Aluno,Turma,nPerguntasCorretas,nPerguntas,H1,H2,H3,H4,H5,NotaProjeto,NotaTestes,NotaFinal,SabeProgramar,Recomendação");
-
-            turma turma = turmaRepository.findById(turmaId).get();
-            List<notas> contabilizacaoListTurma = notasRepository.findByTurmaAndDesclassificado(turma, false);
-            for (notas cL : contabilizacaoListTurma) {
-                String line = String.format("\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
-                        cL.getUsuario().getNome(), cL.getTurma().getNome(), cL.getnPerguntasCorretas(),
-                        cL.getnPerguntas(), cL.getH1(), cL.getH2(), cL.getH3(), cL.getH4(), cL.getH5(),
-                        cL.getNotaProjetoFinal(), cL.getNotaTestes(), cL.getNotaFinal(), cL.getSabeProgramar(),
-                        cL.getRecomendacao());
-
-                fileWriter.newLine();
-                fileWriter.write(line);
-
-            }
-            fileWriter.close();
-
-            redirectAttributes.addFlashAttribute("sucesso", "Dados exportados com sucesso");
-            return "redirect:/index/relatorioTeste/{turmaId}";
-        } catch (Exception e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("erro", "Não foi possivel exportar os dados");
-            return "redirect:/index/relatorioTeste/{turmaId}";
-        }
+    /*Exporta relatório com perguntas e respostas */
+    @GetMapping("/index/exportarRelatorioTestePerguntas/{turmaId}/download")
+    public void exportRelatorioTestePerguntas(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
+        turma turma = turmaRepository.findById(turmaId).get();
+        relatoriosServiceImplements.exportarRelatorioTestesComPerguntas(turma, response);
+    }
+    /*Exporta relatório com questionarios e respostas */
+    @GetMapping("/index/exportarRelatorioQuestionario/{turmaId}/download")
+    public void exportRelatorioQuestionario(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
+        turma turma = turmaRepository.findById(turmaId).get();
+        relatoriosServiceImplements.exportarRelatorioQuestionario(turma, response);
     }
 
     /* Atualiza nota de um aluno */

@@ -12,6 +12,7 @@ import com.ifsul.savapc.model.usuario;
 public interface correcoesUsuarioService {
     List<correcoesUsuario> findByUsuario(usuario a);
     List<correcoesUsuario> findByTurmaOrderByUsuario(turma t);
+    List<correcoesUsuario> findByTurmaOrderByTeste(turma t);
     List<correcoesUsuario> findByUsuarioAndTurmaAndTesteAndPerguntaTeste(usuario a, turma t, teste test, perguntaTeste perguntaTeste);
     List<correcoesUsuario> findByUsuarioAndTurma(usuario a, turma t);
 }
