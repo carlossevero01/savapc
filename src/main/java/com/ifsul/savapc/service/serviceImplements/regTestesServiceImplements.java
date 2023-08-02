@@ -52,6 +52,7 @@ public class regTestesServiceImplements implements regTestesService{
             
             
             for (respostaTeste resp : r.getRespostasTeste()) {
+                
                 boolean acertou = false;
                 if(correcoesUsuarioRepository.findByUsuarioAndTurmaAndTesteAndPerguntaTeste(r.getUsuario(), r.getTurma(), r.getTeste(), resp.getPerguntaTeste()).size()<=0){
                 List<opcaoresposta> OPrespostas = new ArrayList<>();
@@ -62,6 +63,7 @@ public class regTestesServiceImplements implements regTestesService{
                 
                 
                 for (opcaoresposta op : OPrespostas) {
+                    
                 if (resp.getOpRespostaId() == op.getOpcaoRespostaId()) { //Resposta Certa
                     acertou=true;
                     opcaoresposta opR =  opcaorespostaRepository.findById(resp.getOpRespostaId()).get();            
@@ -72,7 +74,8 @@ public class regTestesServiceImplements implements regTestesService{
                     
                 }     
                 }
-                if(acertou==false) {                                                //Resposta Errada
+                if(acertou==false) {                   
+                                                 //Resposta Errada
                     opcaoresposta opR =  opcaorespostaRepository.findById(resp.getOpRespostaId()).get();
                     correcoesUsuario cA = new correcoesUsuario(r.getUsuario(),r.getTurma(), r.getTeste(), resp.getPerguntaTeste(), opR, false);
                     correcoesUsuarioRepository.save(cA);

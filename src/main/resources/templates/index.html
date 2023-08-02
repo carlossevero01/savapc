@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,13 +16,14 @@
     </head>
     <body>
         <div sec:authorize="hasRole('ROLE_PROF')">
-            <div th:replace="~{fragments/frag :: navProf}"></div>
-          </div>
-          <div sec:authorize="not isAuthenticated()">
+            <div th:include="~{fragments/frag :: navProf}"></div>
+        </div>
+          
+          <div sec:authorize="!isAuthenticated()">
             <div th:replace="~{fragments/frag :: navAll}"></div>
           </div>
           <div sec:authorize="hasRole('ROLE_ALUNO')">
-            <div th:replace="~{fragments/frag :: navAll}"></div>
+            <div th:insert="~{fragments/frag :: navAll}"></div>
           </div>
         <th:block th:replace="~{mensagemValidacao.html}"></th:block>
         <header class=" bg-dark bg-gradient text-white p-4">

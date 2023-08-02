@@ -67,12 +67,12 @@ public class relatoriosController {
     @ResponseBody
     public ModelAndView getRelatorio(@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("relatorioComPerguntas");
-        try {
+       // try {
             regTestesServiceImplements.fazerCorrecaoTestes();
 
-        } catch (Exception e) {
-            return mv;
-        }
+      //  } catch (Exception e) {
+       //     return mv;
+       // }
         turma t = turmaRepository.findById(turmaId).get();
         List<correcoesUsuario> correcao = correcoesUsuarioRepository.findByTurmaOrderByUsuario(t);
         mv.addObject("correcao", correcao);

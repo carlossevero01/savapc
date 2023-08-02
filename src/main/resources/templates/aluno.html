@@ -38,7 +38,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" th:action="@{/index/saveUsuario}">
+                            <form method="post" th:action="@{/index/saveUsuario}" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome*</label>
                                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
@@ -68,6 +68,7 @@
                                     <label for="img" class="control-label">Imagem(opcional)</label>
                                     <input type="file" class="form-control" id="img" name="file">
                                 </div>
+                                
                                 <div class="form-outline mt-2 mb-4">
                                     <input type="text" id="username" class="form-control" name="username" />
                                     <label class="form-label" for="username">Nome de Usuario*</label>
@@ -132,7 +133,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form method="post"
-                                                th:action="@{/index/updateusuario/{id}(id=${a.usuarioId})}">
+                                                th:action="@{/index/updateusuario/{id}(id=${a.usuarioId})}" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="nome" class="form-label">Nome</label>
                                                     <input type="text" class="form-control" id="nome" name="nome"
@@ -145,11 +146,9 @@
                                                 </div>
                                                 <div class="form-group mt-2">
                                                     <label for="tipo" class="control-label">Tipo</label>
-                                                    <select class="form-select" aria-label="Default select example"
-                                                        id="tipo">
-                                                        <option selected th:value=${a.tipo} th:text="${a.tipo}">Tipo*
-                                                        </option>
-                                                        <option value="aluno">Aluno*</option>
+                                                    <select class="form-select" aria-label="tipo" id="tipo" name="tipo">
+                                                        <option selected th:value=${a.tipo} th:text="${a.tipo}">Tipo* </option>
+                                                        <option value="aluno">Aluno</option>
                                                         <option value="prof">Professor</option>
                                                     </select>
                                                 </div>

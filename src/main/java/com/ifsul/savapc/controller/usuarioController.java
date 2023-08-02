@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import com.ifsul.savapc.repository.testeRepository;
 import com.ifsul.savapc.repository.turmaRepository;
 import com.ifsul.savapc.repository.usuarioRepository;
 import com.ifsul.savapc.service.usuarioService;
+
 
 import jakarta.validation.Valid;
 
@@ -78,7 +80,7 @@ public class usuarioController {
 
     /* CADASTRAR (PROFESSORES/ADMIN) */
     @PostMapping("/index/saveUsuario")
-    public String saveAluno(@Valid usuario a, BindingResult result, RedirectAttributes attributes) {
+    public String saveAluno(@Valid usuario a, BindingResult result, RedirectAttributes attributes, @RequestParam("file") MultipartFile img) {
         if (result.hasErrors()) {
             if (a.getTipo().equalsIgnoreCase("aluno")) {
                 attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
@@ -87,8 +89,22 @@ public class usuarioController {
                 attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
                 return "redirect:/index/professores";
             }
-
         }
+         
+            if (!img.isEmpty()) {
+                try {
+                    byte[] bytes = img.getBytes();
+                    Path caminho = Paths.get("./src/main/resources/static/images/" + img.getOriginalFilename());
+                    Files.write(caminho, bytes);
+                    a.setImg(img.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                a.setImg("não selecionado");
+            }
+        a.setPassword(new BCryptPasswordEncoder().encode(a.getPassword()));
+        
         usuarioService.save(a);
         if (a.getTipo().equalsIgnoreCase("aluno")) {
             attributes.addFlashAttribute("sucesso", "Aluno cadastrado");
@@ -121,6 +137,7 @@ public class usuarioController {
     @PostMapping("/index/updateusuario/{id}")
     public String setUpdateAluno(@PathVariable("id") int usuarioId, @Valid usuario novo,
             RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile img) {
+        
         if (usuarioRepository.existsById(usuarioId)) {
             if (!img.isEmpty()) {
                 try {
@@ -134,6 +151,7 @@ public class usuarioController {
             } else {
                 novo.setImg("não selecionado");
             }
+            
             
             usuario Existente = usuarioRepository.findById(usuarioId).get();
             Existente.setNome(novo.getNome());

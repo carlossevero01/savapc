@@ -32,7 +32,7 @@
                                 </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" th:action="@{/index/saveUsuario}">
+                            <form method="post" th:action="@{/index/saveUsuario}" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome*</label>
                                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
@@ -50,6 +50,7 @@
                                     <label for="identificador" class="form-label">Identificador*</label>
                                     <input type="text" class="form-control" id="Identificador" name="Identificador" placeholder="Identificador*">
                                 </div>
+                                
                                 <div class="form-group mt-2">
                                     <label class="control-label" for="dataNascimento"> Data de nascimento*</label> <input
                                      type="date" id="dataNascimento" class="form-control" name="dataNascimento" required
@@ -105,7 +106,7 @@
                         <td th:text="${a.telefone}"></td> 
                         <td th:text="${a.dataNascimento}"></td>  
                         <td><a class=" btn btn-secondary" 
-						th:href="@{/index/deletealuno/{id}(id=${a.usuarioId})}" role="button">Deletar</a>
+						th:href="@{/index/deleteusuario/{id}(id=${a.usuarioId})}" role="button">Deletar</a>
 							
 
                              <!-- Inicio Bloco Modal -->
@@ -120,7 +121,7 @@
                                                  </button>
                                          </div>
                                          <div class="modal-body">
-                                             <form method="post" th:action="@{/index/updateusuario/{id}(id=${a.usuarioId})}">
+                                             <form method="post" th:action="@{/index/updateusuario/{id}(id=${a.usuarioId})}" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="nome" class="form-label">Nome</label>
                                                     <input type="text" class="form-control" id="nome" name="nome" th:value="${a.nome}">
@@ -131,9 +132,9 @@
                                                 </div>
                                                 <div class="form-group mt-2">
                                                     <label for="tipo" class="control-label">Tipo</label>
-                                                    <select class="form-select" aria-label="Default select example" id="tipo" >
+                                                    <select class="form-select" aria-label="Default select example" id="tipo" name="tipo">
                                                         <option selected th:value=${a.tipo} th:text="${a.tipo}">Tipo*</option>
-                                                      <option value="aluno">Aluno*</option>
+                                                      <option value="aluno">Aluno</option>
                                                       <option value="prof">Professor</option>
                                                     </select>
                                                   </div>

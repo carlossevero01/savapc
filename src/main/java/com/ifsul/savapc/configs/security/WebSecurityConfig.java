@@ -12,6 +12,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ifsul.savapc.service.usuarioService;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -22,17 +24,17 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers(HttpMethod.POST).permitAll()
-                        .requestMatchers("/index/inicial", "/login", "/registrationAluno", "/images/**", "/js/**",
-                                "/css/**")
-                        .permitAll()
-                        .requestMatchers("/turmas", "/index/turma/*", "/index/aplicacaoteste/**",
-                                "/index/aplicacaoquest/**")
-                        .hasAnyRole("ALUNO", "PROF")
-                        .requestMatchers("index/**").hasRole("PROF")
-                        .anyRequest().authenticated()
-                // .and().cors()
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers(HttpMethod.POST).permitAll()
+                                .requestMatchers("/index/inicial", "/login", "/registrationAluno", "/images/**", "/js/**",
+                                        "/css/**")
+                                .permitAll()
+                                .requestMatchers("/turmas", "/index/turma/**", "/index/aplicacaoteste/**",
+                                        "/index/aplicacaoquest/**")
+                                .hasAnyRole("ALUNO", "PROF")
+                                .requestMatchers("index/**").hasRole("PROF")
+                                .anyRequest().authenticated()
+                
 
                 )
                 .formLogin((form) -> form

@@ -193,12 +193,7 @@ public class usuario implements Serializable {
     public void setImg(String img) {
         this.img = img;
     }
-    public String getTipo() {
-        return tipo;
-    }
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    
     public int getUsuarioId() {
         return usuarioId;
     }
@@ -216,6 +211,12 @@ public class usuario implements Serializable {
         return "usuario [usuarioId=" + usuarioId + ", nome=" + nome + ", identificador=" + identificador + ", tipo="
                 + tipo + ", email=" + email + ", telefone=" + telefone + ", dataNascimento=" + dataNascimento + ", img="
                 + img + ", username=" + username + "]";
+    }
+    public String getTipo() {
+        return tipo;
+    }
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
    

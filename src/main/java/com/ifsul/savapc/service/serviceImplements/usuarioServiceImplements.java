@@ -2,6 +2,7 @@ package com.ifsul.savapc.service.serviceImplements;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -92,23 +93,37 @@ public class usuarioServiceImplements implements usuarioService{
     }
     @Override
     public usuario save(usuario usuarioexistente) {
+        Role Raluno = roleRepository.findByNameLike("ROLE_ALUNO");
+        Role Rprof = roleRepository.findByNameLike("ROLE_PROF");
+        List<Role> ListRaluno = new ArrayList<>();
         
-    if(roleRepository.findByNameLike("ROLE_ALUNO")==null || roleRepository.findByNameLike("ROLE_PROF")==null){
+        List<Role> ListRprof = new ArrayList<>();
+        
+    if(Raluno==null || Rprof==null){
             if(usuarioexistente.getTipo().equalsIgnoreCase("aluno")){
-                usuarioexistente.setRoles(Arrays.asList(new Role("ROLE_ALUNO")));
+                ListRaluno.add(new Role("ROLE_ALUNO"));
+                usuarioexistente.setRoles(ListRaluno);
+                ListRaluno.clear();
                 return usuarioRepository.save(usuarioexistente);
             }else{
-                usuarioexistente.setRoles(Arrays.asList(new Role("ROLE_PROF")));
+                ListRprof.add(new Role("ROLE_PROF"));
+                usuarioexistente.setRoles(ListRprof);
+                ListRprof.clear();
                 return usuarioRepository.save(usuarioexistente);
             }
             
         
     }else{
+        
         if(usuarioexistente.getTipo().equalsIgnoreCase("aluno")){
-            usuarioexistente.setRoles(Arrays.asList( roleRepository.findByNameLike("ROLE_ALUNO")));
+            ListRaluno.add(Raluno);
+            usuarioexistente.setRoles(ListRaluno);
+            ListRaluno.clear();
             return usuarioRepository.save(usuarioexistente);
         }else{
-            usuarioexistente.setRoles(Arrays.asList( roleRepository.findByNameLike("ROLE_PROF")));
+            ListRprof.add(Rprof);
+            usuarioexistente.setRoles(ListRprof);
+            ListRprof.clear();
             return usuarioRepository.save(usuarioexistente);
         }
             
