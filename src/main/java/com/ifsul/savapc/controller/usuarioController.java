@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,16 +30,12 @@ import com.ifsul.savapc.repository.regQuestionariosRepository;
 import com.ifsul.savapc.repository.regTestesRepository;
 import com.ifsul.savapc.repository.testeRepository;
 import com.ifsul.savapc.repository.turmaRepository;
-import com.ifsul.savapc.repository.usuarioRepository;
 import com.ifsul.savapc.service.usuarioService;
-
 
 import jakarta.validation.Valid;
 
 @Controller
 public class usuarioController {
-    @Autowired
-    usuarioRepository usuarioRepository;
     @Autowired
     usuarioService usuarioService;
     @Autowired
@@ -56,8 +51,8 @@ public class usuarioController {
     @GetMapping(value = "/index/deleteusuario/{id}")
     public String deleteUsuario(@PathVariable("id") int id, RedirectAttributes attributes) {
         try {
-            usuario a = usuarioRepository.findById(id).get();
-            usuarioRepository.delete(a);
+            usuario a = usuarioService.findById(id);
+            usuarioService.deleteById(a.getUsuarioId());
             if (a.getTipo().equalsIgnoreCase("aluno")) {
                 attributes.addFlashAttribute("sucesso", "Usuário deletado");
                 return "redirect:/index/alunos";
@@ -66,7 +61,7 @@ public class usuarioController {
                 return "redirect:/index/professores";
             }
         } catch (Exception e) {
-            usuario a = usuarioRepository.findById(id).get();
+            usuario a = usuarioService.findById(id);
             if (a.getTipo().equalsIgnoreCase("aluno")) {
                 attributes.addFlashAttribute("erro", e.toString());
                 return "redirect:/index/alunos";
@@ -120,7 +115,7 @@ public class usuarioController {
     @GetMapping(value = "/index/alunos")
     public ModelAndView listarAlunos() {
         ModelAndView mv = new ModelAndView("aluno");
-        List<usuario> list = usuarioRepository.findByTipoLike("aluno");
+        List<usuario> list = usuarioService.findByTipoLike("aluno");
         mv.addObject("alunos", list);
         return mv;
     }
@@ -128,7 +123,7 @@ public class usuarioController {
     @GetMapping(value = "/index/professores")
     public ModelAndView listarProfessores() {
         ModelAndView mv = new ModelAndView("professor");
-        List<usuario> list = usuarioRepository.findByTipoLike("prof");
+        List<usuario> list = usuarioService.findByTipoLike("prof");
         mv.addObject("profs", list);
         return mv;
     }
@@ -138,7 +133,7 @@ public class usuarioController {
     public String setUpdateAluno(@PathVariable("id") int usuarioId, @Valid usuario novo,
             RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile img) {
         
-        if (usuarioRepository.existsById(usuarioId)) {
+        if (usuarioService.existsById(usuarioId)) {
             if (!img.isEmpty()) {
                 try {
                     byte[] bytes = img.getBytes();
@@ -153,7 +148,7 @@ public class usuarioController {
             }
             
             
-            usuario Existente = usuarioRepository.findById(usuarioId).get();
+            usuario Existente = usuarioService.findById(usuarioId);
             Existente.setNome(novo.getNome());
             Existente.setTipo(novo.getTipo());
             Existente.setIdentificador(novo.getIdentificador());
@@ -223,12 +218,12 @@ public class usuarioController {
     public ModelAndView verificacaoEsqueceuSenha(@RequestParam("identificador") String iden, @RequestParam("email") String email, RedirectAttributes redirectAttributes){
         ModelAndView mv = new ModelAndView("login");
         try {
-            if(usuarioRepository.findByIdentificadorLike(iden.trim()).isEmpty()){
+            if(usuarioService.findByIdentificadorLike(iden.trim()).isEmpty()){
                 redirectAttributes.addFlashAttribute("erro","Usuario não encontrado pelo identificador");
-                mv.addObject("esqueceuSenha", false);
+                mv.addObject("identInvalida", true);
                 return mv;
             }
-            usuario u =usuarioRepository.findByIdentificadorLike(iden.trim()).get(0);
+            usuario u = usuarioService.findByIdentificadorLike(iden.trim()).get(0);
             if(u.getEmail().equals(email)){
                 redirectAttributes.addFlashAttribute("esqueceuSenha", "Identidade confirmada, redefina sua senha no botão abaixo!");
                 mv.addObject("esqueceuSenha", true);
@@ -236,11 +231,11 @@ public class usuarioController {
                  return mv;
             }else{
                 redirectAttributes.addFlashAttribute("erro", "Os dados não correspondem a um usuário");
-                mv.addObject("esqueceuSenha", false);
+                mv.addObject("identInvalida", true);
                 return mv;
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("erro", "Erro: "+e.toString());
+            mv.addObject("erro", e.toString());
             return mv;
         }
     }
@@ -248,11 +243,11 @@ public class usuarioController {
     @PostMapping("/index/login/trocarSenha")
     public String trocarSenha(@RequestParam("identificador") String ident, @RequestParam("password") String novaSenha, RedirectAttributes redirectAttributes){
         try {
-            if(usuarioRepository.findByIdentificadorLike(ident).isEmpty()){
+            if(usuarioService.findByIdentificadorLike(ident).isEmpty()){
                 redirectAttributes.addFlashAttribute("erro", "Usuario não encontrado com esse identificador");
                 return "redirect:/login";
             }
-            usuario u = usuarioRepository.findByIdentificadorLike(ident).get(0);
+            usuario u = usuarioService.findByIdentificadorLike(ident).get(0);
             
             usuarioService.trocarSenha(u,novaSenha);
             redirectAttributes.addFlashAttribute("sucesso", "Senha alterada!");

@@ -18,9 +18,17 @@
      
      <section class="vh-130" style="background-color: #6c757d;">
       <div class="row mt-2" th:if="${param.success}">
-        <div class="alert alert-success">Cadastrado com sucesso!</div>
+        <div class="alert alert-success"><p>Cadastrado com sucesso!</p></div>
       </div>
-      <th:block th:replace="~{mensagemValidacao.html}"></th:block>
+      <div class="row mt-2" th:if="${esqueceuSenha}">
+        <div class="alert alert-success"><p>Identidade confirmada!</p></div>>
+      </div>
+      <div class="row mt-2" th:if="${identInvalida}">
+        <div class="alert alert-danger"><p>Identificador ou Email invalido!</p></div>
+      </div>
+      <div class="row mt-2" th:if="${!#strings.isEmpty(erro)}">
+        <div ><p th:text="${erro}"></p></div>
+      </div>
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col col-xl-10">

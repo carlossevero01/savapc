@@ -13,5 +13,4 @@ public interface usuarioRepository extends JpaRepository<usuario,Integer>{
     usuario findByUsername(String username);
     List<usuario> findByNomeLike(String nome);
     List<usuario> findByTipoLike(String tipo);
-    
 }

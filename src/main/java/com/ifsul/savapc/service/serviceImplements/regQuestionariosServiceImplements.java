@@ -34,5 +34,39 @@ public class regQuestionariosServiceImplements implements regQuestionariosServic
     public List<regQuestionarios> findByUsuarioAndTurma(usuario u, turma turma) {
         return regQuestionariosRepository.findByUsuarioAndTurma(u, turma);
     }
+
+    @Override
+    public List<regQuestionarios> findAll() {
+        return regQuestionariosRepository.findAll();
+    }
+
+    @Override
+    public regQuestionarios findById(Integer id) {
+        return regQuestionariosRepository.findById(id).get();
+    }
+
+    @Override
+    public regQuestionarios save(regQuestionarios regQuestionarios) {
+        return regQuestionariosRepository.save(regQuestionarios);
+    }
+
+    @Override
+    public boolean deleteById(Integer id) {
+        try {
+            if (regQuestionariosRepository.existsById(id)) {
+                regQuestionariosRepository.deleteById(id);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean existsById(Integer Id) {
+        return regQuestionariosRepository.existsById(Id);
+    }
     
 }

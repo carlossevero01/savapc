@@ -14,4 +14,5 @@ public interface regTestesRepository extends JpaRepository<regTestes,Integer>{
      List<regTestes> findByTurma(turma turma);
      List<regTestes> findByTesteAndTurmaAndUsuario(teste t, turma tu, usuario u);
      List<regTestes> findRegTestesByTurmaAndUsuario(turma t,usuario a);
+     List<regTestes> findByTurmaAndTeste(turma t,teste a);
 }

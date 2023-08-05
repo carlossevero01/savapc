@@ -102,4 +102,33 @@ public class questionarioinicialServiceImplements implements questionarioinicial
                 return false;}
                 
             }
+    @Override
+    public List<questionarioinicial> findAll() {
+        return questionarioinicialRepository.findAll();
+    }
+    @Override
+    public questionarioinicial findById(Integer id) {
+        return questionarioinicialRepository.findById(id).get();
+    }
+    @Override
+    public questionarioinicial save(questionarioinicial quest) {
+        return questionarioinicialRepository.save(quest);
+    }
+    @Override
+    public boolean deleteById(Integer id) {
+        try {
+            if (questionarioinicialRepository.existsById(id)) {
+                questionarioinicialRepository.deleteById(id);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    @Override
+    public boolean existsById(Integer questId) {
+        return questionarioinicialRepository.existsById(questId);
+    }
 }

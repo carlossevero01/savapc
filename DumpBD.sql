@@ -36,11 +36,11 @@ CREATE TABLE `correcoesusuario` (
   KEY `testeId` (`testeId`),
   KEY `perguntaTesteId` (`perguntaTesteId`),
   KEY `opcaoRespostaId` (`opcaoRespostaId`),
-  CONSTRAINT `correcoesusuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `correcoesusuario_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `correcoesusuario_ibfk_3` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `correcoesusuario_ibfk_4` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `correcoesusuario_ibfk_5` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `correcoesusuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON UPDATE CASCADE,
+  CONSTRAINT `correcoesusuario_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`) ON UPDATE CASCADE,
+  CONSTRAINT `correcoesusuario_ibfk_3` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`) ON UPDATE CASCADE,
+  CONSTRAINT `correcoesusuario_ibfk_4` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ,
+  CONSTRAINT `correcoesusuario_ibfk_5` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`) 
 ) ENGINE=InnoDB AUTO_INCREMENT=723 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,8 +89,8 @@ CREATE TABLE `habilidade_perguntateste` (
   `perguntaTesteId` int DEFAULT NULL,
   KEY `habilidadeId` (`habilidadeId`),
   KEY `perguntaTesteId` (`perguntaTesteId`),
-  CONSTRAINT `habilidade_perguntateste_ibfk_1` FOREIGN KEY (`habilidadeId`) REFERENCES `habilidade` (`habilidadeId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `habilidade_perguntateste_ibfk_2` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `habilidade_perguntateste_ibfk_1` FOREIGN KEY (`habilidadeId`) REFERENCES `habilidade` (`habilidadeId`)  ON UPDATE CASCADE,
+  CONSTRAINT `habilidade_perguntateste_ibfk_2` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -116,8 +116,8 @@ CREATE TABLE `habilidade_usuario` (
   `habilidadeId` int DEFAULT NULL,
   KEY `usuarioId` (`usuarioId`),
   KEY `habilidadeId` (`habilidadeId`),
-  CONSTRAINT `habilidade_usuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `habilidade_usuario_ibfk_2` FOREIGN KEY (`habilidadeId`) REFERENCES `habilidade` (`habilidadeId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `habilidade_usuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)  ON UPDATE CASCADE,
+  CONSTRAINT `habilidade_usuario_ibfk_2` FOREIGN KEY (`habilidadeId`) REFERENCES `habilidade` (`habilidadeId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -157,8 +157,8 @@ CREATE TABLE `notas` (
   PRIMARY KEY (`notaId`),
   KEY `usuarioId` (`usuarioId`),
   KEY `turmaId` (`turmaId`),
-  CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)  ON UPDATE CASCADE,
+  CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -209,8 +209,8 @@ CREATE TABLE `opcaoresposta_perguntaquestionario` (
   `opcaoRespostaId` int DEFAULT NULL,
   KEY `perguntaQuestionarioId` (`perguntaQuestionarioId`),
   KEY `opcaoRespostaId` (`opcaoRespostaId`),
-  CONSTRAINT `opcaoresposta_perguntaquestionario_ibfk_1` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `opcaoresposta_perguntaquestionario_ibfk_2` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `opcaoresposta_perguntaquestionario_ibfk_1` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`)  ON UPDATE CASCADE,
+  CONSTRAINT `opcaoresposta_perguntaquestionario_ibfk_2` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -236,8 +236,8 @@ CREATE TABLE `opcaoresposta_perguntateste` (
   `opcaoRespostaId` int DEFAULT NULL,
   KEY `perguntaTesteId` (`perguntaTesteId`),
   KEY `opcaoresposta_perguntateste_ibfk_2` (`opcaoRespostaId`),
-  CONSTRAINT `opcaoresposta_perguntateste_ibfk_1` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `opcaoresposta_perguntateste_ibfk_2` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `opcaoresposta_perguntateste_ibfk_1` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`)  ON UPDATE CASCADE,
+  CONSTRAINT `opcaoresposta_perguntateste_ibfk_2` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -320,8 +320,8 @@ CREATE TABLE `perguntateste_teste` (
   `perguntaTesteId` int DEFAULT NULL,
   KEY `testeId` (`testeId`),
   KEY `perguntaTesteId` (`perguntaTesteId`),
-  CONSTRAINT `perguntateste_teste_ibfk_1` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `perguntateste_teste_ibfk_2` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `perguntateste_teste_ibfk_1` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`)  ON UPDATE CASCADE,
+  CONSTRAINT `perguntateste_teste_ibfk_2` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -373,8 +373,8 @@ CREATE TABLE `questionarioturmas` (
   `turmaId` int DEFAULT NULL,
   KEY `questionarioId` (`questionarioId`),
   KEY `turmaId` (`turmaId`),
-  CONSTRAINT `questionarioturmas_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `questionarioturmas_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `questionarioturmas_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`)  ON UPDATE CASCADE,
+  CONSTRAINT `questionarioturmas_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -400,8 +400,8 @@ CREATE TABLE `questpergunta` (
   `perguntaQuestionarioId` int DEFAULT NULL,
   KEY `questionarioId` (`questionarioId`),
   KEY `questpergunta_ibfk_2` (`perguntaQuestionarioId`),
-  CONSTRAINT `questpergunta_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `questpergunta_ibfk_2` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `questpergunta_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`)  ON UPDATE CASCADE,
+  CONSTRAINT `questpergunta_ibfk_2` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -431,9 +431,9 @@ CREATE TABLE `regquestionarios` (
   KEY `questionarioId` (`questionarioId`),
   KEY `usuarioId` (`usuarioId`),
   KEY `turmaId` (`turmaId`),
-  CONSTRAINT `regquestionarios_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `regquestionarios_ibfk_2` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `regquestionarios_ibfk_3` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `regquestionarios_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`)  ON UPDATE CASCADE,
+  CONSTRAINT `regquestionarios_ibfk_2` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON UPDATE CASCADE,
+  CONSTRAINT `regquestionarios_ibfk_3` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -458,8 +458,8 @@ CREATE TABLE `regquestionarios_respostaquestionario` (
   `respostaQuestionarioId` int DEFAULT NULL,
   KEY `regQuestionarioId` (`regQuestionarioId`),
   KEY `respostaQuestionarioId` (`respostaQuestionarioId`),
-  CONSTRAINT `regquestionarios_respostaquestionario_ibfk_1` FOREIGN KEY (`regQuestionarioId`) REFERENCES `regquestionarios` (`regQuestionarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `regquestionarios_respostaquestionario_ibfk_2` FOREIGN KEY (`respostaQuestionarioId`) REFERENCES `respostaquestionario` (`respostaQuestionarioId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `regquestionarios_respostaquestionario_ibfk_1` FOREIGN KEY (`regQuestionarioId`) REFERENCES `regquestionarios` (`regQuestionarioId`)  ON UPDATE CASCADE,
+  CONSTRAINT `regquestionarios_respostaquestionario_ibfk_2` FOREIGN KEY (`respostaQuestionarioId`) REFERENCES `respostaquestionario` (`respostaQuestionarioId`)  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -515,8 +515,8 @@ CREATE TABLE `regtestes_respostateste` (
   `respostaTesteId` int DEFAULT NULL,
   KEY `regTestesId` (`regTestesId`),
   KEY `respostaTesteId` (`respostaTesteId`),
-  CONSTRAINT `regtestes_respostateste_ibfk_1` FOREIGN KEY (`regTestesId`) REFERENCES `regtestes` (`regTestesId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `regtestes_respostateste_ibfk_2` FOREIGN KEY (`respostaTesteId`) REFERENCES `respostateste` (`respostaTesteId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `regtestes_respostateste_ibfk_1` FOREIGN KEY (`regTestesId`) REFERENCES `regtestes` (`regTestesId`)   ON UPDATE CASCADE,
+  CONSTRAINT `regtestes_respostateste_ibfk_2` FOREIGN KEY (`respostaTesteId`) REFERENCES `respostateste` (`respostaTesteId`)   ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -544,7 +544,7 @@ CREATE TABLE `respostaquestionario` (
   `resposta` varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   PRIMARY KEY (`respostaQuestionarioId`),
   KEY `perguntaQuestionarioId` (`perguntaQuestionarioId`),
-  CONSTRAINT `respostaquestionario_ibfk_1` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `respostaquestionario_ibfk_1` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`)   ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=507 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -570,7 +570,7 @@ CREATE TABLE `respostateste` (
   `opRespostaId` int DEFAULT NULL,
   PRIMARY KEY (`respostaTesteId`),
   KEY `perguntaTesteId` (`perguntaTesteId`),
-  CONSTRAINT `respostateste_ibfk_1` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `respostateste_ibfk_1` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`)   ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -620,7 +620,7 @@ CREATE TABLE `tb_users_roles` (
   KEY `role_id` (`role_id`),
   KEY `usuarioId` (`usuarioId`),
   CONSTRAINT `tb_users_roles_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `tb_role` (`role_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `tb_users_roles_ibfk_2` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `tb_users_roles_ibfk_2` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)   ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -672,8 +672,8 @@ CREATE TABLE `testes_nota` (
   `testeId` int DEFAULT NULL,
   KEY `notaId` (`notaId`),
   KEY `testeId` (`testeId`),
-  CONSTRAINT `testes_nota_ibfk_1` FOREIGN KEY (`notaId`) REFERENCES `notas` (`notaId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `testes_nota_ibfk_2` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `testes_nota_ibfk_1` FOREIGN KEY (`notaId`) REFERENCES `notas` (`notaId`)   ON UPDATE CASCADE,
+  CONSTRAINT `testes_nota_ibfk_2` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`)   ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -698,8 +698,8 @@ CREATE TABLE `testesturma` (
   `testeId` int DEFAULT NULL,
   KEY `turmaId` (`turmaId`),
   KEY `testeId` (`testeId`),
-  CONSTRAINT `testesturma_ibfk_1` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `testesturma_ibfk_2` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `testesturma_ibfk_1` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)   ON UPDATE CASCADE,
+  CONSTRAINT `testesturma_ibfk_2` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`)   ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -750,8 +750,8 @@ CREATE TABLE `turma_usuario` (
   `turmaId` int DEFAULT NULL,
   KEY `usuarioId` (`usuarioId`),
   KEY `turmaId` (`turmaId`),
-  CONSTRAINT `turma_usuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `turma_usuario_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `turma_usuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)   ON UPDATE CASCADE,
+  CONSTRAINT `turma_usuario_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)   ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

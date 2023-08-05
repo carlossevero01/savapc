@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,15 +17,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 import com.ifsul.savapc.model.Role;
+
 import com.ifsul.savapc.model.turma;
 import com.ifsul.savapc.model.usuario;
+
 import com.ifsul.savapc.repository.roleRepository;
+import com.ifsul.savapc.repository.testeRepository;
+import com.ifsul.savapc.repository.turmaRepository;
 import com.ifsul.savapc.repository.usuarioRepository;
 import com.ifsul.savapc.service.usuarioService;
 import com.ifsul.savapc.web.dto.UsuarioRegistrationDto;
 
 import jakarta.transaction.Transactional;
+
 @Service
 @Transactional
 public class usuarioServiceImplements implements usuarioService{
@@ -32,27 +39,25 @@ public class usuarioServiceImplements implements usuarioService{
     usuarioRepository usuarioRepository;
     @Autowired
     roleRepository roleRepository;
-
-    public usuarioServiceImplements(usuarioRepository usuarioRepository) {
-        super();
-        this.usuarioRepository = usuarioRepository;
-    }
-
-    @Override
-    public List<usuario> findByIdentificadorLike(String identificador) { return usuarioRepository.findByIdentificadorLike(identificador); }
+    @Autowired
+    testeRepository testeRepository;
+    @Autowired
+    turmaRepository turmaRepository;
     
+    
+    @Override
+    public List<usuario> findByIdentificadorLike(String identificador) { 
+        return usuarioRepository.findByIdentificadorLike(identificador); }
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
         usuario user = usuarioRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
+            throw new UsernameNotFoundException("Username ou Password invalido.");
         }
-         
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
-    
     }
+
     @Override
     public List<usuario> findAll() {
         return usuarioRepository.findAll();
@@ -61,9 +66,9 @@ public class usuarioServiceImplements implements usuarioService{
     public usuario findById(Integer id) {
         return usuarioRepository.findById(id).get();
     }
+
     @Override
     public usuario save(UsuarioRegistrationDto registrationDto) {
-       
        usuario user = new usuario(registrationDto.getNome(),
         registrationDto.getEmail(), registrationDto.getTelefone(),registrationDto.getTipo(),
         registrationDto.getIdentificador(),LocalDate.parse(registrationDto.getDataNascimento()) ,registrationDto.getImg(),
@@ -140,7 +145,18 @@ public class usuarioServiceImplements implements usuarioService{
     }
     
     @Override
-    public usuario deleteById(Integer id) { return deleteById(id);}
+    public boolean deleteById(Integer id) { 
+        try {
+            if(usuarioRepository.existsById(id)){
+                usuarioRepository.deleteById(id);
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            return false;    
+        }
+        }
     
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(Role -> new SimpleGrantedAuthority(Role.getName())).collect(Collectors.toList());
@@ -161,5 +177,12 @@ public class usuarioServiceImplements implements usuarioService{
         usuario.setPassword(new BCryptPasswordEncoder().encode(novaSenha));
         return usuarioRepository.save(usuario);
     }
+
+
+    @Override
+    public boolean existsById(Integer usuarioId) {
+        return usuarioRepository.existsById(usuarioId);
+    }
+ 
     
 }

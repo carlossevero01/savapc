@@ -28,6 +28,8 @@ import com.ifsul.savapc.repository.regTestesRepository;
 import com.ifsul.savapc.repository.testeRepository;
 import com.ifsul.savapc.repository.turmaRepository;
 import com.ifsul.savapc.repository.usuarioRepository;
+import com.ifsul.savapc.service.correcoesUsuarioService;
+import com.ifsul.savapc.service.regTestesService;
 import com.ifsul.savapc.service.serviceImplements.notasServiceImplements;
 import com.ifsul.savapc.service.serviceImplements.regTestesServiceImplements;
 import com.ifsul.savapc.service.serviceImplements.relatoriosServiceImplements;
@@ -44,37 +46,36 @@ public class relatoriosController {
     testeRepository testeRepository;
     @Autowired
     questionarioinicialRepository questionarioinicialRepository;
-
     @Autowired
     regTestesServiceImplements regTestesServiceImplements;
+    @Autowired
+    regTestesService regTestesService;
     @Autowired
     turmaRepository turmaRepository;
     @Autowired
     usuarioRepository usuarioRepository;
-
     @Autowired
     notasRepository notasRepository;
     @Autowired
     correcoesUsuarioRepository correcoesUsuarioRepository;
-
     @Autowired
     notasServiceImplements notasServiceImplements;
     @Autowired
     relatoriosServiceImplements relatoriosServiceImplements;
+    @Autowired
+    correcoesUsuarioService correcoesUsuarioService;
 
     /* Exibir relatorio de Perguntas de uma turma */
     @GetMapping("/index/relatorioPergunta/{turmaId}")
     @ResponseBody
     public ModelAndView getRelatorio(@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("relatorioComPerguntas");
-       // try {
-            regTestesServiceImplements.fazerCorrecaoTestes();
-
-      //  } catch (Exception e) {
-       //     return mv;
-       // }
+    
+          regTestesService.fazerCorrecaoTestes();
+    
         turma t = turmaRepository.findById(turmaId).get();
-        List<correcoesUsuario> correcao = correcoesUsuarioRepository.findByTurmaOrderByUsuario(t);
+        List<correcoesUsuario> correcao = correcoesUsuarioService.findByTurmaOrderByUsuario(t);
+        System.out.println("\n \n "+correcao.toString());
         mv.addObject("correcao", correcao);
         mv.addObject("turmaNome", t.getNome());
         return mv;

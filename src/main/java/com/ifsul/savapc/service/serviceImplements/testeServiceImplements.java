@@ -18,7 +18,6 @@ public class testeServiceImplements implements testeService{
 
     @Override
     public List<teste> findByTurmas(turma turma) {
-        
         return testeRepository.findByTurmas(turma);
     }
 
@@ -26,7 +25,6 @@ public class testeServiceImplements implements testeService{
     public void atualizarVisibilidades() {
         List<teste> allTests = testeRepository.findAll();
         LocalDate firstDate = LocalDate.now();
-        System.out.println("\n \n FD:"+firstDate);
         for (teste test : allTests) {
             LocalDate secondDate = test.getDisponibilidade();
            boolean a =  secondDate.isAfter(firstDate);
@@ -35,7 +33,42 @@ public class testeServiceImplements implements testeService{
             testeRepository.save(test);
            }
         }
-        
     }
+
+    @Override
+    public List<teste> findAll() {
+        return testeRepository.findAll();
+    }
+
+    @Override
+    public teste findById(Integer id) {
+        return testeRepository.findById(id).get();
+    }
+
+    @Override
+    public teste save(teste teste) {
+        return testeRepository.save(teste);
+    }
+
+    @Override
+    public boolean deleteById(Integer id) {
+        try {
+            if (testeRepository.existsById(id)){
+                testeRepository.deleteById(id);
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean existsById(Integer testeId) {
+        return testeRepository.existsById(testeId);
+    }
+
+    
     
 }

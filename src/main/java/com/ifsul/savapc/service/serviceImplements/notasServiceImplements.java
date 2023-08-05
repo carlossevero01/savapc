@@ -201,4 +201,38 @@ public class notasServiceImplements implements notasService {
         return notasRepository.findByTurmaAndDesclassificado(t,desclassificado);
     }
 
+    @Override
+    public List<notas> findAll() {
+        return notasRepository.findAll();
+    }
+
+    @Override
+    public notas findById(Integer id) {
+        return notasRepository.findById(id).get();
+    }
+
+    @Override
+    public notas save(notas nota) {
+        return notasRepository.save(nota);
+    }
+
+    @Override
+    public boolean deleteById(Integer id) {
+        try {
+            if (notasRepository.existsById(id)) {
+                notasRepository.deleteById(id);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return notasRepository.existsById(id);
+    }
+
 }

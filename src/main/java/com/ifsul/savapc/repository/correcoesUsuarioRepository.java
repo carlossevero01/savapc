@@ -17,4 +17,6 @@ public interface correcoesUsuarioRepository extends JpaRepository<correcoesUsuar
     List<correcoesUsuario> findByTurmaOrderByUsuario(turma turma);
     List<correcoesUsuario> findByTurmaOrderByTeste(turma turma);
     List<correcoesUsuario> findByUsuarioAndTurma(usuario a, turma t);
+
+    
 }

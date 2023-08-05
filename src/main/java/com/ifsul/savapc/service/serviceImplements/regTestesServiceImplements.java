@@ -17,6 +17,9 @@ import com.ifsul.savapc.model.usuario;
 import com.ifsul.savapc.repository.correcoesUsuarioRepository;
 import com.ifsul.savapc.repository.opcaorespostaRepository;
 import com.ifsul.savapc.repository.regTestesRepository;
+import com.ifsul.savapc.repository.testeRepository;
+import com.ifsul.savapc.repository.turmaRepository;
+import com.ifsul.savapc.repository.usuarioRepository;
 import com.ifsul.savapc.service.regTestesService;
 
 @Service
@@ -26,9 +29,14 @@ public class regTestesServiceImplements implements regTestesService{
     regTestesRepository regTestesRepository;
     @Autowired
     opcaorespostaRepository opcaorespostaRepository;
-    
+    @Autowired
+    usuarioRepository usuarioRepository;
     @Autowired
     correcoesUsuarioRepository correcoesUsuarioRepository;
+    @Autowired
+    testeRepository testeRepository;
+    @Autowired
+    turmaRepository turmaRepository;
     
 
     public void fazerCorrecaoTestes() {
@@ -99,6 +107,28 @@ public class regTestesServiceImplements implements regTestesService{
     @Override
     public List<regTestes> findByTesteAndTurmaAndUsuario(teste t, turma tu, usuario u) {
         return regTestesRepository.findByTesteAndTurmaAndUsuario(t, tu, u);
+    }
+
+    @Override
+    public Boolean deletarTentativa(Integer testeId,Integer turmaId, Integer usuarioId) {
+        if(testeRepository.existsById(testeId)|| turmaRepository.existsById(turmaId) || usuarioRepository.existsById(usuarioId)){
+            teste teste = testeRepository.findById(testeId).get();
+            turma turma = turmaRepository.findById(turmaId).get();
+            usuario usuario = usuarioRepository.findById(usuarioId).get();
+            regTestes tentativa = regTestesRepository.findByTesteAndTurmaAndUsuario(teste, turma, usuario).get(0);
+            tentativa.getRespostasTeste().clear();
+            regTestesRepository.save(tentativa);
+            regTestesRepository.deleteById(tentativa.getRegTestesId());
+
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public List<regTestes> findByTurmaAndTeste(turma t, teste test) {
+        return regTestesRepository.findByTurmaAndTeste(t, test);
     }
     
 }

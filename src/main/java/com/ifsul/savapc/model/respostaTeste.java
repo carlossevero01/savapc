@@ -1,6 +1,7 @@
 package com.ifsul.savapc.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 
@@ -20,9 +22,12 @@ public class respostaTeste implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="respostaTesteId")
     private int respostaTesteId;
+    
     @Column(name = "opRespostaId")
     private int opRespostaId;
     
+    @ManyToMany(mappedBy = "respostasTeste")
+    List<regTestes> registrosTestes;
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name= "perguntaTesteId")
@@ -61,6 +66,11 @@ public class respostaTeste implements Serializable{
         this.perguntaTeste = pergunta;
     }
     
-    
+    public List<regTestes> getRegistrosTestes() {
+        return registrosTestes;
+    }
+    public void setRegistrosTestes(List<regTestes> registrosTestes) {
+        this.registrosTestes = registrosTestes;
+    }
 
 }
