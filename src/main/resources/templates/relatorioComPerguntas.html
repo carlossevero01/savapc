@@ -18,8 +18,9 @@
 		<div th:insert="fragments/frag :: navProf"></div>
 		
 		<div class="container mt-2">
+            <a class="btn btn-secondary mb-2" th:href="@{/auth/turmas}" style="width: auto;">Voltar</a>
             <div class="mx-auto text-end">
-				<a type="button" class="btn btn-secondary mt-2" th:href="@{/index/exportarRelatorioTestePerguntas/{turmaId}/download(turmaId=${turmaId})}">
+				<a type="button" class="btn btn-secondary mt-2" th:href="@{/auth/turma/relatorio/exportarRelatorioTestePerguntas/{turmaId}/download(turmaId=${turmaId})}">
 					Exportar relatório
 				</a>
 			 </div>
@@ -35,7 +36,7 @@
                         <th scope="col">Resposta</th>
                     </tr>
                 </thead>
-                    <tbody > 
+                    <tbody>
                         <tr th:each="c,j: ${correcao}">
                             <td>
                                 <div class="d-flex align-items-center">
@@ -57,9 +58,6 @@
                                 <p th:if="${c.acertou}" class="fw-normal mb-1" style="color: green;" th:text="${c.opcaoResposta.descricao}">Resposta</p>
                                 <p th:unless="${c.acertou}" class="fw-normal mb-1" style="color:red;" th:text="${c.opcaoResposta.descricao}">Resposta</p>
                             </td>
-                            
-
-                            </div>
                         </tr>
                     </tbody>
                 </table>         

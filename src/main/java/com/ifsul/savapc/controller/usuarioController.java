@@ -47,89 +47,87 @@ public class usuarioController {
     @Autowired
     regQuestionariosRepository regQuestionariosRepository;
 
-    /* DELETAR UNIDADE(PROFESSORES/ADMIN) */
-    @GetMapping(value = "/index/deleteusuario/{id}")
-    public String deleteUsuario(@PathVariable("id") int id, RedirectAttributes attributes) {
-        try {
-            usuario a = usuarioService.findById(id);
-            usuarioService.deleteById(a.getUsuarioId());
-            if (a.getTipo().equalsIgnoreCase("aluno")) {
-                attributes.addFlashAttribute("sucesso", "Usuário deletado");
-                return "redirect:/index/alunos";
-            } else {
-                attributes.addFlashAttribute("sucesso", "Usuário deletado");
-                return "redirect:/index/professores";
-            }
-        } catch (Exception e) {
-            usuario a = usuarioService.findById(id);
-            if (a.getTipo().equalsIgnoreCase("aluno")) {
-                attributes.addFlashAttribute("erro", e.toString());
-                return "redirect:/index/alunos";
-            } else {
-                attributes.addFlashAttribute("erro", e.toString());
-                return "redirect:/index/professores";
-            }
-
-        }
-    }
-
-    /* CADASTRAR (PROFESSORES/ADMIN) */
-    @PostMapping("/index/saveUsuario")
-    public String saveAluno(@Valid usuario a, BindingResult result, RedirectAttributes attributes, @RequestParam("file") MultipartFile img) {
-        if (result.hasErrors()) {
-            if (a.getTipo().equalsIgnoreCase("aluno")) {
-                attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
-                return "redirect:/index/alunos";
-            } else {
-                attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
-                return "redirect:/index/professores";
-            }
-        }
-         
-            if (!img.isEmpty()) {
-                try {
-                    byte[] bytes = img.getBytes();
-                    Path caminho = Paths.get("./src/main/resources/static/images/" + img.getOriginalFilename());
-                    Files.write(caminho, bytes);
-                    a.setImg(img.getOriginalFilename());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                a.setImg("não selecionado");
-            }
-        a.setPassword(new BCryptPasswordEncoder().encode(a.getPassword()));
-        
-        usuarioService.save(a);
-        if (a.getTipo().equalsIgnoreCase("aluno")) {
-            attributes.addFlashAttribute("sucesso", "Aluno cadastrado");
-            return "redirect:/index/alunos";
-        } else {
-            attributes.addFlashAttribute("sucesso", "Professor cadastrado");
-            return "redirect:/index/professores";
-        }
-
-    }
-
-    /* LISTAR (PROFESSORES/ALUNOS) */
-    @GetMapping(value = "/index/alunos")
+    /* LISTAR ALUNOS (Prof) */
+    @GetMapping(value = "/auth/alunos")
     public ModelAndView listarAlunos() {
         ModelAndView mv = new ModelAndView("aluno");
         List<usuario> list = usuarioService.findByTipoLike("aluno");
         mv.addObject("alunos", list);
         return mv;
     }
-
-    @GetMapping(value = "/index/professores")
+    /*Listar Professores (Prof)*/
+    @GetMapping(value = "/auth/professores")
     public ModelAndView listarProfessores() {
         ModelAndView mv = new ModelAndView("professor");
         List<usuario> list = usuarioService.findByTipoLike("prof");
         mv.addObject("profs", list);
         return mv;
     }
+    /* CADASTRAR USUÁRIO (Prof)*/
+    @PostMapping("/auth/usuario/saveUsuario")
+    public String saveAluno(@Valid usuario a, BindingResult result, RedirectAttributes attributes, @RequestParam("file") MultipartFile img) {
+        if (result.hasErrors()) {
+            if (a.getTipo().equalsIgnoreCase("aluno")) {
+                attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
+                return "redirect:/auth/alunos";
+            } else {
+                attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
+                return "redirect:/auth/professores";
+            }
+        }
+        if (!img.isEmpty()) {
+            try {
+                byte[] bytes = img.getBytes();
+                Path caminho = Paths.get("./src/main/resources/static/images/" + img.getOriginalFilename());
+                Files.write(caminho, bytes);
+                a.setImg(img.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            a.setImg("não selecionado");
+        }
+        if(a.getNome().isEmpty() || a.getIdentificador().isEmpty() || a.getEmail().isEmpty() || a.getUsername().isEmpty() || a.getPassword().isEmpty()){
+            attributes.addFlashAttribute("erro", "Verifique os campos obrigatórios:" + a.toString());
+            return "redirect:/auth/alunos";
+        }
+        a.setPassword(new BCryptPasswordEncoder().encode(a.getPassword()));
+        usuarioService.save(a);
+        if (a.getTipo().equalsIgnoreCase("aluno")) {
+            attributes.addFlashAttribute("sucesso", "Aluno cadastrado");
+            return "redirect:/auth/alunos";
+        } else {
+            attributes.addFlashAttribute("sucesso", "Professor cadastrado");
+            return "redirect:/auth/professores";
+        }
+    }
+    /* DELETAR UNIDADE (Prof) */
+    @GetMapping(value = "/auth/usuario/deleteusuario/{id}")
+    public String deleteUsuario(@PathVariable("id") int id, RedirectAttributes attributes) {
+        try {       
+            usuario a = usuarioService.findById(id);
+            usuarioService.deleteById(a.getUsuarioId());
+            if (a.getTipo().equalsIgnoreCase("aluno")) {
+                attributes.addFlashAttribute("sucesso", "Usuário deletado");
+                return "redirect:/auth/alunos";
+            } else {
+                attributes.addFlashAttribute("sucesso", "Usuário deletado");
+                return "redirect:/auth/professores";
+            }
+        } catch (Exception e) {
+            usuario a = usuarioService.findById(id);
+            if (a.getTipo().equalsIgnoreCase("aluno")) {
+                attributes.addFlashAttribute("erro", e.toString());
+                return "redirect:/auth/alunos";
+            } else {
+                attributes.addFlashAttribute("erro", e.toString());
+                return "redirect:/auth/professores";
+            }
 
-    /* Atualizar usuario */
-    @PostMapping("/index/updateusuario/{id}")
+        }
+    }
+    /* Atualizar usuario (Prof)*/
+    @PostMapping("/auth/usuario/updateusuario/{id}")
     public String setUpdateAluno(@PathVariable("id") int usuarioId, @Valid usuario novo,
             RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile img) {
         
@@ -146,8 +144,6 @@ public class usuarioController {
             } else {
                 novo.setImg("não selecionado");
             }
-            
-            
             usuario Existente = usuarioService.findById(usuarioId);
             Existente.setNome(novo.getNome());
             Existente.setTipo(novo.getTipo());
@@ -160,24 +156,22 @@ public class usuarioController {
             usuarioService.save(Existente);
             if (Existente.getTipo().equalsIgnoreCase("aluno")) {
                 redirectAttributes.addFlashAttribute("sucesso", "Aluno editado com sucesso");
-                return "redirect:/index/alunos";
+                return "redirect:/auth/alunos";
             } else {
                 redirectAttributes.addFlashAttribute("sucesso", "Professor editado com sucesso");
-                return "redirect:/index/professores";
+                return "redirect:/auth/professores";
             }
-
         }
         redirectAttributes.addFlashAttribute("erro", "Não foi possivel salvar");
         if (novo.getTipo().equalsIgnoreCase("aluno")) {
-            return "redirect:/index/alunos";
+            return "redirect:/auth/alunos";
         } else {
-            return "redirect:/index/professores";
+            return "redirect:/auth/professores";
         }
 
     }
-
-    /* Exibir painel do professor */
-    @GetMapping("/painelgeral")
+    /* Exibir painel do professor (Prof)*/
+    @GetMapping("/auth/painelgeral")
     public ModelAndView getPainelGeral() {
         ModelAndView mv = new ModelAndView("PainelGeral");
         try {
@@ -239,7 +233,6 @@ public class usuarioController {
             return mv;
         }
     }
-
     @PostMapping("/index/login/trocarSenha")
     public String trocarSenha(@RequestParam("identificador") String ident, @RequestParam("password") String novaSenha, RedirectAttributes redirectAttributes){
         try {

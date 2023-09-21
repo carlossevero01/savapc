@@ -14,7 +14,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="correcoesUsuario")
+@Table(name="correcoesusuario")
 public class correcoesUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

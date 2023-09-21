@@ -1,31 +1,37 @@
 package com.ifsul.savapc.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.management.MXBean;
 
 @Controller
 public class indexController {
 
     //////////////////// LOGIN////////////////////////////
 
-    @GetMapping("/login")
-    public ModelAndView login() {
-        return new ModelAndView("login");
-    }
-
     @GetMapping("/")
-    public String home() {
-        return "redirect:/index/inicial";
+    public String indexController() {
+        return "redirect:/index";
     }
-
-    /* PAGINA INICIAL(TODOS) */
-    @GetMapping(value = "/index/inicial")
+    @GetMapping(value = "/index")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("index");
         return mv;
     }
 
-    /* PAGINA INICIAL(TODOS) */
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+
+
+
+
+
 
 }

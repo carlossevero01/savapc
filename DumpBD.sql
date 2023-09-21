@@ -41,7 +41,7 @@ CREATE TABLE `correcoesusuario` (
   CONSTRAINT `correcoesusuario_ibfk_3` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`) ON UPDATE CASCADE,
   CONSTRAINT `correcoesusuario_ibfk_4` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ,
   CONSTRAINT `correcoesusuario_ibfk_5` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`) 
-) ENGINE=InnoDB AUTO_INCREMENT=723 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=723 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `habilidade` (
   `habilidadeId` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   PRIMARY KEY (`habilidadeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +91,7 @@ CREATE TABLE `habilidade_perguntateste` (
   KEY `perguntaTesteId` (`perguntaTesteId`),
   CONSTRAINT `habilidade_perguntateste_ibfk_1` FOREIGN KEY (`habilidadeId`) REFERENCES `habilidade` (`habilidadeId`)  ON UPDATE CASCADE,
   CONSTRAINT `habilidade_perguntateste_ibfk_2` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `habilidade_usuario` (
   KEY `habilidadeId` (`habilidadeId`),
   CONSTRAINT `habilidade_usuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)  ON UPDATE CASCADE,
   CONSTRAINT `habilidade_usuario_ibfk_2` FOREIGN KEY (`habilidadeId`) REFERENCES `habilidade` (`habilidadeId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `notas` (
   KEY `turmaId` (`turmaId`),
   CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)  ON UPDATE CASCADE,
   CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +184,7 @@ CREATE TABLE `opcaoresposta` (
   `descricao` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `verdadeira` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`opcaoRespostaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,7 +211,7 @@ CREATE TABLE `opcaoresposta_perguntaquestionario` (
   KEY `opcaoRespostaId` (`opcaoRespostaId`),
   CONSTRAINT `opcaoresposta_perguntaquestionario_ibfk_1` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`)  ON UPDATE CASCADE,
   CONSTRAINT `opcaoresposta_perguntaquestionario_ibfk_2` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +238,7 @@ CREATE TABLE `opcaoresposta_perguntateste` (
   KEY `opcaoresposta_perguntateste_ibfk_2` (`opcaoRespostaId`),
   CONSTRAINT `opcaoresposta_perguntateste_ibfk_1` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`)  ON UPDATE CASCADE,
   CONSTRAINT `opcaoresposta_perguntateste_ibfk_2` FOREIGN KEY (`opcaoRespostaId`) REFERENCES `opcaoresposta` (`opcaoRespostaId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +267,7 @@ CREATE TABLE `perguntaquestionario` (
   `resposta` varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `obrigatorio` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`perguntaQuestionarioId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +295,7 @@ CREATE TABLE `perguntateste` (
   `opRespostaId` varchar(4) DEFAULT NULL,
   `img` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`perguntaTesteId`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,7 +322,7 @@ CREATE TABLE `perguntateste_teste` (
   KEY `perguntaTesteId` (`perguntaTesteId`),
   CONSTRAINT `perguntateste_teste_ibfk_1` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`)  ON UPDATE CASCADE,
   CONSTRAINT `perguntateste_teste_ibfk_2` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -348,7 +348,7 @@ CREATE TABLE `questionarioinicial` (
   `nome` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `visibilidade` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`questionarioId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,7 +375,7 @@ CREATE TABLE `questionarioturmas` (
   KEY `turmaId` (`turmaId`),
   CONSTRAINT `questionarioturmas_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`)  ON UPDATE CASCADE,
   CONSTRAINT `questionarioturmas_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +402,7 @@ CREATE TABLE `questpergunta` (
   KEY `questpergunta_ibfk_2` (`perguntaQuestionarioId`),
   CONSTRAINT `questpergunta_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`)  ON UPDATE CASCADE,
   CONSTRAINT `questpergunta_ibfk_2` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,7 +434,7 @@ CREATE TABLE `regquestionarios` (
   CONSTRAINT `regquestionarios_ibfk_1` FOREIGN KEY (`questionarioId`) REFERENCES `questionarioinicial` (`questionarioId`)  ON UPDATE CASCADE,
   CONSTRAINT `regquestionarios_ibfk_2` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`) ON UPDATE CASCADE,
   CONSTRAINT `regquestionarios_ibfk_3` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -460,7 +460,7 @@ CREATE TABLE `regquestionarios_respostaquestionario` (
   KEY `respostaQuestionarioId` (`respostaQuestionarioId`),
   CONSTRAINT `regquestionarios_respostaquestionario_ibfk_1` FOREIGN KEY (`regQuestionarioId`) REFERENCES `regquestionarios` (`regQuestionarioId`)  ON UPDATE CASCADE,
   CONSTRAINT `regquestionarios_respostaquestionario_ibfk_2` FOREIGN KEY (`respostaQuestionarioId`) REFERENCES `respostaquestionario` (`respostaQuestionarioId`)  ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -491,7 +491,7 @@ CREATE TABLE `regtestes` (
   CONSTRAINT `regtestes_ibfk_1` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`),
   CONSTRAINT `regtestes_ibfk_2` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`),
   CONSTRAINT `regtestes_ibfk_3` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -517,7 +517,7 @@ CREATE TABLE `regtestes_respostateste` (
   KEY `respostaTesteId` (`respostaTesteId`),
   CONSTRAINT `regtestes_respostateste_ibfk_1` FOREIGN KEY (`regTestesId`) REFERENCES `regtestes` (`regTestesId`)   ON UPDATE CASCADE,
   CONSTRAINT `regtestes_respostateste_ibfk_2` FOREIGN KEY (`respostaTesteId`) REFERENCES `respostateste` (`respostaTesteId`)   ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -545,7 +545,7 @@ CREATE TABLE `respostaquestionario` (
   PRIMARY KEY (`respostaQuestionarioId`),
   KEY `perguntaQuestionarioId` (`perguntaQuestionarioId`),
   CONSTRAINT `respostaquestionario_ibfk_1` FOREIGN KEY (`perguntaQuestionarioId`) REFERENCES `perguntaquestionario` (`perguntaQuestionarioId`)   ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=507 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=507 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -571,7 +571,7 @@ CREATE TABLE `respostateste` (
   PRIMARY KEY (`respostaTesteId`),
   KEY `perguntaTesteId` (`perguntaTesteId`),
   CONSTRAINT `respostateste_ibfk_1` FOREIGN KEY (`perguntaTesteId`) REFERENCES `perguntateste` (`perguntaTesteId`)   ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -594,7 +594,7 @@ CREATE TABLE `tb_role` (
   `role_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -621,7 +621,7 @@ CREATE TABLE `tb_users_roles` (
   KEY `usuarioId` (`usuarioId`),
   CONSTRAINT `tb_users_roles_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `tb_role` (`role_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `tb_users_roles_ibfk_2` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)   ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -647,7 +647,7 @@ CREATE TABLE `teste` (
   `disponibilidade` datetime DEFAULT NULL,
   `nome` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   PRIMARY KEY (`testeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -674,7 +674,7 @@ CREATE TABLE `testes_nota` (
   KEY `testeId` (`testeId`),
   CONSTRAINT `testes_nota_ibfk_1` FOREIGN KEY (`notaId`) REFERENCES `notas` (`notaId`)   ON UPDATE CASCADE,
   CONSTRAINT `testes_nota_ibfk_2` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`)   ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -700,7 +700,7 @@ CREATE TABLE `testesturma` (
   KEY `testeId` (`testeId`),
   CONSTRAINT `testesturma_ibfk_1` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)   ON UPDATE CASCADE,
   CONSTRAINT `testesturma_ibfk_2` FOREIGN KEY (`testeId`) REFERENCES `teste` (`testeId`)   ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -725,7 +725,7 @@ CREATE TABLE `turma` (
   `nome` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `visibilidade` tinyint DEFAULT NULL,
   PRIMARY KEY (`turmaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -752,7 +752,7 @@ CREATE TABLE `turma_usuario` (
   KEY `turmaId` (`turmaId`),
   CONSTRAINT `turma_usuario_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)   ON UPDATE CASCADE,
   CONSTRAINT `turma_usuario_ibfk_2` FOREIGN KEY (`turmaId`) REFERENCES `turma` (`turmaId`)   ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -784,7 +784,7 @@ CREATE TABLE `usuario` (
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`usuarioId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4  ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

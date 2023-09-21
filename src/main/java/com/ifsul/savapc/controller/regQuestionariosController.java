@@ -20,18 +20,13 @@ import com.ifsul.savapc.repository.turmaRepository;
 @Controller
 public class regQuestionariosController {
     @Autowired
-    questionarioinicialRepository questionarioinicialRepository;
-    @Autowired
-    perguntaQuestionarioRepository perguntaQuestionarioRepository;
-    @Autowired
     regQuestionariosRepository regQuestionariosRepository;
     @Autowired
     turmaRepository turmaRepository;
-    @Autowired
-    respostaQuestionarioRepository respostaQuestionarioRepository;
+
 
     /* Listar registros de questionarios de uma turma */
-    @GetMapping("/index/relatorioQuestionario/{turmaId}")
+    @GetMapping("/auth/turma/relatorioQuestionario/{turmaId}")
     public ModelAndView getRelatorioQuestionario(@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("registroquestionario");
         try {
@@ -41,9 +36,7 @@ public class regQuestionariosController {
             if (regquest.size() > 0 && regquest.get(0).getQuestionario() != null
                     && regquest.get(0).getUsuario() != null) {
                 mv.addObject("registros", regquest);
-
             }
-
         } catch (Exception e) {
             return mv;
         }

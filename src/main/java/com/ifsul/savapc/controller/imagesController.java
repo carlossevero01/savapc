@@ -12,48 +12,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class imagesController {
 
-
+    private String classPath = "/opt/tomcat/webapps/savapc-1/WEB-INF/classes/static/images/";
+    /*Mostrar imagem de login pelo thymeleaf*/
+    @GetMapping("/images/{img}") // Ou ../static/images/login.jpg
     @ResponseBody
-    public byte[] getImg(@PathVariable("img") String img) throws IOException {
-        File imagemArquivo = new File("./src/main/resources/static/images/" + img);
+    public byte[] getImg3(@PathVariable("img") String img) throws IOException {
+        File imagemArquivo = new File(classPath+img);
         if (img == null || img.length() <= 0) {
-             return null;
-            
+            return null;
         }
         return Files.readAllBytes(imagemArquivo.toPath());
-       
     }
-
-    @GetMapping("/index/teste/perguntas/{id}/imagem/{img}")
+    /*Mostrar imagem em perguntaTeste do professor e na aplicação do teste do aluno*/
+    @GetMapping("/auth/teste/pergunta/imagem/{img}")
     @ResponseBody
     public byte[] getImgPost(@PathVariable("img") String img) throws IOException {
-        File imagemArquivo = new File("./src/main/resources/static/images/" + img);
+        File imagemArquivo = new File(classPath+ img);
         if (img == null || img.length() <= 0) {
              return null;
-            
         }
         return Files.readAllBytes(imagemArquivo.toPath());
     }
 
-    @GetMapping("/index/teste/{id}/imagem/{img}")
-    @ResponseBody
-    public byte[] getImgTeste(@PathVariable("img") String img) throws IOException {
-        File imagemArquivo = new File("./src/main/resources/static/images/" + img);
-        if (img == null || img.length() <= 0) {
-             return null;
-            
-        }
-        return Files.readAllBytes(imagemArquivo.toPath());
-    }
-    @GetMapping("/index/aplicacaoteste/{turmaId}/{testeId}/imagem/{img}")
-    @ResponseBody
-    public byte[] getImgAplicacaoTeste(@PathVariable("img") String img) throws IOException {
-        File imagemArquivo = new File("./src/main/resources/static/images/" + img);
-        if (img == null || img.length() <= 0) {
-             return null;
-            
-        }
-        return Files.readAllBytes(imagemArquivo.toPath());
-    }
 
 }

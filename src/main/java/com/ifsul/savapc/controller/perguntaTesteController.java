@@ -32,27 +32,137 @@ public class perguntaTesteController {
     @Autowired
     testeRepository testeRepository;
 
-    /* Listar perguntas */
-    @GetMapping(value = "/index/perguntas")
-    public ModelAndView listarPerguntas() {
-        ModelAndView mv = new ModelAndView("perguntaTeste");
-        List<perguntaTeste> list = perguntaTesteRepository.findAll();
-        mv.addObject("perguntas", list);
+    /* Listar perguntas por teste (Prof)*/
+    @GetMapping(value = "/auth/teste/perguntas/{id}")
+    public ModelAndView getPerguntasPorTeste(@PathVariable("id") int testeId) {
+        ModelAndView mv = new ModelAndView("perguntaTesteOnly");
+        List<perguntaTeste> perguntas = new ArrayList<>();
+        String testeNome = "";
+        int IDteste = 0;
+        if (testeRepository.findById(testeId) != null) {
+            teste t = testeRepository.findById(testeId).get();
+            testeNome = t.getNome();
+            IDteste = t.getTesteId();
+            perguntas = t.getPerguntasTeste();
+        }
+        mv.addObject("testeId", IDteste);
+        mv.addObject("testeNome", testeNome);
+        mv.addObject("perguntas", perguntas);
         return mv;
     }
-
-    /* Salvar Pergunta por teste id */
-    @GetMapping("/index/teste/savePergunta/{id}")
-    public ModelAndView getSavePergunta(@PathVariable("id") int id) {
-        ModelAndView mv = new ModelAndView("savePerguntaTeste");
-        mv.addObject("testeId", id);
-        return mv;
-    }
-
-    /* Salvar pergunta por teste id */
-    @PostMapping("/index/teste/savePergunta/{id}")
+    /* Salvar pergunta por teste  (Prof)*/
+    @PostMapping("/auth/teste/savePergunta/{id}")
     // @Transactional
-    public String savePergunta(@PathVariable("id") int testeId, @Valid perguntaTeste pergunta,
+    public String savePerguntaTeste(@PathVariable("id") int testeId, @Valid perguntaTeste pergunta,
+                               @RequestParam("file") MultipartFile img, RedirectAttributes attributes, BindingResult result) {
+        teste t = testeRepository.findById(testeId).orElseThrow(null);
+        List<perguntaTeste> lperg = t.getPerguntasTeste();
+        try {
+            if (!img.isEmpty()) {
+                try {
+                    byte[] bytes = img.getBytes();
+                    Path caminho = Paths.get("./src/main/resources/static/images/" + img.getOriginalFilename());
+                    Files.write(caminho, bytes);
+                    pergunta.setImg(img.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                pergunta.setImg(null);
+            }
+            perguntaTesteRepository.save(pergunta);
+            lperg.add(pergunta);
+            t.setPerguntasTeste(lperg);
+            testeRepository.save(t);
+            attributes.addFlashAttribute("sucesso", "Pergunta cadastrada");
+            return "redirect:/auth/teste/perguntas/{id}";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", e.toString());
+            return "redirect:/auth/teste/perguntas/{id}";
+        }
+    }
+    /* Deletar pergunta por id (Prof)*/
+    @GetMapping(value = "/auth/deletepergunta/{testeId}/{perguntaId}")
+    public String deletePergunta(@PathVariable("testeId") int testeId, @PathVariable("perguntaId") int perguntaId,
+                                 RedirectAttributes attributes) {
+        try {
+            if (testeRepository.existsById(testeId)) { // Deletar da tabela perguntasteste
+                if (perguntaTesteRepository.existsById(perguntaId)) {
+                    teste t = testeRepository.findById(testeId).get();
+                    List<perguntaTeste> lp = t.getPerguntasTeste();
+                    for (int i = 0; i < lp.size(); i++) {
+                        if (lp.get(i).getPerguntaTesteId() == perguntaId) {
+                            lp.remove(i);
+                        }
+                    }
+                    t.setPerguntasTeste(lp);
+                    testeRepository.save(t);
+                    attributes.addFlashAttribute("sucesso", "Pergunta deletada");
+                    return "redirect:/auth/teste/perguntas/{testeId}";
+                } else {
+                    attributes.addFlashAttribute("erro", "Pergunta não encontrada");
+                    return "redirect:/auth/teste/perguntas/{testeId}";
+                }
+            } else { // Deletar do repository
+                perguntaTesteRepository.deleteById(perguntaId);
+                attributes.addFlashAttribute("sucesso", "Pergunta deletada");
+                return "redirect:/auth/teste/perguntas/{testeId}";
+            }
+        } catch (Exception e) {
+            attributes.addFlashAttribute("erro", "ID inexistente ou erro desconhecido");
+            return "redirect:/auth/teste/perguntas/{testeId}";
+        }
+    }
+    /*Atualizar pergunta de um teste (Prof)*/
+    @PostMapping("/auth/updatepergunta/{id}/{testeId}")
+    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @PathVariable("testeId") int testeId,
+                                         @Valid perguntaTeste novaPergunta,
+                                         RedirectAttributes redirectAttributes, BindingResult result, @RequestParam("file") MultipartFile img) {
+        try {
+            perguntaTeste perguntaExistente = perguntaTesteRepository.findById(perguntaId).orElseThrow(null);
+            perguntaExistente.setDescricao(novaPergunta.getDescricao());
+            perguntaExistente.setTitulo(novaPergunta.getTitulo());
+            perguntaExistente.setPedido(novaPergunta.getPedido());
+            if (img.isEmpty()) {
+                novaPergunta.setImg(null);
+            } else {
+                byte[] bytes = img.getBytes();
+                Path caminho = Paths.get("./src/main/resources/static/images/" + img.getOriginalFilename());
+                Files.write(caminho, bytes);
+                perguntaExistente.setImg(img.getOriginalFilename());
+            }
+            perguntaTesteRepository.save(perguntaExistente);
+            redirectAttributes.addFlashAttribute("sucesso", "Pergunta Editada com sucesso");
+            return "redirect:/auth/teste/perguntas/{testeId}";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
+            return "redirect:/auth/teste/perguntas/{testeId}";
+
+        }
+    }
+    /* Listar perguntas por teste de turma (Prof)*/
+    @GetMapping(value = "/auth/turma/{turmaId}/teste/perguntas/{id}")
+    public ModelAndView getPerguntasPorTesteTurma(@PathVariable("id") int testeId, @PathVariable("turmaId") int turmaId) {
+        ModelAndView mv = new ModelAndView("perguntaTeste");
+        List<perguntaTeste> perguntas = new ArrayList<>();
+        String testeNome = "";
+        int IDteste = 0;
+        if (testeRepository.findById(testeId) != null) {
+            teste t = testeRepository.findById(testeId).get();
+            testeNome = t.getNome();
+            IDteste = t.getTesteId();
+            perguntas = t.getPerguntasTeste();
+        }
+        mv.addObject("turmaId", turmaId);
+        mv.addObject("testeId", IDteste);
+        mv.addObject("testeNome", testeNome);
+        mv.addObject("perguntas", perguntas);
+        return mv;
+    }
+    /* Salvar pergunta por teste e turma  (Prof)*/
+    @PostMapping("/auth/turma/{turmaId}/teste/savePergunta/{id}")
+    // @Transactional
+    public String savePerguntaTesteTurma(@PathVariable("id") int testeId, @Valid perguntaTeste pergunta,
             @RequestParam("file") MultipartFile img, RedirectAttributes attributes, BindingResult result) {
         teste t = testeRepository.findById(testeId).orElseThrow(null);
         List<perguntaTeste> lperg = t.getPerguntasTeste();
@@ -74,16 +184,15 @@ public class perguntaTesteController {
             t.setPerguntasTeste(lperg);
             testeRepository.save(t);
             attributes.addFlashAttribute("sucesso", "Pergunta cadastrada");
-            return "redirect:/index/teste/perguntas/{id}";
+            return "redirect:/auth/turma/{turmaId}/teste/perguntas/{id}";
         } catch (Exception e) {
             attributes.addFlashAttribute("erro", e.toString());
-            return "redirect:/index/teste/perguntas/{id}";
+            return "redirect:/auth/turma/{turmaId}/teste/perguntas/{id}";
         }
     }
-
-    /* Deletar pergunta por id */
-    @GetMapping(value = "/index/deletepergunta/{testeId}/{perguntaId}")
-    public String deletePergunta(@PathVariable("testeId") int testeId, @PathVariable("perguntaId") int perguntaId,
+    /* Deletar pergunta por id em uma turma(Prof)*/
+    @GetMapping(value = "/auth/turma/{turmaId}/deletepergunta/{testeId}/{perguntaId}")
+    public String deletePerguntaTurma(@PathVariable("testeId") int testeId, @PathVariable("perguntaId") int perguntaId,
             RedirectAttributes attributes) {
         try {
             if (testeRepository.existsById(testeId)) { // Deletar da tabela perguntasteste
@@ -98,46 +207,24 @@ public class perguntaTesteController {
                     t.setPerguntasTeste(lp);
                     testeRepository.save(t);
                     attributes.addFlashAttribute("sucesso", "Pergunta deletada");
-                    return "redirect:/index/teste/perguntas/{testeId}";
+                    return "redirect:/auth/turma/{turmaId}/teste/perguntas/{testeId}";
                 } else {
                     attributes.addFlashAttribute("erro", "Pergunta não encontrada");
-                    return "redirect:/index/teste/perguntas/{testeId}";
+                    return "redirect:/auth/turma/{turmaId}/teste/perguntas/{testeId}";
                 }
             } else { // Deletar do repository
                 perguntaTesteRepository.deleteById(perguntaId);
                 attributes.addFlashAttribute("sucesso", "Pergunta deletada");
-                return "redirect:/index/perguntas";
+                return "redirect:/auth/turma/{turmaId}/teste/perguntas/{testeId}";
             }
         } catch (Exception e) {
             attributes.addFlashAttribute("erro", "ID inexistente ou erro desconhecido");
-            return "redirect:/index/perguntas";
+            return "redirect:/auth/turma/{turmaId}/teste/perguntas/{testeId}";
         }
     }
-
-    /* Perguntas por teste */
-    @GetMapping(value = "/index/turma/{turmaId}/teste/perguntas/{id}")
-    public ModelAndView getPerguntasPorTeste(@PathVariable("id") int testeId, @PathVariable("turmaId") int turmaId) {
-        ModelAndView mv = new ModelAndView("perguntaTeste");
-        List<perguntaTeste> perguntas = new ArrayList<>();
-        String testeNome = "";
-        int IDteste = 0;
-        if (testeRepository.findById(testeId) != null) {
-            teste t = testeRepository.findById(testeId).get();
-            testeNome = t.getNome();
-            IDteste = t.getTesteId();
-            perguntas = t.getPerguntasTeste();
-        }
-        mv.addObject("turmaId", turmaId);
-        mv.addObject("testeId", IDteste);
-        mv.addObject("testeNome", testeNome);
-        mv.addObject("perguntas", perguntas);
-        return mv;
-    }
-
-    
-
-    @PostMapping("/index/updatepergunta/{id}/{testeId}")
-    public String setPerguntaUpdate(@PathVariable("id") int perguntaId, @PathVariable("testeId") int testeId,
+    /*Atualizar pergunta de um teste em uma turma (Prof)*/
+    @PostMapping("/auth/turma/{turmaId}/updatepergunta/{id}/{testeId}")
+    public String setPerguntaUpdateTurma(@PathVariable("id") int perguntaId, @PathVariable("testeId") int testeId,
             @Valid perguntaTeste novaPergunta,
             RedirectAttributes redirectAttributes, BindingResult result, @RequestParam("file") MultipartFile img) {
         try {
@@ -155,11 +242,10 @@ public class perguntaTesteController {
             }
             perguntaTesteRepository.save(perguntaExistente);
             redirectAttributes.addFlashAttribute("sucesso", "Pergunta Editada com sucesso");
-            return "redirect:/index/teste/perguntas/{testeId}";
+            return "redirect:/auth/turma/{turmaId}/teste/perguntas/{testeId}";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possivel editar" + e);
-            return "redirect:/index/testes";
-
+            return "redirect:/auth/turma/{turmaId}/teste/perguntas/{testeId}";
         }
     }
 }

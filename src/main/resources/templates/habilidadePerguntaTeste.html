@@ -29,7 +29,7 @@
 					<div class="card" style="border-radius: 1rem;">
 						<div class="row g-0">
 							<div class="col-2"><a class="btn btn-secondary w-auto mt-2 ms-2 mb-2"
-								th:href="@{/index/turma/{turmaId}/teste/perguntas/{id}(turmaId=${turmaId},id=${perguntaId})}">Voltar</a>
+								th:href="@{/auth/turma/{turmaId}/teste/perguntas/{id}(turmaId=${turmaId},id=${testeId})}">Voltar</a>
 							</div>
 							<div class="col">
 								<div class="row">
@@ -52,11 +52,11 @@
 										</div>
 										<div class="modal-body">
 											<form method="post"
-												th:action="@{/index/{testeId}/{perguntaId}/saveHabilidade(testeId=${testeId},perguntaId=${perguntaId})}">
+												th:action="@{/auth/t/{turmaId}/t/{testeId}/p/{perguntaId}/habilidade/saveHabilidade(turmaId=${turmaId}, testeId=${testeId},perguntaId=${perguntaId})}">
 												<div class="mb-3">
-													<label for="nome" class="form-label">Nome</label>
-													<input type="text" class="form-control" id="nome" name="nome"
-														placeholder="Nome*">
+													<label for="nome1" class="form-label">Nome</label>
+													<input type="text" class="form-control" id="nome1" name="nome"
+														placeholder="Nome*" required>
 												</div>
 												<button type="submit" class="btn btn-secondary">Salvar</button>
 											</form>
@@ -73,14 +73,14 @@
 							<div class="col d-flex align-items-center">
 								<div class="card-body p-2  text-black">
 									<th:block th:insert="~{mensagemValidacao}"></th:block>
-									<form method="post" th:object="${lhab}">
+									<form method="post" th:object="${lhab}" th:action="@{/auth/t/{turmaId}/t/{testeId}/pergunta/{perguntaId}/habilidades( turmaId=${turmaId}, perguntaId=${perguntaId},testeId=${testeId})}">
 										<input type="number" id="testeId" name="testeId" th:value="${testeId}" hidden>
 										<div class="col-lg-10 mt-5 mb-5 mx-auto">
 											<table class="table">
 												<thead>
 													<tr>
 														<th scope="col">Id</th>
-														<th scope="col">Nome </t>
+														<th scope="col">Nome </th>
 														<th scope="col">Opções</th>
 													</tr>
 												</thead>
@@ -88,8 +88,8 @@
 													<tr th:each="h, i: ${habilidades}">
 														<td th:text="${h.habilidadeId}"></td>
 														<td th:text="${h.nome}"></td>
-														<td><a class="btn btn-secondary" th:href="@{/index/teste/{testeId}/pergunta/{perguntaId}/deletehabilidade/{id}
-																(id=${h.habilidadeId}, testeId=${testeId}, perguntaId=${perguntaId})}" role="button">Deletar</a>
+														<td><a class="btn btn-secondary" th:href="@{/auth/t/{turmaId}/t/{testeId}/pergunta/{perguntaId}/deletehabilidade/{id}
+																(id=${h.habilidadeId}, testeId=${testeId}, perguntaId=${perguntaId}, turmaId=${turmaId})}" role="button">Deletar</a>
 
 
 															<!-- Inicio Bloco Modal -->
@@ -104,7 +104,7 @@
 																	<div class="modal-content">
 																		<div class="modal-header">
 																			<h5 class="modal-title"
-																				id="exampleModalLongTitle">Atualizar
+																				id="exampleModalLongTitle1">Atualizar
 																				Habilidade</h5>
 																			<button type="button" class="close"
 																				data-bs-dismiss="modal"
@@ -114,15 +114,15 @@
 																			</button>
 																		</div>
 																		<div class="modal-body">
-																			<form method="post" th:action="@{/index/teste/{testeId}/pergunta/{perguntaId}/updatehabilidade/{id}
-																				(id=${h.habilidadeId},testeId=${testeId},perguntaId=${perguntaId})}">
+																			<form method="post" th:action="@{/auth/t/{turmaId}/t/{testeId}/pergunta/{perguntaId}/updatehabilidade/{id}
+																				(id=${h.habilidadeId},testeId=${testeId},perguntaId=${perguntaId},turmaId=${turmaId})}">
 																				<div class="mb-3">
 																					<label for="nome"
 																						class="form-label">Nome</label>
 																					<input type="text"
 																						class="form-control" id="nome"
 																						name="nome"
-																						th:value="${h.nome}">
+																						th:value="${h.nome}" required>
 																				</div>
 																				<button type="submit"
 																					class="btn btn-secondary">Salvar</button>

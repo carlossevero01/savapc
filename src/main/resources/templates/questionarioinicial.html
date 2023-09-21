@@ -27,16 +27,16 @@
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLongTitle"> Inserir Novo Questionario</h5>
+								<h5 class="modal-title" id="exampleModalLongTitle1"> Inserir Novo Questionario</h5>
 									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 									<i class="fa fa-times" aria-hidden="true"></i>
 									</button>
 							</div>
 							<div class="modal-body">
-								<form method="post" th:action="@{/index/saveQuestInicial}" th:object="${questionarioinicial}">
+								<form method="post" th:action="@{/auth/quest/saveQuestInicial}" th:object="${questionarioinicial}">
 									<div class="mb-3">
                                         <label for="nome" class="form-label">Nome</label>
-                                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
+                                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*" required>
                                     </div>
                                 
                                     <div class="form-check form-switch">
@@ -48,11 +48,11 @@
                                          type="date" id="disponibilidade" class="form-control" required
                                          autofocus="autofocus" name="disponibilidade"/>
                                     </div>
-									<button type="submit" class="btn btn-secondary">Salvar</button>	
+									<button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 							</div>
 						</div>
 					</div>
@@ -79,7 +79,7 @@
                         <td th:text="${q.visibilidade}"></td>
                         <td th:text="${q.disponibilidade}"></td>        <!-- '' aspas simples fica como texto -->
 						<td><a class="btn btn-secondary" 
-						th:href="@{/index/deletequestionario/{id}(id=${q.questionarioId})}" role="button">Deletar</a>
+						th:href="@{/auth/quest/deletequestionario/{id}(id=${q.questionarioId})}" role="button">Deletar</a>
                     
                                  <!-- Inicio Bloco Modal -->
 								 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#updateQuestionario_'+${q.questionarioId}" >Editar</button>
@@ -93,11 +93,10 @@
 													 </button>
 											 </div>
 											 <div class="modal-body">
-												 <form method="post" th:action="@{/index/updatequestionario/{id}(id=${q.questionarioId})}">
+												 <form method="post" th:action="@{/auth/quest/updatequestionario/{id}(id=${q.questionarioId})}">
                                                         <div class="form-group mt-2">
                                                             <label class="control-label" for="nome"> Nome </label>
-                                                            <input id="nome" class="form-control" name="nome" th:value="${q.nome}" 
-                                                            required autofocus="autofocus" />
+                                                            <input id="nome" class="form-control" name="nome" th:value="${q.nome}" autofocus="autofocus" required/>
                                                         </div>
                                                         <div class="form-check mt-2 form-switch">
                                                             <input class="form-check-input" type="checkbox" role="switch" id="visibilidade" name="visibilidade" th:checked="${q.visibilidade}">
@@ -108,7 +107,7 @@
                                                             <input type="date" id="disponibilidade" class="form-control" required
                                                                 autofocus="autofocus" name="disponibilidade" th:value="${q.disponibilidade}"/>
                                                         </div>
-														 <button type="submit" class="btn btn-secondary">Salvar</button>	
+														 <button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
 												 </form>
 											 </div>
 											 <div class="modal-footer">
@@ -120,7 +119,7 @@
 								 <!-- Fim Bloco Modal -->
 
 							<a class="btn btn-secondary" 
-							th:href="@{/index/perguntasquest/{id}(id=${q.questionarioId})}" role="button">Perguntas</a>
+							th:href="@{/auth/turma/{turmaId}/teste/{testeId}/pergquest/{id}(id=${q.questionarioId})}" role="button">Perguntas</a>
                         </td>
                     </tr>
                     </tbody>

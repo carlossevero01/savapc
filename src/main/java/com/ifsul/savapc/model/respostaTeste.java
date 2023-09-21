@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "respostaTeste")
+@Table(name = "respostateste")
 public class respostaTeste implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class respostaTeste implements Serializable{
     @Column(name = "opRespostaId")
     private int opRespostaId;
     
-    @ManyToMany(mappedBy = "respostasTeste")
+    @ManyToMany(mappedBy = "respostasTeste") // mappedBy = (nome da variavel referente ao outro arquivo e não da tabela)
     List<regTestes> registrosTestes;
     
     @ManyToOne(cascade = CascadeType.ALL)

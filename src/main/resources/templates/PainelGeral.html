@@ -17,7 +17,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/index/inicial">SAVA-PC</a>
+            <a class="navbar-brand ps-3" th:href="@{/index}">SAVA-PC</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             
@@ -38,7 +38,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Inicial</div>
-                            <a class="nav-link" href="/painelgeral">
+                            <a class="nav-link" th:href="@{/auth/painelgeral}">
                                 <div class="sb-nav-link-icon"><i class="fa fa-book "></i></div>
                                 Painel Geral
                             </a>
@@ -50,7 +50,7 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav" th:each="test, j : ${testes}">
-                                    <span></span><a class="nav-link" th:href="@{/index/turma/{turmaId}/testes(turmaId=${test.testeId})}" th:text="${test.nome}"> Testes</a>
+                                    <span></span><a class="nav-link" th:href="@{/auth/turma/{turmaId}/testes(turmaId=${test.testeId})}" th:text="${test.nome}"> Testes</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -95,7 +95,7 @@
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Alunos</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/index/alunos">Detalhes</a>
+                                        <a class="small text-white stretched-link" th:href="@{/auth/alunos}">Detalhes</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                                 <div class="card bg-secondary text-white mb-4">
                                     <div class="card-body">Professores</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/index/professores">Detalhes</a>
+                                        <a class="small text-white stretched-link" th:href="@{/auth/professores}">Detalhes</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                                 <div class="card bg-success text-white mb-4">
                                     <div class="card-body">Turmas</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/index/turmas">Detalhes</a>
+                                        <a class="small text-white stretched-link" th:href="@{/auth/turmas}">Detalhes</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
                                 <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">Testes</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/index/testes">Detalhes</a>
+                                        <a class="small text-white stretched-link" th:href="@{/auth/testes}">Detalhes</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">Questionários</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/index/questionarios">Detalhes</a>
+                                        <a class="small text-white stretched-link" th:href="@{/auth/questionarios}">Detalhes</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@
                                 <div class="card bg-info text-white mb-4">
                                     <div class="card-body">Habilidades</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="/index/habilidades">Detalhes</a>
+                                        <a class="small text-white stretched-link" th:href="@{/auth/habilidades}">Detalhes</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>

@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 @Entity
-@Table (name = "opcaoResposta")
+@Table (name = "opcaoresposta")
 public class opcaoresposta implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class opcaoresposta implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "opcaoResposta_PerguntaTeste",
+        name = "opcaoresposta_perguntateste",
         uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaTesteId","opcaoRespostaId"}),
         joinColumns =  @JoinColumn(name = "opcaoRespostaId"),
         inverseJoinColumns = @JoinColumn(name = "perguntaTesteId")
@@ -44,7 +44,7 @@ public class opcaoresposta implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "opcaoResposta_PerguntaQuestionario",
+        name = "opcaoresposta_perguntaquestionario",
         uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaQuestionarioId","opcaoRespostaId"}),
         joinColumns =  @JoinColumn(name = "opcaoRespostaId"),
         inverseJoinColumns = @JoinColumn(name = "perguntaQuestionarioId")

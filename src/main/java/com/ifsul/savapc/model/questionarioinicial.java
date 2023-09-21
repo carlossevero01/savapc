@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table (name = "questionarioInicial")
+@Table (name = "questionarioinicial")
 public class questionarioinicial implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

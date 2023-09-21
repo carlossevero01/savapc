@@ -39,25 +39,13 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class relatoriosController {
     @Autowired
-    regTestesRepository regTestesRepository;
-    @Autowired
-    regQuestionariosRepository regQuestionariosRepository;
-    @Autowired
-    testeRepository testeRepository;
-    @Autowired
-    questionarioinicialRepository questionarioinicialRepository;
-    @Autowired
     regTestesServiceImplements regTestesServiceImplements;
     @Autowired
     regTestesService regTestesService;
     @Autowired
     turmaRepository turmaRepository;
     @Autowired
-    usuarioRepository usuarioRepository;
-    @Autowired
     notasRepository notasRepository;
-    @Autowired
-    correcoesUsuarioRepository correcoesUsuarioRepository;
     @Autowired
     notasServiceImplements notasServiceImplements;
     @Autowired
@@ -65,14 +53,12 @@ public class relatoriosController {
     @Autowired
     correcoesUsuarioService correcoesUsuarioService;
 
-    /* Exibir relatorio de Perguntas de uma turma */
-    @GetMapping("/index/relatorioPergunta/{turmaId}")
+    /* Exibir relatorio de Perguntas de uma turma (Prof)*/
+    @GetMapping("/auth/turma/relatorioPergunta/{turmaId}")
     @ResponseBody
-    public ModelAndView getRelatorio(@PathVariable("turmaId") int turmaId) {
+    public ModelAndView getRelatorioPerguntas(@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("relatorioComPerguntas");
-    
           regTestesService.fazerCorrecaoTestes();
-    
         turma t = turmaRepository.findById(turmaId).get();
         List<correcoesUsuario> correcao = correcoesUsuarioService.findByTurmaOrderByUsuario(t);
         System.out.println("\n \n "+correcao.toString());
@@ -81,24 +67,24 @@ public class relatoriosController {
         return mv;
     }
 
-    /* Atualiza relatório de habilidades e exibe novamente */
-    @GetMapping("/atualizarRelatorio/{turmaId}")
-    public String setUpdateRelatorio(@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes) {
+    /* Atualiza relatório de habilidades e exibe novamente (Prof)*/
+    @GetMapping("/auth/turma/relatorio/atualizarRelatorio/{turmaId}")
+    public String setUpdateRelatorioHabilidades(@PathVariable("turmaId") int turmaId, RedirectAttributes redirectAttributes) {
         turma turma = turmaRepository.findById(turmaId).get();
         try {
             regTestesServiceImplements.fazerCorrecaoTestes();
             notasServiceImplements.SalvarNotas(turma);
-            return "redirect:/index/relatorioTeste/{turmaId}";
+            return "redirect:/auth/turma/relatorioTeste/{turmaId}";
         } catch (Exception e) {
-            return "redirect:/index/relatorioTeste/{turmaId}";
+            return "redirect:/auth/turma/relatorioTeste/{turmaId}";
         }
 
     }
 
-    /* Exibe relatorio de habilidades de uma turma */
-    @GetMapping("/index/relatorioTeste/{turmaId}")
+    /* Exibe relatorio de habilidades de uma turma (Prof)*/
+    @GetMapping("/auth/turma/relatorioTeste/{turmaId}")
     @ResponseBody
-    public ModelAndView getRelatorioTurma(@PathVariable("turmaId") int turmaId) {
+    public ModelAndView getRelatorioHabilidades(@PathVariable("turmaId") int turmaId) {
         ModelAndView mv = new ModelAndView("relatorioTestePorHabilidade");
         turma turma = turmaRepository.findById(turmaId).get();
         try {
@@ -114,35 +100,33 @@ public class relatoriosController {
             return mv;
         }
     }
-    /* Exporta Relatório de Habilidades */
-    @GetMapping("/index/exportarRelatorioTeste/{turmaId}/download")
-    public void exportRelatorioTeste(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
+    /* Exporta Relatório de Habilidades (Prof)*/
+    @GetMapping("/auth/turma/relatorio/exportarRelatorioTeste/{turmaId}/download")
+    public void exportRelatorioHabilidades(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
         turma turma = turmaRepository.findById(turmaId).get();
         relatoriosServiceImplements.exportarRelatorioTestes(turma, response);
     }
 
-    /*Exporta relatório com perguntas e respostas */
-    @GetMapping("/index/exportarRelatorioTestePerguntas/{turmaId}/download")
+    /*Exporta relatório com perguntas e respostas (Prof)*/
+    @GetMapping("/auth/turma/relatorio/exportarRelatorioTestePerguntas/{turmaId}/download")
     public void exportRelatorioTestePerguntas(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
         turma turma = turmaRepository.findById(turmaId).get();
         relatoriosServiceImplements.exportarRelatorioTestesComPerguntas(turma, response);
     }
-    /*Exporta relatório com questionarios e respostas */
-    @GetMapping("/index/exportarRelatorioQuestionario/{turmaId}/download")
+    /*Exporta relatório com questionarios e respostas (Prof)*/
+    @GetMapping("/auth/turma/relatorio/exportarRelatorioQuestionario/{turmaId}/download")
     public void exportRelatorioQuestionario(HttpServletResponse response, @PathVariable("turmaId") int turmaId) throws IOException {
         turma turma = turmaRepository.findById(turmaId).get();
         relatoriosServiceImplements.exportarRelatorioQuestionario(turma, response);
     }
 
-    /* Atualiza nota de um aluno */
-    @PostMapping("/index/updatenota/{turmaId}/{notaId}")
+    /* Atualiza nota de um aluno (Prof)*/
+    @PostMapping("/auth/turma/relatorio/updatenota/{turmaId}/{notaId}")
     public String setUpdateNota(@PathVariable("turmaId") int turmaId, @PathVariable("notaId") int notaId,
             @RequestParam(value = "elimin", required = false) String desclassificado, @RequestParam("nota") double nota,
             @RequestParam("recomendacao") String recomendacao, RedirectAttributes redirectAttributes) {
         try {
-
             turma turma = turmaRepository.findById(turmaId).get();
-
             if (notasRepository.findById(notaId) != null) {
                 notas novaNota = notasRepository.findById(notaId).get();
                 novaNota.setNotaProjetoFinal(nota);
@@ -155,14 +139,13 @@ public class relatoriosController {
                 notasRepository.save(novaNota);
                 notasServiceImplements.SalvarNotas(turma);
                 redirectAttributes.addFlashAttribute("sucesso", "Nota editada com sucesso!");
-                return "redirect:/index/relatorioTeste/{turmaId}";
+                return "redirect:/auth/turma/relatorioTeste/{turmaId}";
             }
-
             redirectAttributes.addFlashAttribute("erro", "Nota nao encontrada!");
-            return "redirect:/index/relatorioTeste/{turmaId}";
+            return "redirect:/auth/turma/relatorioTeste/{turmaId}";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Nota não editada com sucesso!");
-            return "redirect:/index/relatorioTeste/{turmaId}";
+            return "redirect:/auth/turma/relatorioTeste/{turmaId}";
         }
     }
 

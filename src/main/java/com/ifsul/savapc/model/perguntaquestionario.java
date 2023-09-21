@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table (name = "perguntaQuestionario")
+@Table (name = "perguntaquestionario")
 public class perguntaquestionario implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +53,7 @@ public class perguntaquestionario implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "opcaoResposta_PerguntaQuestionario",
+        name = "opcaoresposta_perguntaquestionario",
         uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaQuestionarioId","opcaoRespostaId"}),
         joinColumns =  @JoinColumn(name = "perguntaQuestionarioId"),
         inverseJoinColumns = @JoinColumn(name = "opcaoRespostaId")

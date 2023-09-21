@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "regQuestionarios")
+@Table(name = "regquestionarios")
 public class regQuestionarios implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class regQuestionarios implements Serializable{
    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "regQuestionarios_RespostaQuestionario",
+            name = "regquestionarios_respostaquestionario",
             joinColumns = @JoinColumn(
                     name = "regQuestionarioId", referencedColumnName = "regQuestionarioId"
             ),

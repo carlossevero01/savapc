@@ -39,7 +39,7 @@ public class habilidade implements Serializable{
     
     @ManyToMany
     @JoinTable(
-        name = "habilidade_PerguntaTeste",
+        name = "habilidade_perguntaTeste",
         uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","perguntaTesteId"}),
         joinColumns =  @JoinColumn(name = "habilidadeId"),
         inverseJoinColumns = @JoinColumn(name = "perguntaTesteId")

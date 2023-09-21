@@ -22,10 +22,8 @@ public class usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usuarioId")
     private int usuarioId;
-
     @Column(nullable = false)
     private String nome;
-
     @Column(nullable = false)
     private String identificador;
     @Column(nullable = false)
@@ -43,9 +41,6 @@ public class usuario implements Serializable {
     private String username;
     @Column(nullable=false)
     private String password;
-
-   
-
     @ManyToMany
     @JoinTable(
         name = "turma_usuario",
@@ -55,7 +50,6 @@ public class usuario implements Serializable {
     )
     @JsonBackReference
     private List<turma> turmas;
-    
     @ManyToMany
     @JoinTable(
         name = "habilidade_usuario",
@@ -75,7 +69,7 @@ public class usuario implements Serializable {
      List<regQuestionarios> regQuestionarios;
 
      @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-     @JoinTable(name = "TB_USERS_ROLES",
+     @JoinTable(name = "tb_users_roles",
              joinColumns = @JoinColumn(name = "usuarioId"),
              inverseJoinColumns = @JoinColumn(name = "role_id"))
      private Collection<Role> roles;

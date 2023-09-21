@@ -18,8 +18,9 @@
 		<div th:insert="fragments/frag :: navProf"></div>
 		
 		<div class="container mt-2">
+            <a class="btn btn-secondary mb-2" th:href="@{/auth/turmas}" style="width: auto;">Voltar</a>
       <div class="mx-auto text-end">
-				<a type="button" class="btn btn-secondary mt-2" th:href="@{/index/exportarRelatorioQuestionario/{turmaId}/download(turmaId=${turmaId})}">
+				<a type="button" class="btn btn-secondary mt-2" th:href="@{/auth/turma/relatorio/exportarRelatorioQuestionario/{turmaId}/download(turmaId=${turmaId})}">
 					Exportar relatório
 				</a>
 			 </div>

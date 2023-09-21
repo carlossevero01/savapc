@@ -17,7 +17,7 @@
 		
 			<div class=" container bg-dark bg-gradient text-white p-4 rounded mt-4">
 				<th:block th:insert="~{mensagemValidacao}"></th:block>	
-				<a href="/turmas" class="btn btn-secondary">Voltar</a>
+				<a th:href="@{/aluno/turmas}" class="btn btn-secondary">Voltar</a>
 					<div class="row">
 						<div class="row-auto ">
 							<h3 class="mt-2 p-2 mx-auto" th:text="${turma.nome}"></h3>
@@ -47,7 +47,7 @@
 												<p class="card-text" ></p>
 											</div>
 											<div class="card-footer text-muted"> 
-												<form th:action="@{/index/aplicacao/{turmaId}/{testeId}(turmaId=${turma.turmaId},testeId=${t.testeId})}" method="post">
+												<form th:action="@{/aluno/aplicacao/{turmaId}/{testeId}(turmaId=${turma.turmaId},testeId=${t.testeId})}" method="post">
 													<input hidden type="text" name="username" th:value="${#authentication.principal.username}">
 													<button class="btn btn-outline-primary" type="submit">Acessar Teste</button>
 												</form>
@@ -62,7 +62,7 @@
 												<p class="card-text" ></p>
 											</div>
 											<div class="card-footer text-muted"> 
-												<a class="btn btn-outline-primary" th:href="@{/index/aplicacaoquest/{turmaId}/{questionarioId}(turmaId=${turma.turmaId},questionarioId=${q.questionarioId})}" role="button">Acessar Questionario</a>
+												<a class="btn btn-outline-primary" th:href="@{/aluno/aplicacaoquest/{turmaId}/{questionarioId}(turmaId=${turma.turmaId},questionarioId=${q.questionarioId})}" role="button">Acessar Questionario</a>
 											</div>
 									</div>	
 								</div>

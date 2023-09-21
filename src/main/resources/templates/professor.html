@@ -32,47 +32,47 @@
                                 </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" th:action="@{/index/saveUsuario}" enctype="multipart/form-data">
+                            <form method="post" th:action="@{/auth/usuario/saveUsuario}" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome*</label>
-                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
+                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email*</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email*">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email*" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="telefone" class="form-label">Telefone*</label>
-                                    <input type="number" class="form-control" id="telefone" name="telefone" placeholder="Telefone*">
+                                    <input type="number" class="form-control" id="telefone" name="telefone" placeholder="Telefone*" required>
                                 </div>
                                 <input hidden type="text" class="form-control" id="tipo" name="tipo" value="prof">
                                 <div class="mb-3">
                                     <label for="identificador" class="form-label">Identificador*</label>
-                                    <input type="text" class="form-control" id="Identificador" name="Identificador" placeholder="Identificador*">
+                                    <input type="text" class="form-control" id="identificador" name="Identificador" placeholder="Identificador*" required>
                                 </div>
                                 
                                 <div class="form-group mt-2">
                                     <label class="control-label" for="dataNascimento"> Data de nascimento*</label> <input
-                                     type="date" id="dataNascimento" class="form-control" name="dataNascimento" required
-                                     autofocus="autofocus" />
+                                     type="date" id="dataNascimento" class="form-control" name="dataNascimento"
+                                     autofocus="autofocus" required/>
                                   </div>
                                   <div class="form-group mt-2">
                                     <label for="img" class="control-label">Imagem(opcional)</label>
                                     <input type="file" class="form-control" id="img" name="file" >
                                   </div>
                                   <div class="form-outline mt-2 mb-4">
-                                    <input type="text" id="username" class="form-control" name="username"/>
+                                    <input type="text" id="username" class="form-control" name="username" required/>
                                     <label class="form-label" for="username">Nome de Usuario*</label>
                                   </div>
                                   <div class="form-outline mt-2 mb-4">
-                                    <input type="password" id="password" class="form-control" name="password"/> 
+                                    <input type="password" id="password" class="form-control" name="password" required/>
                                     <label class="form-label" for="password">Senha*</label>
                                   </div>
-                                <button type="submit" class="btn btn-secondary">Salvar</button>	
+                                <button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                         <td th:text="${a.telefone}"></td> 
                         <td th:text="${a.dataNascimento}"></td>  
                         <td><a class=" btn btn-secondary" 
-						th:href="@{/index/deleteusuario/{id}(id=${a.usuarioId})}" role="button">Deletar</a>
+						th:href="@{/auth/usuario/deleteusuario/{id}(id=${a.usuarioId})}" role="button">Deletar</a>
 							
 
                              <!-- Inicio Bloco Modal -->
@@ -115,36 +115,36 @@
                                  <div class="modal-dialog modal-dialog-centered" role="document">
                                      <div class="modal-content">
                                          <div class="modal-header">
-                                             <h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Aluno</h5>
+                                             <h5 class="modal-title" id="exampleModalLongTitle1" >Atualizar Aluno</h5>
                                                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                  <i class="fa fa-times" aria-hidden="true"></i>
                                                  </button>
                                          </div>
                                          <div class="modal-body">
-                                             <form method="post" th:action="@{/index/updateusuario/{id}(id=${a.usuarioId})}" enctype="multipart/form-data">
+                                             <form method="post" th:action="@{/auth/usuario/updateusuario/{id}(id=${a.usuarioId})}" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="nome" class="form-label">Nome</label>
-                                                    <input type="text" class="form-control" id="nome" name="nome" th:value="${a.nome}">
+                                                    <input type="text" class="form-control" id="nome" name="nome" th:value="${a.nome}" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email" name="email" th:value="${a.email}">
+                                                    <input type="email" class="form-control" id="email" name="email" th:value="${a.email}" required>
                                                 </div>
                                                 <div class="form-group mt-2">
                                                     <label for="tipo" class="control-label">Tipo</label>
-                                                    <select class="form-select" aria-label="Default select example" id="tipo" name="tipo">
+                                                    <select class="form-select" aria-label="Default select example" id="tipo" name="tipo" required>
                                                         <option selected th:value=${a.tipo} th:text="${a.tipo}">Tipo*</option>
-                                                      <option value="aluno">Aluno</option>
-                                                      <option value="prof">Professor</option>
+                                                        <option value="aluno">Aluno</option>
+                                                        <option value="prof">Professor</option>
                                                     </select>
                                                   </div>
                                                 <div class="mb-3">
                                                     <label for="identificador" class="form-label">Identificador</label>
-                                                    <input type="text" class="form-control" id="identificador" name="identificador" th:value="${a.identificador}">
+                                                    <input type="text" class="form-control" id="identificador" name="identificador" th:value="${a.identificador}" required>
                                                 </div> 
                                                 <div class="mb-3">
                                                     <label for="telefone" class="form-label">Telefone</label>
-                                                    <input type="number" class="form-control" id="telefone" name="telefone" th:value="${a.telefone}">
+                                                    <input type="number" class="form-control" id="telefone" name="telefone" th:value="${a.telefone}" required>
                                                 </div>
                                                 <div class="form-group mt-2">
                                                     <label class="control-label" for="dataNascimento"> Data de nascimento </label> <input
@@ -157,20 +157,20 @@
                                                   </div>
                                                   <div class="form-group mt-2">
                                                     <label class="control-label" for="username"> Username </label> <input
-                                                     id="username" class="form-control" name="username" th:value="${a.username}" required
-                                                     autofocus="autofocus" />
+                                                     id="username" class="form-control" name="username" th:value="${a.username}"
+                                                     autofocus="autofocus" required/>
                                                 </div>
                                            
                                                 <div class="form-group mt-2">
                                                  <label class="control-label" for="password"> Password </label> <input
                                                   id="password" class="form-control" type="password"
-                                                  name="password"  required autofocus="autofocus" />
+                                                  name="password"  autofocus="autofocus" required/>
                                                 </div>
-                                                     <button type="submit" class="btn btn-secondary">Salvar</button>	
+                                                     <button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
                                              </form>
                                          </div>
                                          <div class="modal-footer">
-                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                          </div>
                                      </div>
                                  </div>
@@ -183,7 +183,7 @@
           </div>  
         </div>
 			
-		</div>
+
     </body>
     <footer>
         

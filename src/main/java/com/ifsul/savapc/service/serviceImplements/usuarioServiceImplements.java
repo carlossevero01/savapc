@@ -44,7 +44,6 @@ public class usuarioServiceImplements implements usuarioService{
     @Autowired
     turmaRepository turmaRepository;
     
-    
     @Override
     public List<usuario> findByIdentificadorLike(String identificador) { 
         return usuarioRepository.findByIdentificadorLike(identificador); }
@@ -74,28 +73,27 @@ public class usuarioServiceImplements implements usuarioService{
         registrationDto.getIdentificador(),LocalDate.parse(registrationDto.getDataNascimento()) ,registrationDto.getImg(),
         registrationDto.getUsername(),
         new BCryptPasswordEncoder().encode(registrationDto.getPassword()), Arrays.asList(new Role( "ROLE_ALUNO")));
-
-    if(roleRepository.findByNameLike("ROLE_ALUNO")==null || roleRepository.findByNameLike("ROLE_PROF")==null){
-           if(registrationDto.getTipo().equalsIgnoreCase("aluno")){
-                user.setRoles(Arrays.asList(new Role("ROLE_ALUNO")));
+        if(roleRepository.findByNameLike("ROLE_ALUNO")==null || roleRepository.findByNameLike("ROLE_PROF")==null){
+               if(registrationDto.getTipo().equalsIgnoreCase("aluno")){
+                    user.setRoles(Arrays.asList(new Role("ROLE_ALUNO")));
+                    return usuarioRepository.save(user);
+               }else{
+                    user.setRoles(Arrays.asList(new Role("ROLE_PROF")));
+                    return usuarioRepository.save(user);
+               }
+               
+        }else{  
+            if(registrationDto.getTipo().equalsIgnoreCase("aluno")){
+                user.setRoles(Arrays.asList( roleRepository.findByNameLike("ROLE_ALUNO")));
                 return usuarioRepository.save(user);
-           }else{
-                user.setRoles(Arrays.asList(new Role("ROLE_PROF")));
+            }
+            else{
+                user.setRoles(Arrays.asList( roleRepository.findByNameLike("ROLE_PROF")));
                 return usuarioRepository.save(user);
-           }
-           
-    }else{  
-        if(registrationDto.getTipo().equalsIgnoreCase("aluno")){
-            user.setRoles(Arrays.asList( roleRepository.findByNameLike("ROLE_ALUNO")));
-            return usuarioRepository.save(user);
-        }
-        else{
-            user.setRoles(Arrays.asList( roleRepository.findByNameLike("ROLE_PROF")));
-            return usuarioRepository.save(user);
-        }
-            
-    } 
+            }
+        } 
     }
+    
     @Override
     public usuario save(usuario usuarioexistente) {
         Role Raluno = roleRepository.findByNameLike("ROLE_ALUNO");

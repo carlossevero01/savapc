@@ -32,35 +32,35 @@
                                     </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" th:object="${testeForm}" th:action="@{/index/saveTeste}">
+                                <form method="post" th:object="${testeForm}" th:action="@{/auth/teste/saveTeste}">
                                     <div class="mb-3">
-                                        <label for="nome" class="form-label">Nome</label>
-                                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
+                                        <label for="nome1" class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="nome1" name="nome" placeholder="Nome*" required>
                                     </div>
                                     
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="visibilidade" name="visibilidade" checked>
-                                        <label class="form-check-label" for="visibilidade" >Visibilidade</label>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="visibilidade1" name="visibilidade" checked>
+                                        <label class="form-check-label" for="visibilidade1" >Visibilidade</label>
                                      </div>
                                     <div class="form-group mt-2">
-                                        <label class="control-label" for="disponibilidade"> Disponibilidade </label> <input
-                                         type="date" id="disponibilidade" class="form-control" required
+                                        <label class="control-label" for="disponibilidade1"> Disponibilidade </label> <input
+                                         type="date" id="disponibilidade1" class="form-control" required
                                          autofocus="autofocus" name="disponibilidade"/>
                                     </div>
                                     <div style="border: solid black 1px; padding: 5px; margin-top: 10px;">  
                                         <h5 style="text-align: center;">Selecione perguntas disponíveis(Opcional)</h5>
                                     <div class="form-group mb-auto mt-auto" th:each="pergunta , j : ${perguntas}" style="border-top: solid black 1px;">
                                             <div class="mt-2 mt-2">
-                                                <input class="form-check-input" type="checkbox" th:name="|perguntas[${j.index}].perguntaTesteId|" th:value="${pergunta.perguntaTesteId}">
-                                                <label for="titulo" class="form-label" th:text="${pergunta.titulo}"></label>
+                                                <input id="titulo2" class="form-check-input" type="checkbox" th:name="|perguntas[${j.index}].perguntaTesteId|" th:value="${pergunta.perguntaTesteId}">
+                                                <label for="titulo2" class="form-label" th:text="${pergunta.titulo}"></label>
                                             </div>
                                     </div>
                                     </div>
-                                    <button type="submit" class="btn btn-secondary">Salvar</button>	
+                                    <button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                         <td th:text="${t.visibilidade}"></td>
                         <td th:text="${t.disponibilidade}"></td> 
                         <td><a class="btn btn-secondary" 
-						th:href="@{/index/deleteteste/{id}(id=${t.testeId})}" role="button">Deletar</a>
+						th:href="@{/auth/teste/deleteteste/{id}(id=${t.testeId})}" role="button">Deletar</a>
         
                             <!-- Inicio Bloco Modal -->
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#updateTeste_'+${t.testeId}" >Editar</button>
@@ -93,16 +93,16 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Teste</h5>
+                                            <h5 class="modal-title" id="exampleModalLongTitle1" >Atualizar Teste</h5>
                                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                 </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="post" th:action="@{/index/updateteste/{id}(id=${t.testeId})}">
+                                            <form method="post" th:action="@{/auth/teste/updateteste/{id}(id=${t.testeId})}">
                                                 <div class="mb-3">
                                                     <label for="nome" class="form-label">Nome</label>
-                                                    <input type="text" class="form-control" id="nome" name="nome" th:value="${t.nome}">
+                                                    <input type="text" class="form-control" id="nome" name="nome" th:value="${t.nome}" required>
                                                 </div>
                                             
                                                 <div class="form-check form-switch">
@@ -114,21 +114,17 @@
                                                     <input type="date" id="disponibilidade" class="form-control" required
                                                      autofocus="autofocus" name="disponibilidade" th:value="${t.disponibilidade}"/>
                                                 </div>
-                                                    <button type="submit" class="btn btn-secondary">Salvar</button>	
+                                                    <button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- Fim Bloco Modal -->
-
-
-
-							<a class="btn btn-secondary" 
-							th:href="@{/index/teste/perguntas/{id}(id=${t.testeId})}" role="button">Perguntas</a>
+                            <a class="btn btn-secondary" th:href="@{/auth/teste/perguntas/{id}(id=${t.testeId})}" role="button">Perguntas</a>
                         </td>
                     </tr>
                     </tbody>

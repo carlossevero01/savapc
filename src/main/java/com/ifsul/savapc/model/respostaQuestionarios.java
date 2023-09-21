@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "respostaQuestionario")
+@Table(name = "respostaquestionario")
 public class respostaQuestionarios implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

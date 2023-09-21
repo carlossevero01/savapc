@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table (name = "perguntaTeste")
+@Table (name = "perguntateste")
 public class perguntaTeste implements Serializable{
 
     @Id
@@ -44,7 +44,7 @@ public class perguntaTeste implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "habilidade_PerguntaTeste",
+        name = "habilidade_perguntateste",
         uniqueConstraints = @UniqueConstraint(columnNames = {"habilidadeId","perguntaTesteId"}),
         joinColumns =  @JoinColumn(name = "perguntaTesteId"),
         inverseJoinColumns = @JoinColumn(name = "habilidadeId")
@@ -57,7 +57,7 @@ public class perguntaTeste implements Serializable{
     
     @ManyToMany
     @JoinTable(
-        name = "perguntaTeste_Teste",
+        name = "perguntateste_teste",
         uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaTesteId","testeId"}),
         joinColumns =  @JoinColumn(name = "perguntaTesteId"),
         inverseJoinColumns = @JoinColumn(name = "testeId")
@@ -67,7 +67,7 @@ public class perguntaTeste implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "opcaoResposta_PerguntaTeste",
+        name = "opcaoresposta_perguntateste",
         uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaTesteId","opcaoRespostaId"}),
         joinColumns =  @JoinColumn(name = "perguntaTesteId"),
         inverseJoinColumns = @JoinColumn(name = "opcaoRespostaId")

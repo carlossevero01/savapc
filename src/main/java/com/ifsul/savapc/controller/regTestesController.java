@@ -26,18 +26,10 @@ public class regTestesController {
     @Autowired
     regTestesService regTestesService;
     @Autowired
-    regTestesRepository regTestesRepository;
-    @Autowired
-    turmaRepository turmaRepository;
-    @Autowired
-    testeRepository testeRepository;
-    @Autowired
-    usuarioService usuarioService;
-    @Autowired
     turmaService turmaService;
     @Autowired
     testeService testeService;
-    @GetMapping("/index/turma/teste/tentativas/{turmaId}/{testeId}")
+    @GetMapping("/auth/turma/teste/tentativas/{turmaId}/{testeId}")
     public ModelAndView tentativas(@PathVariable("turmaId") int turmaId, @PathVariable("testeId") int testeId){
         ModelAndView mv = new ModelAndView("regTestes");
         if(!testeService.existsById(testeId) || !turmaService.existsById(turmaId) ){
@@ -50,9 +42,9 @@ public class regTestesController {
         mv.addObject("turmaId", turma.getTurmaId());
         return mv;
     }
-    @GetMapping("/index/turma/{turmaId}/deletarRegTeste/{testeId}/{usuarioId}")
+    @GetMapping("/auth/turma/{turmaId}/deletarRegTeste/{testeId}/{usuarioId}")
     public String deletarTentativa(@PathVariable("testeId") int testeId, @PathVariable("usuarioId") int usuarioId, @PathVariable("turmaId") int turmaId){
         regTestesService.deletarTentativa(testeId, turmaId,usuarioId);
-        return "redirect:/index/turma/{turmaId}/testes";
+        return "redirect:/auth/turma/{turmaId}/testes";
     }
 }

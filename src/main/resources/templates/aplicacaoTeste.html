@@ -41,7 +41,7 @@
 								
 						</div>
 						<div th:if="${perguntas[__${j.index}__].img != NULL}">
-							<img class="m-2 border" style="max-width: 50%; width: 500px;" th:src="@{/index/aplicacaoteste/{turmaId}/{testeId}/imagem/{img}(img=${perguntas[__${j.index}__].img})}" alt="imgPergunta">
+							<img class="m-2 border" style="max-width: 50%; width: 500px;" th:src="@{/images/{img}(img=${perguntas[__${j.index}__].img})}" alt="imgPergunta">
 						</div>
 						<br>
 						<div> <p class="lead">Escolha uma alternativa:</p>

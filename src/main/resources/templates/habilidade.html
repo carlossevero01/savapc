@@ -32,12 +32,12 @@
 									</button>
 							</div>
 							<div class="modal-body">
-								<form method="post" th:action="@{/index/saveHabilidade}">
+								<form method="post" th:action="@{/auth/habilidade/saveHabilidade}">
 									<div class="mb-3">
-										<label for="nome" class="form-label">Nome</label>
-										<input type="text" class="form-control" id="nome" name="nome" placeholder="Nome*">
+										<label for="nome1" class="form-label">Nome</label>
+										<input type="text" class="form-control" id="nome1" name="nome" placeholder="Nome*" required>
 									</div>
-									<button type="submit" class="btn btn-secondary">Salvar</button>	
+									<button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
 								</form>
 							</div>
 							<div class="modal-footer">
@@ -54,7 +54,7 @@
 					<thead>
 						<tr>
 							<th scope="col">Id</th>
-							<th scope="col">Nome </t>
+							<th scope="col">Nome </th>
 							<th scope="col">Opções</th>
 						</tr>
 					</thead>
@@ -62,7 +62,7 @@
 						<tr  th:each="h, i: ${habilidades}">
 							<td th:text="${h.habilidadeId}"></td>
 							<td th:text="${h.nome}"></td>
-							<td><a class="btn btn-secondary" th:href="@{/index/deletehabilidade/{id}(id=${h.habilidadeId})}" role="button">Deletar</a>
+							<td><a class="btn btn-secondary" th:href="@{/auth/habilidade/deletehabilidade/{id}(id=${h.habilidadeId})}" role="button">Deletar</a>
 								
 								
 								 <!-- Inicio Bloco Modal -->
@@ -71,22 +71,22 @@
 									 <div class="modal-dialog modal-dialog-centered" role="document">
 										 <div class="modal-content">
 											 <div class="modal-header">
-												 <h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Habilidade</h5>
+												 <h5 class="modal-title" id="exampleModalLongTitle1" >Atualizar Habilidade</h5>
 													 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 													 <i class="fa fa-times" aria-hidden="true"></i>
 													 </button>
 											 </div>
 											 <div class="modal-body">
-												 <form method="post" th:action="@{/index/updatehabilidade/{id}(id=${h.habilidadeId})}">
+												 <form method="post" th:action="@{/auth/habilidade/updatehabilidade/{id}(id=${h.habilidadeId})}">
 													<div class="mb-3">
 														<label for="nome" class="form-label">Nome</label>
-														<input type="text" class="form-control" id="nome" name="nome" th:value="${h.nome}">
+														<input type="text" class="form-control" id="nome" name="nome" th:value="${h.nome}" required>
 													</div>
-														 <button type="submit" class="btn btn-secondary">Salvar</button>	
+														 <button type="submit" class="mt-2 btn btn-secondary">Salvar</button>
 												 </form>
 											 </div>
 											 <div class="modal-footer">
-											 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+											 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 											 </div>
 										 </div>
 									 </div>

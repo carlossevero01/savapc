@@ -38,7 +38,7 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Inserir Opção-Resposta
+                                            <h5 class="modal-title" id="exampleModalLongTitle1">Inserir Opção-Resposta
                                             </h5>
                                             <button type="button" class="close" data-bs-dismiss="modal"
                                                 aria-label="Close">
@@ -47,21 +47,22 @@
                                         </div>
                                         <div class="modal-body">
                                             <form method="post"
-                                                th:action="@{/index/perguntaquestionario/saveopcaoresposta/{id}(id=${perguntaQuestionarioId})}">
+                                                th:action="@{/auth/t/{turmaId}/quest/{questionarioId}/pergquest/{id}/saveopcaoresposta
+                                                (turmaId=${turmaId}, questionarioId=${questionarioId}, id=${perguntaQuestionarioId})}">
                                                 <div class="mb-3">
-                                                    <label for="tipo" class="form-label">Tipo</label>
-                                                    <input type="text" class="form-control" id="tipo" name="tipo"
-                                                        placeholder="Tipo*" value="verdadeiro ou falso">
+                                                    <label for="tipo1" class="form-label">Tipo</label>
+                                                    <input type="text" class="form-control" id="tipo1" name="tipo"
+                                                        placeholder="Tipo*" value="verdadeiro ou falso" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="descricao" class="form-label">Descrição</label>
-                                                    <input type="text" class="form-control" id="descricao"
-                                                        name="descricao" placeholder="Descrição*">
+                                                    <label for="descricao1" class="form-label">Descrição</label>
+                                                    <input type="text" class="form-control" id="descricao1"
+                                                        name="descricao" placeholder="Descrição*" required>
                                                 </div>
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="verdadeira" name="verdadeira" checked>
-                                                    <label class="form-check-label" for="verdadeira">Correta?</label>
+                                                        id="verdadeira1" name="verdadeira" checked required>
+                                                    <label class="form-check-label" for="verdadeira1">Correta?</label>
                                                 </div>
                                                 <button type="submit" class="btn btn-secondary mt-2">Salvar</button>
                                             </form>
@@ -100,7 +101,8 @@
                                                 <td th:text="${opr.verdadeira}"></td>
                                                 <!-- '' aspas simples fica como texto -->
                                                 <td><a class="btn btn-secondary"
-                                                        th:href="@{/index/perguntaquestionario/deleteopcaoresposta/{id}(id=${opr.opcaoRespostaId})}"
+                                                        th:href="@{/auth/t/{turmaId}/quest/{questionarioId}/pergquest/{perguntaQuestId}/deleteopcaoresposta/{id}
+                                                        (turmaId=${turmaId}, questionarioId=${questionarioId}, perguntaQuestId=${perguntaQuestionarioId},id=${opr.opcaoRespostaId})}"
                                                         role="button">Deletar</a>
                                                     
                                                     <!-- Inicio Bloco Modal -->
@@ -121,26 +123,26 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form method="post"
-                                                                        th:action="@{/index/perguntaQuestionario/{perguntaQuestionarioId}/updateopcaoresposta/{id}(id=${opr.opcaoRespostaId}, perguntaQuestionarioId=${perguntaQuestionarioId})}">
+                                                                        th:action="@{/auth/t/{turmaId}/quest/{questionarioId}/pergQuest/{perguntaQuestId}/updateopcaoresposta/{id}(turmaId=${turmaId}, questionarioId=${questionarioId}, id=${opr.opcaoRespostaId}, perguntaQuestId=${perguntaQuestionarioId})}">
                                                                         <div class="mb-3">
                                                                             <label for="tipo"
                                                                                 class="form-label">Tipo</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="tipo" name="tipo"
-                                                                                th:value="${opr.tipo}">
+                                                                                th:value="${opr.tipo}" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="descricao"
                                                                                 class="form-label">Descrição</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="descricao" name="descricao"
-                                                                                th:value="${opr.descricao}">
+                                                                                th:value="${opr.descricao}" required>
                                                                         </div>
                                                                         <div class="form-check form-switch">
                                                                             <input class="form-check-input"
                                                                                 type="checkbox" role="switch"
                                                                                 id="verdadeira" name="verdadeira"
-                                                                                th:checked="${opr.verdadeira}">
+                                                                                th:checked="${opr.verdadeira}" required>
                                                                             <label class="form-check-label"
                                                                                 for="verdadeira">Correta?</label>
                                                                         </div>

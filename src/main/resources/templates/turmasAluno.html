@@ -47,21 +47,21 @@
                                 <h2 class="fs-4 fw-bold" th:text="${turm.nome}">NomeTurma</h2>
                                 <p class="mb-0">Turma para desenvolver o pensamento computacional</p>
                                 <div th:if="${#lists.isEmpty(turm.usuarios)}">
-                                    <form  method="post" th:action="@{/index/cadAlunoTurma/{id}(id=${turm.turmaId})}">
-                                        <input hidden type="text" id="username" name="username"  th:value="${#authentication.principal.username}">
+                                    <form  method="post" th:action="@{/aluno/turma/cadAlunoTurma/{id}(id=${turm.turmaId})}">
+                                        <input hidden type="text" id="username1" name="username"  th:value="${#authentication.principal.username}">
                                         <button  type="submit" class="btn btn-outline-primary mt-2 mb-2 p-2">Inscrever-se</button> 
                                     </form>
                                 </div>
                                 <div  th:unless="${#lists.isEmpty(turm.usuarios)}">
                                     <div th:unless="${#lists.contains(turm.usernames, #authentication.principal.username)}">
-                                        <form  method="post" th:action="@{/index/cadAlunoTurma/{id}(id=${turm.turmaId})}">
+                                        <form  method="post" th:action="@{/aluno/turma/cadAlunoTurma/{id}(id=${turm.turmaId})}">
                                             <input hidden type="text" id="username" name="username"  th:value="${#authentication.principal.username}">
                                             <button  type="submit" class="btn btn-outline-primary mt-2 mb-2 p-2">Inscrever-se</button> 
                                         </form>
                                     </div>
                                     
                                     <div th:if="${#lists.contains(turm.usernames, #authentication.principal.username)}">
-                                        <a  class="btn btn-outline-primary mt-2 mb-2" th:href="@{/index/turma/{id}(id=${turm.turmaId})}" role="button">Acessar Turma</a>
+                                        <a  class="btn btn-outline-primary mt-2 mb-2" th:href="@{/aluno/turma/{id}(id=${turm.turmaId})}" role="button">Acessar Turma</a>
                                     </div>
                                      
                                 </div>

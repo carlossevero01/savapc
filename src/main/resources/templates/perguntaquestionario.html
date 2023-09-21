@@ -37,26 +37,26 @@
                          </div>
                          <div class="modal-body">
                              <form method="post"
-                                 th:action="@{/index/saveperguntaquestionario/{id}(id=${questionarioId})}"
+                                 th:action="@{/auth/turma/{turmaId}/pergquest/saveperguntaquestionario/{id}(turmaId=${turmaId},id=${questionarioId})}"
                                  >
                                  <div class="mb-3">
-                                    <label for="titulo" class="form-label">Titulo*</label>
-                                    <input type="text" class="form-control" id="titulo" name="titulo" ></input>
+                                    <label for="titulo1" class="form-label">Titulo*</label>
+                                    <input type="text" class="form-control" id="titulo1" name="titulo" required />
                                 </div>
                                  <div class="mb-3">
-                                    <label for="descricao" class="form-label">Descrição*</label>
-                                    <textarea class="form-control" id="descricao" name="descricao" rows="3"></textarea>
+                                    <label for="descricao1" class="form-label">Descrição*</label>
+                                    <textarea class="form-control" id="descricao1" name="descricao" rows="3" required></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="profId" class="form-label">Tipo</label>
-                                    <select class="form-select" aria-label="Default select example" id="tipo" name="tipo">
+                                    <label for="tipo1" class="form-label">Tipo</label>
+                                    <select class="form-select" aria-label="Default select example" id="tipo1" name="tipo" required>
                                         <option selected value="dissertativa">Dissertativa*</option>
                                         <option value="multipla escolha">Multipla Escolha</option>
                                     </select>
                                 </div>
                                 <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="obrigatorio" name="obrigatorio">
-                                    <label class="form-check-label" for="obrigatorio">É obrigatório?</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="obrigatorio1" name="obrigatorio">
+                                    <label class="form-check-label" for="obrigatorio1">É obrigatório?</label>
                                 </div>
                                  <button type="submit" class="btn btn-secondary mt-2">Salvar</button>
                              </form>
@@ -90,7 +90,7 @@
                         <td th:text="${p.descricao}"></td>  <!-- '' aspas simples fica como texto -->
                         <td th:text="${p.obrigatorio}"></td>
                         <td><a class="btn btn-secondary" 
-						th:href="@{/index/{questionarioId}/deleteperguntaquest/{id}(questionarioId=${questionarioId},id=${p.perguntaQuestionarioId})}" role="button">Deletar</a>
+						th:href="@{/auth/turma/{turmaId}/quest/{questionarioId}/pergquest/{id}/deleteperguntaquest(turmaId=${turmaId}, questionarioId=${questionarioId},id=${p.perguntaQuestionarioId})}" role="button">Deletar</a>
                             
                             <!-- Inicio Bloco Modal -->
                             <button type="button" class="btn btn-secondary"
@@ -101,7 +101,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">
+                                        <h5 class="modal-title" id="exampleModalLongTitle1">
                                             Atualizar Pergunta</h5>
                                         <button type="button" class="close"
                                             data-bs-dismiss="modal" aria-label="Close">
@@ -110,20 +110,20 @@
                                     </div>
                                     <div class="modal-body">
                                         <form method="post"
-                                            th:action="@{/index/{questionarioId}/updateperguntaquest/{id}
-                                            (questionarioId=${questionarioId},id=${p.perguntaQuestionarioId})}"
+                                            th:action="@{/auth/turma/{turmaId}/quest/{questionarioId}/pergquest/{id}/updateperguntaquest
+                                            (turmaId=${turmaId}, questionarioId=${questionarioId},id=${p.perguntaQuestionarioId})}"
                                             >
                                             <div class="form-group mt-2">
                                                 <label for="titulo" class="control-label">Titulo*</label>
-                                                <input type="text" class="form-control" id="titulo" name="titulo" th:value="${p.titulo}">
+                                                <input type="text" class="form-control" id="titulo" name="titulo" th:value="${p.titulo}" required>
                                             </div>
                                             <div class="form-group mt-2">
                                                 <label for="descricao" class="form-label">Descrição*</label>
-                                                <textarea class="form-control" id="descricao" name="descricao" th:text="${p.descricao}" rows="3"></textarea>
+                                                <textarea class="form-control" id="descricao" name="descricao" th:text="${p.descricao}" rows="3" required></textarea>
                                             </div>
                                             <div class="form-group mt-2">
-                                                <label for="profId" class="form-label">Tipo</label>
-                                                <select class="form-select" aria-label="Default select example" id="tipo" name="tipo">
+                                                <label for="tipo" class="form-label">Tipo</label>
+                                                <select class="form-select" aria-label="Default select example" id="tipo" name="tipo" required>
                                                     <option selected th:value="${p.tipo}" th:text="${p.tipo}">Dissertativa*</option>
                                                     <option value="multipla escolha">Multipla Escolha</option>
                                                     <option value="dissertativa">Dissertativa</option>
@@ -146,7 +146,7 @@
                         </div>
                         <!-- Fim Bloco Modal -->
                             <a class="btn btn-secondary" 
-							th:href="@{/index/perguntaquestionario/opcoesresposta/{id}(id=${p.perguntaQuestionarioId})}" role="button">Opções Resposta</a>
+							th:href="@{/auth/t/{turmaId}/quest/{questionarioId}/pergquest/{id}/opcoesresposta(turmaId=${turmaId}, questionarioId=${questionarioId}, id=${p.perguntaQuestionarioId})}" role="button">Opções Resposta</a>
                         </td>
                     </tr>
                     </tbody>

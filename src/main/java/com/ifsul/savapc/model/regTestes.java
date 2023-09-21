@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "regTestes")
+@Table(name = "regtestes")
 public class regTestes implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class regTestes implements Serializable{
    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "regTestes_RespostaTeste",
+            name = "regtestes_respostateste",
             joinColumns = @JoinColumn(
                     name = "regTestesId", referencedColumnName = "regTestesId"
             ),

@@ -20,9 +20,10 @@
 		<div class="mx-auto " style="max-width: auto;" > 
 			<table class="table align-middle mb-0 bg-white rounded" style="border: solid gray 3px;">
 				<div class="mt-2 d-flex">
+					<a class="btn btn-secondary mb-2" th:href="@{/auth/turmas}" style="width: auto;">Voltar</a>
 					<div class="d-flex p-2 w-100"><h3 th:text="${turmaNome}"></h3> </div>
 					<div class="p-2 flex-shrink-1 d-flex">
-						<a class="mt-1 mb-1 me-1 ms-1 btn btn-secondary" th:href="@{/atualizarRelatorio/{turmaId}(turmaId=${turmaId})}">Atualizar relatório</a>
+						<a class="mt-1 mb-1 me-1 ms-1 btn btn-secondary" th:href="@{/auth/turma/relatorio/atualizarRelatorio/{turmaId}(turmaId=${turmaId})}">Atualizar relatório</a>
 						
 					</div>
 				</div>
@@ -121,7 +122,7 @@
 									<div class="modal-body">
 										<div class="d-flex me-1"><p>Recomendação: </p><p th:text="${c.recomendacao}">recomendação</p></div>
 										
-										<form method="post" th:action="@{/index/updatenota/{turmaId}/{notaId}(turmaId=${turmaId} ,notaId=${c.notaId})}">
+										<form method="post" th:action="@{/auth/turma/relatorio/updatenota/{turmaId}/{notaId}(turmaId=${turmaId} ,notaId=${c.notaId})}">
 											
 											<div class="form-group mt-2">
                                                 <label for="recomendacao" class="form-label">Recomendação</label>
@@ -157,7 +158,7 @@
 				</tbody>
 			  </table>
 			 <div class="mx-auto text-center">
-				<a type="button" class="btn btn-secondary mt-2" th:href="@{/index/exportarRelatorioTeste/{turmaId}/download(turmaId=${turmaId})}">
+				<a type="button" class="btn btn-secondary mt-2" th:href="@{/auth/turma/relatorio/exportarRelatorioTeste/{turmaId}/download(turmaId=${turmaId})}">
 					Exportar relatório
 				</a>
 			 </div> 

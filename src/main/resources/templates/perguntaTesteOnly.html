@@ -27,7 +27,7 @@
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                         <a class="btn btn-secondary w-auto mt-2"
-                            th:href="@{/auth/turma/{turmaId}/testes(turmaId=${turmaId})}">Voltar</a>
+                            th:href="@{/auth/testes}">Voltar</a>
                         <!-- Inicio Bloco Modal -->
                         <button type="button" class="btn btn-secondary mt-2 me-2 ms-2" data-bs-toggle="modal"
                             data-bs-target="#insertPerguntaTeste" style="max-width: -webkit-fill-available;">Inserir
@@ -44,7 +44,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" th:action="@{/auth/turma/{turmaId}/teste/savePergunta/{id}(id=${testeId}, turmaId=${turmaId})}"
+                                        <form method="post" th:action="@{/auth/teste/savePergunta/{id}(id=${testeId})}"
                                             enctype="multipart/form-data">
                                             <div class="mb-3">
                                                 <label for="titulo1" class="form-label">Titulo*</label>
@@ -54,19 +54,19 @@
                                             <div class="mb-3">
                                                 <label for="descricao1" class="form-label">Descrição*</label>
                                                 <textarea class="form-control" id="descricao1" name="descricao"
-                                                    rows="3" required></textarea>
+                                                    rows="3" placeholder="Descrição da pergunta..." required></textarea>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="pedido" class="form-label">Pedido*</label>
-                                                <input type="text" class="form-control" id="pedido" name="pedido"
-                                                    placeholder="Pedido*" required>
+                                                <label for="pedido1" class="form-label">Pedido*</label>
+                                                <input type="text" class="form-control" id="pedido1" name="pedido"
+                                                    placeholder="Qual a alternativa correta?*" required>
                                             </div>
                                             <div class="form-group mt-2">
-                                                <label for="img1" class="control-label">Imagem</label>
+                                                <label for="img1" class="control-label">Imagem(Opcional)</label>
                                                 <input type="file" class="form-control" id="img1" name="file"
                                                     th:text="${img}">
                                             </div>
-                                            <button type="submit" class="btn btn-secondary mt-2">Salvar</button>
+                                            <button type="submit" class="mt-2 btn btn-secondary mt-2">Salvar</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -96,14 +96,13 @@
                                         <tr th:each="p, i: ${perguntas}">
                                             <td th:text="${p.titulo}"></td>
                                             <td th:text="${p.descricao}"></td>
-                                            <td th:if="${perguntas[__${i.index}__].img !=null}">
-                                                <img class="m-2 border"
+                                            <td th:if="${perguntas[__${i.index}__].img !=null}"><img class="m-2 border"
                                                     width="200px"
                                                     th:src="@{/auth/teste/pergunta/imagem/{img}(img=${perguntas[__${i.index}__].img})}"
                                                     alt="imgPergunta"> </td>
                                             <td th:unless="${perguntas[__${i.index}__].img !=null}">Sem imagem</td>
                                             <td><a class="btn btn-secondary mt-1 mb-1"
-                                                    th:href="@{/auth/turma/{turmaId}/deletepergunta/{testeId}/{perguntaId}(turmaId=${turmaId}, testeId=${testeId}, perguntaId=${p.perguntaTesteId})}"
+                                                    th:href="@{/auth/deletepergunta/{testeId}/{perguntaId}(testeId=${testeId}, perguntaId=${p.perguntaTesteId})}"
                                                     role="button">Deletar</a>
 
                                                 <!-- Inicio Bloco Modal -->
@@ -124,21 +123,21 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <form method="post"
-                                                                    th:action="@{/auth/turma/{turmaId}/updatepergunta/{id}/{testeId}(turmaId=${turmaId}, id=${p.perguntaTesteId}, testeId=${testeId})}"
+                                                                    th:action="@{/auth/updatepergunta/{id}/{testeId}(id=${p.perguntaTesteId}, testeId=${testeId})}"
                                                                     enctype="multipart/form-data">
                                                                     <div class="form-group mt-2">
                                                                         <label for="titulo"
                                                                             class="control-label">Titulo</label>
                                                                         <input type="text" class="form-control"
                                                                             id="titulo" name="titulo"
-                                                                            th:value="${p.titulo}" required>
+                                                                            th:value="${p.titulo}">
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="descricao"
                                                                             class="form-label">Descrição*</label>
                                                                         <textarea class="form-control" id="descricao"
                                                                             name="descricao" th:text="${p.descricao}"
-                                                                            rows="3" required></textarea>
+                                                                            rows="3"></textarea>
                                                                     </div>
                                                                     <div class="form-group mt-2">
                                                                         <label for="img"
@@ -160,10 +159,10 @@
                                                 <!-- Fim Bloco Modal -->
 
                                                 <a class="btn btn-secondary mt-1 mb-1"
-                                                    th:href="@{/auth/t/{turmaId}/t/{testeId}/perguntaTeste/{id}/opcoesresposta(turmaId=${turmaId}, testeId=${testeId}, id=${p.perguntaTesteId})}"
+                                                    th:href="@{/auth/perguntaTeste/opcoesresposta/{id}(id=${p.perguntaTesteId})}"
                                                     role="button">Opções Resposta</a>
                                                 <a class="btn btn-secondary mt-1 mb-1"
-                                                    th:href="@{/auth/turma/{turmaId}/teste/{testeId}/pergunta/{perguntaId}/habilidades(turmaId=${turmaId} ,testeId=${testeId},perguntaId = ${p.perguntaTesteId}) }">Habilidades</a>
+                                                    th:href="@{/auth/pergunta/habilidades/{perguntaId}/{testeId}(perguntaId = ${p.perguntaTesteId}, testeId=${testeId}) }">Habilidades</a>
                                             </td>
                                         </tr>
                                     </tbody>

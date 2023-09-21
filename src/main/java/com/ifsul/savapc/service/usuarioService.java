@@ -4,14 +4,9 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-
 import com.ifsul.savapc.model.turma;
 import com.ifsul.savapc.model.usuario;
 import com.ifsul.savapc.web.dto.UsuarioRegistrationDto;
-
-
-
-
 
 public interface usuarioService extends UserDetailsService{
     List<usuario> findAll();

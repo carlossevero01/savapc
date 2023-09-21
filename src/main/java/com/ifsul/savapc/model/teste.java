@@ -44,7 +44,7 @@ public class teste implements Serializable{
 
     @ManyToMany
     @JoinTable(
-        name = "perguntateste_Teste",
+        name = "perguntateste_teste",
         uniqueConstraints = @UniqueConstraint(columnNames = {"perguntaTesteId","testeId"}),
         joinColumns =  @JoinColumn(name = "testeId"),
         inverseJoinColumns = @JoinColumn(name = "perguntaTesteId")
